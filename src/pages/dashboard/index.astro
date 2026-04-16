@@ -114,7 +114,23 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           </select>
           <input type="date" class="db-input" id="project-deadline" />
           <textarea class="db-textarea" id="project-notes" placeholder="Notes..." style="min-height: 80px;"></textarea>
-          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+          <div id="pinpoint-fields" style="display: none;">
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+              <div style="flex: 1;">
+                <label class="db-label" style="display: block; margin-bottom: 6px;">Cost (£)</label>
+                <input type="number" class="db-input" id="project-cost" placeholder="0.00" step="0.01" min="0" />
+              </div>
+              <div style="flex: 1;">
+                <label class="db-label" style="display: block; margin-bottom: 6px;">Invoice Status</label>
+                <select class="db-select" id="project-invoice-status" style="width: 100%;">
+                  <option value="Not Submitted">Not Submitted</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Paid">Paid</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px;">
             <button class="db-btn" id="project-cancel">Cancel</button>
             <button class="db-btn db-btn-primary" id="project-save">Save</button>
           </div>
@@ -134,6 +150,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     type Project = {
       id: string; name: string; type: string; agency: string;
       status: string; deadline: string; notes: string; createdAt: string;
+      cost?: number; invoiceStatus?: string;
     };
 
     function getTasks(): Task[] { try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; } }
@@ -304,10 +321,18 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
             const daysLabel = daysLeft !== null
               ? (daysLeft < 0 ? `<span style="color: var(--db-danger);">${Math.abs(daysLeft)}d ago</span>` : `${daysLeft}d`)
               : '';
+            const isPinpoint = agency === 'Pinpoint';
+            const costLine = isPinpoint && p.cost
+              ? `<span class="db-mono" style="font-size: 11px; color: var(--db-text-secondary);">£${Number(p.cost).toFixed(2)}</span>`
+              : '';
+            const invoiceBadge = isPinpoint && p.invoiceStatus
+              ? `<span class="db-tag ${p.invoiceStatus === 'Paid' ? 'db-tag-client' : p.invoiceStatus === 'Submitted' ? 'db-tag-marketing' : 'db-tag-admin'}" style="font-size: 9px;">${p.invoiceStatus}</span>`
+              : '';
             return `
               <div class="db-project-card" data-id="${p.id}">
                 <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">${p.name}</div>
                 <div style="font-size: 11px; color: var(--db-text-muted); margin-bottom: 6px;">${p.type}</div>
+                ${isPinpoint ? `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">${costLine}${invoiceBadge}</div>` : ''}
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   ${daysLabel ? `<span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">${daysLabel}</span>` : '<span></span>'}
                   <div style="display: flex; gap: 2px;">
@@ -359,6 +384,9 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     }
 
     function openProjectModal(id?: string) {
+      const isPinpoint = getAgency() === 'Pinpoint';
+      document.getElementById('pinpoint-fields')!.style.display = isPinpoint ? '' : 'none';
+
       if (id) {
         editingProjectId = id;
         const p = getProjects().find(x => x.id === id);
@@ -368,6 +396,8 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         (document.getElementById('project-status') as HTMLSelectElement).value = p.status;
         (document.getElementById('project-deadline') as HTMLInputElement).value = p.deadline;
         (document.getElementById('project-notes') as HTMLTextAreaElement).value = p.notes;
+        (document.getElementById('project-cost') as HTMLInputElement).value = p.cost ? String(p.cost) : '';
+        (document.getElementById('project-invoice-status') as HTMLSelectElement).value = p.invoiceStatus || 'Not Submitted';
         document.getElementById('project-modal-title')!.textContent = 'Edit Project';
       } else {
         editingProjectId = null;
@@ -376,6 +406,8 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         (document.getElementById('project-status') as HTMLSelectElement).value = 'Lead';
         (document.getElementById('project-deadline') as HTMLInputElement).value = '';
         (document.getElementById('project-notes') as HTMLTextAreaElement).value = '';
+        (document.getElementById('project-cost') as HTMLInputElement).value = '';
+        (document.getElementById('project-invoice-status') as HTMLSelectElement).value = 'Not Submitted';
         document.getElementById('project-modal-title')!.textContent = 'New Project';
       }
       document.getElementById('project-modal')!.style.display = 'block';
@@ -391,12 +423,15 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       const name = (document.getElementById('project-name') as HTMLInputElement).value.trim();
       if (!name) return;
       const projects = getProjects();
-      const data = {
+      const costVal = (document.getElementById('project-cost') as HTMLInputElement).value;
+      const data: Partial<Project> = {
         name,
         type: (document.getElementById('project-type') as HTMLInputElement).value.trim(),
         status: (document.getElementById('project-status') as HTMLSelectElement).value,
         deadline: (document.getElementById('project-deadline') as HTMLInputElement).value,
         notes: (document.getElementById('project-notes') as HTMLTextAreaElement).value,
+        cost: costVal ? parseFloat(costVal) : undefined,
+        invoiceStatus: (document.getElementById('project-invoice-status') as HTMLSelectElement).value,
       };
 
       if (editingProjectId) {
