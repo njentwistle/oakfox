@@ -97,6 +97,13 @@ function isActive(href: string, current: string): boolean {
       ))}
     </nav>
 
+    <!-- Mobile agency switcher -->
+    <div class="db-mobile-agency" id="agency-switcher-mobile">
+      <button class="db-agency-btn active" data-agency="OakFox">OakFox</button>
+      <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button>
+      <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button>
+    </div>
+
     <!-- Main content -->
     <main class="db-main">
       <slot />
@@ -129,19 +136,22 @@ function isActive(href: string, current: string): boolean {
             });
           }
 
-          // Agency switcher
+          // Agency switcher — sync both desktop and mobile
           var activeAgency = localStorage.getItem('oakfox_agency') || 'OakFox';
-          var buttons = document.querySelectorAll('.db-agency-btn');
-          buttons.forEach(function(b) {
+          var allAgencyBtns = document.querySelectorAll('.db-agency-btn');
+          allAgencyBtns.forEach(function(b) {
             if (b.getAttribute('data-agency') === activeAgency) {
               b.classList.add('active');
             } else {
               b.classList.remove('active');
             }
             b.addEventListener('click', function() {
-              buttons.forEach(function(x) { x.classList.remove('active'); });
-              b.classList.add('active');
+              allAgencyBtns.forEach(function(x) { x.classList.remove('active'); });
               var agency = b.getAttribute('data-agency');
+              // Highlight all buttons with this agency (desktop + mobile)
+              allAgencyBtns.forEach(function(x) {
+                if (x.getAttribute('data-agency') === agency) x.classList.add('active');
+              });
               localStorage.setItem('oakfox_agency', agency);
               window.dispatchEvent(new CustomEvent('agencychange', { detail: { agency: agency } }));
             });
