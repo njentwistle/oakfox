@@ -69,6 +69,15 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       </div>
     </div>
 
+    <!-- Archived Projects -->
+    <div id="archived-section" class="db-card" style="margin-bottom: 20px; display: none;">
+      <button id="archived-toggle" style="display: flex; align-items: center; gap: 8px; background: none; border: none; color: var(--db-text-muted); cursor: pointer; font-size: 13px; font-weight: 600; padding: 0; width: 100%;">
+        <svg id="archived-chevron" style="width: 14px; height: 14px; transition: transform 0.2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span id="archived-label">Archived</span>
+      </button>
+      <div id="archived-list" style="display: none; margin-top: 14px;"></div>
+    </div>
+
     <!-- To-Do List -->
     <div class="db-card">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
@@ -114,6 +123,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           </select>
           <input type="date" class="db-input" id="project-deadline" />
           <textarea class="db-textarea" id="project-notes" placeholder="Notes..." style="min-height: 80px;"></textarea>
+          <div id="live-date-field" style="display: none;">
+            <label class="db-label" style="display: block; margin-bottom: 6px; margin-top: 12px;">Go Live Date</label>
+            <input type="date" class="db-input" id="project-live-date" />
+          </div>
           <div id="pinpoint-fields" style="display: none;">
             <div style="display: flex; gap: 12px; margin-top: 12px;">
               <div style="flex: 1;">
@@ -150,7 +163,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     type Project = {
       id: string; name: string; type: string; agency: string;
       status: string; deadline: string; notes: string; createdAt: string;
-      cost?: number; invoiceStatus?: string;
+      cost?: number; invoiceStatus?: string; liveDate?: string;
     };
 
     function getTasks(): Task[] { try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; } }
@@ -304,9 +317,17 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     // ── Projects Pipeline ──
     let editingProjectId: string | null = null;
 
+    function isArchived(p: Project): boolean {
+      if (p.status !== 'Live' || !p.liveDate) return false;
+      const daysSinceLive = Math.floor((Date.now() - new Date(p.liveDate).getTime()) / 86400000);
+      return daysSinceLive >= 7;
+    }
+
     function renderProjects() {
       const agency = getAgency();
-      const projects = getProjects().filter(p => p.agency === agency);
+      const allAgencyProjects = getProjects().filter(p => p.agency === agency);
+      const projects = allAgencyProjects.filter(p => !isArchived(p));
+      const archived = allAgencyProjects.filter(p => isArchived(p));
       const statuses = ['Lead', 'In Progress', 'Review', 'Live'];
       const colIds = ['col-lead', 'col-progress', 'col-review', 'col-live'];
 
@@ -368,6 +389,12 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           if (newIdx < 0 || newIdx >= order.length) return;
           const oldStatus = project.status;
           project.status = order[newIdx];
+          if (project.status === 'Live' && oldStatus !== 'Live') {
+            project.liveDate = todayStr();
+          }
+          if (project.status !== 'Live') {
+            project.liveDate = undefined;
+          }
           saveProjects(projects);
 
           // Auto-generate social plan when moved to Live
@@ -380,8 +407,35 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         });
       });
 
+      // Render archived section
+      const archivedSection = document.getElementById('archived-section')!;
+      if (archived.length > 0) {
+        archivedSection.style.display = '';
+        document.getElementById('archived-label')!.textContent = `Archived (${archived.length})`;
+        const archivedList = document.getElementById('archived-list')!;
+        archivedList.innerHTML = archived.map(p => `
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--db-border-subtle);">
+            <div>
+              <span style="font-size: 13px; font-weight: 500;">${p.name}</span>
+              <span style="font-size: 11px; color: var(--db-text-muted); margin-left: 8px;">${p.type}</span>
+            </div>
+            <span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">Live ${p.liveDate || ''}</span>
+          </div>
+        `).join('');
+      } else {
+        archivedSection.style.display = 'none';
+      }
+
       updateStats();
     }
+
+    // Archived toggle
+    let archivedOpen = false;
+    document.getElementById('archived-toggle')!.addEventListener('click', () => {
+      archivedOpen = !archivedOpen;
+      document.getElementById('archived-list')!.style.display = archivedOpen ? '' : 'none';
+      (document.getElementById('archived-chevron') as HTMLElement).style.transform = archivedOpen ? 'rotate(90deg)' : '';
+    });
 
     function openProjectModal(id?: string) {
       const isPinpoint = getAgency() === 'Pinpoint';
@@ -398,6 +452,8 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         (document.getElementById('project-notes') as HTMLTextAreaElement).value = p.notes;
         (document.getElementById('project-cost') as HTMLInputElement).value = p.cost ? String(p.cost) : '';
         (document.getElementById('project-invoice-status') as HTMLSelectElement).value = p.invoiceStatus || 'Not Submitted';
+        (document.getElementById('project-live-date') as HTMLInputElement).value = p.liveDate || '';
+        document.getElementById('live-date-field')!.style.display = p.status === 'Live' ? '' : 'none';
         document.getElementById('project-modal-title')!.textContent = 'Edit Project';
       } else {
         editingProjectId = null;
@@ -408,8 +464,17 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         (document.getElementById('project-notes') as HTMLTextAreaElement).value = '';
         (document.getElementById('project-cost') as HTMLInputElement).value = '';
         (document.getElementById('project-invoice-status') as HTMLSelectElement).value = 'Not Submitted';
+        (document.getElementById('project-live-date') as HTMLInputElement).value = '';
+        document.getElementById('live-date-field')!.style.display = 'none';
         document.getElementById('project-modal-title')!.textContent = 'New Project';
       }
+
+      // Show/hide live date field when status changes
+      const statusSelect = document.getElementById('project-status') as HTMLSelectElement;
+      statusSelect.onchange = () => {
+        document.getElementById('live-date-field')!.style.display = statusSelect.value === 'Live' ? '' : 'none';
+      };
+
       document.getElementById('project-modal')!.style.display = 'block';
       (document.getElementById('project-name') as HTMLInputElement).focus();
     }
@@ -424,14 +489,17 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       if (!name) return;
       const projects = getProjects();
       const costVal = (document.getElementById('project-cost') as HTMLInputElement).value;
+      const status = (document.getElementById('project-status') as HTMLSelectElement).value;
+      const liveDateVal = (document.getElementById('project-live-date') as HTMLInputElement).value;
       const data: Partial<Project> = {
         name,
         type: (document.getElementById('project-type') as HTMLInputElement).value.trim(),
-        status: (document.getElementById('project-status') as HTMLSelectElement).value,
+        status,
         deadline: (document.getElementById('project-deadline') as HTMLInputElement).value,
         notes: (document.getElementById('project-notes') as HTMLTextAreaElement).value,
         cost: costVal ? parseFloat(costVal) : undefined,
         invoiceStatus: (document.getElementById('project-invoice-status') as HTMLSelectElement).value,
+        liveDate: status === 'Live' ? (liveDateVal || todayStr()) : undefined,
       };
 
       if (editingProjectId) {

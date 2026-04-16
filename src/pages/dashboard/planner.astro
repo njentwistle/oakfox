@@ -116,7 +116,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
     function getWeekDays(d: Date): Date[] {
       const mon = getMonday(d);
-      return Array.from({ length: 7 }, (_, i) => {
+      return Array.from({ length: 5 }, (_, i) => {
         const day = new Date(mon);
         day.setDate(mon.getDate() + i);
         return day;
@@ -132,10 +132,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
       const label = document.getElementById('period-label')!;
       const mon = days[0];
-      const sun = days[6];
-      label.textContent = `${mon.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} — ${sun.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+      const fri = days[4];
+      label.textContent = `${mon.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} — ${fri.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
 
-      container.innerHTML = `<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;" class="week-grid">
+      container.innerHTML = `<div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;" class="week-grid">
         ${days.map(day => {
           const ds = dateStr(day);
           const isToday = ds === today;
@@ -202,12 +202,15 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
       for (let d = 1; d <= lastDay.getDate(); d++) {
         const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const dayOfWeek = new Date(year, month, d).getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
         const isToday = ds === today;
         const hasTasks = tasks.some(t => t.dueDate === ds);
+        const dimStyle = isWeekend ? 'opacity: 0.3; pointer-events: none;' : '';
         cells += `
-          <div class="month-day" data-date="${ds}" style="padding: 12px 8px; border-radius: var(--db-radius); cursor: pointer; text-align: center; border: 1px solid ${isToday ? 'rgba(92,140,74,0.3)' : 'transparent'}; ${isToday ? 'background: rgba(92,140,74,0.05);' : ''} transition: all 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='${isToday ? 'rgba(92,140,74,0.05)' : 'transparent'}';this.style.borderColor='${isToday ? 'rgba(92,140,74,0.3)' : 'transparent'}'">
-            <span class="db-mono" style="font-size: 13px; font-weight: ${isToday ? '700' : '400'}; ${isToday ? 'color: var(--db-accent);' : 'color: var(--db-text-secondary);'}">${d}</span>
-            ${hasTasks ? '<div style="width: 5px; height: 5px; border-radius: 50%; background: var(--db-accent); margin: 6px auto 0; box-shadow: 0 0 6px rgba(92,140,74,0.3);"></div>' : ''}
+          <div class="month-day" data-date="${ds}" style="padding: 12px 8px; border-radius: var(--db-radius); cursor: ${isWeekend ? 'default' : 'pointer'}; text-align: center; border: 1px solid ${isToday && !isWeekend ? 'rgba(92,140,74,0.3)' : 'transparent'}; ${isToday && !isWeekend ? 'background: rgba(92,140,74,0.05);' : ''} ${dimStyle} transition: all 0.2s;" ${isWeekend ? '' : `onmouseenter="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='${isToday ? 'rgba(92,140,74,0.05)' : 'transparent'}';this.style.borderColor='${isToday ? 'rgba(92,140,74,0.3)' : 'transparent'}'"`}>
+            <span class="db-mono" style="font-size: 13px; font-weight: ${isToday ? '700' : '400'}; ${isToday && !isWeekend ? 'color: var(--db-accent);' : 'color: var(--db-text-secondary);'}">${d}</span>
+            ${hasTasks && !isWeekend ? '<div style="width: 5px; height: 5px; border-radius: 50%; background: var(--db-accent); margin: 6px auto 0; box-shadow: 0 0 6px rgba(92,140,74,0.3);"></div>' : ''}
           </div>
         `;
       }
