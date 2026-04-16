@@ -511,6 +511,16 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       const costVal = (document.getElementById('project-cost') as HTMLInputElement).value;
       const status = (document.getElementById('project-status') as HTMLSelectElement).value;
       const liveDateVal = (document.getElementById('project-live-date') as HTMLInputElement).value;
+
+      // When editing, preserve existing liveDate if the field is empty
+      const existingProject = editingProjectId ? projects.find(x => x.id === editingProjectId) : null;
+      let liveDate: string | undefined;
+      if (status === 'Live') {
+        liveDate = liveDateVal || (existingProject?.liveDate) || todayStr();
+      } else {
+        liveDate = undefined;
+      }
+
       const data: Partial<Project> = {
         name,
         type: (document.getElementById('project-type') as HTMLInputElement).value.trim(),
@@ -519,7 +529,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         notes: (document.getElementById('project-notes') as HTMLTextAreaElement).value,
         cost: costVal ? parseFloat(costVal) : undefined,
         invoiceStatus: (document.getElementById('project-invoice-status') as HTMLSelectElement).value,
-        liveDate: status === 'Live' ? (liveDateVal || todayStr()) : undefined,
+        liveDate,
       };
 
       if (editingProjectId) {
