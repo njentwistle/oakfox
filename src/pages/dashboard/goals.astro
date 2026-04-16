@@ -54,6 +54,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       try { return JSON.parse(localStorage.getItem('oakfox_goals') || '[]'); } catch { return []; }
     }
     function saveGoals(goals: Goal[]) { localStorage.setItem('oakfox_goals', JSON.stringify(goals)); }
+    function getAgency(): string { return localStorage.getItem('oakfox_agency') || 'OakFox'; }
 
     function getStatusClass(status: string): string {
       if (status === 'In Progress') return 'db-badge-in-progress';
@@ -68,7 +69,8 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     let editingId: string | null = null;
 
     function renderGoals() {
-      const goals = getGoals();
+      const agency = getAgency();
+      const goals = getGoals().filter(g => (g as any).agency === agency || !(g as any).agency);
       const active = goals.filter(g => g.status !== 'Done').sort((a, b) => {
         if (!a.targetDate) return 1;
         if (!b.targetDate) return -1;
@@ -278,7 +280,8 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           targetDate: (document.getElementById('goal-target-date') as HTMLInputElement).value,
           status: (document.getElementById('goal-status') as HTMLSelectElement).value,
           subtasks: [],
-        });
+          agency: getAgency(),
+        } as any);
       }
 
       saveGoals(goals);
@@ -299,5 +302,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     });
 
     renderGoals();
+
+    window.addEventListener('agencychange', () => { renderGoals(); });
   </script>
 </DashboardLayout>

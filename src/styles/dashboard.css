@@ -101,6 +101,45 @@
   padding: 28px 14px;
 }
 
+/* ── Agency switcher ── */
+.db-agency-switcher {
+  display: flex;
+  gap: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--db-radius);
+  padding: 3px;
+  border: 1px solid var(--db-border);
+  margin-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.db-agency-btn {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--db-text-muted);
+  border-radius: 7px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all 0.25s;
+  letter-spacing: 0.02em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.db-agency-btn:hover {
+  color: var(--db-text-secondary);
+}
+
+.db-agency-btn.active {
+  background: var(--db-surface-raised);
+  color: var(--db-text);
+  box-shadow: var(--db-shadow-sm);
+}
+
 .db-sidebar-logo {
   height: 32px;
   width: auto;

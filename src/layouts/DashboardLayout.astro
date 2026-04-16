@@ -51,6 +51,14 @@ function isActive(href: string, current: string): boolean {
     <!-- Sidebar (desktop) -->
     <aside class="db-sidebar">
       <img src="/images/site/logolight.png" alt="OakFox" class="db-sidebar-logo" />
+
+      <!-- Agency switcher -->
+      <div class="db-agency-switcher" id="agency-switcher">
+        <button class="db-agency-btn active" data-agency="OakFox">OakFox</button>
+        <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button>
+        <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button>
+      </div>
+
       <nav class="db-sidebar-nav">
         {navLinks.map((link) => (
           <a
@@ -105,8 +113,8 @@ function isActive(href: string, current: string): boolean {
           window.location.replace('/dashboard/login');
         }
 
-        // Logout handler
         document.addEventListener('DOMContentLoaded', function() {
+          // Logout handler
           var btn = document.getElementById('logout-btn');
           if (btn) {
             btn.addEventListener('click', function(e) {
@@ -115,6 +123,24 @@ function isActive(href: string, current: string): boolean {
               window.location.replace('/dashboard/login');
             });
           }
+
+          // Agency switcher
+          var activeAgency = localStorage.getItem('oakfox_agency') || 'OakFox';
+          var buttons = document.querySelectorAll('.db-agency-btn');
+          buttons.forEach(function(b) {
+            if (b.getAttribute('data-agency') === activeAgency) {
+              b.classList.add('active');
+            } else {
+              b.classList.remove('active');
+            }
+            b.addEventListener('click', function() {
+              buttons.forEach(function(x) { x.classList.remove('active'); });
+              b.classList.add('active');
+              var agency = b.getAttribute('data-agency');
+              localStorage.setItem('oakfox_agency', agency);
+              window.dispatchEvent(new CustomEvent('agencychange', { detail: { agency: agency } }));
+            });
+          });
         });
       })();
     </script>

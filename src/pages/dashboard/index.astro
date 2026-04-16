@@ -24,7 +24,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     </div>
 
     <!-- Stats strip -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px;" id="stats-strip">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px;" id="stats-strip">
       <div class="db-stat">
         <span class="db-stat-value" id="stat-open">0</span>
         <span class="db-stat-label">Open today</span>
@@ -34,8 +34,38 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         <span class="db-stat-label">Done this week</span>
       </div>
       <div class="db-stat">
+        <span class="db-stat-value" id="stat-projects">0</span>
+        <span class="db-stat-label">Active projects</span>
+      </div>
+      <div class="db-stat">
         <span class="db-stat-value" id="stat-goal-days">&mdash;</span>
         <span class="db-stat-label">Days to next goal</span>
+      </div>
+    </div>
+
+    <!-- Projects Pipeline -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <h2 class="db-heading" style="font-size: 20px;">Projects</h2>
+        <button class="db-btn db-btn-primary db-btn-sm" id="add-project-btn">+ New Project</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;" id="pipeline" class="pipeline-grid">
+        <div>
+          <p class="db-label" style="margin-bottom: 10px; padding-left: 2px;">Lead</p>
+          <div class="pipeline-col" data-status="Lead" id="col-lead"></div>
+        </div>
+        <div>
+          <p class="db-label" style="margin-bottom: 10px; padding-left: 2px;">In Progress</p>
+          <div class="pipeline-col" data-status="In Progress" id="col-progress"></div>
+        </div>
+        <div>
+          <p class="db-label" style="margin-bottom: 10px; padding-left: 2px;">Review</p>
+          <div class="pipeline-col" data-status="Review" id="col-review"></div>
+        </div>
+        <div>
+          <p class="db-label" style="margin-bottom: 10px; padding-left: 2px;">Live</p>
+          <div class="pipeline-col" data-status="Live" id="col-live"></div>
+        </div>
       </div>
     </div>
 
@@ -50,7 +80,6 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         </div>
       </div>
 
-      <!-- Add task form -->
       <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;" id="add-task-form">
         <input type="text" class="db-input" id="task-title" placeholder="What needs doing?" style="flex: 1; min-width: 200px;" />
         <select class="db-select" id="task-category">
@@ -65,78 +94,353 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         <button class="db-btn db-btn-primary" id="add-task-btn">Add</button>
       </div>
 
-      <!-- Task list -->
       <div id="task-list"></div>
     </div>
   </div>
 
+  <!-- Project modal -->
+  <div id="project-modal" style="display: none;">
+    <div class="db-modal-overlay">
+      <div class="db-modal">
+        <h3 id="project-modal-title">New Project</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="text" class="db-input" id="project-name" placeholder="Project / client name" />
+          <input type="text" class="db-input" id="project-type" placeholder="Type of work (e.g. Branding, Website)" />
+          <select class="db-select" id="project-status">
+            <option value="Lead">Lead</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Review">Review</option>
+            <option value="Live">Live</option>
+          </select>
+          <input type="date" class="db-input" id="project-deadline" />
+          <textarea class="db-textarea" id="project-notes" placeholder="Notes..." style="min-height: 80px;"></textarea>
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button class="db-btn" id="project-cancel">Cancel</button>
+            <button class="db-btn db-btn-primary" id="project-save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ── Greeting ──
-    function updateGreeting() {
-      const hour = new Date().getHours();
-      let greeting = 'Good evening';
-      if (hour < 12) greeting = 'Good morning';
-      else if (hour < 18) greeting = 'Good afternoon';
+    // ── Helpers ──
+    function getAgency(): string { return localStorage.getItem('oakfox_agency') || 'OakFox'; }
 
-      const el = document.getElementById('greeting');
-      if (el) el.textContent = `${greeting}, Nathan.`;
-
-      const dateEl = document.getElementById('date-display');
-      if (dateEl) {
-        dateEl.textContent = new Date().toLocaleDateString('en-GB', {
-          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-        });
-      }
-    }
-    updateGreeting();
-
-    // ── Focus ──
-    const focusInput = document.getElementById('focus-input') as HTMLInputElement;
-    focusInput.value = localStorage.getItem('oakfox_focus') || '';
-    focusInput.addEventListener('input', () => {
-      localStorage.setItem('oakfox_focus', focusInput.value);
-    });
-
-    // ── Tasks ──
     type Task = {
-      id: string; title: string; category: string;
+      id: string; title: string; category: string; agency: string;
       dueDate: string; dueTime: string; completed: boolean; createdAt: string;
     };
+    type Project = {
+      id: string; name: string; type: string; agency: string;
+      status: string; deadline: string; notes: string; createdAt: string;
+    };
 
-    function getTasks(): Task[] {
-      try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; }
-    }
-    function saveTasks(tasks: Task[]) {
-      localStorage.setItem('oakfox_tasks', JSON.stringify(tasks));
-    }
+    function getTasks(): Task[] { try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; } }
+    function saveTasks(t: Task[]) { localStorage.setItem('oakfox_tasks', JSON.stringify(t)); }
+    function getProjects(): Project[] { try { return JSON.parse(localStorage.getItem('oakfox_projects') || '[]'); } catch { return []; } }
+    function saveProjects(p: Project[]) { localStorage.setItem('oakfox_projects', JSON.stringify(p)); }
 
     function getCategoryClass(cat: string): string {
       const map: Record<string, string> = {
         'Client Work': 'db-tag-client', 'Marketing': 'db-tag-marketing',
         'Development': 'db-tag-development', 'Admin': 'db-tag-admin', 'Personal': 'db-tag-personal',
+        'Social Media': 'db-tag-marketing',
       };
       return map[cat] || 'db-tag-admin';
     }
 
     function todayStr(): string { return new Date().toISOString().split('T')[0]; }
-
     function startOfWeek(): Date {
-      const d = new Date();
-      const day = d.getDay();
+      const d = new Date(); const day = d.getDay();
       const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-      const monday = new Date(d);
-      monday.setDate(diff);
-      monday.setHours(0, 0, 0, 0);
-      return monday;
+      const mon = new Date(d); mon.setDate(diff); mon.setHours(0,0,0,0); return mon;
     }
 
+    // ── Greeting ──
+    (function() {
+      const hour = new Date().getHours();
+      let g = 'Good evening';
+      if (hour < 12) g = 'Good morning';
+      else if (hour < 18) g = 'Good afternoon';
+      document.getElementById('greeting')!.textContent = `${g}, Nathan.`;
+      document.getElementById('date-display')!.textContent = new Date().toLocaleDateString('en-GB', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+    })();
+
+    // ── Focus ──
+    const focusInput = document.getElementById('focus-input') as HTMLInputElement;
+    focusInput.value = localStorage.getItem('oakfox_focus') || '';
+    focusInput.addEventListener('input', () => localStorage.setItem('oakfox_focus', focusInput.value));
+
+    // ── Pre-populate OakFox startup tasks (once) ──
+    function seedOakFoxTasks() {
+      if (localStorage.getItem('oakfox_seeded')) return;
+      const seeds = [
+        { title: 'Set up LinkedIn company page for OakFox', category: 'Marketing', days: 0 },
+        { title: 'Create and optimise Google Business Profile', category: 'Marketing', days: 1 },
+        { title: 'Design social media templates (Instagram, LinkedIn, X)', category: 'Marketing', days: 3 },
+        { title: 'Write and schedule first 2 weeks of social media content', category: 'Marketing', days: 5 },
+        { title: 'Plan monthly content calendar framework', category: 'Marketing', days: 7 },
+        { title: 'Set up email signature with branding and links', category: 'Admin', days: 0 },
+        { title: 'Create client proposal/quote template', category: 'Admin', days: 2 },
+        { title: 'Set up invoicing system (Xero, Stripe, or similar)', category: 'Admin', days: 3 },
+        { title: 'Write client onboarding process document', category: 'Admin', days: 5 },
+        { title: 'Create brand guidelines PDF for OakFox', category: 'Development', days: 7 },
+        { title: 'Set up Google Analytics on oakfox.co.uk', category: 'Development', days: 1 },
+        { title: 'Submit site to Google Search Console', category: 'Development', days: 1 },
+        { title: 'Register on local business directories (Yell, Thomson, etc.)', category: 'Marketing', days: 4 },
+        { title: 'Connect with 20 local businesses on LinkedIn', category: 'Marketing', days: 7 },
+        { title: 'Write launch announcement blog post', category: 'Marketing', days: 3 },
+        { title: 'Set up Mailchimp or newsletter tool', category: 'Marketing', days: 5 },
+        { title: 'Create a portfolio case study PDF for outreach', category: 'Marketing', days: 10 },
+        { title: 'Research and join relevant Slack/Discord communities', category: 'Marketing', days: 7 },
+        { title: 'Set up project management workflow (Notion, Linear, or similar)', category: 'Admin', days: 2 },
+        { title: 'Draft terms of service and privacy policy', category: 'Admin', days: 10 },
+      ];
+
+      const now = new Date();
+      const tasks = getTasks();
+      seeds.forEach(s => {
+        const due = new Date(now);
+        due.setDate(due.getDate() + s.days);
+        tasks.push({
+          id: crypto.randomUUID(),
+          title: s.title,
+          category: s.category,
+          agency: 'OakFox',
+          dueDate: due.toISOString().split('T')[0],
+          dueTime: '',
+          completed: false,
+          createdAt: now.toISOString(),
+        });
+      });
+      saveTasks(tasks);
+
+      // Seed projects
+      const projects = getProjects();
+      const existingProjects = [
+        { name: 'CubTrack', type: 'Product / Development', status: 'Live', deadline: '2025-09-01' },
+        { name: 'Aigéan Restaurant', type: 'Branding / Consultancy', status: 'Live', deadline: '2024-06-15' },
+        { name: 'Roll Bakery', type: 'Branding / Consultancy', status: 'Live', deadline: '2024-03-10' },
+        { name: 'Jennifer Lane', type: 'Website Redesign', status: 'In Progress', deadline: '2026-05-01' },
+      ];
+      existingProjects.forEach(p => {
+        projects.push({
+          id: crypto.randomUUID(),
+          name: p.name,
+          type: p.type,
+          agency: 'OakFox',
+          status: p.status,
+          deadline: p.deadline,
+          notes: '',
+          createdAt: now.toISOString(),
+        });
+      });
+      saveProjects(projects);
+
+      localStorage.setItem('oakfox_seeded', 'true');
+    }
+    seedOakFoxTasks();
+
+    // ── Social media plan generator ──
+    function generateSocialPlan(project: Project) {
+      const tasks = getTasks();
+      const liveDate = todayStr();
+      const prefix = `[${project.name}]`;
+
+      // Check if already generated
+      if (tasks.some(t => t.title.startsWith(prefix) && t.category === 'Social Media')) return;
+
+      const plan = [
+        { title: `${prefix} Write launch announcement post (LinkedIn)`, days: 0 },
+        { title: `${prefix} Design launch graphic for Instagram`, days: 0 },
+        { title: `${prefix} Publish launch post across all platforms`, days: 1 },
+        { title: `${prefix} Share behind-the-scenes / process shots`, days: 3 },
+        { title: `${prefix} Write case study blog post`, days: 5 },
+        { title: `${prefix} Share case study on LinkedIn with key takeaways`, days: 6 },
+        { title: `${prefix} Create short-form video walkthrough (Reels/TikTok)`, days: 7 },
+        { title: `${prefix} Client testimonial post`, days: 10 },
+        { title: `${prefix} Add to portfolio and share updated portfolio link`, days: 2 },
+        { title: `${prefix} One-month follow-up post with results/impact`, days: 30 },
+      ];
+
+      const now = new Date();
+      plan.forEach(p => {
+        const due = new Date(now);
+        due.setDate(due.getDate() + p.days);
+        tasks.push({
+          id: crypto.randomUUID(),
+          title: p.title,
+          category: 'Social Media',
+          agency: project.agency,
+          dueDate: due.toISOString().split('T')[0],
+          dueTime: '',
+          completed: false,
+          createdAt: now.toISOString(),
+        });
+      });
+      saveTasks(tasks);
+    }
+
+    // ── Projects Pipeline ──
+    let editingProjectId: string | null = null;
+
+    function renderProjects() {
+      const agency = getAgency();
+      const projects = getProjects().filter(p => p.agency === agency);
+      const statuses = ['Lead', 'In Progress', 'Review', 'Live'];
+      const colIds = ['col-lead', 'col-progress', 'col-review', 'col-live'];
+
+      statuses.forEach((status, i) => {
+        const col = document.getElementById(colIds[i])!;
+        const items = projects.filter(p => p.status === status);
+        if (items.length === 0) {
+          col.innerHTML = `<div style="padding: 16px 8px; text-align: center; color: var(--db-text-muted); font-size: 11px; opacity: 0.5;">No projects</div>`;
+        } else {
+          col.innerHTML = items.map(p => {
+            const daysLeft = p.deadline ? Math.ceil((new Date(p.deadline).getTime() - Date.now()) / 86400000) : null;
+            const daysLabel = daysLeft !== null
+              ? (daysLeft < 0 ? `<span style="color: var(--db-danger);">${Math.abs(daysLeft)}d ago</span>` : `${daysLeft}d`)
+              : '';
+            return `
+              <div class="db-project-card" data-id="${p.id}">
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">${p.name}</div>
+                <div style="font-size: 11px; color: var(--db-text-muted); margin-bottom: 6px;">${p.type}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  ${daysLabel ? `<span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">${daysLabel}</span>` : '<span></span>'}
+                  <div style="display: flex; gap: 2px;">
+                    ${status !== 'Lead' ? `<button class="db-btn db-btn-ghost db-btn-sm project-move-left" data-id="${p.id}" style="padding: 3px 6px; font-size: 10px;">&larr;</button>` : ''}
+                    ${status !== 'Live' ? `<button class="db-btn db-btn-ghost db-btn-sm project-move-right" data-id="${p.id}" style="padding: 3px 6px; font-size: 10px;">&rarr;</button>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      });
+
+      // Bind click events
+      document.querySelectorAll('.db-project-card').forEach(card => {
+        card.addEventListener('dblclick', () => {
+          const id = card.getAttribute('data-id')!;
+          openProjectModal(id);
+        });
+      });
+
+      document.querySelectorAll('.project-move-left, .project-move-right').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id')!;
+          const direction = btn.classList.contains('project-move-right') ? 1 : -1;
+          const projects = getProjects();
+          const project = projects.find(p => p.id === id);
+          if (!project) return;
+          const order = ['Lead', 'In Progress', 'Review', 'Live'];
+          const idx = order.indexOf(project.status);
+          const newIdx = idx + direction;
+          if (newIdx < 0 || newIdx >= order.length) return;
+          const oldStatus = project.status;
+          project.status = order[newIdx];
+          saveProjects(projects);
+
+          // Auto-generate social plan when moved to Live
+          if (project.status === 'Live' && oldStatus !== 'Live') {
+            generateSocialPlan(project);
+            renderTasks();
+          }
+          renderProjects();
+          updateStats();
+        });
+      });
+
+      updateStats();
+    }
+
+    function openProjectModal(id?: string) {
+      if (id) {
+        editingProjectId = id;
+        const p = getProjects().find(x => x.id === id);
+        if (!p) return;
+        (document.getElementById('project-name') as HTMLInputElement).value = p.name;
+        (document.getElementById('project-type') as HTMLInputElement).value = p.type;
+        (document.getElementById('project-status') as HTMLSelectElement).value = p.status;
+        (document.getElementById('project-deadline') as HTMLInputElement).value = p.deadline;
+        (document.getElementById('project-notes') as HTMLTextAreaElement).value = p.notes;
+        document.getElementById('project-modal-title')!.textContent = 'Edit Project';
+      } else {
+        editingProjectId = null;
+        (document.getElementById('project-name') as HTMLInputElement).value = '';
+        (document.getElementById('project-type') as HTMLInputElement).value = '';
+        (document.getElementById('project-status') as HTMLSelectElement).value = 'Lead';
+        (document.getElementById('project-deadline') as HTMLInputElement).value = '';
+        (document.getElementById('project-notes') as HTMLTextAreaElement).value = '';
+        document.getElementById('project-modal-title')!.textContent = 'New Project';
+      }
+      document.getElementById('project-modal')!.style.display = 'block';
+      (document.getElementById('project-name') as HTMLInputElement).focus();
+    }
+
+    document.getElementById('add-project-btn')!.addEventListener('click', () => openProjectModal());
+    document.getElementById('project-cancel')!.addEventListener('click', () => {
+      document.getElementById('project-modal')!.style.display = 'none';
+    });
+
+    document.getElementById('project-save')!.addEventListener('click', () => {
+      const name = (document.getElementById('project-name') as HTMLInputElement).value.trim();
+      if (!name) return;
+      const projects = getProjects();
+      const data = {
+        name,
+        type: (document.getElementById('project-type') as HTMLInputElement).value.trim(),
+        status: (document.getElementById('project-status') as HTMLSelectElement).value,
+        deadline: (document.getElementById('project-deadline') as HTMLInputElement).value,
+        notes: (document.getElementById('project-notes') as HTMLTextAreaElement).value,
+      };
+
+      if (editingProjectId) {
+        const p = projects.find(x => x.id === editingProjectId);
+        if (p) {
+          const oldStatus = p.status;
+          Object.assign(p, data);
+          if (p.status === 'Live' && oldStatus !== 'Live') {
+            generateSocialPlan(p);
+            renderTasks();
+          }
+        }
+      } else {
+        const newProject: Project = {
+          id: crypto.randomUUID(),
+          ...data,
+          agency: getAgency(),
+          createdAt: new Date().toISOString(),
+        };
+        projects.push(newProject);
+        if (newProject.status === 'Live') {
+          generateSocialPlan(newProject);
+          renderTasks();
+        }
+      }
+
+      saveProjects(projects);
+      document.getElementById('project-modal')!.style.display = 'none';
+      renderProjects();
+    });
+
+    document.getElementById('project-name')!.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('project-save')!.click();
+    });
+
+    // ── Tasks ──
     let currentFilter = 'all';
 
     function renderTasks() {
-      const tasks = getTasks();
+      const agency = getAgency();
+      const allTasks = getTasks().filter(t => (t.agency || 'OakFox') === agency);
       const list = document.getElementById('task-list')!;
-      const active = tasks.filter(t => !t.completed);
-      const completed = tasks.filter(t => t.completed);
+      const active = allTasks.filter(t => !t.completed);
+      const completed = allTasks.filter(t => t.completed);
 
       let filtered: Task[];
       if (currentFilter === 'active') filtered = active;
@@ -145,8 +449,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
       if (filtered.length === 0) {
         list.innerHTML = `<div style="text-align: center; padding: 48px 0;">
-          <p style="color: var(--db-text-muted); font-size: 13px;">No tasks yet.</p>
-          <p style="color: var(--db-text-muted); font-size: 11px; margin-top: 4px; opacity: 0.6;">Add one above to get started.</p>
+          <p style="color: var(--db-text-muted); font-size: 13px;">No tasks for ${agency}.</p>
         </div>`;
       } else {
         list.innerHTML = filtered.map(task => {
@@ -176,15 +479,19 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           row.addEventListener('mouseleave', () => { btn.style.opacity = '0'; });
         });
       }
+      updateStats();
+    }
 
-      // Stats
+    function updateStats() {
+      const agency = getAgency();
+      const tasks = getTasks().filter(t => (t.agency || 'OakFox') === agency);
+      const projects = getProjects().filter(p => p.agency === agency);
       const today = todayStr();
       const weekStart = startOfWeek();
-      const openToday = tasks.filter(t => !t.completed && (!t.dueDate || t.dueDate <= today)).length;
-      const completedThisWeek = tasks.filter(t => t.completed && new Date(t.createdAt) >= weekStart).length;
 
-      document.getElementById('stat-open')!.textContent = String(openToday);
-      document.getElementById('stat-completed')!.textContent = String(completedThisWeek);
+      document.getElementById('stat-open')!.textContent = String(tasks.filter(t => !t.completed && (!t.dueDate || t.dueDate <= today)).length);
+      document.getElementById('stat-completed')!.textContent = String(tasks.filter(t => t.completed && new Date(t.createdAt) >= weekStart).length);
+      document.getElementById('stat-projects')!.textContent = String(projects.filter(p => p.status === 'In Progress' || p.status === 'Review').length);
 
       try {
         const goals = JSON.parse(localStorage.getItem('oakfox_goals') || '[]');
@@ -194,9 +501,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           .filter((g: any) => g._days >= 0)
           .sort((a: any, b: any) => a._days - b._days);
         document.getElementById('stat-goal-days')!.textContent = upcoming.length > 0 ? String(upcoming[0]._days) : '\u2014';
-      } catch {
-        document.getElementById('stat-goal-days')!.textContent = '\u2014';
-      }
+      } catch { document.getElementById('stat-goal-days')!.textContent = '\u2014'; }
     }
 
     // Add task
@@ -208,6 +513,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       tasks.push({
         id: crypto.randomUUID(), title,
         category: (document.getElementById('task-category') as HTMLSelectElement).value,
+        agency: getAgency(),
         dueDate: (document.getElementById('task-date') as HTMLInputElement).value,
         dueTime: (document.getElementById('task-time') as HTMLInputElement).value,
         completed: false, createdAt: new Date().toISOString(),
@@ -249,12 +555,39 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       renderTasks();
     });
 
+    // ── Agency change listener ──
+    window.addEventListener('agencychange', () => {
+      renderTasks();
+      renderProjects();
+    });
+
+    // ── Initial render ──
     renderTasks();
+    renderProjects();
   </script>
 
   <style>
+    .db-project-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius);
+      padding: 12px;
+      margin-bottom: 6px;
+      cursor: default;
+      transition: border-color 0.2s;
+    }
+    .db-project-card:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .pipeline-col {
+      min-height: 80px;
+      border-radius: var(--db-radius);
+      background: rgba(0, 0, 0, 0.1);
+      padding: 6px;
+    }
     @media (max-width: 640px) {
-      #stats-strip { grid-template-columns: 1fr !important; }
+      #stats-strip { grid-template-columns: repeat(2, 1fr) !important; }
+      .pipeline-grid { grid-template-columns: 1fr !important; }
       #add-task-form { flex-direction: column; }
       #add-task-form .db-input,
       #add-task-form .db-select { width: 100% !important; min-width: 0 !important; }
