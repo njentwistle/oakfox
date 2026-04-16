@@ -1,0 +1,477 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Brand Guidelines">
+  <div class="db-fade-in db-stagger">
+    <header style="margin-bottom: 40px;">
+      <h1 class="db-heading" style="font-size: 32px; margin-bottom: 6px;">Brand Guidelines</h1>
+      <p style="font-size: 13px; color: var(--db-text-muted);">OakFox visual identity reference — colours, typography, logo usage, and tone.</p>
+    </header>
+
+    <!-- Logo -->
+    <div class="db-card" style="margin-bottom: 20px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--db-accent-glow), transparent);"></div>
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Logo</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+        <div style="background: #F5F0E8; border-radius: var(--db-radius-lg); padding: 40px; display: flex; align-items: center; justify-content: center;">
+          <img src="/images/site/logo.png" alt="OakFox logo dark" style="height: 64px; width: auto; object-fit: contain;" />
+        </div>
+        <div style="background: #1A1D17; border-radius: var(--db-radius-lg); padding: 40px; display: flex; align-items: center; justify-content: center;">
+          <img src="/images/site/logolight.png" alt="OakFox logo light" style="height: 64px; width: auto; object-fit: contain;" />
+        </div>
+      </div>
+      <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+        <div class="brand-rule">
+          <span class="brand-rule-icon">&#10003;</span>
+          <span>Use on solid backgrounds only</span>
+        </div>
+        <div class="brand-rule">
+          <span class="brand-rule-icon">&#10003;</span>
+          <span>Minimum clear space: logo height × 0.5</span>
+        </div>
+        <div class="brand-rule">
+          <span class="brand-rule-icon">&times;</span>
+          <span>Never stretch, rotate, or recolour</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colour Palette -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Colour Palette</h2>
+
+      <div style="margin-bottom: 24px;">
+        <p class="db-label" style="margin-bottom: 12px;">Primary</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #1A5C12;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Forest</span>
+              <span class="colour-hex db-mono">#1A5C12</span>
+              <span class="colour-use">Primary accent, CTAs, links, brand mark</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #F5F0E8;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Cream</span>
+              <span class="colour-hex db-mono">#F5F0E8</span>
+              <span class="colour-use">Primary background, body</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #1A1D17;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Ink</span>
+              <span class="colour-hex db-mono">#1A1D17</span>
+              <span class="colour-use">Headings, body text, dark sections</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #FFFFFF; border: 1px solid rgba(255,255,255,0.1);"></div>
+            <div class="colour-info">
+              <span class="colour-name">White</span>
+              <span class="colour-hex db-mono">#FFFFFF</span>
+              <span class="colour-use">Cards, inputs, overlays</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="db-label" style="margin-bottom: 12px;">Secondary & Utility</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #0E3B0A;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Forest Dark</span>
+              <span class="colour-hex db-mono">#0E3B0A</span>
+              <span class="colour-use">Hover states, emphasis</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #FAF7F2;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Cream Light</span>
+              <span class="colour-hex db-mono">#FAF7F2</span>
+              <span class="colour-use">Subtle backgrounds, alternating rows</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #D6D1C8;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Stone</span>
+              <span class="colour-hex db-mono">#D6D1C8</span>
+              <span class="colour-use">Borders, dividers, subtle UI</span>
+            </div>
+          </div>
+          <div class="colour-card">
+            <div class="colour-swatch" style="background: #8A8680;"></div>
+            <div class="colour-info">
+              <span class="colour-name">Gray</span>
+              <span class="colour-hex db-mono">#8A8680</span>
+              <span class="colour-use">Secondary text, captions, metadata</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Typography</h2>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <!-- Display -->
+        <div class="type-card">
+          <p class="db-label" style="margin-bottom: 12px;">Display</p>
+          <p style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1.1; margin-bottom: 12px; color: var(--db-text);">Playfair Display</p>
+          <p style="font-family: 'Playfair Display', serif; font-size: 14px; color: var(--db-text-secondary); line-height: 1.5; margin-bottom: 12px;">
+            Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz
+          </p>
+          <div class="type-meta">
+            <span>Weights: <strong>700</strong></span>
+            <span>Use: Headlines, page titles, display text</span>
+            <span>Style: Occasionally <em>italic</em> for emphasis</span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="type-card">
+          <p class="db-label" style="margin-bottom: 12px;">Body</p>
+          <p style="font-family: 'Work Sans', sans-serif; font-size: 36px; font-weight: 400; line-height: 1.1; margin-bottom: 12px; color: var(--db-text);">Work Sans</p>
+          <p style="font-family: 'Work Sans', sans-serif; font-size: 14px; color: var(--db-text-secondary); line-height: 1.5; margin-bottom: 12px;">
+            Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz
+          </p>
+          <div class="type-meta">
+            <span>Weights: <strong>400, 500, 600, 700</strong></span>
+            <span>Use: Body text, navigation, UI elements, buttons</span>
+            <span>Line height: 1.6 for body copy</span>
+          </div>
+        </div>
+
+        <!-- Mono -->
+        <div class="type-card">
+          <p class="db-label" style="margin-bottom: 12px;">Mono</p>
+          <p style="font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 400; line-height: 1.1; margin-bottom: 12px; color: var(--db-text);">JetBrains Mono</p>
+          <p style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--db-text-secondary); line-height: 1.5; margin-bottom: 12px;">
+            Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm 0123456789
+          </p>
+          <div class="type-meta">
+            <span>Weights: <strong>400, 500</strong></span>
+            <span>Use: Labels, tags, dates, technical text, stats</span>
+            <span>Always uppercase for labels with wide tracking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type scale -->
+      <div style="margin-top: 24px; border-top: 1px solid var(--db-border); padding-top: 20px;">
+        <p class="db-label" style="margin-bottom: 16px;">Type Scale</p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="scale-row">
+            <span class="scale-label db-mono">H1</span>
+            <span style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 48px; line-height: 1;">The quick brown fox</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-label db-mono">H2</span>
+            <span style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 32px; line-height: 1;">The quick brown fox</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-label db-mono">H3</span>
+            <span style="font-family: 'Work Sans', sans-serif; font-weight: 600; font-size: 22px; line-height: 1;">The quick brown fox</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-label db-mono">Body</span>
+            <span style="font-family: 'Work Sans', sans-serif; font-weight: 400; font-size: 16px; line-height: 1;">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-label db-mono">Small</span>
+            <span style="font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 13px; line-height: 1;">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-label db-mono">Label</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1;">The quick brown fox</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tone of Voice -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Tone of Voice</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+        <div class="tone-card tone-do">
+          <p class="db-label" style="margin-bottom: 10px; color: #7ab466;">We are</p>
+          <ul>
+            <li>Honest and direct — no jargon, no fluff</li>
+            <li>Confident but not arrogant</li>
+            <li>Warm and approachable — small studio energy</li>
+            <li>Knowledgeable — 15+ years shows in how we explain things</li>
+            <li>Sustainability-minded without being preachy</li>
+            <li>Craft-focused — we care about the details</li>
+          </ul>
+        </div>
+        <div class="tone-card tone-dont">
+          <p class="db-label" style="margin-bottom: 10px; color: var(--db-danger);">We are not</p>
+          <ul>
+            <li>Corporate or stiff — no "synergy" or "leverage"</li>
+            <li>Salesy or pushy — the work speaks for itself</li>
+            <li>Vague about sustainability — specific claims only</li>
+            <li>Trendy for the sake of it — timeless over fashionable</li>
+            <li>Self-deprecating — confident in our ability</li>
+            <li>Overly casual — professional, not matey</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media Guidelines -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Social Media</h2>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="social-card">
+          <p class="db-label" style="margin-bottom: 10px;">Imagery</p>
+          <ul>
+            <li>Natural light, earthy tones</li>
+            <li>Process shots and behind-the-scenes</li>
+            <li>Real work, not stock photography</li>
+            <li>Subtle grain texture on graphics</li>
+            <li>Forest green as the consistent accent</li>
+          </ul>
+        </div>
+        <div class="social-card">
+          <p class="db-label" style="margin-bottom: 10px;">Graphic Templates</p>
+          <ul>
+            <li>Cream (#F5F0E8) background default</li>
+            <li>Forest (#1A5C12) for headlines and accents</li>
+            <li>Playfair Display for hero text</li>
+            <li>Work Sans for supporting copy</li>
+            <li>Logo mark in corner, never centred</li>
+          </ul>
+        </div>
+        <div class="social-card">
+          <p class="db-label" style="margin-bottom: 10px;">Copy Style</p>
+          <ul>
+            <li>Lead with insight, not self-promotion</li>
+            <li>One clear point per post</li>
+            <li>Short paragraphs, no walls of text</li>
+            <li>Hashtags: 3–5 max, relevant only</li>
+            <li>CTA on max 1 in 4 posts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Do / Don't Examples -->
+    <div class="db-card">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 20px;">Quick Reference</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+        <div class="ref-row">
+          <span class="ref-label db-mono">Primary CTA colour</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 16px; height: 16px; border-radius: 4px; background: #1A5C12;"></div>
+            <span class="db-mono" style="font-size: 12px;">#1A5C12 on #F5F0E8</span>
+          </div>
+        </div>
+        <div class="ref-row">
+          <span class="ref-label db-mono">Dark section</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 16px; height: 16px; border-radius: 4px; background: #1A5C12;"></div>
+            <span class="db-mono" style="font-size: 12px;">#F5F0E8 on #1A5C12</span>
+          </div>
+        </div>
+        <div class="ref-row">
+          <span class="ref-label db-mono">Border radius</span>
+          <span class="db-mono" style="font-size: 12px;">Buttons: full (9999px) · Cards: 16px · Inputs: 12px</span>
+        </div>
+        <div class="ref-row">
+          <span class="ref-label db-mono">Letter spacing</span>
+          <span class="db-mono" style="font-size: 12px;">Labels: 0.1em · Headlines: -0.01em · Body: normal</span>
+        </div>
+        <div class="ref-row">
+          <span class="ref-label db-mono">Max content width</span>
+          <span class="db-mono" style="font-size: 12px;">1400px (site) · 768px (prose/blog)</span>
+        </div>
+        <div class="ref-row">
+          <span class="ref-label db-mono">Site URL</span>
+          <span class="db-mono" style="font-size: 12px;">oakfox.co.uk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Colour cards */
+    .colour-card {
+      border-radius: var(--db-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--db-border);
+      background: rgba(0,0,0,0.15);
+    }
+    .colour-swatch {
+      height: 80px;
+      width: 100%;
+    }
+    .colour-info {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .colour-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--db-text);
+    }
+    .colour-hex {
+      font-size: 11px;
+      color: var(--db-text-secondary);
+    }
+    .colour-use {
+      font-size: 10px;
+      color: var(--db-text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* Type cards */
+    .type-card {
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius-lg);
+      padding: 24px;
+    }
+    .type-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--db-text-muted);
+      border-top: 1px solid var(--db-border);
+      padding-top: 12px;
+    }
+
+    /* Type scale */
+    .scale-row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--db-border-subtle);
+    }
+    .scale-label {
+      font-size: 10px;
+      color: var(--db-text-muted);
+      width: 50px;
+      flex-shrink: 0;
+    }
+
+    /* Tone cards */
+    .tone-card {
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius-lg);
+      padding: 20px;
+    }
+    .tone-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tone-card li {
+      font-size: 13px;
+      color: var(--db-text-secondary);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .tone-do li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #7ab466;
+      font-size: 11px;
+    }
+    .tone-dont li::before {
+      content: '×';
+      position: absolute;
+      left: 0;
+      color: var(--db-danger);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Social cards */
+    .social-card {
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius-lg);
+      padding: 20px;
+    }
+    .social-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .social-card li {
+      font-size: 12px;
+      color: var(--db-text-secondary);
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .social-card li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--db-accent);
+      font-weight: 700;
+    }
+
+    /* Brand rules */
+    .brand-rule {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--db-text-muted);
+    }
+    .brand-rule-icon {
+      font-size: 13px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* Quick ref */
+    .ref-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.1);
+      border-radius: var(--db-radius);
+      gap: 12px;
+    }
+    .ref-label {
+      font-size: 10px;
+      color: var(--db-text-muted);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 767px) {
+      .colour-card { min-width: 0; }
+      div[style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+      div[style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+      div[style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</DashboardLayout>
