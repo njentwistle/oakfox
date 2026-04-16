@@ -43,6 +43,31 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       </div>
     </div>
 
+    <!-- Task Runway Alert -->
+    <div id="runway-alert" class="db-card" style="margin-bottom: 20px; display: none; position: relative; overflow: hidden; border-color: rgba(196, 107, 31, 0.3);">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(196, 107, 31, 0.3), transparent);"></div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px;">
+        <div>
+          <h2 class="db-heading" style="font-size: 18px; color: var(--db-fox);">Running low on tasks</h2>
+          <p style="font-size: 13px; color: var(--db-text-muted); margin-top: 4px;">Your last task is due within 3 days. Here's a summary and a prompt to generate your next batch.</p>
+        </div>
+        <button class="db-btn db-btn-sm" id="runway-dismiss" style="flex-shrink: 0;">Dismiss</button>
+      </div>
+
+      <!-- Summary -->
+      <div style="background: rgba(0,0,0,0.2); border-radius: var(--db-radius); padding: 16px; margin-bottom: 14px; max-height: 200px; overflow-y: auto;">
+        <p class="db-label" style="margin-bottom: 10px;">Completed tasks</p>
+        <div id="runway-summary" style="font-size: 12px; color: var(--db-text-secondary); line-height: 1.8;"></div>
+      </div>
+
+      <!-- Prompt -->
+      <div style="position: relative;">
+        <p class="db-label" style="margin-bottom: 10px;">Prompt — click to copy</p>
+        <div id="runway-prompt" style="background: rgba(0,0,0,0.2); border-radius: var(--db-radius); padding: 16px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--db-text-secondary); line-height: 1.7; cursor: pointer; white-space: pre-wrap; max-height: 250px; overflow-y: auto; border: 1px solid var(--db-border); transition: border-color 0.2s;"></div>
+        <span id="runway-copied" style="display: none; position: absolute; top: 8px; right: 12px; font-size: 11px; color: var(--db-accent); font-weight: 600;">Copied!</span>
+      </div>
+    </div>
+
     <!-- Projects Pipeline -->
     <div class="db-card" style="margin-bottom: 20px;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
@@ -624,6 +649,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         });
       }
       updateStats();
+      if (typeof checkRunway === 'function') checkRunway();
     }
 
     function updateStats() {
@@ -699,10 +725,112 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       renderTasks();
     });
 
+    // ── Task Runway Check ──
+    let runwayDismissed = false;
+
+    function checkRunway() {
+      if (runwayDismissed) return;
+      const agency = getAgency();
+      const allTasks = getTasks().filter(t => (t.agency || 'OakFox') === agency);
+      const active = allTasks.filter(t => !t.completed && t.dueDate);
+      const completed = allTasks.filter(t => t.completed);
+      const projects = getProjects().filter(p => p.agency === agency);
+      const alert = document.getElementById('runway-alert')!;
+
+      if (active.length === 0 && completed.length === 0) {
+        alert.style.display = 'none';
+        return;
+      }
+
+      // Find the last active task's due date
+      const lastDate = active
+        .map(t => t.dueDate)
+        .sort((a, b) => b.localeCompare(a))[0];
+
+      if (!lastDate) { alert.style.display = 'none'; return; }
+
+      const daysToLast = Math.ceil((new Date(lastDate).getTime() - Date.now()) / 86400000);
+
+      if (daysToLast > 3 || active.length === 0) {
+        alert.style.display = 'none';
+        return;
+      }
+
+      alert.style.display = '';
+
+      // Build summary
+      const summaryEl = document.getElementById('runway-summary')!;
+      const completedByCategory: Record<string, string[]> = {};
+      completed.forEach(t => {
+        if (!completedByCategory[t.category]) completedByCategory[t.category] = [];
+        completedByCategory[t.category].push(t.title);
+      });
+
+      let summaryHtml = '';
+      for (const [cat, tasks] of Object.entries(completedByCategory)) {
+        summaryHtml += `<div style="margin-bottom: 8px;"><span class="db-tag ${getCategoryClass(cat)}" style="margin-bottom: 4px;">${cat}</span><br/>`;
+        summaryHtml += tasks.map(t => `<span style="color: var(--db-text-muted);">✓</span> ${t}`).join('<br/>');
+        summaryHtml += '</div>';
+      }
+      summaryEl.innerHTML = summaryHtml || '<p style="color: var(--db-text-muted);">No completed tasks yet.</p>';
+
+      // Build remaining
+      const remaining = active.map(t => `• ${t.title} (due ${t.dueDate})`).join('\n');
+
+      // Build project context
+      const activeProjects = projects.filter(p => p.status !== 'Live' || !isArchived(p));
+      const projectContext = activeProjects.length > 0
+        ? activeProjects.map(p => `• ${p.name} — ${p.type} (${p.status})`).join('\n')
+        : 'No active projects.';
+
+      // Build prompt
+      const prompt = `I'm Nathan, founder of OakFox — a sustainable design, development, and marketing agency in West Lancashire, UK. I'm using a private dashboard to manage my agency tasks.
+
+Here's what I've completed so far for ${agency}:
+
+${Object.entries(completedByCategory).map(([cat, tasks]) => `${cat}:\n${tasks.map(t => `  ✓ ${t}`).join('\n')}`).join('\n\n')}
+
+Still remaining:
+${remaining || 'None — all tasks are done.'}
+
+Current active projects:
+${projectContext}
+
+Based on what I've done and where I am, generate my next batch of 15–20 tasks to keep building momentum for ${agency}. Each task should have:
+- A clear, actionable title
+- A category (Client Work, Marketing, Development, Admin, or Personal)
+- A suggested due date relative to today (${todayStr()})
+
+Focus on the logical next steps — things I should be doing now that the foundational work is largely done. Think about growth, outreach, content, client acquisition, and operational maturity.
+
+Format each task as:
+Title | Category | YYYY-MM-DD`;
+
+      const promptEl = document.getElementById('runway-prompt')!;
+      promptEl.textContent = prompt;
+    }
+
+    // Copy prompt
+    document.getElementById('runway-prompt')!.addEventListener('click', async () => {
+      const text = document.getElementById('runway-prompt')!.textContent || '';
+      await navigator.clipboard.writeText(text);
+      const copied = document.getElementById('runway-copied')!;
+      copied.style.display = '';
+      setTimeout(() => { copied.style.display = 'none'; }, 2000);
+    });
+
+    // Dismiss
+    document.getElementById('runway-dismiss')!.addEventListener('click', () => {
+      runwayDismissed = true;
+      document.getElementById('runway-alert')!.style.display = 'none';
+    });
+
     // ── Agency change listener ──
     window.addEventListener('agencychange', () => {
+      runwayDismissed = false;
       renderTasks();
       renderProjects();
+      checkRunway();
     });
 
     // ── Initial render ──
