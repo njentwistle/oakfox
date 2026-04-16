@@ -410,6 +410,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
       // Render archived section
       const archivedSection = document.getElementById('archived-section')!;
+      archived.sort((a, b) => (b.liveDate || '').localeCompare(a.liveDate || ''));
       if (archived.length > 0) {
         archivedSection.style.display = '';
         document.getElementById('archived-label')!.textContent = `Archived (${archived.length})`;
@@ -575,10 +576,16 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       const active = allTasks.filter(t => !t.completed);
       const completed = allTasks.filter(t => t.completed);
 
+      const sortByDate = (a: Task, b: Task) => {
+        const da = a.dueDate || '9999-12-31';
+        const db = b.dueDate || '9999-12-31';
+        return da.localeCompare(db);
+      };
+
       let filtered: Task[];
-      if (currentFilter === 'active') filtered = active;
-      else if (currentFilter === 'completed') filtered = completed;
-      else filtered = [...active, ...completed];
+      if (currentFilter === 'active') filtered = active.sort(sortByDate);
+      else if (currentFilter === 'completed') filtered = completed.sort(sortByDate);
+      else filtered = [...active.sort(sortByDate), ...completed.sort(sortByDate)];
 
       if (filtered.length === 0) {
         list.innerHTML = `<div style="text-align: center; padding: 48px 0;">
