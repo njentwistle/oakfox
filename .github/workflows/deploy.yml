@@ -25,6 +25,7 @@ jobs:
           set net:timeout 30
           set net:max-retries 3
           set net:reconnect-interval-base 5
-          mirror --reverse --delete --verbose --parallel=4 ./dist/ ./public_html/ --exclude .htpasswd
+          mirror --reverse --verbose --only-newer --parallel=4 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
+          mirror --reverse --verbose --only-newer --parallel=4 ./dist/images/ ./public_html/images/
           bye
           EOF
