@@ -24,11 +24,15 @@ jobs:
         run: |
           sudo apt-get install -y lftp
           lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" <<EOF
-          set ftp:ssl-allow no
-          set net:timeout 30
-          set net:max-retries 3
-          set net:reconnect-interval-base 5
-          mirror --reverse --verbose --only-newer --parallel=4 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
-          mirror --reverse --verbose --only-newer --parallel=4 ./dist/images/ ./public_html/images/
+          set ftp:ssl-allow yes
+          set ftp:ssl-force yes
+          set ftp:ssl-protect-data yes
+          set ssl:verify-certificate no
+          set ftp:passive-mode yes
+          set net:timeout 60
+          set net:max-retries 5
+          set net:reconnect-interval-base 10
+          mirror --reverse --verbose --only-newer --parallel=2 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
+          mirror --reverse --verbose --only-newer --parallel=2 ./dist/images/ ./public_html/images/
           bye
           EOF
