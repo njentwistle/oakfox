@@ -592,17 +592,21 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           <p style="color: var(--db-text-muted); font-size: 13px;">No tasks for ${agency}.</p>
         </div>`;
       } else {
+        const today = todayStr();
         list.innerHTML = filtered.map(task => {
           const checked = task.completed ? 'checked' : '';
           const strikeClass = task.completed ? 'db-line-through' : '';
+          const isOverdue = !task.completed && task.dueDate && task.dueDate < today;
+          const dateColor = isOverdue ? 'var(--db-danger)' : 'var(--db-text-muted)';
           const dateDisplay = task.dueDate
-            ? `<span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">${task.dueDate}${task.dueTime ? ' · ' + task.dueTime : ''}</span>`
+            ? `<span class="db-mono" style="font-size: 10px; color: ${dateColor};">${isOverdue ? 'Overdue · ' : ''}${task.dueDate}${task.dueTime ? ' · ' + task.dueTime : ''}</span>`
             : '';
+          const rowBorder = isOverdue ? 'border-left: 2px solid var(--db-danger); padding-left: 12px; margin-left: -14px;' : '';
           return `
-            <div class="task-row" data-id="${task.id}">
+            <div class="task-row" data-id="${task.id}" style="${rowBorder}">
               <input type="checkbox" class="db-checkbox task-check" data-id="${task.id}" ${checked} />
               <div style="flex: 1; min-width: 0;">
-                <span class="${strikeClass}" style="font-size: 14px; font-weight: 500;">${task.title}</span>
+                <span class="${strikeClass}" style="font-size: 14px; font-weight: 500; ${isOverdue ? 'color: var(--db-danger);' : ''}">${task.title}</span>
                 <div style="display: flex; gap: 8px; align-items: center; margin-top: 5px;">
                   <span class="db-tag ${getCategoryClass(task.category)}">${task.category}</span>
                   ${dateDisplay}
