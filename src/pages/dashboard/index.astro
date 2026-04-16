@@ -254,7 +254,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         { name: 'CubTrack', type: 'Product / Development', status: 'Live', deadline: '2025-09-01' },
         { name: 'Aigéan Restaurant', type: 'Branding / Consultancy', status: 'Live', deadline: '2024-06-15' },
         { name: 'Roll Bakery', type: 'Branding / Consultancy', status: 'Live', deadline: '2024-03-10' },
-        { name: 'Jennifer Lane', type: 'Website Redesign', status: 'In Progress', deadline: '2026-05-01' },
+        { name: 'Jennifer Lane', type: 'Website Redesign', status: 'Live', deadline: '2026-03-11' },
       ];
       existingProjects.forEach(p => {
         projects.push({
@@ -266,6 +266,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           deadline: p.deadline,
           notes: '',
           createdAt: now.toISOString(),
+          liveDate: p.status === 'Live' ? p.deadline : undefined,
         });
       });
       saveProjects(projects);
@@ -414,14 +415,33 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         document.getElementById('archived-label')!.textContent = `Archived (${archived.length})`;
         const archivedList = document.getElementById('archived-list')!;
         archivedList.innerHTML = archived.map(p => `
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--db-border-subtle);">
-            <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--db-border-subtle);" class="archived-row">
+            <div style="flex: 1; min-width: 0;">
               <span style="font-size: 13px; font-weight: 500;">${p.name}</span>
               <span style="font-size: 11px; color: var(--db-text-muted); margin-left: 8px;">${p.type}</span>
             </div>
-            <span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">Live ${p.liveDate || ''}</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">Live ${p.liveDate || ''}</span>
+              <button class="db-btn db-btn-ghost db-btn-sm archived-edit" data-id="${p.id}" style="padding: 3px 8px; font-size: 11px;">Edit</button>
+              <button class="db-btn db-btn-ghost db-btn-sm archived-delete" data-id="${p.id}" style="padding: 3px 8px; font-size: 11px; color: var(--db-danger);">&times;</button>
+            </div>
           </div>
         `).join('');
+
+        // Bind archived edit/delete
+        archivedList.querySelectorAll('.archived-edit').forEach(btn => {
+          btn.addEventListener('click', () => {
+            openProjectModal(btn.getAttribute('data-id')!);
+          });
+        });
+        archivedList.querySelectorAll('.archived-delete').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id')!;
+            if (!confirm('Delete this archived project?')) return;
+            saveProjects(getProjects().filter(p => p.id !== id));
+            renderProjects();
+          });
+        });
       } else {
         archivedSection.style.display = 'none';
       }
