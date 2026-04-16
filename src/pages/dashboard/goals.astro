@@ -1,0 +1,303 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Goals">
+  <div id="goals-app" class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px;">
+      <h1 class="db-heading" style="font-size: 32px;">Goals & Milestones</h1>
+      <button class="db-btn db-btn-primary" id="add-goal-btn">+ Add Goal</button>
+    </header>
+
+    <div id="active-goals"></div>
+
+    <div id="completed-section" style="margin-top: 32px; display: none;">
+      <button id="completed-toggle" style="display: flex; align-items: center; gap: 8px; background: none; border: none; color: var(--db-text-muted); cursor: pointer; font-size: 13px; font-weight: 600; padding: 8px 0; margin-bottom: 12px;">
+        <svg id="completed-chevron" style="width: 14px; height: 14px; transition: transform 0.2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span id="completed-label">Completed</span>
+      </button>
+      <div id="completed-goals" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Goal modal -->
+  <div id="goal-modal" style="display: none;">
+    <div class="db-modal-overlay">
+      <div class="db-modal">
+        <h3 id="modal-heading">Add Goal</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="text" class="db-input" id="goal-title" placeholder="Goal title..." />
+          <input type="text" class="db-input" id="goal-category" placeholder="Category (e.g. Business, Personal, Revenue)" />
+          <input type="date" class="db-input" id="goal-target-date" />
+          <select class="db-select" id="goal-status">
+            <option value="Not Started">Not Started</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+          </select>
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button class="db-btn" id="goal-cancel">Cancel</button>
+            <button class="db-btn db-btn-primary" id="goal-save">Save Goal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    type Subtask = { id: string; title: string; done: boolean; };
+    type Goal = {
+      id: string; title: string; category: string;
+      targetDate: string; status: string; subtasks: Subtask[];
+    };
+
+    function getGoals(): Goal[] {
+      try { return JSON.parse(localStorage.getItem('oakfox_goals') || '[]'); } catch { return []; }
+    }
+    function saveGoals(goals: Goal[]) { localStorage.setItem('oakfox_goals', JSON.stringify(goals)); }
+
+    function getStatusClass(status: string): string {
+      if (status === 'In Progress') return 'db-badge-in-progress';
+      if (status === 'Done') return 'db-badge-done';
+      return 'db-badge-not-started';
+    }
+
+    function daysUntil(date: string): number {
+      return Math.ceil((new Date(date).getTime() - Date.now()) / 86400000);
+    }
+
+    let editingId: string | null = null;
+
+    function renderGoals() {
+      const goals = getGoals();
+      const active = goals.filter(g => g.status !== 'Done').sort((a, b) => {
+        if (!a.targetDate) return 1;
+        if (!b.targetDate) return -1;
+        return new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime();
+      });
+      const completed = goals.filter(g => g.status === 'Done');
+
+      const activeContainer = document.getElementById('active-goals')!;
+      const completedContainer = document.getElementById('completed-goals')!;
+      const completedSection = document.getElementById('completed-section')!;
+
+      if (active.length === 0 && completed.length === 0) {
+        activeContainer.innerHTML = `<div class="db-card" style="text-align: center; padding: 48px 24px;">
+          <p style="color: var(--db-text-muted); font-size: 14px;">No goals yet. Set your first one.</p>
+        </div>`;
+      } else {
+        activeContainer.innerHTML = active.map(g => renderGoalCard(g)).join('');
+      }
+
+      if (completed.length > 0) {
+        completedSection.style.display = '';
+        document.getElementById('completed-label')!.textContent = `Completed (${completed.length})`;
+        completedContainer.innerHTML = completed.map(g => renderGoalCard(g)).join('');
+      } else {
+        completedSection.style.display = 'none';
+      }
+
+      bindGoalEvents();
+    }
+
+    function renderGoalCard(g: Goal): string {
+      const progress = g.subtasks.length > 0
+        ? Math.round((g.subtasks.filter(s => s.done).length / g.subtasks.length) * 100)
+        : 0;
+      const daysLeft = g.targetDate ? daysUntil(g.targetDate) : null;
+      const daysLabel = daysLeft !== null
+        ? (daysLeft < 0 ? `<span style="color: var(--db-danger);">${Math.abs(daysLeft)}d overdue</span>` : `<span style="color: var(--db-text-secondary);">${daysLeft}d left</span>`)
+        : '';
+
+      return `
+        <div class="db-card" style="margin-bottom: 12px;" data-goal-id="${g.id}">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+                <h3 style="font-size: 16px; font-weight: 600;">${g.title}</h3>
+                <span class="db-badge ${getStatusClass(g.status)}">${g.status}</span>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--db-text-muted);">
+                ${g.category ? `<span class="db-tag db-tag-client">${g.category}</span>` : ''}
+                ${g.targetDate ? `<span class="db-mono">${g.targetDate}</span>` : ''}
+                ${daysLabel ? `<span class="db-mono">${daysLabel}</span>` : ''}
+              </div>
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button class="db-btn db-btn-ghost db-btn-sm goal-edit" data-id="${g.id}">Edit</button>
+              <button class="db-btn db-btn-ghost db-btn-sm goal-delete" data-id="${g.id}" style="color: #c45a4a;">&times;</button>
+            </div>
+          </div>
+
+          ${g.subtasks.length > 0 ? `
+            <div style="margin-top: 14px;">
+              <div class="db-progress" style="margin-bottom: 8px;">
+                <div class="db-progress-bar" style="width: ${progress}%;"></div>
+              </div>
+              <span style="font-size: 11px; color: var(--db-text-muted);" class="db-mono">${progress}% complete</span>
+            </div>
+          ` : ''}
+
+          <!-- Subtasks -->
+          <div style="margin-top: 12px;" class="subtask-list" data-goal-id="${g.id}">
+            ${g.subtasks.map(s => `
+              <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--db-border);">
+                <input type="checkbox" class="db-checkbox subtask-check" data-goal-id="${g.id}" data-subtask-id="${s.id}" ${s.done ? 'checked' : ''} />
+                <span style="font-size: 13px; flex: 1; ${s.done ? 'text-decoration: line-through; opacity: 0.4;' : ''}">${s.title}</span>
+                <button class="subtask-delete" data-goal-id="${g.id}" data-subtask-id="${s.id}" style="background: none; border: none; color: var(--db-text-muted); cursor: pointer; font-size: 14px; opacity: 0.5;">&times;</button>
+              </div>
+            `).join('')}
+            <div style="margin-top: 8px; display: flex; gap: 6px;">
+              <input type="text" class="db-input subtask-input" data-goal-id="${g.id}" placeholder="Add subtask..." style="flex: 1; font-size: 12px; padding: 6px 10px;" />
+              <button class="db-btn db-btn-sm subtask-add" data-goal-id="${g.id}">+</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function bindGoalEvents() {
+      // Subtask checks
+      document.querySelectorAll('.subtask-check').forEach(el => {
+        el.addEventListener('change', () => {
+          const goalId = el.getAttribute('data-goal-id')!;
+          const subtaskId = el.getAttribute('data-subtask-id')!;
+          const goals = getGoals();
+          const goal = goals.find(g => g.id === goalId);
+          if (goal) {
+            const sub = goal.subtasks.find(s => s.id === subtaskId);
+            if (sub) sub.done = !sub.done;
+          }
+          saveGoals(goals);
+          renderGoals();
+        });
+      });
+
+      // Add subtask
+      document.querySelectorAll('.subtask-add').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const goalId = btn.getAttribute('data-goal-id')!;
+          const input = document.querySelector(`.subtask-input[data-goal-id="${goalId}"]`) as HTMLInputElement;
+          const title = input.value.trim();
+          if (!title) return;
+          const goals = getGoals();
+          const goal = goals.find(g => g.id === goalId);
+          if (goal) {
+            goal.subtasks.push({ id: crypto.randomUUID(), title, done: false });
+          }
+          saveGoals(goals);
+          renderGoals();
+        });
+      });
+
+      // Enter key for subtask
+      document.querySelectorAll('.subtask-input').forEach(el => {
+        el.addEventListener('keydown', (e) => {
+          if ((e as KeyboardEvent).key === 'Enter') {
+            const goalId = el.getAttribute('data-goal-id')!;
+            (document.querySelector(`.subtask-add[data-goal-id="${goalId}"]`) as HTMLElement).click();
+          }
+        });
+      });
+
+      // Delete subtask
+      document.querySelectorAll('.subtask-delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const goalId = btn.getAttribute('data-goal-id')!;
+          const subtaskId = btn.getAttribute('data-subtask-id')!;
+          const goals = getGoals();
+          const goal = goals.find(g => g.id === goalId);
+          if (goal) goal.subtasks = goal.subtasks.filter(s => s.id !== subtaskId);
+          saveGoals(goals);
+          renderGoals();
+        });
+      });
+
+      // Edit goal
+      document.querySelectorAll('.goal-edit').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id')!;
+          const goals = getGoals();
+          const goal = goals.find(g => g.id === id);
+          if (!goal) return;
+          editingId = id;
+          (document.getElementById('goal-title') as HTMLInputElement).value = goal.title;
+          (document.getElementById('goal-category') as HTMLInputElement).value = goal.category;
+          (document.getElementById('goal-target-date') as HTMLInputElement).value = goal.targetDate;
+          (document.getElementById('goal-status') as HTMLSelectElement).value = goal.status;
+          document.getElementById('modal-heading')!.textContent = 'Edit Goal';
+          document.getElementById('goal-modal')!.style.display = 'block';
+        });
+      });
+
+      // Delete goal
+      document.querySelectorAll('.goal-delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id')!;
+          if (!confirm('Delete this goal?')) return;
+          saveGoals(getGoals().filter(g => g.id !== id));
+          renderGoals();
+        });
+      });
+    }
+
+    // Add goal button
+    document.getElementById('add-goal-btn')!.addEventListener('click', () => {
+      editingId = null;
+      (document.getElementById('goal-title') as HTMLInputElement).value = '';
+      (document.getElementById('goal-category') as HTMLInputElement).value = '';
+      (document.getElementById('goal-target-date') as HTMLInputElement).value = '';
+      (document.getElementById('goal-status') as HTMLSelectElement).value = 'Not Started';
+      document.getElementById('modal-heading')!.textContent = 'Add Goal';
+      document.getElementById('goal-modal')!.style.display = 'block';
+      (document.getElementById('goal-title') as HTMLInputElement).focus();
+    });
+
+    // Modal cancel/save
+    document.getElementById('goal-cancel')!.addEventListener('click', () => {
+      document.getElementById('goal-modal')!.style.display = 'none';
+    });
+
+    document.getElementById('goal-save')!.addEventListener('click', () => {
+      const title = (document.getElementById('goal-title') as HTMLInputElement).value.trim();
+      if (!title) return;
+
+      const goals = getGoals();
+      if (editingId) {
+        const goal = goals.find(g => g.id === editingId);
+        if (goal) {
+          goal.title = title;
+          goal.category = (document.getElementById('goal-category') as HTMLInputElement).value.trim();
+          goal.targetDate = (document.getElementById('goal-target-date') as HTMLInputElement).value;
+          goal.status = (document.getElementById('goal-status') as HTMLSelectElement).value;
+        }
+      } else {
+        goals.push({
+          id: crypto.randomUUID(),
+          title,
+          category: (document.getElementById('goal-category') as HTMLInputElement).value.trim(),
+          targetDate: (document.getElementById('goal-target-date') as HTMLInputElement).value,
+          status: (document.getElementById('goal-status') as HTMLSelectElement).value,
+          subtasks: [],
+        });
+      }
+
+      saveGoals(goals);
+      document.getElementById('goal-modal')!.style.display = 'none';
+      renderGoals();
+    });
+
+    document.getElementById('goal-title')!.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('goal-save')!.click();
+    });
+
+    // Completed toggle
+    let completedOpen = false;
+    document.getElementById('completed-toggle')!.addEventListener('click', () => {
+      completedOpen = !completedOpen;
+      document.getElementById('completed-goals')!.style.display = completedOpen ? '' : 'none';
+      (document.getElementById('completed-chevron') as HTMLElement).style.transform = completedOpen ? 'rotate(90deg)' : '';
+    });
+
+    renderGoals();
+  </script>
+</DashboardLayout>

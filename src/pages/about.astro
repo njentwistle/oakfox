@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Us" description="Learn about OakFox — award-winning design, development, and sustainability consulting from rural West Lancashire.">
+  <!-- Hero -->
+  <section class="pt-32 pb-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">About Us</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">
+        Does anybody read these things?
+      </h1>
+      <p class="mt-6 text-lg text-gray max-w-2xl">
+        We like to think so. Here's a bit about who we are, what we do, and why
+        we do it.
+      </p>
+    </div>
+  </section>
+
+  <!-- Nathan -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="aspect-square rounded-2xl bg-forest/5 flex items-center justify-center">
+          <span class="text-forest/30 text-sm">Nathan's photo</span>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight">Nathan James Entwistle</h2>
+          <p class="text-forest font-medium text-sm mt-1">
+            Husband, father, designer, developer, American football fan.
+          </p>
+          <p class="mt-6 text-gray leading-relaxed">
+            A brand designer and website developer with over 15 years of experience,
+            Nathan has worked at some of the top marketing agencies in the UK. From
+            independent artisan coffee shops and bakeries to internationally-trading
+            wine merchants — he's created brands and digital experiences for a huge
+            variety of businesses.
+          </p>
+          <p class="mt-4 text-gray leading-relaxed">
+            His services span from local startups to international corporations,
+            bringing together expertise in brand design, web development, UX, and
+            sustainable practices.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-forest text-cream py-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-cream mb-16">
+        What drives us
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {[
+          { title: 'Sustainability First', desc: 'Every decision we make considers its environmental impact. We help brands grow without costing the earth.' },
+          { title: 'Craft & Quality', desc: 'We believe in doing things properly. No shortcuts, no templates — just thoughtful, bespoke work.' },
+          { title: 'Honest Partnership', desc: 'We work with you, not for you. Transparent communication and genuine collaboration at every step.' },
+        ].map((value) => (
+          <div class="border border-cream/20 rounded-2xl p-8">
+            <h3 class="text-xl font-semibold text-cream mb-3">{value.title}</h3>
+            <p class="text-cream-dark/70 text-sm leading-relaxed">{value.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+        Let's work together.
+      </h2>
+      <p class="mt-4 text-gray max-w-xl mx-auto">
+        Whether you're a startup finding your feet or an established brand ready
+        to evolve, we'd love to hear from you.
+      </p>
+      <a
+        href="/contact"
+        class="inline-block mt-8 bg-forest text-cream px-8 py-3 font-medium rounded-full transition-all duration-300 hover:bg-forest-dark hover:scale-105"
+      >
+        Get in Touch
+      </a>
+    </div>
+  </section>
+</BaseLayout>

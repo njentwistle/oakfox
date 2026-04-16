@@ -1,0 +1,366 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Planner">
+  <div id="planner-app" class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+      <h1 class="db-heading" style="font-size: 32px;">Planner</h1>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="db-btn db-btn-sm db-btn-ghost" id="prev-btn" style="font-size: 16px;">&larr;</button>
+        <span class="db-mono" style="font-size: 12px; min-width: 160px; text-align: center; color: var(--db-text-secondary);" id="period-label"></span>
+        <button class="db-btn db-btn-sm db-btn-ghost" id="next-btn" style="font-size: 16px;">&rarr;</button>
+        <div class="db-tabs" style="margin-left: 12px;">
+          <button class="db-tab active" data-view="week">Week</button>
+          <button class="db-tab" data-view="month">Month</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="week-view"></div>
+    <div id="month-view" style="display: none;"></div>
+  </div>
+
+  <!-- Day slide panel -->
+  <div class="db-panel" id="day-panel">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+      <h3 class="db-heading" style="font-size: 18px;" id="panel-date-title"></h3>
+      <button class="db-btn db-btn-ghost db-btn-sm" id="panel-close">&times;</button>
+    </div>
+    <div id="panel-tasks"></div>
+    <div style="margin-top: 16px;">
+      <label style="font-size: 11px; font-weight: 600; color: var(--db-text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Notes</label>
+      <textarea class="db-textarea" id="panel-note" placeholder="Notes for this day..." style="min-height: 100px;"></textarea>
+    </div>
+    <button class="db-btn db-btn-primary db-btn-sm" style="margin-top: 12px;" id="panel-add-task">+ Add task</button>
+  </div>
+  <div id="panel-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 45;"></div>
+
+  <!-- Add task modal -->
+  <div id="task-modal" style="display: none;">
+    <div class="db-modal-overlay">
+      <div class="db-modal">
+        <h3>Add Task</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="text" class="db-input" id="modal-title" placeholder="Task title..." />
+          <select class="db-select" id="modal-category">
+            <option value="Client Work">Client Work</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Development">Development</option>
+            <option value="Admin">Admin</option>
+            <option value="Personal">Personal</option>
+          </select>
+          <input type="date" class="db-input" id="modal-date" />
+          <input type="time" class="db-input" id="modal-time" />
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button class="db-btn" id="modal-cancel">Cancel</button>
+            <button class="db-btn db-btn-primary" id="modal-save">Add Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    type Task = {
+      id: string; title: string; category: string;
+      dueDate: string; dueTime: string; completed: boolean; createdAt: string;
+    };
+
+    function getTasks(): Task[] {
+      try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; }
+    }
+    function saveTasks(tasks: Task[]) { localStorage.setItem('oakfox_tasks', JSON.stringify(tasks)); }
+    function getNotes(): Record<string, string> {
+      try { return JSON.parse(localStorage.getItem('oakfox_day_notes') || '{}'); } catch { return {}; }
+    }
+    function saveNotes(notes: Record<string, string>) { localStorage.setItem('oakfox_day_notes', JSON.stringify(notes)); }
+
+    function dateStr(d: Date): string {
+      return d.toISOString().split('T')[0];
+    }
+    function todayStr(): string { return dateStr(new Date()); }
+
+    function getCategoryClass(cat: string): string {
+      const map: Record<string, string> = {
+        'Client Work': 'db-tag-client', 'Marketing': 'db-tag-marketing',
+        'Development': 'db-tag-development', 'Admin': 'db-tag-admin', 'Personal': 'db-tag-personal',
+      };
+      return map[cat] || 'db-tag-admin';
+    }
+
+    // State
+    let currentView = localStorage.getItem('oakfox_planner_view') || 'week';
+    let viewDate = new Date();
+    const today = todayStr();
+
+    // ── Week helpers ──
+    function getMonday(d: Date): Date {
+      const date = new Date(d);
+      const day = date.getDay();
+      const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+      date.setDate(diff);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    }
+
+    function getWeekDays(d: Date): Date[] {
+      const mon = getMonday(d);
+      return Array.from({ length: 7 }, (_, i) => {
+        const day = new Date(mon);
+        day.setDate(mon.getDate() + i);
+        return day;
+      });
+    }
+
+    // ── Render week ──
+    function renderWeek() {
+      const days = getWeekDays(viewDate);
+      const tasks = getTasks();
+      const notes = getNotes();
+      const container = document.getElementById('week-view')!;
+
+      const label = document.getElementById('period-label')!;
+      const mon = days[0];
+      const sun = days[6];
+      label.textContent = `${mon.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} — ${sun.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+
+      container.innerHTML = `<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;" class="week-grid">
+        ${days.map(day => {
+          const ds = dateStr(day);
+          const isToday = ds === today;
+          const dayTasks = tasks.filter(t => t.dueDate === ds);
+          const note = notes[ds] || '';
+          const borderStyle = isToday ? 'border-color: var(--db-accent);' : '';
+          return `
+            <div class="db-card" style="padding: 14px; ${borderStyle} display: flex; flex-direction: column; min-height: 200px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-size: 11px; font-weight: 600; color: ${isToday ? 'var(--db-accent)' : 'var(--db-text-muted)'}; text-transform: uppercase;">
+                  ${day.toLocaleDateString('en-GB', { weekday: 'short' })}
+                </span>
+                <span class="db-mono" style="font-size: 13px; font-weight: 700; ${isToday ? 'color: var(--db-accent);' : ''}">${day.getDate()}</span>
+              </div>
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;">
+                ${dayTasks.map(t => `
+                  <div style="font-size: 11px; font-weight: 500; padding: 5px 8px; border-radius: 6px; background: rgba(255,255,255,0.03); border-left: 2px solid ${t.completed ? 'var(--db-border)' : 'var(--db-accent)'}; ${t.completed ? 'text-decoration: line-through; opacity: 0.3;' : ''}">
+                    ${t.title}
+                  </div>
+                `).join('')}
+              </div>
+              <textarea class="db-textarea week-note" data-date="${ds}" placeholder="Notes..." style="font-size: 11px; min-height: 40px; margin-top: 8px; resize: none;">${note}</textarea>
+            </div>
+          `;
+        }).join('')}
+      </div>`;
+
+      // Note save handlers
+      container.querySelectorAll('.week-note').forEach(el => {
+        el.addEventListener('input', () => {
+          const textarea = el as HTMLTextAreaElement;
+          const date = textarea.getAttribute('data-date')!;
+          const allNotes = getNotes();
+          if (textarea.value.trim()) allNotes[date] = textarea.value;
+          else delete allNotes[date];
+          saveNotes(allNotes);
+        });
+      });
+    }
+
+    // ── Render month ──
+    function renderMonth() {
+      const tasks = getTasks();
+      const year = viewDate.getFullYear();
+      const month = viewDate.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startOffset = (firstDay.getDay() + 6) % 7; // Monday start
+
+      const label = document.getElementById('period-label')!;
+      label.textContent = viewDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+      const container = document.getElementById('month-view')!;
+      const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+      let cells = dayHeaders.map(d =>
+        `<div style="font-size: 11px; font-weight: 600; color: var(--db-text-muted); text-transform: uppercase; text-align: center; padding: 8px;">${d}</div>`
+      ).join('');
+
+      // Empty cells before month starts
+      for (let i = 0; i < startOffset; i++) {
+        cells += `<div style="padding: 8px;"></div>`;
+      }
+
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const ds = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const isToday = ds === today;
+        const hasTasks = tasks.some(t => t.dueDate === ds);
+        cells += `
+          <div class="month-day" data-date="${ds}" style="padding: 12px 8px; border-radius: var(--db-radius); cursor: pointer; text-align: center; border: 1px solid ${isToday ? 'rgba(92,140,74,0.3)' : 'transparent'}; ${isToday ? 'background: rgba(92,140,74,0.05);' : ''} transition: all 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='${isToday ? 'rgba(92,140,74,0.05)' : 'transparent'}';this.style.borderColor='${isToday ? 'rgba(92,140,74,0.3)' : 'transparent'}'">
+            <span class="db-mono" style="font-size: 13px; font-weight: ${isToday ? '700' : '400'}; ${isToday ? 'color: var(--db-accent);' : 'color: var(--db-text-secondary);'}">${d}</span>
+            ${hasTasks ? '<div style="width: 5px; height: 5px; border-radius: 50%; background: var(--db-accent); margin: 6px auto 0; box-shadow: 0 0 6px rgba(92,140,74,0.3);"></div>' : ''}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;">${cells}</div>`;
+
+      // Click to open panel
+      container.querySelectorAll('.month-day').forEach(el => {
+        el.addEventListener('click', () => {
+          openPanel(el.getAttribute('data-date')!);
+        });
+      });
+    }
+
+    // ── Day panel ──
+    let panelDate = '';
+
+    function openPanel(ds: string) {
+      panelDate = ds;
+      const panel = document.getElementById('day-panel')!;
+      const overlay = document.getElementById('panel-overlay')!;
+      const tasks = getTasks().filter(t => t.dueDate === ds);
+      const notes = getNotes();
+
+      document.getElementById('panel-date-title')!.textContent = new Date(ds + 'T00:00').toLocaleDateString('en-GB', {
+        weekday: 'long', day: 'numeric', month: 'long'
+      });
+
+      const panelTasks = document.getElementById('panel-tasks')!;
+      if (tasks.length === 0) {
+        panelTasks.innerHTML = `<p style="font-size: 13px; color: var(--db-text-muted);">No tasks for this day.</p>`;
+      } else {
+        panelTasks.innerHTML = tasks.map(t => `
+          <div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--db-border);">
+            <input type="checkbox" class="db-checkbox panel-check" data-id="${t.id}" ${t.completed ? 'checked' : ''} />
+            <span style="font-size: 13px; ${t.completed ? 'text-decoration: line-through; opacity: 0.4;' : ''}">${t.title}</span>
+            <span class="db-tag ${getCategoryClass(t.category)}" style="margin-left: auto;">${t.category}</span>
+          </div>
+        `).join('');
+      }
+
+      (document.getElementById('panel-note') as HTMLTextAreaElement).value = notes[ds] || '';
+      panel.classList.add('open');
+      overlay.style.display = 'block';
+
+      // Checkbox handling
+      panelTasks.querySelectorAll('.panel-check').forEach(el => {
+        el.addEventListener('change', () => {
+          const id = el.getAttribute('data-id');
+          const allTasks = getTasks();
+          const task = allTasks.find(t => t.id === id);
+          if (task) task.completed = !task.completed;
+          saveTasks(allTasks);
+          openPanel(ds);
+          render();
+        });
+      });
+    }
+
+    function closePanel() {
+      document.getElementById('day-panel')!.classList.remove('open');
+      document.getElementById('panel-overlay')!.style.display = 'none';
+    }
+
+    document.getElementById('panel-close')!.addEventListener('click', closePanel);
+    document.getElementById('panel-overlay')!.addEventListener('click', closePanel);
+
+    // Panel note save
+    document.getElementById('panel-note')!.addEventListener('input', () => {
+      const notes = getNotes();
+      const val = (document.getElementById('panel-note') as HTMLTextAreaElement).value;
+      if (val.trim()) notes[panelDate] = val;
+      else delete notes[panelDate];
+      saveNotes(notes);
+    });
+
+    // Panel add task
+    document.getElementById('panel-add-task')!.addEventListener('click', () => {
+      openTaskModal(panelDate);
+    });
+
+    // ── Task modal ──
+    function openTaskModal(date: string) {
+      (document.getElementById('modal-date') as HTMLInputElement).value = date;
+      (document.getElementById('modal-title') as HTMLInputElement).value = '';
+      (document.getElementById('modal-time') as HTMLInputElement).value = '';
+      document.getElementById('task-modal')!.style.display = 'block';
+      (document.getElementById('modal-title') as HTMLInputElement).focus();
+    }
+
+    document.getElementById('modal-cancel')!.addEventListener('click', () => {
+      document.getElementById('task-modal')!.style.display = 'none';
+    });
+
+    document.getElementById('modal-save')!.addEventListener('click', () => {
+      const title = (document.getElementById('modal-title') as HTMLInputElement).value.trim();
+      if (!title) return;
+      const tasks = getTasks();
+      tasks.push({
+        id: crypto.randomUUID(),
+        title,
+        category: (document.getElementById('modal-category') as HTMLSelectElement).value,
+        dueDate: (document.getElementById('modal-date') as HTMLInputElement).value,
+        dueTime: (document.getElementById('modal-time') as HTMLInputElement).value,
+        completed: false,
+        createdAt: new Date().toISOString(),
+      });
+      saveTasks(tasks);
+      document.getElementById('task-modal')!.style.display = 'none';
+      render();
+      if (panelDate) openPanel(panelDate);
+    });
+
+    document.getElementById('modal-title')!.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('modal-save')!.click();
+    });
+
+    // ── View toggle ──
+    function render() {
+      if (currentView === 'week') {
+        document.getElementById('week-view')!.style.display = '';
+        document.getElementById('month-view')!.style.display = 'none';
+        renderWeek();
+      } else {
+        document.getElementById('week-view')!.style.display = 'none';
+        document.getElementById('month-view')!.style.display = '';
+        renderMonth();
+      }
+    }
+
+    document.querySelectorAll('[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentView = btn.getAttribute('data-view')!;
+        localStorage.setItem('oakfox_planner_view', currentView);
+        render();
+      });
+
+      if (btn.getAttribute('data-view') === currentView) {
+        document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    });
+
+    // Nav buttons
+    document.getElementById('prev-btn')!.addEventListener('click', () => {
+      if (currentView === 'week') viewDate.setDate(viewDate.getDate() - 7);
+      else viewDate.setMonth(viewDate.getMonth() - 1);
+      render();
+    });
+    document.getElementById('next-btn')!.addEventListener('click', () => {
+      if (currentView === 'week') viewDate.setDate(viewDate.getDate() + 7);
+      else viewDate.setMonth(viewDate.getMonth() + 1);
+      render();
+    });
+
+    render();
+  </script>
+
+  <style>
+    @media (max-width: 767px) {
+      .week-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</DashboardLayout>

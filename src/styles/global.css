@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-cream: #F5F0E8;
+  --color-cream-light: #FAF7F2;
+  --color-forest: #1A5C12;
+  --color-forest-dark: #0E3B0A;
+  --color-ink: #1A1D17;
+  --color-ink-light: #2E3329;
+  --color-white: #FFFFFF;
+  --color-stone: #D6D1C8;
+  --color-gray: #8A8680;
+
+  --font-sans: 'Work Sans', system-ui, sans-serif;
+  --font-display: 'Playfair Display', 'PT Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-cream);
+  }
+
+  ::selection {
+    background-color: var(--color-forest);
+    color: var(--color-cream);
+  }
+}
+
+/* ---------- Type ---------- */
+.headline {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.headline em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+/* ---------- Grain ---------- */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ---------- Hero glow ---------- */
+@keyframes glow-drift {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.5; }
+  30%  { transform: translate(-46%, -54%) scale(1.08); opacity: 0.7; }
+  60%  { transform: translate(-53%, -47%) scale(1.04); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(1);   opacity: 0.5; }
+}
+.hero-glow {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(26, 92, 18, 0.14), rgba(26, 92, 18, 0.04) 45%, transparent 65%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+  animation: glow-drift 14s ease-in-out infinite;
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.1s; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.2s; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.3s; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.4s; }
+.reveal-stagger > .reveal:nth-child(6) { transition-delay: 0.5s; }
+
+/* Hero reveals immediately (no scroll needed) */
+.reveal-instant {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: reveal-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.reveal-instant-d1 { animation-delay: 0.1s; }
+.reveal-instant-d2 { animation-delay: 0.25s; }
+.reveal-instant-d3 { animation-delay: 0.4s; }
+.reveal-instant-d4 { animation-delay: 0.55s; }
+
+@keyframes reveal-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Link underline ---------- */
+.link-line {
+  position: relative;
+  display: inline;
+}
+.link-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-line:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- Scroll indicator ---------- */
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+.nudge { animation: nudge 2.5s ease-in-out infinite; }
+
+/* ---------- Image reveal ---------- */
+.img-wrap {
+  overflow: hidden;
+}
+.img-wrap img {
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-wrap:hover img {
+  transform: scale(1.04);
+}

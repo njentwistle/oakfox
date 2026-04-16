@@ -1,0 +1,94 @@
+<?php
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
+
+$name = trim($_POST['name'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$services = $_POST['services'] ?? [];
+$message = trim($_POST['message'] ?? '');
+
+// Validate
+if (empty($name) || empty($email) || empty($message)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Please fill in all required fields.']);
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Please enter a valid email address.']);
+    exit;
+}
+
+// Sanitise
+$name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+
+if (is_array($services)) {
+    $allowed = ['Branding', 'Design', 'Development', 'Marketing', 'Consultancy', 'Everything', 'Not Sure!'];
+    $services = array_filter($services, fn($s) => in_array($s, $allowed));
+    $serviceList = implode(', ', $services);
+} else {
+    $serviceList = 'None selected';
+}
+
+$to = 'nathan@oakfox.co.uk';
+$subject = "New enquiry from {$name}";
+$date = date('j M Y, g:ia');
+
+// ── Email to Nathan ──
+$nathanBody = <<<EOT
+New project enquiry via oakfox.co.uk
+
+Name: {$name}
+Email: {$email}
+Services: {$serviceList}
+Date: {$date}
+
+Message:
+{$message}
+EOT;
+
+$headers = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+$headers .= "Reply-To: {$name} <{$email}>\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+$sent = mail($to, $subject, $nathanBody, $headers);
+
+// ── Confirmation to client ──
+$clientSubject = "Thanks for getting in touch — OakFox";
+$clientBody = <<<EOT
+Hi {$name},
+
+Thanks for reaching out to OakFox. We've received your enquiry and will be in touch shortly.
+
+Here's a copy of what you sent:
+
+Services: {$serviceList}
+
+Message:
+{$message}
+
+Speak soon,
+Nathan
+OakFox — oakfox.co.uk
+EOT;
+
+$clientHeaders = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+$clientHeaders .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
+$clientHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+mail($email, $clientSubject, $clientBody, $clientHeaders);
+
+if ($sent) {
+    echo json_encode(['success' => true]);
+} else {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to send. Please email nathan@oakfox.co.uk directly.']);
+}

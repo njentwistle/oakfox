@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Sustainable design, development, marketing and consultancy — West Lancashire, UK.' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} | OakFox</title>
+  </head>
+  <body class="bg-cream min-h-screen flex flex-col">
+    <div class="noise"></div>
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Scroll-aware header
+      const header = document.getElementById('site-header');
+      if (header) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        });
+      }
+
+      // Mobile nav toggle
+      const toggle = document.getElementById('mobile-toggle');
+      const mobileNav = document.getElementById('mobile-nav');
+      const overlay = document.getElementById('mobile-overlay');
+
+      function closeMobileNav() {
+        mobileNav?.classList.add('translate-x-full');
+        overlay?.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      toggle?.addEventListener('click', () => {
+        mobileNav?.classList.toggle('translate-x-full');
+        overlay?.classList.toggle('hidden');
+        document.body.style.overflow = mobileNav?.classList.contains('translate-x-full') ? '' : 'hidden';
+      });
+
+      overlay?.addEventListener('click', closeMobileNav);
+
+      // Scroll-triggered reveals
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(#site-header) {
+    transition: background-color 300ms ease, border-color 300ms ease;
+  }
+  :global(#site-header.scrolled) {
+    background-color: rgba(245, 240, 232, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  :global(#site-header.scrolled .logo-img) {
+    height: 2rem;
+  }
+</style>

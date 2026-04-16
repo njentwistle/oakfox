@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allWork = (await getCollection('portfolio'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categories = ['all', ...new Set(allWork.map((item) => item.data.category))];
+---
+
+<BaseLayout title="Portfolio" description="Explore our portfolio of branding, design, development, and marketing projects.">
+  <section class="pt-32 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Our Work</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">Portfolio</h1>
+      <p class="mt-6 text-lg text-gray max-w-2xl">
+        From independent artisan coffee shops and bakeries to internationally-trading
+        wine merchants, we've created brands for a huge variety of businesses.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter -->
+  <section class="py-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-wrap gap-2" id="portfolio-filters">
+        {categories.map((cat) => (
+          <button
+            data-filter={cat}
+            class:list={[
+              'px-5 py-2 text-sm font-medium rounded-full border transition-all duration-300 capitalize',
+              cat === 'all'
+                ? 'bg-forest text-cream border-forest'
+                : 'border-gray-light text-gray hover:border-forest hover:text-forest',
+            ]}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid -->
+  <section class="py-8 pb-24">
+    <div class="max-w-7xl mx-auto px-6">
+      {allWork.length > 0 ? (
+        <div class="grid md:grid-cols-2 gap-8" id="portfolio-grid">
+          {allWork.map((item) => (
+            <a
+              href={`/portfolio/${item.id}`}
+              class="group flex flex-col rounded-2xl overflow-hidden border border-gray-light transition-all duration-300 hover:border-forest hover:shadow-xl"
+              data-category={item.data.category}
+            >
+              <div class="aspect-[16/10] bg-forest/5 overflow-hidden">
+                <img src={item.data.thumbnail} alt={item.data.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              </div>
+              <div class="p-6 flex-1 flex flex-col">
+                <span class="text-xs font-medium text-forest uppercase tracking-widest">
+                  {item.data.category}
+                </span>
+                <h2 class="text-xl font-semibold mt-2 group-hover:text-forest transition-colors duration-300">
+                  {item.data.title}
+                </h2>
+                <p class="text-gray text-sm mt-2 line-clamp-2">{item.data.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-gray text-center py-12">Portfolio items coming soon.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-forest text-cream py-24">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-cream">
+        Like what you see?
+      </h2>
+      <p class="mt-4 text-cream-dark/80 max-w-xl mx-auto">
+        We'd love to work with you on your next project.
+      </p>
+      <a
+        href="/contact"
+        class="inline-block mt-8 border border-cream text-cream px-8 py-3 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest"
+      >
+        Start a Project
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelectorAll('#portfolio-filters button');
+  const items = document.querySelectorAll('#portfolio-grid > a');
+
+  filters.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      filters.forEach((b) => {
+        b.classList.remove('bg-forest', 'text-cream', 'border-forest');
+        b.classList.add('border-gray-light', 'text-gray');
+      });
+      btn.classList.add('bg-forest', 'text-cream', 'border-forest');
+      btn.classList.remove('border-gray-light', 'text-gray');
+
+      items.forEach((item) => {
+        const cat = item.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          (item as HTMLElement).style.display = '';
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

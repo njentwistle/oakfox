@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Blog" description="From experiments with new technologies and marketing strategy breakdowns, to casual posts about interests and personal life.">
+  <section class="pt-32 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">The Blog</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">The Blog</h1>
+      <p class="mt-6 text-lg text-gray max-w-2xl">
+        From experiments with new technologies and marketing strategy breakdowns,
+        to casual posts about my interests and personal life. I hope you find
+        something to interest you!
+      </p>
+      <div class="mt-6 flex flex-wrap gap-4">
+        <a href="/contact" class="text-forest font-medium text-sm hover:underline underline-offset-4">
+          Not interested in ramblings, start my project! &rarr;
+        </a>
+        <a href="/portfolio" class="text-forest font-medium text-sm hover:underline underline-offset-4">
+          See more of what we do &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-8 pb-24">
+    <div class="max-w-7xl mx-auto px-6">
+      {posts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="group block rounded-2xl border border-gray-light p-6 transition-all duration-300 hover:border-forest hover:shadow-lg"
+            >
+              <span class="text-xs font-medium text-forest uppercase tracking-widest">
+                {post.data.category}
+              </span>
+              <h2 class="text-xl font-semibold mt-3 group-hover:text-forest transition-colors duration-300">
+                {post.data.title}
+              </h2>
+              <p class="text-gray text-sm mt-2 line-clamp-3">{post.data.description}</p>
+              <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-light">
+                <span class="text-xs text-gray">{post.data.author}</span>
+                <time class="text-xs text-gray">
+                  {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </time>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-gray text-center py-12">Blog posts coming soon.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,265 @@
+---
+// No layout — standalone login page
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Login — OakFox</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --db-bg: #0a0c0b;
+        --db-surface: rgba(18, 21, 18, 0.7);
+        --db-surface-solid: #121512;
+        --db-border: rgba(255, 255, 255, 0.06);
+        --db-accent: #5c8c4a;
+        --db-accent-hover: #6fa358;
+        --db-accent-glow: rgba(92, 140, 74, 0.15);
+        --db-accent-soft: rgba(92, 140, 74, 0.08);
+        --db-text: #e8ede8;
+        --db-text-muted: #6b7d69;
+        --db-text-secondary: #9aaa97;
+        --db-danger: #b44d4d;
+        --db-radius: 10px;
+        --db-radius-lg: 16px;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: var(--db-bg);
+        color: var(--db-text);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Grain */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 512px 512px;
+      }
+
+      /* Ambient glow */
+      body::after {
+        content: '';
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(92, 140, 74, 0.05) 0%, transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .login-container {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 380px;
+        padding: 24px;
+        animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .login-logo {
+        height: 36px;
+        width: auto;
+        display: block;
+        margin: 0 auto 48px;
+        opacity: 0.85;
+      }
+
+      .login-card {
+        background: var(--db-surface);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--db-border);
+        border-radius: var(--db-radius-lg);
+        padding: 32px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--db-accent-glow), transparent);
+      }
+
+      .login-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+
+      .login-subtitle {
+        font-size: 13px;
+        color: var(--db-text-muted);
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .login-input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--db-border);
+        border-radius: var(--db-radius);
+        padding: 12px 16px;
+        font-size: 14px;
+        color: var(--db-text);
+        font-family: 'Inter', sans-serif;
+        outline: none;
+        transition: all 0.25s;
+        margin-bottom: 16px;
+      }
+
+      .login-input:focus {
+        border-color: var(--db-accent);
+        box-shadow: 0 0 0 3px var(--db-accent-soft);
+      }
+
+      .login-input::placeholder {
+        color: var(--db-text-muted);
+        opacity: 0.7;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: var(--db-radius);
+        border: none;
+        background: var(--db-accent);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.25s;
+        letter-spacing: 0.01em;
+        box-shadow: 0 0 20px var(--db-accent-glow);
+      }
+
+      .login-btn:hover {
+        background: var(--db-accent-hover);
+        box-shadow: 0 0 30px rgba(92, 140, 74, 0.25);
+        transform: translateY(-1px);
+      }
+
+      .login-btn:active {
+        transform: translateY(0);
+      }
+
+      .login-error {
+        font-size: 12px;
+        color: var(--db-danger);
+        text-align: center;
+        margin-top: 14px;
+        min-height: 18px;
+        transition: opacity 0.2s;
+      }
+
+      .login-footer {
+        text-align: center;
+        margin-top: 32px;
+        font-size: 11px;
+        color: var(--db-text-muted);
+        opacity: 0.4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <img src="/images/site/logolight.png" alt="OakFox" class="login-logo" />
+      <div class="login-card">
+        <h1 class="login-title">Dashboard</h1>
+        <p class="login-subtitle">Enter your password to continue.</p>
+        <form id="login-form" autocomplete="off">
+          <input
+            type="password"
+            class="login-input"
+            id="password"
+            placeholder="Password"
+            autofocus
+          />
+          <button type="submit" class="login-btn">Sign in</button>
+        </form>
+        <p class="login-error" id="error"></p>
+      </div>
+      <p class="login-footer">OakFox Studio</p>
+    </div>
+
+    <script>
+      const HASH = 'd4c07c36d74c02fd208b7f7fedf930bad3d7aa6e4da31275fbb54438a93424bc';
+      const SESSION_KEY = 'oakfox_auth';
+      const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+      // Already authed? Redirect to dashboard
+      const session = sessionStorage.getItem(SESSION_KEY);
+      if (session) {
+        const parsed = JSON.parse(session);
+        if (parsed.expires > Date.now()) {
+          window.location.href = '/dashboard';
+        }
+      }
+
+      async function sha256(message: string): Promise<string> {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      document.getElementById('login-form')!.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const hash = await sha256(password);
+
+        if (hash === HASH) {
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+            authed: true,
+            expires: Date.now() + SESSION_DURATION,
+          }));
+          window.location.href = '/dashboard';
+        } else {
+          const error = document.getElementById('error')!;
+          error.textContent = 'Incorrect password.';
+          (document.getElementById('password') as HTMLInputElement).value = '';
+          (document.getElementById('password') as HTMLInputElement).focus();
+        }
+      });
+    </script>
+  </body>
+</html>

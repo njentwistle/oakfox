@@ -1,0 +1,263 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Command Centre">
+  <div class="db-fade-in db-stagger">
+    <!-- Greeting -->
+    <header style="margin-bottom: 40px;">
+      <h1 class="db-heading" style="font-size: 32px; margin-bottom: 6px; line-height: 1.3;" id="greeting"></h1>
+      <p class="db-mono db-label" id="date-display" style="font-size: 11px;"></p>
+    </header>
+
+    <!-- Today's Focus -->
+    <div class="db-card" style="margin-bottom: 20px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--db-accent-glow), transparent);"></div>
+      <label class="db-label" style="display: block; margin-bottom: 14px;">Today's Focus</label>
+      <input
+        type="text"
+        id="focus-input"
+        class="db-heading"
+        placeholder="What's the one thing today?"
+        style="background: transparent; border: none; outline: none; width: 100%; font-size: 24px; color: var(--db-text); padding: 0; line-height: 1.3;"
+      />
+    </div>
+
+    <!-- Stats strip -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px;" id="stats-strip">
+      <div class="db-stat">
+        <span class="db-stat-value" id="stat-open">0</span>
+        <span class="db-stat-label">Open today</span>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-value" id="stat-completed">0</span>
+        <span class="db-stat-label">Done this week</span>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-value" id="stat-goal-days">&mdash;</span>
+        <span class="db-stat-label">Days to next goal</span>
+      </div>
+    </div>
+
+    <!-- To-Do List -->
+    <div class="db-card">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <h2 class="db-heading" style="font-size: 20px;">Tasks</h2>
+        <div class="db-tabs" id="task-filters">
+          <button class="db-tab active" data-filter="all">All</button>
+          <button class="db-tab" data-filter="active">Active</button>
+          <button class="db-tab" data-filter="completed">Done</button>
+        </div>
+      </div>
+
+      <!-- Add task form -->
+      <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;" id="add-task-form">
+        <input type="text" class="db-input" id="task-title" placeholder="What needs doing?" style="flex: 1; min-width: 200px;" />
+        <select class="db-select" id="task-category">
+          <option value="Client Work">Client Work</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Development">Development</option>
+          <option value="Admin">Admin</option>
+          <option value="Personal">Personal</option>
+        </select>
+        <input type="date" class="db-input" id="task-date" style="width: auto;" />
+        <input type="time" class="db-input" id="task-time" style="width: auto;" />
+        <button class="db-btn db-btn-primary" id="add-task-btn">Add</button>
+      </div>
+
+      <!-- Task list -->
+      <div id="task-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── Greeting ──
+    function updateGreeting() {
+      const hour = new Date().getHours();
+      let greeting = 'Good evening';
+      if (hour < 12) greeting = 'Good morning';
+      else if (hour < 18) greeting = 'Good afternoon';
+
+      const el = document.getElementById('greeting');
+      if (el) el.textContent = `${greeting}, Nathan.`;
+
+      const dateEl = document.getElementById('date-display');
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        });
+      }
+    }
+    updateGreeting();
+
+    // ── Focus ──
+    const focusInput = document.getElementById('focus-input') as HTMLInputElement;
+    focusInput.value = localStorage.getItem('oakfox_focus') || '';
+    focusInput.addEventListener('input', () => {
+      localStorage.setItem('oakfox_focus', focusInput.value);
+    });
+
+    // ── Tasks ──
+    type Task = {
+      id: string; title: string; category: string;
+      dueDate: string; dueTime: string; completed: boolean; createdAt: string;
+    };
+
+    function getTasks(): Task[] {
+      try { return JSON.parse(localStorage.getItem('oakfox_tasks') || '[]'); } catch { return []; }
+    }
+    function saveTasks(tasks: Task[]) {
+      localStorage.setItem('oakfox_tasks', JSON.stringify(tasks));
+    }
+
+    function getCategoryClass(cat: string): string {
+      const map: Record<string, string> = {
+        'Client Work': 'db-tag-client', 'Marketing': 'db-tag-marketing',
+        'Development': 'db-tag-development', 'Admin': 'db-tag-admin', 'Personal': 'db-tag-personal',
+      };
+      return map[cat] || 'db-tag-admin';
+    }
+
+    function todayStr(): string { return new Date().toISOString().split('T')[0]; }
+
+    function startOfWeek(): Date {
+      const d = new Date();
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      const monday = new Date(d);
+      monday.setDate(diff);
+      monday.setHours(0, 0, 0, 0);
+      return monday;
+    }
+
+    let currentFilter = 'all';
+
+    function renderTasks() {
+      const tasks = getTasks();
+      const list = document.getElementById('task-list')!;
+      const active = tasks.filter(t => !t.completed);
+      const completed = tasks.filter(t => t.completed);
+
+      let filtered: Task[];
+      if (currentFilter === 'active') filtered = active;
+      else if (currentFilter === 'completed') filtered = completed;
+      else filtered = [...active, ...completed];
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div style="text-align: center; padding: 48px 0;">
+          <p style="color: var(--db-text-muted); font-size: 13px;">No tasks yet.</p>
+          <p style="color: var(--db-text-muted); font-size: 11px; margin-top: 4px; opacity: 0.6;">Add one above to get started.</p>
+        </div>`;
+      } else {
+        list.innerHTML = filtered.map(task => {
+          const checked = task.completed ? 'checked' : '';
+          const strikeClass = task.completed ? 'db-line-through' : '';
+          const dateDisplay = task.dueDate
+            ? `<span class="db-mono" style="font-size: 10px; color: var(--db-text-muted);">${task.dueDate}${task.dueTime ? ' · ' + task.dueTime : ''}</span>`
+            : '';
+          return `
+            <div class="task-row" data-id="${task.id}">
+              <input type="checkbox" class="db-checkbox task-check" data-id="${task.id}" ${checked} />
+              <div style="flex: 1; min-width: 0;">
+                <span class="${strikeClass}" style="font-size: 14px; font-weight: 500;">${task.title}</span>
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 5px;">
+                  <span class="db-tag ${getCategoryClass(task.category)}">${task.category}</span>
+                  ${dateDisplay}
+                </div>
+              </div>
+              <button class="task-delete" data-id="${task.id}" style="background: none; border: none; color: var(--db-text-muted); cursor: pointer; padding: 6px; font-size: 18px; opacity: 0; transition: all 0.2s; border-radius: 6px; line-height: 1;">&times;</button>
+            </div>
+          `;
+        }).join('');
+
+        list.querySelectorAll('.task-row').forEach(row => {
+          const btn = row.querySelector('.task-delete') as HTMLElement;
+          row.addEventListener('mouseenter', () => { btn.style.opacity = '1'; });
+          row.addEventListener('mouseleave', () => { btn.style.opacity = '0'; });
+        });
+      }
+
+      // Stats
+      const today = todayStr();
+      const weekStart = startOfWeek();
+      const openToday = tasks.filter(t => !t.completed && (!t.dueDate || t.dueDate <= today)).length;
+      const completedThisWeek = tasks.filter(t => t.completed && new Date(t.createdAt) >= weekStart).length;
+
+      document.getElementById('stat-open')!.textContent = String(openToday);
+      document.getElementById('stat-completed')!.textContent = String(completedThisWeek);
+
+      try {
+        const goals = JSON.parse(localStorage.getItem('oakfox_goals') || '[]');
+        const upcoming = goals
+          .filter((g: any) => g.status !== 'Done' && g.targetDate)
+          .map((g: any) => ({ ...g, _days: Math.ceil((new Date(g.targetDate).getTime() - Date.now()) / 86400000) }))
+          .filter((g: any) => g._days >= 0)
+          .sort((a: any, b: any) => a._days - b._days);
+        document.getElementById('stat-goal-days')!.textContent = upcoming.length > 0 ? String(upcoming[0]._days) : '\u2014';
+      } catch {
+        document.getElementById('stat-goal-days')!.textContent = '\u2014';
+      }
+    }
+
+    // Add task
+    document.getElementById('add-task-btn')!.addEventListener('click', () => {
+      const titleInput = document.getElementById('task-title') as HTMLInputElement;
+      const title = titleInput.value.trim();
+      if (!title) return;
+      const tasks = getTasks();
+      tasks.push({
+        id: crypto.randomUUID(), title,
+        category: (document.getElementById('task-category') as HTMLSelectElement).value,
+        dueDate: (document.getElementById('task-date') as HTMLInputElement).value,
+        dueTime: (document.getElementById('task-time') as HTMLInputElement).value,
+        completed: false, createdAt: new Date().toISOString(),
+      });
+      saveTasks(tasks);
+      titleInput.value = '';
+      (document.getElementById('task-date') as HTMLInputElement).value = '';
+      (document.getElementById('task-time') as HTMLInputElement).value = '';
+      renderTasks();
+    });
+
+    document.getElementById('task-title')!.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('add-task-btn')!.click();
+    });
+
+    document.getElementById('task-list')!.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.classList.contains('task-check')) {
+        const id = target.getAttribute('data-id');
+        const tasks = getTasks();
+        const task = tasks.find(t => t.id === id);
+        if (task) task.completed = !task.completed;
+        saveTasks(tasks);
+        renderTasks();
+      }
+      if (target.classList.contains('task-delete')) {
+        const id = target.getAttribute('data-id');
+        saveTasks(getTasks().filter(t => t.id !== id));
+        renderTasks();
+      }
+    });
+
+    document.getElementById('task-filters')!.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.db-tab') as HTMLElement | null;
+      if (!btn) return;
+      document.querySelectorAll('#task-filters .db-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter') || 'all';
+      renderTasks();
+    });
+
+    renderTasks();
+  </script>
+
+  <style>
+    @media (max-width: 640px) {
+      #stats-strip { grid-template-columns: 1fr !important; }
+      #add-task-form { flex-direction: column; }
+      #add-task-form .db-input,
+      #add-task-form .db-select { width: 100% !important; min-width: 0 !important; }
+    }
+  </style>
+</DashboardLayout>
