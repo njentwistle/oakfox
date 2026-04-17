@@ -1,0 +1,170 @@
+---
+interface Props {
+  variant?: 'section' | 'footer';
+}
+const { variant = 'section' } = Astro.props;
+const isFooter = variant === 'footer';
+---
+
+<div class={isFooter ? 'newsletter-footer' : 'newsletter-section'}>
+  {!isFooter && (
+    <>
+      <p class="label text-forest mb-4">Studio Notes</p>
+      <h2 class="headline text-ink text-2xl md:text-3xl mb-4">
+        A short letter. <em class="text-forest">No noise.</em>
+      </h2>
+      <p class="text-[15px] text-ink/60 leading-relaxed mb-8 max-w-lg">
+        Occasional notes on sustainable design, new work from the studio, and
+        things we're learning. No sales, no weekly blasts — and one click to leave.
+      </p>
+    </>
+  )}
+
+  {isFooter && (
+    <>
+      <p class="label text-cream/40 mb-4">Studio Notes</p>
+      <p class="text-[13px] text-cream/60 leading-relaxed mb-4 max-w-xs">
+        Short, occasional letter on sustainable design.
+      </p>
+    </>
+  )}
+
+  <form class="newsletter-form" novalidate>
+    <div class="flex gap-2 max-w-md">
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="you@example.com"
+        autocomplete="email"
+        class={`newsletter-input flex-1 ${isFooter ? 'newsletter-input-footer' : ''}`}
+      />
+      <button type="submit" class={`newsletter-submit ${isFooter ? 'newsletter-submit-footer' : ''}`}>
+        Subscribe
+      </button>
+    </div>
+    <!-- honeypot -->
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="newsletter-hp" />
+    <p class="newsletter-status" role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('form.newsletter-form').forEach((form) => {
+    const status = form.querySelector('.newsletter-status');
+    const btn = form.querySelector('button[type=submit]');
+    const input = form.querySelector('input[name=email]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!(input.value && input.checkValidity())) {
+        status.textContent = 'Please enter a valid email.';
+        status.dataset.state = 'error';
+        return;
+      }
+      btn.disabled = true;
+      const originalLabel = btn.textContent;
+      btn.textContent = 'Sending…';
+      status.textContent = '';
+      status.dataset.state = '';
+      try {
+        const body = new FormData(form);
+        const res = await fetch('/api/newsletter.php', { method: 'POST', body });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          status.textContent = data.message || "Check your inbox to confirm.";
+          status.dataset.state = 'ok';
+          form.reset();
+        } else {
+          status.textContent = data.error || 'Something went wrong. Try again in a moment.';
+          status.dataset.state = 'error';
+        }
+      } catch {
+        status.textContent = 'Network error. Try again in a moment.';
+        status.dataset.state = 'error';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalLabel;
+      }
+    });
+  });
+</script>
+
+<style>
+  .newsletter-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .newsletter-input {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-stone);
+    border-radius: 9999px;
+    background: var(--color-cream-light);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    min-width: 0;
+  }
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--color-forest);
+    box-shadow: 0 0 0 3px rgba(26, 92, 18, 0.12);
+  }
+  .newsletter-input-footer {
+    background: rgba(245, 240, 232, 0.06);
+    border-color: rgba(245, 240, 232, 0.18);
+    color: var(--color-cream);
+  }
+  .newsletter-input-footer::placeholder {
+    color: rgba(245, 240, 232, 0.35);
+  }
+  .newsletter-input-footer:focus {
+    border-color: rgba(245, 240, 232, 0.55);
+    box-shadow: 0 0 0 3px rgba(245, 240, 232, 0.08);
+  }
+
+  .newsletter-submit {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 9999px;
+    background: var(--color-forest);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.25s, transform 0.25s;
+    white-space: nowrap;
+  }
+  .newsletter-submit:hover:not(:disabled) {
+    background: var(--color-forest-dark);
+    transform: translateY(-1px);
+  }
+  .newsletter-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .newsletter-submit-footer {
+    background: var(--color-cream);
+    color: var(--color-ink);
+  }
+  .newsletter-submit-footer:hover:not(:disabled) {
+    background: var(--color-cream-light);
+  }
+
+  .newsletter-status {
+    margin-top: 0.75rem;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    min-height: 16px;
+  }
+  .newsletter-status[data-state='ok'] { color: var(--color-forest); }
+  .newsletter-status[data-state='error'] { color: #b44d4d; }
+  .newsletter-footer .newsletter-status[data-state='ok'] { color: rgba(245, 240, 232, 0.8); }
+  .newsletter-footer .newsletter-status[data-state='error'] { color: #e89b9b; }
+</style>

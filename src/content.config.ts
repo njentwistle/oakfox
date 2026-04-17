@@ -11,6 +11,15 @@ const portfolio = defineCollection({
     date: z.coerce.date(),
     featured: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
+    client: z.string().optional(),
+    outcomes: z.array(z.string()).default([]),
+    testimonial: z
+      .object({
+        quote: z.string(),
+        author: z.string(),
+        role: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 

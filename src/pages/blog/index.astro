@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -55,6 +56,13 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
       ) : (
         <p class="text-gray text-center py-12">Blog posts coming soon.</p>
       )}
+    </div>
+  </section>
+
+  <section class="py-20 md:py-24 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-3xl mx-auto px-6 relative z-10">
+      <NewsletterSignup />
     </div>
   </section>
 </BaseLayout>

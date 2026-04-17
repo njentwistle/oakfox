@@ -1,4 +1,7 @@
 ---
+import NewsletterSignup from './NewsletterSignup.astro';
+import Img from './Img.astro';
+
 const navLinks = [
   { label: 'Work', href: '/portfolio' },
   { label: 'Studio', href: '/about' },
@@ -14,7 +17,7 @@ const navLinks = [
       <!-- Brand -->
       <div class="md:col-span-4">
         <a href="/" class="inline-block">
-          <img src="/images/site/logolight.png" alt="OakFox" class="h-7 w-auto" />
+          <Img src="/images/site/logolight.png" alt="OakFox" class="h-7 w-auto" />
         </a>
         <p class="mt-5 text-[13px] text-cream/50 leading-relaxed max-w-xs">
           Sustainable design, development, marketing and consultancy.
@@ -41,18 +44,9 @@ const navLinks = [
         ))}
       </nav>
 
-      <!-- Contact -->
-      <div class="md:col-span-3 md:col-start-10">
-        <p class="label text-cream/40 mb-4">Get in touch</p>
-        <a
-          href="/contact"
-          class="inline-flex items-center gap-2 text-[13px] text-cream/60 hover:text-cream transition-colors duration-300"
-        >
-          Start a project
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+      <!-- Newsletter -->
+      <div class="md:col-span-4 md:col-start-9">
+        <NewsletterSignup variant="footer" />
       </div>
     </div>
 

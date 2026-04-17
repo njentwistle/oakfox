@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Img from '../../components/Img.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,7 +15,7 @@ const { item } = Astro.props;
 const { Content } = await render(item);
 
 const projectUrl = `https://oakfox.co.uk/portfolio/${item.id}`;
-const projectSchema = {
+const projectSchema: Record<string, unknown> = {
   '@type': 'CreativeWork',
   '@id': `${projectUrl}#project`,
   name: item.data.title,
@@ -29,6 +30,23 @@ const projectSchema = {
   creator: { '@id': 'https://oakfox.co.uk/#organization' },
   publisher: { '@id': 'https://oakfox.co.uk/#organization' },
 };
+
+if (item.data.client) {
+  projectSchema.sourceOrganization = { '@type': 'Organization', name: item.data.client };
+}
+
+if (item.data.testimonial) {
+  projectSchema.review = {
+    '@type': 'Review',
+    reviewBody: item.data.testimonial.quote,
+    author: {
+      '@type': 'Person',
+      name: item.data.testimonial.author,
+      ...(item.data.testimonial.role ? { jobTitle: item.data.testimonial.role } : {}),
+    },
+    itemReviewed: { '@id': `${projectUrl}#project` },
+  };
+}
 
 const breadcrumbs = {
   '@type': 'BreadcrumbList',
@@ -69,9 +87,20 @@ const breadcrumbs = {
         </div>
       )}
 
+      {item.data.outcomes.length > 0 && (
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-stone pt-8">
+          {item.data.outcomes.map((outcome: string) => (
+            <div class="text-[14px] text-ink/75 leading-relaxed">
+              <span class="block w-6 h-px bg-forest mb-3"></span>
+              {outcome}
+            </div>
+          ))}
+        </div>
+      )}
+
       <!-- Featured image -->
       <div class="bg-forest/5 rounded-2xl mt-12 overflow-hidden">
-        <img src={item.data.thumbnail} alt={item.data.title} class="w-full h-auto rounded-2xl" />
+        <Img src={item.data.thumbnail} alt={item.data.title} loading="eager" class="w-full h-auto rounded-2xl" />
       </div>
 
       <!-- Content -->
@@ -81,6 +110,21 @@ const breadcrumbs = {
         prose-img:rounded-2xl">
         <Content />
       </div>
+
+      {item.data.testimonial && (
+        <figure class="mt-16 md:mt-20 border-t border-stone pt-10">
+          <p class="label text-forest mb-6">Client note</p>
+          <blockquote class="headline text-xl md:text-2xl text-ink leading-snug">
+            <span class="text-forest">&ldquo;</span>{item.data.testimonial.quote}<span class="text-forest">&rdquo;</span>
+          </blockquote>
+          <figcaption class="mt-6 text-[13px] text-ink/60">
+            <span class="text-ink font-medium">{item.data.testimonial.author}</span>
+            {item.data.testimonial.role && (
+              <span class="text-ink/50"> · {item.data.testimonial.role}</span>
+            )}
+          </figcaption>
+        </figure>
+      )}
     </div>
   </article>
 
