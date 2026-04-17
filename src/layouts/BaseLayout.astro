@@ -7,10 +7,90 @@ import ConsentBanner from '../components/ConsentBanner.astro';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noIndex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description = 'Sustainable design, development, marketing and consultancy — West Lancashire, UK.' } = Astro.props;
+const {
+  title,
+  description = 'Sustainable design, development, marketing and consultancy — West Lancashire, UK.',
+  image = '/og-default.png',
+  type = 'website',
+  noIndex = false,
+  schema,
+} = Astro.props;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site).toString();
+const fullTitle = `${title} | OakFox`;
+
+const organization = {
+  '@type': 'Organization',
+  '@id': 'https://oakfox.co.uk/#organization',
+  name: 'OakFox',
+  url: 'https://oakfox.co.uk',
+  logo: 'https://oakfox.co.uk/images/site/logo.png',
+  image: 'https://oakfox.co.uk/images/site/logo.png',
+  description: 'Sustainable design, development, marketing and consultancy studio based in West Lancashire, UK.',
+  foundingDate: '2025',
+  founder: {
+    '@type': 'Person',
+    '@id': 'https://oakfox.co.uk/about#nathan',
+    name: 'Nathan James Entwistle',
+    jobTitle: 'Founder & Designer',
+    worksFor: { '@id': 'https://oakfox.co.uk/#organization' },
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'West Lancashire',
+    addressCountry: 'GB',
+  },
+  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
+  knowsAbout: [
+    'Sustainable brand identity',
+    'Web design and development',
+    'Marketing strategy',
+    'Environmental consultancy',
+    'Supply chain sustainability',
+  ],
+  sameAs: [] as string[],
+};
+
+const localBusiness = {
+  '@type': 'LocalBusiness',
+  '@id': 'https://oakfox.co.uk/#localbusiness',
+  name: 'OakFox',
+  url: 'https://oakfox.co.uk',
+  image: 'https://oakfox.co.uk/images/site/logo.png',
+  priceRange: '££',
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'West Lancashire',
+    addressCountry: 'GB',
+  },
+  areaServed: 'United Kingdom',
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': 'https://oakfox.co.uk/#website',
+  url: 'https://oakfox.co.uk',
+  name: 'OakFox',
+  description: 'Sustainable design, development, marketing and consultancy.',
+  publisher: { '@id': 'https://oakfox.co.uk/#organization' },
+  inLanguage: 'en-GB',
+};
+
+const extraSchema = schema
+  ? (Array.isArray(schema) ? schema : [schema])
+  : [];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organization, localBusiness, website, ...extraSchema],
+};
 ---
 
 <!doctype html>
@@ -19,18 +99,37 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="OakFox Journal" href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>{title} | OakFox</title>
+    <title>{fullTitle}</title>
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="OakFox" />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_GB" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="bg-cream min-h-screen flex flex-col">
     <div class="noise"></div>

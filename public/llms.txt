@@ -1,0 +1,48 @@
+# OakFox
+
+> Sustainable design, development, marketing and consultancy studio based in West Lancashire, UK. Founded by Nathan James Entwistle, OakFox helps independent businesses and international brands grow through considered brand identity, accessible web development, and environmental consultancy that is woven into every decision — from supply chain advice to the code we ship.
+
+## About
+
+- Name: OakFox
+- Founded: 2025
+- Founder: Nathan James Entwistle (designer and developer with 15+ years experience)
+- Location: West Lancashire, United Kingdom
+- Registered: company registered in England
+- Areas served: United Kingdom, Ireland, Europe
+- Website: https://oakfox.co.uk
+- Contact: https://oakfox.co.uk/contact
+
+## Services
+
+- **Branding** — identity systems, visual language, and messaging that communicate a business's values.
+- **Design** — considered visual communication across print and digital.
+- **Development** — fast, accessible, modern websites and web applications.
+- **Marketing** — strategy and campaigns that grow reach without greenwashing.
+- **Consultancy** — environmental and sustainability consultancy, including supply chain optimisation.
+
+## Pages
+
+- [Home](https://oakfox.co.uk/): Studio overview, selected work, services, and approach.
+- [About](https://oakfox.co.uk/about): The studio, the founder, and the values behind OakFox.
+- [Work](https://oakfox.co.uk/portfolio): Case studies of selected client projects.
+- [Journal](https://oakfox.co.uk/blog): Articles on sustainability, branding, design, and development.
+- [Contact](https://oakfox.co.uk/contact): Get in touch to start a project.
+
+## Selected work
+
+- [Aigéan](https://oakfox.co.uk/portfolio/aigean): Strategic branding, marketing, and environmental consultancy for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin.
+- [CubTrack](https://oakfox.co.uk/portfolio/cubtrack): Full product design, development, and marketing for a baby and toddler tracking app.
+- [Jennifer Lane](https://oakfox.co.uk/portfolio/jennifer-lane): Website refresh for the award-winning author and green witch, timed to coincide with a book launch.
+- [Roll](https://oakfox.co.uk/portfolio/roll): Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District.
+
+## Journal
+
+- [The Future of Sustainability in Branding and Marketing](https://oakfox.co.uk/blog/future-of-sustainability-in-branding): Why sustainability is becoming the baseline, not a trend.
+- [Welcome to the New OakFox](https://oakfox.co.uk/blog/welcome-to-the-new-oakfox): Why we rebuilt our site from the ground up on modern web tech.
+
+## Working with OakFox
+
+OakFox takes on a small number of projects each quarter to ensure every client gets considered attention. Typical engagements include brand identities, full website design and build, ongoing marketing, and sustainability consulting. Every project is shaped by a simple belief: brands that respect the planet perform better, last longer, and matter more.
+
+To start a project, use the contact form at https://oakfox.co.uk/contact.

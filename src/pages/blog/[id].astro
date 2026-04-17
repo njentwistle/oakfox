@@ -12,9 +12,44 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const articleUrl = `https://oakfox.co.uk/blog/${post.id}`;
+const articleSchema = {
+  '@type': 'BlogPosting',
+  '@id': `${articleUrl}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: post.data.date.toISOString(),
+  inLanguage: 'en-GB',
+  url: articleUrl,
+  mainEntityOfPage: articleUrl,
+  articleSection: post.data.category,
+  keywords: post.data.tags.join(', '),
+  author: {
+    '@type': 'Person',
+    name: post.data.author,
+    url: 'https://oakfox.co.uk/about',
+  },
+  publisher: { '@id': 'https://oakfox.co.uk/#organization' },
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://oakfox.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: articleUrl },
+  ],
+};
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  schema={[articleSchema, breadcrumbs]}
+>
   <article class="pt-32 pb-24">
     <div class="max-w-3xl mx-auto px-6">
       <a href="/blog" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
