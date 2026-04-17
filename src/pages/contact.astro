@@ -15,14 +15,26 @@ const serviceOptions = [
 <BaseLayout title="Contact Us" description="Get in touch with OakFox. Let's discuss your next project.">
   <section class="pt-32 pb-24">
     <div class="max-w-3xl mx-auto px-6">
-      <div class="text-center mb-14">
+      <div class="text-center mb-10">
         <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Contact Us</p>
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
           There's no better day to start than today!
         </h1>
         <p class="mt-6 text-gray leading-relaxed max-w-xl mx-auto">
-          Tell us about your project and we'll get back to you within 24 hours.
+          Tell us about your project and we'll get back to you within 24 hours —
+          or book a free 30-minute call at a time that suits you.
         </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="/book" class="inline-flex items-center gap-2 bg-forest text-cream text-sm font-medium px-5 py-2.5 rounded-full hover:bg-forest-dark transition-colors">
+            Book a free call
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#contact-form" class="inline-flex items-center gap-2 border border-stone text-ink text-sm font-medium px-5 py-2.5 rounded-full hover:border-forest hover:text-forest transition-colors">
+            Send a message
+          </a>
+        </div>
       </div>
 
       <form id="contact-form" class="space-y-8">

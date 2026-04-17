@@ -1,0 +1,413 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const serviceSchema = {
+  '@type': 'Reservation',
+  name: 'Book a free initial call with OakFox',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+};
+---
+
+<BaseLayout
+  title="Book a call"
+  description="Book a free 30-minute initial call with OakFox. We're open Monday to Friday, 9am to 5pm UK time."
+  schema={serviceSchema}
+>
+  <section class="pt-32 pb-12">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="label text-forest mb-6">Book a call</p>
+      <h1 class="headline text-ink" style="font-size: clamp(2rem, 5vw, 3.5rem);">
+        A free <em class="text-forest">thirty minutes</em>.
+      </h1>
+      <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-xl">
+        Pick a time that works. No pitch, no obligation — just a chance to talk
+        through your project and see if we're a good fit. Open Mon–Fri, 9am–5pm UK time.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <div id="book-app" class="bg-cream-light border border-stone/60 rounded-2xl p-6 md:p-8">
+        <!-- Step 1: Pick a day -->
+        <div id="book-step-day">
+          <p class="label text-forest mb-4">Step 1 · Pick a day</p>
+          <div id="calendar" class="booking-calendar"></div>
+        </div>
+
+        <!-- Step 2: Pick a time -->
+        <div id="book-step-time" class="hidden mt-8">
+          <div class="flex items-baseline justify-between mb-4">
+            <p class="label text-forest">Step 2 · Pick a time</p>
+            <button type="button" id="back-to-day" class="text-[12px] font-mono uppercase tracking-widest text-ink/50 hover:text-forest transition-colors">&larr; Change day</button>
+          </div>
+          <p id="selected-day-label" class="text-[15px] text-ink/70 mb-5"></p>
+          <div id="slots" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+          <p id="slots-status" class="text-[13px] text-ink/50 mt-4"></p>
+        </div>
+
+        <!-- Step 3: Details -->
+        <form id="book-step-form" class="hidden mt-8 space-y-5" novalidate>
+          <div class="flex items-baseline justify-between mb-4">
+            <p class="label text-forest">Step 3 · Your details</p>
+            <button type="button" id="back-to-time" class="text-[12px] font-mono uppercase tracking-widest text-ink/50 hover:text-forest transition-colors">&larr; Change time</button>
+          </div>
+          <p id="picked-slot-label" class="text-[15px] text-ink/70 mb-5"></p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block text-[13px] font-medium text-ink mb-2">Your name</span>
+              <input name="name" required type="text" autocomplete="name" class="booking-input" placeholder="Alex Smith" />
+            </label>
+            <label class="block">
+              <span class="block text-[13px] font-medium text-ink mb-2">Email</span>
+              <input name="email" required type="email" autocomplete="email" class="booking-input" placeholder="you@example.com" />
+            </label>
+          </div>
+          <label class="block">
+            <span class="block text-[13px] font-medium text-ink mb-2">Phone <span class="text-ink/40 font-normal">(optional, best for calls)</span></span>
+            <input name="phone" type="tel" autocomplete="tel" class="booking-input" placeholder="07700 900000" />
+          </label>
+          <label class="block">
+            <span class="block text-[13px] font-medium text-ink mb-2">What shall we talk about? <span class="text-ink/40 font-normal">(optional)</span></span>
+            <textarea name="notes" rows="4" class="booking-input resize-none" placeholder="A few lines on your project and what you're hoping to do"></textarea>
+          </label>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="booking-hp" />
+          <button type="submit" id="book-submit" class="booking-submit">Confirm booking</button>
+          <p id="book-status" class="text-[13px] font-mono" role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- Confirmation -->
+        <div id="book-step-done" class="hidden py-4">
+          <p class="label text-forest mb-4">Confirmed</p>
+          <h2 class="headline text-2xl md:text-3xl mb-4">
+            You're <em class="text-forest">in the diary</em>.
+          </h2>
+          <p id="done-details" class="text-[15px] text-ink/70 leading-relaxed mb-6"></p>
+          <p class="text-[13px] text-ink/50">A confirmation email (with a cancel link) is on its way. Speak soon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .booking-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-stone);
+    border-radius: 0.75rem;
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .booking-input:focus {
+    outline: none;
+    border-color: var(--color-forest);
+    box-shadow: 0 0 0 3px rgba(26, 92, 18, 0.12);
+  }
+  .booking-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  .booking-submit {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-forest);
+    color: var(--color-cream);
+    border: none;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.25s, transform 0.25s;
+  }
+  .booking-submit:hover:not(:disabled) { background: var(--color-forest-dark); transform: translateY(-1px); }
+  .booking-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .booking-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+  }
+  .booking-calendar .cal-head {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-gray);
+    padding: 0.5rem 0;
+  }
+  .booking-calendar .cal-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .booking-calendar .cal-nav-btn {
+    padding: 0.5rem 0.875rem;
+    background: transparent;
+    border: 1px solid var(--color-stone);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .booking-calendar .cal-nav-btn:hover:not(:disabled) { border-color: var(--color-forest); color: var(--color-forest); }
+  .booking-calendar .cal-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .booking-calendar .cal-month {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  .booking-calendar .cal-day {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+  }
+  .booking-calendar .cal-day:hover:not(:disabled) {
+    border-color: var(--color-forest);
+    color: var(--color-forest);
+  }
+  .booking-calendar .cal-day:disabled {
+    color: rgba(26,29,23,0.25);
+    cursor: not-allowed;
+  }
+  .booking-calendar .cal-day.cal-today {
+    background: rgba(26,92,18,0.08);
+  }
+  .booking-calendar .cal-day.cal-selected {
+    background: var(--color-forest);
+    color: var(--color-cream);
+    border-color: var(--color-forest);
+  }
+
+  .slot-btn {
+    padding: 0.625rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-stone);
+    background: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled) { border-color: var(--color-forest); color: var(--color-forest); }
+  .slot-btn:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+  .slot-btn.slot-selected { background: var(--color-forest); color: var(--color-cream); border-color: var(--color-forest); }
+
+  #book-status[data-state='error'] { color: #b44d4d; }
+  #book-status[data-state='ok'] { color: var(--color-forest); }
+</style>
+
+<script is:inline>
+  (function () {
+    const cal = document.getElementById('calendar');
+    const stepDay = document.getElementById('book-step-day');
+    const stepTime = document.getElementById('book-step-time');
+    const stepForm = document.getElementById('book-step-form');
+    const stepDone = document.getElementById('book-step-done');
+    const slotsEl = document.getElementById('slots');
+    const slotsStatus = document.getElementById('slots-status');
+    const selectedDayLabel = document.getElementById('selected-day-label');
+    const pickedSlotLabel = document.getElementById('picked-slot-label');
+    const backToDay = document.getElementById('back-to-day');
+    const backToTime = document.getElementById('back-to-time');
+    const form = document.getElementById('book-step-form');
+    const submitBtn = document.getElementById('book-submit');
+    const statusEl = document.getElementById('book-status');
+    const doneDetails = document.getElementById('done-details');
+
+    let viewYear, viewMonth; // 0-indexed month
+    let selectedDate = null; // YYYY-MM-DD
+    let selectedSlot = null; // full slot object
+
+    const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const MIN_LEAD_HOURS = 24;
+    const MAX_DAYS = 30;
+
+    function pad(n) { return String(n).padStart(2,'0'); }
+    function fmtDate(d) { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+
+    function startOfDay(d) {
+      const n = new Date(d);
+      n.setHours(0,0,0,0);
+      return n;
+    }
+
+    function renderCalendar() {
+      const now = new Date();
+      const today = startOfDay(now);
+      const minBookable = new Date(now.getTime() + MIN_LEAD_HOURS * 3600 * 1000);
+      const maxBookable = new Date(today.getTime() + MAX_DAYS * 86400 * 1000);
+
+      const firstOfMonth = new Date(viewYear, viewMonth, 1);
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const startDow = (firstOfMonth.getDay() + 6) % 7; // 0=Mon..6=Sun
+
+      let html = '';
+      // Nav
+      const canPrev = !(viewYear === today.getFullYear() && viewMonth <= today.getMonth());
+      const canNext = !(firstOfMonth >= new Date(today.getFullYear(), today.getMonth() + 1, 1) && new Date(viewYear, viewMonth + 1, 1) >= new Date(today.getFullYear(), today.getMonth() + 2, 1));
+      html += `<div class="cal-nav">
+        <button type="button" class="cal-nav-btn" data-nav="prev" ${canPrev ? '' : 'disabled'}>&larr; Prev</button>
+        <span class="cal-month">${MONTH_NAMES[viewMonth]} ${viewYear}</span>
+        <button type="button" class="cal-nav-btn" data-nav="next">Next &rarr;</button>
+      </div>`;
+      for (const d of DAY_NAMES) html += `<div class="cal-head">${d}</div>`;
+
+      for (let i = 0; i < startDow; i++) html += `<div></div>`;
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dt = new Date(viewYear, viewMonth, day);
+        const dow = (dt.getDay() + 6) % 7; // 0=Mon
+        const iso = fmtDate(dt);
+        const isToday = startOfDay(dt).getTime() === today.getTime();
+        const isWeekend = dow >= 5;
+        const isTooEarly = dt.getTime() + 17 * 3600 * 1000 < minBookable.getTime(); // even the latest slot would be within min lead
+        const isTooFar = dt > maxBookable;
+        const disabled = isWeekend || isTooFar || isTooEarly;
+        const cls = ['cal-day'];
+        if (isToday) cls.push('cal-today');
+        if (iso === selectedDate) cls.push('cal-selected');
+        html += `<button type="button" class="${cls.join(' ')}" data-date="${iso}" ${disabled ? 'disabled' : ''}>${day}</button>`;
+      }
+      cal.innerHTML = html;
+
+      cal.querySelectorAll('[data-nav]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const nav = btn.getAttribute('data-nav');
+          if (nav === 'prev') {
+            viewMonth--;
+            if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+          } else {
+            viewMonth++;
+            if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+          }
+          renderCalendar();
+        });
+      });
+      cal.querySelectorAll('.cal-day').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btn.hasAttribute('disabled')) return;
+          selectedDate = btn.getAttribute('data-date');
+          renderCalendar();
+          loadSlots(selectedDate);
+        });
+      });
+    }
+
+    async function loadSlots(date) {
+      stepTime.classList.remove('hidden');
+      stepForm.classList.add('hidden');
+      stepDone.classList.add('hidden');
+      slotsEl.innerHTML = '';
+      slotsStatus.textContent = 'Loading…';
+
+      const d = new Date(date + 'T00:00:00');
+      selectedDayLabel.textContent = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+      try {
+        const res = await fetch('/api/booking-slots.php?date=' + encodeURIComponent(date));
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed');
+        const available = data.slots.filter((s) => s.status === 'available');
+        if (available.length === 0) {
+          slotsStatus.textContent = 'No slots available on this day. Pick another.';
+          return;
+        }
+        slotsStatus.textContent = '';
+        data.slots.forEach((s) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'slot-btn';
+          btn.textContent = s.label;
+          if (s.status !== 'available') btn.disabled = true;
+          btn.addEventListener('click', () => {
+            selectedSlot = s;
+            pickedSlotLabel.textContent = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · ' + s.label + ' (UK time)';
+            stepForm.classList.remove('hidden');
+            slotsEl.querySelectorAll('.slot-btn').forEach((b) => b.classList.remove('slot-selected'));
+            btn.classList.add('slot-selected');
+            stepForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+          slotsEl.appendChild(btn);
+        });
+      } catch (e) {
+        slotsStatus.textContent = 'Could not load slots. Please refresh.';
+      }
+    }
+
+    backToDay.addEventListener('click', () => {
+      stepTime.classList.add('hidden');
+      stepForm.classList.add('hidden');
+      selectedSlot = null;
+      selectedDate = null;
+      renderCalendar();
+    });
+    backToTime.addEventListener('click', () => {
+      stepForm.classList.add('hidden');
+      selectedSlot = null;
+      if (selectedDate) loadSlots(selectedDate);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!selectedSlot) return;
+      statusEl.textContent = '';
+      statusEl.removeAttribute('data-state');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Booking…';
+
+      const fd = new FormData(form);
+      fd.set('start', selectedSlot.start);
+
+      try {
+        const res = await fetch('/api/booking.php', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          stepForm.classList.add('hidden');
+          stepTime.classList.add('hidden');
+          stepDay.classList.add('hidden');
+          stepDone.classList.remove('hidden');
+          doneDetails.textContent = data.booking.label + ' — 30 minutes.';
+        } else {
+          statusEl.textContent = data.error || 'Something went wrong. Please try again.';
+          statusEl.setAttribute('data-state', 'error');
+          // Refresh slots in case availability changed
+          if (selectedDate) loadSlots(selectedDate);
+        }
+      } catch {
+        statusEl.textContent = 'Network error. Please try again in a moment.';
+        statusEl.setAttribute('data-state', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm booking';
+      }
+    });
+
+    const today = new Date();
+    viewYear = today.getFullYear();
+    viewMonth = today.getMonth();
+    renderCalendar();
+  })();
+</script>

@@ -1,0 +1,135 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Diary">
+  <div class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Diary</h1>
+        <p style="color: var(--db-text-muted); font-size: 13px;">Bespoke calendar bookings. Open Mon\u2013Fri, 9am\u20135pm UK time.</p>
+      </div>
+      <a href="/book" target="_blank" rel="noopener" class="db-btn">View public page &rarr;</a>
+    </header>
+
+    <div id="bk-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px;"></div>
+
+    <div id="bk-upcoming" style="margin-bottom: 32px;"></div>
+    <div id="bk-past" style="margin-bottom: 32px;"></div>
+    <div id="bk-cancelled"></div>
+
+    <p id="bk-error" style="color: var(--db-danger); font-size: 13px; display: none; margin-top: 16px;"></p>
+  </div>
+
+  <script>
+    type Booking = {
+      id: string;
+      start: string;
+      end: string;
+      name: string;
+      email: string;
+      phone: string;
+      notes: string;
+      status: string;
+      created: string;
+    };
+
+    const statsEl = document.getElementById('bk-stats')!;
+    const upEl = document.getElementById('bk-upcoming')!;
+    const pastEl = document.getElementById('bk-past')!;
+    const cancelEl = document.getElementById('bk-cancelled')!;
+    const errEl = document.getElementById('bk-error')!;
+
+    function fmt(iso: string): string {
+      if (!iso) return '\u2014';
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ' \u00b7 ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function statCard(label: string, value: number | string) {
+      return `<div style="background: var(--db-surface); border: 1px solid var(--db-border); border-radius: 10px; padding: 14px 16px;">
+        <div style="font-size: 11px; color: var(--db-text-muted); text-transform: uppercase; letter-spacing: 0.12em;">${label}</div>
+        <div style="font-size: 24px; font-weight: 600; margin-top: 6px;">${value}</div>
+      </div>`;
+    }
+
+    function row(b: Booking, showCancel: boolean) {
+      const notesHtml = b.notes ? `<div style="margin-top: 8px; color: var(--db-text-secondary); font-size: 13px; line-height: 1.5; white-space: pre-wrap;">${b.notes}</div>` : '';
+      const phoneHtml = b.phone ? `<span style="color: var(--db-text-muted); font-size: 12px; margin-left: 12px;">${b.phone}</span>` : '';
+      const cancelBtn = showCancel
+        ? `<button type="button" data-cancel="${b.id}" style="padding: 6px 12px; background: transparent; border: 1px solid var(--db-border); color: var(--db-danger); border-radius: 8px; font-size: 12px; cursor: pointer;">Cancel</button>`
+        : '';
+      return `<div class="bk-row" style="background: var(--db-surface); border: 1px solid var(--db-border); border-radius: 10px; padding: 16px 18px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--db-text-muted); text-transform: uppercase; letter-spacing: 0.08em;">${fmt(b.start)}</div>
+            <div style="font-size: 15px; font-weight: 500; margin-top: 4px;">${b.name}</div>
+            <div style="font-size: 13px; color: var(--db-text-secondary); margin-top: 2px;">
+              <a href="mailto:${b.email}" style="color: var(--db-accent);">${b.email}</a>${phoneHtml}
+            </div>
+            ${notesHtml}
+          </div>
+          ${cancelBtn}
+        </div>
+      </div>`;
+    }
+
+    function section(title: string, items: Booking[], showCancel: boolean) {
+      if (!items.length) return '';
+      const rows = items.map((b) => row(b, showCancel)).join('');
+      return `<div>
+        <h2 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--db-text-muted); margin-bottom: 12px;">${title} \u00b7 ${items.length}</h2>
+        ${rows}
+      </div>`;
+    }
+
+    async function cancelBooking(id: string) {
+      if (!confirm('Cancel this booking? The client will be emailed.')) return;
+      const fd = new FormData();
+      fd.set('id', id);
+      fd.set('action', 'cancel');
+      try {
+        const res = await fetch('/dashboard/bookings-update.php', { method: 'POST', body: fd, credentials: 'include' });
+        const data = await res.json();
+        if (res.ok && data.success) load();
+        else alert(data.error || 'Could not cancel');
+      } catch {
+        alert('Network error');
+      }
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('/dashboard/bookings-data.php', { credentials: 'include' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        statsEl.innerHTML = [
+          statCard('Upcoming', data.stats.upcoming),
+          statCard('Past', data.stats.past),
+          statCard('Cancelled', data.stats.cancelled),
+        ].join('');
+
+        if (!data.upcoming.length && !data.past.length && !data.cancelled.length) {
+          upEl.innerHTML = `<div style="background: var(--db-surface); border: 1px solid var(--db-border); border-radius: 10px; padding: 32px; text-align: center; color: var(--db-text-muted);">No bookings yet. Share <a href="/book" style="color: var(--db-accent);">/book</a> with prospects to get started.</div>`;
+          pastEl.innerHTML = '';
+          cancelEl.innerHTML = '';
+          return;
+        }
+
+        upEl.innerHTML = section('Upcoming', data.upcoming, true);
+        pastEl.innerHTML = section('Past', data.past, false);
+        cancelEl.innerHTML = section('Cancelled', data.cancelled, false);
+
+        document.querySelectorAll('[data-cancel]').forEach((btn) => {
+          btn.addEventListener('click', () => cancelBooking(btn.getAttribute('data-cancel')!));
+        });
+      } catch (e) {
+        errEl.style.display = 'block';
+        errEl.textContent = 'Could not load bookings. ' + (e instanceof Error ? e.message : '');
+      }
+    }
+
+    load();
+  </script>
+</DashboardLayout>
