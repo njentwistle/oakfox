@@ -36,7 +36,7 @@ jobs:
           set mirror:use-pget-n 1
           set mirror:parallel-directories yes
           set cmd:fail-exit yes
-          mirror --reverse --verbose --parallel=1 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
-          mirror --reverse --verbose --parallel=1 ./dist/images/ ./public_html/images/
+          mirror --reverse --verbose --parallel=3 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
+          mirror --reverse --verbose --parallel=3 ./dist/images/ ./public_html/images/
           bye
           EOF
