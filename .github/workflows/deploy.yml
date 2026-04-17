@@ -36,4 +36,12 @@ jobs:
 
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-            "cd ~/public_html && tar xzf /tmp/deploy.tar.gz && rm /tmp/deploy.tar.gz"
+            "set -e; \
+             echo '[deploy] home:' && pwd && \
+             echo '[deploy] ls public_html before:' && ls -la ~/public_html | head -20 && \
+             echo '[deploy] extracting...' && \
+             cd ~/public_html && tar xzvf /tmp/deploy.tar.gz | tail -5 && \
+             echo '[deploy] post-extract check:' && \
+             ls -la ~/public_html/robots.txt ~/public_html/favicon-32.png ~/public_html/index.html && \
+             rm /tmp/deploy.tar.gz && \
+             echo '[deploy] done'"
