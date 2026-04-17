@@ -29,10 +29,14 @@ jobs:
           set ftp:ssl-protect-data yes
           set ssl:verify-certificate no
           set ftp:passive-mode yes
-          set net:timeout 60
-          set net:max-retries 5
-          set net:reconnect-interval-base 10
-          mirror --reverse --verbose --parallel=2 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
-          mirror --reverse --verbose --parallel=2 ./dist/images/ ./public_html/images/
+          set net:timeout 30
+          set net:max-retries 15
+          set net:reconnect-interval-base 8
+          set net:reconnect-interval-max 60
+          set mirror:use-pget-n 1
+          set mirror:parallel-directories yes
+          set cmd:fail-exit yes
+          mirror --reverse --verbose --parallel=1 --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
+          mirror --reverse --verbose --parallel=1 ./dist/images/ ./public_html/images/
           bye
           EOF
