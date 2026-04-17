@@ -1,0 +1,89 @@
+---
+const GA_ID = 'G-3EWKKEHGJ8';
+---
+
+<div
+  id="consent-banner"
+  class="fixed z-[210] bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-auto md:max-w-md opacity-0 translate-y-4 pointer-events-none transition-all duration-500 ease-out"
+  aria-live="polite"
+  aria-label="Cookie consent"
+>
+  <div class="bg-cream-light border border-stone/60 rounded-lg shadow-xl p-5">
+    <div class="label text-forest mb-3">Cookies</div>
+    <p class="text-ink text-sm leading-relaxed mb-4">
+      We use a single analytics cookie to understand how people find and use the site.
+      No ads, no cross-site tracking. You can change your mind any time.
+    </p>
+    <div class="flex gap-2">
+      <button
+        id="consent-accept"
+        type="button"
+        class="flex-1 bg-forest text-cream text-sm font-medium py-2.5 px-4 rounded hover:bg-forest-dark transition-colors"
+      >
+        Accept
+      </button>
+      <button
+        id="consent-decline"
+        type="button"
+        class="flex-1 text-ink text-sm font-medium py-2.5 px-4 rounded border border-stone/80 hover:bg-stone/30 transition-colors"
+      >
+        Decline
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ GA_ID }}>
+  (function () {
+    const KEY = 'oakfox-consent';
+    const banner = document.getElementById('consent-banner');
+    const accept = document.getElementById('consent-accept');
+    const decline = document.getElementById('consent-decline');
+
+    function loadGA() {
+      if (window.__gaLoaded) return;
+      window.__gaLoaded = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID, { anonymize_ip: true });
+    }
+
+    function hide() {
+      banner.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+      banner.classList.remove('opacity-100', 'translate-y-0');
+    }
+
+    function show() {
+      banner.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+      banner.classList.add('opacity-100', 'translate-y-0');
+    }
+
+    const stored = localStorage.getItem(KEY);
+    if (stored === 'accepted') {
+      loadGA();
+    } else if (stored !== 'declined') {
+      setTimeout(show, 600);
+    }
+
+    accept?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'accepted');
+      hide();
+      loadGA();
+    });
+
+    decline?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'declined');
+      hide();
+    });
+
+    window.addEventListener('oakfox:show-consent', () => {
+      localStorage.removeItem(KEY);
+      show();
+    });
+  })();
+</script>

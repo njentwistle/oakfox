@@ -52,9 +52,24 @@ const navLinks = [
       <p class="text-[11px] text-cream/30">
         &copy; OakFox {new Date().getFullYear()}
       </p>
-      <p class="text-[11px] text-cream/30">
-        A registered company in England
-      </p>
+      <div class="flex items-center gap-5">
+        <button
+          type="button"
+          id="footer-cookies"
+          class="text-[11px] text-cream/30 hover:text-cream/70 transition-colors duration-300"
+        >
+          Cookies
+        </button>
+        <p class="text-[11px] text-cream/30">
+          A registered company in England
+        </p>
+      </div>
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  document.getElementById('footer-cookies')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('oakfox:show-consent'));
+  });
+</script>
