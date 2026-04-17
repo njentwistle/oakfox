@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const faqs = [
+  {
+    q: 'What does OakFox do?',
+    a: 'OakFox is a sustainable design studio based in West Lancashire. We offer branding, design, web development, marketing strategy, and environmental consultancy — often in combination — for businesses that want to grow without the environmental cost.',
+  },
+  {
+    q: 'Where is OakFox based? Do you work with clients outside the UK?',
+    a: "We're based in rural West Lancashire and registered as a company in England. We work with clients across the UK, Ireland, and mainland Europe. Most of our collaboration happens remotely, with occasional visits for brand discovery, shoots, or installations.",
+  },
+  {
+    q: 'What does a typical OakFox project look like?',
+    a: 'Most engagements start with a discovery conversation, followed by a proposal, a defined scope, and a phased delivery — usually over six to fourteen weeks depending on complexity. We take on a small number of projects each quarter so every client gets considered attention.',
+  },
+  {
+    q: 'How much does it cost to work with OakFox?',
+    a: 'Project costs depend on scope. As a rough guide: brand identity engagements start around £3,500, full website design and builds start around £6,000, and combined branding plus web projects typically sit between £10,000 and £25,000. Consultancy and marketing are priced per engagement or monthly retainer. We send a detailed quote after a free initial call.',
+  },
+  {
+    q: 'How long does a project take?',
+    a: 'Most projects take six to fourteen weeks. A focused brand refresh can be faster; a full brand-plus-website build with multiple stakeholders takes longer. We set a realistic timeline during scoping and protect it with milestone reviews.',
+  },
+  {
+    q: 'What makes OakFox "sustainable" — is it just greenwashing?',
+    a: "Sustainability runs through every decision we make — from the client work we take on, to the hosting and code we deliver, to the supply chain advice we give. We consult on sourcing, packaging, and waste for client operations; specify efficient hosting and lightweight builds on web projects; and we're honest about the limits. A website alone isn't going to save the planet, but every considered choice compounds.",
+  },
+  {
+    q: 'Do you only work with sustainable or ethical brands?',
+    a: "No — but we reserve the right to decline projects we can't get behind. We'd rather help a business we believe in improve its impact than polish the image of one that won't change its practices.",
+  },
+  {
+    q: 'Who will I actually work with day-to-day?',
+    a: "Nathan James Entwistle, OakFox's founder, leads every project directly. We bring in trusted collaborators — photographers, illustrators, specialist developers — when the work calls for it, but your main point of contact stays consistent throughout.",
+  },
+  {
+    q: 'Do you do ongoing work like marketing retainers?',
+    a: 'Yes. After the initial delivery, many clients continue with us on monthly retainers for marketing, website upkeep, sustainability reporting, or creative support. Retainers start around £750 per month and are scoped to the work you actually need.',
+  },
+  {
+    q: 'How do I start a project with you?',
+    a: 'Send a note through our contact page with a few lines about your business and what you are hoping to do. We reply within 24 hours to set up a free initial call — no pitch, no obligation.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title="FAQ"
+  description="Common questions about working with OakFox — pricing, timelines, sustainability, and how to start a project."
+  schema={faqSchema}
+>
+  <section class="pt-32 pb-16">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="label text-forest mb-6">Frequently asked</p>
+      <h1 class="headline text-ink" style="font-size: clamp(2rem, 5vw, 3.5rem);">
+        Questions we hear <em class="text-forest">most often</em>.
+      </h1>
+      <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-xl">
+        If what you're looking for isn't here, send us a note — we reply within 24 hours.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <ul class="border-t border-stone">
+        {faqs.map((item) => (
+          <li class="border-b border-stone py-8 md:py-10 reveal">
+            <h2 class="headline text-xl md:text-2xl text-ink mb-4">
+              {item.q}
+            </h2>
+            <p class="text-[15px] text-ink/70 leading-relaxed">
+              {item.a}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-3xl mx-auto px-6 relative z-10">
+      <div class="reveal">
+        <p class="label text-gray mb-6">Still curious?</p>
+        <h2 class="headline text-2xl md:text-3xl">
+          Let's talk it <em class="text-forest">through</em>.
+        </h2>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-8 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
