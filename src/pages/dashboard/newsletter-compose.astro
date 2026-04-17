@@ -1,0 +1,164 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Compose letter">
+  <div class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Compose a letter</h1>
+        <p style="color: var(--db-text-muted); font-size: 13px;">Sends as a branded HTML email to every confirmed subscriber. Unsubscribe link auto-added.</p>
+      </div>
+      <a href="/dashboard/newsletter" class="db-btn">&larr; Back to Letter</a>
+    </header>
+
+    <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px;" id="compose-grid">
+      <!-- Subject -->
+      <div>
+        <label style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--db-text-muted); margin-bottom: 8px;">Subject</label>
+        <input id="subject" type="text" class="db-input" placeholder="A short letter from West Lancashire" maxlength="200" style="width: 100%;" />
+      </div>
+
+      <!-- Body -->
+      <div>
+        <label style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--db-text-muted); margin-bottom: 8px;">Body · <span style="text-transform: none; letter-spacing: 0; color: var(--db-text-secondary); font-size: 11px;">Plain text. Use blank lines for paragraphs. <code>**bold**</code>, <code>*italic*</code>, <code># Heading</code>, <code>[link](https://...)</code>.</span></label>
+        <textarea id="body" class="db-input" rows="14" placeholder={`Hi,\n\nA quick note from the studio this month.\n\n...\n\n— Nathan`} style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"></textarea>
+      </div>
+    </div>
+
+    <!-- Recipients -->
+    <div id="recipients-card" style="background: var(--db-surface); border: 1px solid var(--db-border); border-radius: 10px; padding: 16px 18px; margin-bottom: 24px;">
+      <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--db-text-muted);">Recipients</div>
+      <div id="recipients-count" style="font-size: 18px; font-weight: 600; margin-top: 6px;">Loading…</div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+      <input id="test-email" type="email" class="db-input" placeholder="your@email.com" style="flex: 1; min-width: 220px;" />
+      <button type="button" id="send-test" class="db-btn">Send test</button>
+      <button type="button" id="send-full" class="db-btn db-btn-primary" style="margin-left: auto;">Send to subscribers</button>
+    </div>
+
+    <p id="compose-status" style="font-size: 13px; font-family: 'JetBrains Mono', monospace; min-height: 20px;"></p>
+
+    <!-- Preview -->
+    <details style="margin-top: 16px;">
+      <summary style="cursor: pointer; color: var(--db-text-muted); font-size: 13px; user-select: none;">Preview (rendered as subscribers will see it)</summary>
+      <iframe id="preview-frame" title="Email preview" style="width: 100%; min-height: 500px; border: 1px solid var(--db-border); border-radius: 10px; margin-top: 12px; background: #F5F0E8;"></iframe>
+    </details>
+  </div>
+
+  <script>
+    const subject = document.getElementById('subject') as HTMLInputElement;
+    const body = document.getElementById('body') as HTMLTextAreaElement;
+    const testEmail = document.getElementById('test-email') as HTMLInputElement;
+    const btnTest = document.getElementById('send-test') as HTMLButtonElement;
+    const btnFull = document.getElementById('send-full') as HTMLButtonElement;
+    const status = document.getElementById('compose-status')!;
+    const recipientsEl = document.getElementById('recipients-count')!;
+    const preview = document.getElementById('preview-frame') as HTMLIFrameElement;
+
+    function setStatus(msg: string, state: 'ok' | 'error' | '' = '') {
+      status.textContent = msg;
+      status.style.color = state === 'error' ? 'var(--db-danger)' : state === 'ok' ? 'var(--db-accent)' : 'var(--db-text-muted)';
+    }
+
+    // Load recipient count
+    (async () => {
+      try {
+        const res = await fetch('/dashboard/newsletter-data.php', { credentials: 'include' });
+        const data = await res.json();
+        recipientsEl.textContent = `${data.stats?.confirmed ?? 0} confirmed subscriber${data.stats?.confirmed === 1 ? '' : 's'}`;
+      } catch {
+        recipientsEl.textContent = 'Could not load';
+      }
+    })();
+
+    // Live preview
+    function renderPreview() {
+      const s = subject.value || '(subject)';
+      const raw = body.value || '(body goes here)';
+      // Simple client-side markdown-ish preview (mirrors server logic)
+      let html = raw.split(/\n\s*\n/).map((para: string) => {
+        let p = para.trim();
+        if (!p) return '';
+        // Escape
+        p = p.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // Headings (single-line only)
+        if (/^# .+$/.test(p) && !p.includes('\n')) return `<h2 style="font-family: Georgia, serif; font-size: 22px; font-weight: 500; color: #1A1D17; margin: 32px 0 12px;">${p.slice(2)}</h2>`;
+        if (/^## .+$/.test(p) && !p.includes('\n')) return `<h3 style="font-family: Georgia, serif; font-size: 18px; font-weight: 500; color: #1A1D17; margin: 24px 0 10px;">${p.slice(3)}</h3>`;
+        p = p.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        p = p.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+        p = p.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" style="color: #1A5C12; text-decoration: underline;">$1</a>');
+        p = p.replace(/(?<![=">])\b(https?:\/\/[^\s<)]+)/g, '<a href="$1" style="color: #1A5C12; text-decoration: underline;">$1</a>');
+        p = p.replace(/\n/g, '<br>');
+        return `<p style="margin: 0 0 16px; line-height: 1.6;">${p}</p>`;
+      }).join('');
+
+      const doc = `<!doctype html><html><head><meta charset="utf-8"><title>${s}</title></head>
+<body style="margin:0;padding:0;background:#F5F0E8;font-family:-apple-system,Helvetica,Arial,sans-serif;color:#1A1D17;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 20px;">
+<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FAF7F2;border-radius:12px;border:1px solid rgba(26,92,18,0.1);">
+<tr><td style="padding:32px 40px 16px;"><p style="font-family:monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#1A5C12;margin:0 0 8px;">OakFox Studio Notes</p></td></tr>
+<tr><td style="padding:0 40px 32px;">${html}</td></tr>
+<tr><td style="padding:20px 40px;border-top:1px solid rgba(26,29,23,0.1);background:rgba(26,29,23,0.02);"><p style="margin:0;font-size:12px;color:rgba(26,29,23,0.55);line-height:1.5;">You're receiving this because you subscribed at oakfox.co.uk.<br><a href="#" style="color:#1A5C12;">Unsubscribe</a> · <a href="https://oakfox.co.uk" style="color:#1A5C12;">oakfox.co.uk</a></p></td></tr>
+</table></td></tr></table></body></html>`;
+
+      preview.srcdoc = doc;
+    }
+    subject.addEventListener('input', renderPreview);
+    body.addEventListener('input', renderPreview);
+    renderPreview();
+
+    async function post(formData: FormData) {
+      const res = await fetch('/dashboard/newsletter-send.php', { method: 'POST', body: formData, credentials: 'include' });
+      return res.json().then((data) => ({ status: res.status, data }));
+    }
+
+    btnTest.addEventListener('click', async () => {
+      if (!subject.value || !body.value) { setStatus('Fill in subject and body first.', 'error'); return; }
+      if (!testEmail.value || !testEmail.checkValidity()) { setStatus('Enter a valid test email.', 'error'); return; }
+      btnTest.disabled = true;
+      setStatus('Sending test…', '');
+      const fd = new FormData();
+      fd.set('mode', 'test');
+      fd.set('subject', subject.value);
+      fd.set('body', body.value);
+      fd.set('testEmail', testEmail.value);
+      try {
+        const { data } = await post(fd);
+        setStatus(data.message || data.error || 'Done.', data.success ? 'ok' : 'error');
+      } catch {
+        setStatus('Network error.', 'error');
+      } finally {
+        btnTest.disabled = false;
+      }
+    });
+
+    btnFull.addEventListener('click', async () => {
+      if (!subject.value || !body.value) { setStatus('Fill in subject and body first.', 'error'); return; }
+      if (!confirm(`Send this letter to every confirmed subscriber?\n\nSubject: ${subject.value}`)) return;
+      btnFull.disabled = true;
+      setStatus('Sending… this may take a minute for larger lists.', '');
+      const fd = new FormData();
+      fd.set('mode', 'full');
+      fd.set('subject', subject.value);
+      fd.set('body', body.value);
+      try {
+        const { data } = await post(fd);
+        if (data.success) {
+          setStatus(`Sent to ${data.sent} of ${data.total}. ${data.failed ? data.failed + ' failed.' : ''}`, 'ok');
+          subject.value = '';
+          body.value = '';
+          renderPreview();
+        } else {
+          setStatus(data.error || 'Send failed.', 'error');
+        }
+      } catch {
+        setStatus('Network error. The server may still be sending — check the campaigns list in a minute.', 'error');
+      } finally {
+        btnFull.disabled = false;
+      }
+    });
+  </script>
+</DashboardLayout>
