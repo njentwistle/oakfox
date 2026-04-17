@@ -30,6 +30,7 @@ const organization = {
   '@type': 'Organization',
   '@id': 'https://oakfox.co.uk/#organization',
   name: 'OakFox',
+  legalName: 'OakFox',
   url: 'https://oakfox.co.uk',
   logo: 'https://oakfox.co.uk/images/site/logo.png',
   image: 'https://oakfox.co.uk/images/site/logo.png',
@@ -55,7 +56,16 @@ const organization = {
     'Environmental consultancy',
     'Supply chain sustainability',
   ],
-  sameAs: [] as string[],
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'UK Companies House',
+    value: '17118912',
+  },
+  sameAs: [
+    'https://find-and-update.company-information.service.gov.uk/company/17118912',
+    'https://www.instagram.com/oak.fox/',
+    'https://share.google/3ktdz3XLvsqlNCqeE',
+  ],
 };
 
 const localBusiness = {
@@ -71,6 +81,10 @@ const localBusiness = {
     addressCountry: 'GB',
   },
   areaServed: 'United Kingdom',
+  sameAs: [
+    'https://share.google/3ktdz3XLvsqlNCqeE',
+    'https://www.instagram.com/oak.fox/',
+  ],
 };
 
 const website = {

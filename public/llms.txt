@@ -8,10 +8,13 @@
 - Founded: 2025
 - Founder: Nathan James Entwistle (designer and developer with 15+ years experience)
 - Location: West Lancashire, United Kingdom
-- Registered: company registered in England
+- Registered: company registered in England, Companies House number 17118912
 - Areas served: United Kingdom, Ireland, Europe
 - Website: https://oakfox.co.uk
 - Contact: https://oakfox.co.uk/contact
+- Google Business Profile: https://share.google/3ktdz3XLvsqlNCqeE
+- Instagram: https://www.instagram.com/oak.fox/
+- Companies House: https://find-and-update.company-information.service.gov.uk/company/17118912
 
 ## Services
 
@@ -27,6 +30,7 @@
 - [About](https://oakfox.co.uk/about): The studio, the founder, and the values behind OakFox.
 - [Work](https://oakfox.co.uk/portfolio): Case studies of selected client projects.
 - [Journal](https://oakfox.co.uk/blog): Articles on sustainability, branding, design, and development.
+- [FAQ](https://oakfox.co.uk/faq): Common questions about pricing, timelines, sustainability, and process.
 - [Contact](https://oakfox.co.uk/contact): Get in touch to start a project.
 
 ## Selected work
