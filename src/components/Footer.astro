@@ -32,6 +32,23 @@ const navLinks = [
             07730 396404
           </a>
         </address>
+      </div>
+
+      <!-- Nav -->
+      <nav class="md:col-span-3 md:col-start-6 flex flex-col gap-3">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-[13px] text-cream/50 hover:text-cream transition-colors duration-300"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Newsletter -->
+      <div class="md:col-span-4 md:col-start-9">
+        <NewsletterSignup variant="footer" />
 
         <div class="mt-8 flex items-center gap-4">
           <a
@@ -59,23 +76,6 @@ const navLinks = [
             class="h-10 w-auto"
           />
         </div>
-      </div>
-
-      <!-- Nav -->
-      <nav class="md:col-span-3 md:col-start-6 flex flex-col gap-3">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-[13px] text-cream/50 hover:text-cream transition-colors duration-300"
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <!-- Newsletter -->
-      <div class="md:col-span-4 md:col-start-9">
-        <NewsletterSignup variant="footer" />
       </div>
     </div>
 

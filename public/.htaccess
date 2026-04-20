@@ -1,0 +1,33 @@
+# OakFox root .htaccess
+
+Options -Indexes
+
+# --- Legacy WordPress URLs (old oakfox.co.uk) → current equivalents ---
+RedirectMatch 301 ^/my-work/branding/aigean/?$ /portfolio/aigean/
+RedirectMatch 301 ^/my-work/branding/?$ /services/branding/
+RedirectMatch 301 ^/my-work/design/?$ /portfolio/
+RedirectMatch 301 ^/my-work/development/?$ /portfolio/
+RedirectMatch 301 ^/my-work/?$ /portfolio/
+RedirectMatch 301 ^/about-me/?$ /about/
+RedirectMatch 301 ^/whats-new-for-2025-a-design-jump-forward/?$ /blog/
+
+# --- Foreign legacy URLs (listings-era, no equivalent) → 410 Gone ---
+# 410 tells Google the page is permanently gone; de-indexes faster than 404.
+RedirectMatch gone ^/listing/
+RedirectMatch gone ^/categories/?$
+RedirectMatch gone ^/registry/?$
+RedirectMatch gone ^/legal/?$
+RedirectMatch gone ^/\*$
+
+# --- WordPress leftover paths → 410 Gone ---
+RedirectMatch gone ^/wp-content(/|$)
+RedirectMatch gone ^/wp-admin(/|$)
+RedirectMatch gone ^/wp-includes(/|$)
+RedirectMatch gone ^/wp-json(/|$)
+RedirectMatch gone ^/wp-login\.php$
+RedirectMatch gone ^/xmlrpc\.php$
+RedirectMatch gone ^/feed(/|$)
+RedirectMatch gone ^/comments/feed(/|$)
+RedirectMatch gone ^/author/
+RedirectMatch gone ^/tag/
+RedirectMatch gone ^/category/
