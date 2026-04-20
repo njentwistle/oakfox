@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/services/environmental/consultancy';
+
+const serviceSchema = {
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Environmental Consultancy',
+  description: 'Practical environmental consultancy for independent businesses. Audits of operations, supply chain, packaging, and cleaning practices — with recommendations that actually get implemented.',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
+  serviceType: 'Environmental consultancy',
+  url: pageUrl,
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://oakfox.co.uk/services' },
+    { '@type': 'ListItem', position: 3, name: 'Environmental', item: 'https://oakfox.co.uk/services/environmental' },
+    { '@type': 'ListItem', position: 4, name: 'Consultancy', item: pageUrl },
+  ],
+};
+
+const offerings = [
+  {
+    label: 'Audit',
+    title: 'An honest look at where you are',
+    description:
+      'A structured review of your operations, supply chain, packaging, and day-to-day practices. We find the things costing you money and footprint at the same time — not just the Instagrammable ones.',
+  },
+  {
+    label: 'Recommendations',
+    title: 'Practical, costed alternatives',
+    description:
+      'Specific suppliers, specific substitutions, specific process changes. Packaging alternatives, cleaning product switches, shorter supply chains. With real prices and real contacts — not vague ambitions.',
+  },
+  {
+    label: 'Implementation',
+    title: 'Support through the switch',
+    description:
+      'Introductions to the suppliers we trust. Guidance through the rollout. A second set of eyes when a vendor pushes back. We stay close enough that the changes actually happen.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Listen', body: 'A conversation about what your business actually does, what matters to you, and where you already know something is wasteful but have not had the time to fix it.' },
+  { step: '02', title: 'Audit', body: 'A week or two on-site and in your numbers — kitchens, stockrooms, procurement, cleaning cupboards, waste streams. The places that rarely get audited.' },
+  { step: '03', title: 'Report', body: 'A clear document: what you are doing well, where the quick wins are, where the longer-term work lives. Every recommendation comes with cost, effort, and supplier options.' },
+  { step: '04', title: 'Implement', body: 'We help you through the changes you want to act on — supplier introductions, rollout planning, staff briefings, the awkward conversations with existing vendors.' },
+  { step: '05', title: 'Review', body: 'A follow-up at three and six months. What stuck, what did not, what else we should look at. Environmental practice is not a one-off project.' },
+];
+
+const examples = [
+  {
+    title: 'Restaurants and coffee shops',
+    body: 'Shortening supply chains — moving to regional producers for core ingredients, reducing food miles, often improving quality and margin in the same move.',
+  },
+  {
+    title: 'Hospitality and retail',
+    body: 'Replacing packaging with genuinely better alternatives — suppliers we have vetted, not the greenwashed options that turn up first in a search.',
+  },
+  {
+    title: 'Service businesses',
+    body: 'Cleaning products, paper goods, and consumables switched to providers whose supply chain we can verify. Staff training included.',
+  },
+  {
+    title: 'Small producers',
+    body: 'Waste stream audits, energy use reviews, and procurement changes that reduce footprint without compromising the product.',
+  },
+];
+
+const forWho = [
+  'Independent restaurants, cafés, and coffee shops',
+  'Retailers and hospitality businesses wanting credibility they can stand behind',
+  'Small producers and manufacturers reviewing procurement and waste',
+  'Service-led businesses whose footprint is hidden in consumables and supply chains',
+  'Founders who want recommendations they can act on, not a report that sits in a drawer',
+];
+---
+
+<BaseLayout
+  title="Environmental Consultancy"
+  description="Practical environmental consultancy for independent businesses. Supply chain, packaging, and operational audits with recommendations you can actually implement."
+  schema={[serviceSchema, breadcrumbs]}
+>
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="hero-glow" style="top: 45%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <p class="label text-forest mb-8">
+        <a href="/services/environmental" class="hover:text-ink transition-colors duration-300">Environmental</a>
+        <span class="text-ink/40 mx-2">·</span>
+        Consultancy
+      </p>
+      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
+        Practical changes.
+        Measurable <em class="text-forest">impact</em>.
+        No <em class="text-forest">greenwash</em>.
+      </h1>
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
+          We audit how your business actually runs — the supply chain, the packaging,
+          the cleaning cupboard, the consumables nobody thinks about — and recommend
+          specific, costed alternatives. Shorter supply chains, better suppliers,
+          honest practices. Then we stay close enough to help you through the switch.
+        </p>
+        <div class="md:col-span-3 md:col-start-10 flex items-center justify-start md:justify-end">
+          <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group">
+            Start a conversation
+            <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        {offerings.map((o) => (
+          <div class="reveal">
+            <p class="label text-forest mb-4">{o.label}</p>
+            <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
+            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">How we work</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Five stages. <em class="text-forest">No&nbsp;greenwashing.</em>
+          </h2>
+        </div>
+        <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {process.map((p) => (
+            <li class="reveal border-b border-stone py-6 grid grid-cols-[auto,1fr] gap-6 md:gap-10">
+              <span class="label text-gray pt-1">{p.step}</span>
+              <div>
+                <h3 class="text-base md:text-lg font-medium text-ink">{p.title}</h3>
+                <p class="mt-2 text-[14px] text-ink/60 leading-relaxed">{p.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Where we help</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Real <em class="text-forest">examples</em>.
+          </h2>
+        </div>
+        <div class="md:col-span-7 md:col-start-6 grid gap-8">
+          {examples.map((e) => (
+            <div class="reveal border-t border-stone pt-6">
+              <h3 class="text-base md:text-lg font-medium text-ink mb-2">{e.title}</h3>
+              <p class="text-[14px] text-ink/60 leading-relaxed">{e.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Who it's for</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Good fits <em class="text-forest">look&nbsp;like…</em>
+          </h2>
+        </div>
+        <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {forWho.map((line) => (
+            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div class="reveal max-w-2xl">
+        <p class="label text-gray mb-6">Next step</p>
+        <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
+          Tell us what you already <em class="text-forest">suspect is wasteful</em>.
+        </h2>
+        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+          Most founders already have a hunch about where their business is leaking
+          footprint or money. Send a few lines — we reply within 24 hours to set
+          up a free initial call.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
