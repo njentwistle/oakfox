@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/services/copywriting';
+
+const serviceSchema = {
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Copywriting',
+  description: 'Copywriting for brands that value substance over slogans. Website copy, campaign copy, brand voice, and editing — honest, precise, built to convert without the marketing-speak.',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
+  serviceType: 'Copywriting and content strategy',
+  url: pageUrl,
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://oakfox.co.uk/services' },
+    { '@type': 'ListItem', position: 3, name: 'Copywriting', item: pageUrl },
+  ],
+};
+
+const offerings = [
+  {
+    label: 'Brand voice',
+    title: 'Voice and tone guidelines',
+    description:
+      'How your brand should sound — on the homepage, in a customer service reply, in a pitch deck. A practical voice guide that your team can actually use, not a 30-page philosophy document.',
+  },
+  {
+    label: 'Website copy',
+    title: 'Copy that earns the scroll',
+    description:
+      'Homepages, service pages, about pages, product pages. Clear, specific, with the kind of detail that makes a prospect trust you. SEO-aware without sounding written for a robot.',
+  },
+  {
+    label: 'Campaign copy',
+    title: 'Campaign and editorial work',
+    description:
+      'Launch announcements, case studies, email sequences, long-form articles. Written to a brief, edited until it is tight, delivered in the format your team uses.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Listen', body: 'A conversation about what the business actually does, who it talks to, and what has been written before. We read your existing copy, your reviews, and anything your customers have said to you verbatim.' },
+  { step: '02', title: 'Scope', body: 'A one-page brief — pages, word counts, voice, deadlines. Agreed before writing starts so nobody is guessing at the end.' },
+  { step: '03', title: 'Draft', body: 'A first pass written to the brief. Opinionated enough to react to, restrained enough to be a genuine draft rather than a showreel.' },
+  { step: '04', title: 'Refine', body: 'Two rounds of edits included as standard. We push back where we disagree, and we defer where the call is yours. No precious writers.' },
+  { step: '05', title: 'Handover', body: 'Copy delivered in the format you need — Google Doc, CMS-ready, or straight into the page. Plus voice notes if they will be useful to whoever writes next.' },
+];
+
+const forWho = [
+  'Founders who are tired of copy that sounds like everyone else in their sector',
+  'Businesses rebranding and wanting the words to match the new visual direction',
+  'Sustainability-focused brands who need to make honest claims compellingly',
+  'Teams launching a site, a product, or a campaign under a deadline',
+  'Anyone who has been quoted "£50 per 500 words" and noticed the quality',
+];
+---
+
+<BaseLayout
+  title="Copywriting"
+  description="Copywriting for brands that value substance over slogans. Website copy, campaign copy, brand voice, and editing — honest, precise, built to convert without the marketing-speak."
+  schema={[serviceSchema, breadcrumbs]}
+>
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="hero-glow" style="top: 45%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <p class="label text-forest mb-8">Service · Copywriting</p>
+      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
+        Words that <em class="text-forest">mean something</em>.
+        Not just <em class="text-forest">fill space</em>.
+      </h1>
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
+          Writing for brands that have something specific to say and want it said well.
+          Website copy, campaign copy, brand voice, long-form. Clear, considered, and
+          edited enough times that it feels effortless. No marketing-speak, no filler,
+          and no greenwashing for the sustainability work.
+        </p>
+        <div class="md:col-span-3 md:col-start-10 flex items-center justify-start md:justify-end">
+          <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group">
+            Start a project
+            <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        {offerings.map((o) => (
+          <div class="reveal">
+            <p class="label text-forest mb-4">{o.label}</p>
+            <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
+            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">How we work</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Five stages. <em class="text-forest">No&nbsp;mystery.</em>
+          </h2>
+        </div>
+        <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {process.map((p) => (
+            <li class="reveal border-b border-stone py-6 grid grid-cols-[auto,1fr] gap-6 md:gap-10">
+              <span class="label text-gray pt-1">{p.step}</span>
+              <div>
+                <h3 class="text-base md:text-lg font-medium text-ink">{p.title}</h3>
+                <p class="mt-2 text-[14px] text-ink/60 leading-relaxed">{p.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Who it's for</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Good fits <em class="text-forest">look&nbsp;like…</em>
+          </h2>
+        </div>
+        <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {forWho.map((line) => (
+            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div class="reveal max-w-2xl">
+        <p class="label text-gray mb-6">Next step</p>
+        <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
+          Send us what you have. <em class="text-forest">Or what you wish you had</em>.
+        </h2>
+        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+          Drop a link to your current site or a description of what you are launching.
+          We reply within 24 hours with a short read on what we would do with it.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/services/marketing';
+
+const serviceSchema = {
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Marketing',
+  description: 'Marketing strategy and delivery for independent brands. Content, email, organic social, SEO — built on substance, measured honestly, no greenwashing.',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
+  serviceType: 'Marketing strategy and content',
+  url: pageUrl,
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://oakfox.co.uk/services' },
+    { '@type': 'ListItem', position: 3, name: 'Marketing', item: pageUrl },
+  ],
+};
+
+const offerings = [
+  {
+    label: 'Strategy',
+    title: 'A plan you can actually follow',
+    description:
+      'A clear, one-document strategy: who you are for, where you will meet them, what you will say, and how you will measure it. Useful, practical, and short enough that it gets read.',
+  },
+  {
+    label: 'Content',
+    title: 'Content that earns attention',
+    description:
+      'Journal articles, newsletters, long-form. Written with real expertise, not repurposed for keyword bait. Fewer, better pieces that do the work of twenty thin ones.',
+  },
+  {
+    label: 'Channels',
+    title: 'Email, organic social, and SEO',
+    description:
+      'Email campaigns that respect the inbox. Organic social with a point of view. SEO that means writing genuinely useful pages, not stuffing them with synonyms. Paid only when it is the honest answer.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Listen', body: 'A conversation about the business, the customers you already have, the goals for the next 6 to 12 months, and what marketing has done so far — what worked, what did not, and what never got tried.' },
+  { step: '02', title: 'Audit', body: 'A focused look at your current presence: website, analytics, organic rankings, social, email list. We find where the leverage is, not where the vanity metrics look good.' },
+  { step: '03', title: 'Strategy', body: 'A one-document plan: audiences, channels, content pillars, editorial calendar, KPIs. Agreed with you before anything gets built.' },
+  { step: '04', title: 'Build', body: 'Delivery — writing, designing, shipping. Content calendar populated. Email sequences written. Organic social moving. SEO improvements committed.' },
+  { step: '05', title: 'Review', body: 'Monthly check-ins against the KPIs we agreed. Honest read on what is working, what to cut, what to double down on. No bloated reports — just what changed and why.' },
+];
+
+const forWho = [
+  'Independent businesses doing genuinely good work that is not getting the audience it deserves',
+  'Brands launching or repositioning, needing marketing that matches the new direction',
+  'Sustainability-focused businesses who want claims that hold up to scrutiny',
+  'Founders who have tried agency retainers and ended up with generic content they did not ship',
+  'Teams who value clarity and cadence over volume',
+];
+---
+
+<BaseLayout
+  title="Marketing"
+  description="Marketing strategy and delivery for independent brands. Content, email, organic social, SEO — built on substance, measured honestly, no greenwashing."
+  schema={[serviceSchema, breadcrumbs]}
+>
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="hero-glow" style="top: 45%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <p class="label text-forest mb-8">Service · Marketing</p>
+      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
+        Marketing that <em class="text-forest">earns</em> attention.
+        Not <em class="text-forest">buys</em> it.
+      </h1>
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
+          Strategy, content, and channel work for independent businesses. Fewer,
+          better pieces. Email that respects the inbox. Organic social with a
+          point of view. SEO that means writing useful pages — not stuffing them.
+          Paid media only when it is the honest answer.
+        </p>
+        <div class="md:col-span-3 md:col-start-10 flex items-center justify-start md:justify-end">
+          <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group">
+            Start a project
+            <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        {offerings.map((o) => (
+          <div class="reveal">
+            <p class="label text-forest mb-4">{o.label}</p>
+            <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
+            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">How we work</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Five stages. <em class="text-forest">Honest&nbsp;measurement.</em>
+          </h2>
+        </div>
+        <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {process.map((p) => (
+            <li class="reveal border-b border-stone py-6 grid grid-cols-[auto,1fr] gap-6 md:gap-10">
+              <span class="label text-gray pt-1">{p.step}</span>
+              <div>
+                <h3 class="text-base md:text-lg font-medium text-ink">{p.title}</h3>
+                <p class="mt-2 text-[14px] text-ink/60 leading-relaxed">{p.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Who it's for</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Good fits <em class="text-forest">look&nbsp;like…</em>
+          </h2>
+        </div>
+        <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {forWho.map((line) => (
+            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div class="reveal max-w-2xl">
+        <p class="label text-gray mb-6">Next step</p>
+        <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
+          Tell us what you're trying to <em class="text-forest">move</em>.
+        </h2>
+        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+          Send a few lines about the goal — more leads, a launch, better retention, a
+          rebrand that needs momentum. We reply within 24 hours with a first read.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

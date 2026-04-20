@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/services/web-design';
+
+const serviceSchema = {
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Web Design',
+  description: 'Considered website design for independent brands. Information architecture, user experience, visual design, and design systems — built around how your audience actually uses the site.',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
+  serviceType: 'Website design',
+  url: pageUrl,
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://oakfox.co.uk/services' },
+    { '@type': 'ListItem', position: 3, name: 'Web Design', item: pageUrl },
+  ],
+};
+
+const offerings = [
+  {
+    label: 'Architecture',
+    title: 'Structure before surface',
+    description:
+      'Sitemap, page templates, and the decisions about what lives where. We do this first because the best visual design will not save a site your users cannot navigate.',
+  },
+  {
+    label: 'Design',
+    title: 'Considered visual design',
+    description:
+      'Typography, layout, colour, imagery, motion — tuned to the brand and to the content. Accessibility built in from the start, not bolted on after sign-off.',
+  },
+  {
+    label: 'System',
+    title: 'A design system that scales',
+    description:
+      'Components, patterns, and tokens handed over as a working Figma file. Your future pages get built faster and stay visually consistent — no drift across the site as content grows.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Listen', body: 'A proper conversation about what the site needs to do — for the business, for the user, and for the team maintaining it afterwards.' },
+  { step: '02', title: 'Architect', body: 'Sitemap, user journeys, page templates. Agreed before a pixel is designed. If the information architecture is wrong, everything downstream is broken.' },
+  { step: '03', title: 'Design', body: 'One focused direction developed in detail, rather than three shallow options. You get design decisions with reasoning, not a deck of lookbooks.' },
+  { step: '04', title: 'Refine', body: 'Two rounds of revisions included. Tested on real content, real screen sizes, and against the accessibility standard you actually need to meet.' },
+  { step: '05', title: 'Handover', body: 'Design system file, asset library, and a walk-through with your developers. Or straight into our build hands if we are doing the development too.' },
+];
+
+const forWho = [
+  'Independent businesses launching or rebuilding their site',
+  'Brands whose current site no longer matches how far they have come',
+  'Founders who want considered, accessible, sustainable web design rather than template-reskin work',
+  'Teams buying design separately from development and wanting a rigorous handover',
+];
+---
+
+<BaseLayout
+  title="Web Design"
+  description="Considered website design for independent brands. Information architecture, user experience, visual design, and design systems — built to be accessible, sustainable, and properly handed over."
+  schema={[serviceSchema, breadcrumbs]}
+>
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="hero-glow" style="top: 45%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <p class="label text-forest mb-8">Service · Web Design</p>
+      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
+        Websites designed around <em class="text-forest">the people</em> who have to use them.
+      </h1>
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
+          Information architecture, user experience, and visual design for brands
+          who know a good-looking homepage is not enough. Considered decisions,
+          accessible from the start, delivered as a proper design system your
+          developers (or ours) can actually build from.
+        </p>
+        <div class="md:col-span-3 md:col-start-10 flex items-center justify-start md:justify-end">
+          <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group">
+            Start a project
+            <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        {offerings.map((o) => (
+          <div class="reveal">
+            <p class="label text-forest mb-4">{o.label}</p>
+            <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
+            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">How we work</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Five stages. <em class="text-forest">Architecture&nbsp;first.</em>
+          </h2>
+        </div>
+        <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {process.map((p) => (
+            <li class="reveal border-b border-stone py-6 grid grid-cols-[auto,1fr] gap-6 md:gap-10">
+              <span class="label text-gray pt-1">{p.step}</span>
+              <div>
+                <h3 class="text-base md:text-lg font-medium text-ink">{p.title}</h3>
+                <p class="mt-2 text-[14px] text-ink/60 leading-relaxed">{p.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Who it's for</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Good fits <em class="text-forest">look&nbsp;like…</em>
+          </h2>
+        </div>
+        <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {forWho.map((line) => (
+            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div class="reveal max-w-2xl">
+        <p class="label text-gray mb-6">Next step</p>
+        <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
+          Tell us about the <em class="text-forest">site</em>. And the <em class="text-forest">goal</em>.
+        </h2>
+        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+          Drop the current URL if there is one, plus a line or two about what you
+          are trying to achieve. We reply within 24 hours with a first read.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
