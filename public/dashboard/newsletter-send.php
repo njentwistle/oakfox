@@ -95,8 +95,11 @@ function letter_build_html(string $subject, string $bodyHtml, string $unsubUrl):
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background: #F5F0E8;">
 <tr><td align="center" style="padding: 40px 20px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width: 560px; background: #FAF7F2; border-radius: 12px; border: 1px solid rgba(26,92,18,0.1); overflow: hidden;">
-<tr><td style="padding: 32px 40px 16px;">
-<p style="font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #1A5C12; margin: 0 0 8px;">OakFox Studio Notes</p>
+<tr><td style="padding: 36px 40px 20px;">
+<a href="https://oakfox.co.uk" style="display: inline-block; text-decoration: none;">
+<img src="https://oakfox.co.uk/images/site/logo.png" alt="OakFox" width="120" style="display: block; height: auto; border: 0; outline: none; text-decoration: none; margin-bottom: 14px;" />
+</a>
+<p style="font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #1A5C12; margin: 0;">Studio Notes</p>
 </td></tr>
 <tr><td style="padding: 0 40px 32px;">
 {$bodyHtml}

@@ -1,0 +1,448 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Compose Quote">
+  <div class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Compose a quote</h1>
+        <p style="color: var(--db-text-muted); font-size: 13px;">Build a branded, printable client quote. Save drafts locally. Export as PDF via your browser's print dialog.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="save-draft" class="db-btn">Save draft</button>
+        <button type="button" id="load-draft" class="db-btn">Load draft</button>
+        <button type="button" id="clear-all" class="db-btn">Clear</button>
+      </div>
+    </header>
+
+    <!-- Quote details -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Quote details</h2>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;" class="quote-grid-3">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Reference</label>
+          <input id="q-ref" type="text" class="db-input" placeholder="OAK-…" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Quote date</label>
+          <input id="q-date" type="date" class="db-input" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Valid until</label>
+          <input id="q-valid" type="date" class="db-input" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Client -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Client</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="quote-grid-2">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Name / Contact</label>
+          <input id="c-name" type="text" class="db-input" placeholder="Jane Smith" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Company</label>
+          <input id="c-company" type="text" class="db-input" placeholder="Smith & Co." style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Email</label>
+          <input id="c-email" type="email" class="db-input" placeholder="jane@smithco.com" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Address</label>
+          <input id="c-address" type="text" class="db-input" placeholder="1 High Street, Ormskirk, L39…" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Project -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Project</h2>
+      <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Title</label>
+          <input id="p-title" type="text" class="db-input" placeholder="Website Design & Development" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Scope summary</label>
+          <textarea id="p-scope" class="db-input" rows="4" placeholder="A short paragraph describing the project scope and what the client can expect." style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line items -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+        <h2 class="db-heading" style="font-size: 16px;">Line items</h2>
+        <button type="button" id="add-line" class="db-btn db-btn-sm db-btn-primary">+ Add item</button>
+      </div>
+      <div id="lines-list"></div>
+
+      <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--db-border); display: flex; flex-direction: column; gap: 8px; max-width: 320px; margin-left: auto;">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--db-text-secondary);">
+          <span>Subtotal</span>
+          <span id="subtotal" class="db-mono">£0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--db-text-secondary); align-items: center;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input id="vat-on" type="checkbox" class="db-checkbox" /> VAT (20%)
+          </label>
+          <span id="vat" class="db-mono">£0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: 600; color: var(--db-text); padding-top: 8px; border-top: 1px solid var(--db-border);">
+          <span>Total</span>
+          <span id="total" class="db-mono">£0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terms -->
+    <div class="db-card" style="margin-bottom: 24px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Terms & notes</h2>
+      <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Payment terms</label>
+          <textarea id="t-payment" class="db-input" rows="3" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;">50% deposit on acceptance. 50% balance on project completion. Invoices are payable within 14 days.</textarea>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Additional notes (optional)</label>
+          <textarea id="t-notes" class="db-input" rows="3" placeholder="Anything else — assumptions, timelines, what's not included." style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+      <button type="button" id="print-quote" class="db-btn db-btn-primary" style="margin-left: auto;">Print / Save as PDF</button>
+    </div>
+
+    <p id="quote-status" style="font-size: 13px; font-family: 'JetBrains Mono', monospace; min-height: 20px; color: var(--db-text-muted);"></p>
+
+    <!-- Preview -->
+    <details style="margin-top: 16px;" open>
+      <summary style="cursor: pointer; color: var(--db-text-muted); font-size: 13px; user-select: none;">Preview</summary>
+      <iframe id="preview-frame" title="Quote preview" style="width: 100%; min-height: 900px; border: 1px solid var(--db-border); border-radius: 10px; margin-top: 12px; background: #FAF7F2;"></iframe>
+    </details>
+  </div>
+
+  <script>
+    type LineItem = { description: string; qty: number; unitPrice: number };
+
+    const STORAGE_KEY = 'oakfox_quote_draft';
+
+    const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+
+    const fields = {
+      ref: $<HTMLInputElement>('q-ref'),
+      date: $<HTMLInputElement>('q-date'),
+      valid: $<HTMLInputElement>('q-valid'),
+      cName: $<HTMLInputElement>('c-name'),
+      cCompany: $<HTMLInputElement>('c-company'),
+      cEmail: $<HTMLInputElement>('c-email'),
+      cAddress: $<HTMLInputElement>('c-address'),
+      pTitle: $<HTMLInputElement>('p-title'),
+      pScope: $<HTMLTextAreaElement>('p-scope'),
+      tPayment: $<HTMLTextAreaElement>('t-payment'),
+      tNotes: $<HTMLTextAreaElement>('t-notes'),
+      vatOn: $<HTMLInputElement>('vat-on'),
+    };
+
+    const linesList = $('lines-list');
+    const subtotalEl = $('subtotal');
+    const vatEl = $('vat');
+    const totalEl = $('total');
+    const previewFrame = $<HTMLIFrameElement>('preview-frame');
+    const statusEl = $('quote-status');
+
+    let lines: LineItem[] = [];
+
+    function fmt(n: number): string {
+      return '£' + n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function setStatus(msg: string, state: 'ok' | 'error' | '' = '') {
+      statusEl.textContent = msg;
+      statusEl.style.color = state === 'error' ? 'var(--db-danger)' : state === 'ok' ? 'var(--db-accent)' : 'var(--db-text-muted)';
+      if (msg) setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ''; }, 4000);
+    }
+
+    function genRef(): string {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const rand = Math.floor(Math.random() * 900 + 100);
+      return `OAK-${yyyy}${mm}${dd}-${rand}`;
+    }
+
+    function initDefaults() {
+      if (!fields.ref.value) fields.ref.value = genRef();
+      if (!fields.date.value) fields.date.value = new Date().toISOString().split('T')[0];
+      if (!fields.valid.value) {
+        const v = new Date();
+        v.setDate(v.getDate() + 30);
+        fields.valid.value = v.toISOString().split('T')[0];
+      }
+    }
+
+    function renderLines() {
+      if (lines.length === 0) {
+        linesList.innerHTML = '<p style="color: var(--db-text-muted); font-size: 13px; text-align: center; padding: 24px 0;">No items yet. Click "Add item" to start.</p>';
+        recalc();
+        return;
+      }
+      linesList.innerHTML = lines.map((line, i) => `
+        <div class="line-row" data-i="${i}" style="display: grid; grid-template-columns: 1fr 80px 100px 40px; gap: 8px; margin-bottom: 8px; align-items: start;">
+          <input type="text" class="db-input line-desc" value="${line.description.replace(/"/g, '&quot;')}" placeholder="Description of work" data-i="${i}" />
+          <input type="number" class="db-input line-qty" value="${line.qty}" min="0" step="1" placeholder="Qty" data-i="${i}" />
+          <input type="number" class="db-input line-price" value="${line.unitPrice}" min="0" step="0.01" placeholder="Price" data-i="${i}" />
+          <button type="button" class="db-btn line-del" data-i="${i}" style="padding: 6px 10px; color: var(--db-danger);" aria-label="Remove line">&times;</button>
+        </div>
+      `).join('');
+
+      linesList.querySelectorAll<HTMLInputElement>('.line-desc').forEach(el => {
+        el.addEventListener('input', () => { lines[Number(el.dataset.i)].description = el.value; recalc(); });
+      });
+      linesList.querySelectorAll<HTMLInputElement>('.line-qty').forEach(el => {
+        el.addEventListener('input', () => { lines[Number(el.dataset.i)].qty = parseFloat(el.value) || 0; recalc(); });
+      });
+      linesList.querySelectorAll<HTMLInputElement>('.line-price').forEach(el => {
+        el.addEventListener('input', () => { lines[Number(el.dataset.i)].unitPrice = parseFloat(el.value) || 0; recalc(); });
+      });
+      linesList.querySelectorAll<HTMLButtonElement>('.line-del').forEach(el => {
+        el.addEventListener('click', () => {
+          lines.splice(Number(el.dataset.i), 1);
+          renderLines();
+        });
+      });
+
+      recalc();
+    }
+
+    function calcTotals() {
+      const subtotal = lines.reduce((sum, l) => sum + (l.qty * l.unitPrice), 0);
+      const vat = fields.vatOn.checked ? subtotal * 0.2 : 0;
+      const total = subtotal + vat;
+      return { subtotal, vat, total };
+    }
+
+    function recalc() {
+      const { subtotal, vat, total } = calcTotals();
+      subtotalEl.textContent = fmt(subtotal);
+      vatEl.textContent = fmt(vat);
+      totalEl.textContent = fmt(total);
+      renderPreview();
+    }
+
+    function esc(s: string): string {
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function nlToBr(s: string): string {
+      return esc(s).replace(/\n/g, '<br>');
+    }
+
+    function formatDate(iso: string): string {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-');
+      return `${d} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m, 10) - 1]} ${y}`;
+    }
+
+    function renderPreview() {
+      const { subtotal, vat, total } = calcTotals();
+
+      const linesHtml = lines.length
+        ? lines.map(l => `
+          <tr>
+            <td style="padding: 14px 0; border-bottom: 1px solid rgba(26,29,23,0.08); vertical-align: top;">${nlToBr(l.description) || '<span style="color:rgba(26,29,23,0.3)">—</span>'}</td>
+            <td style="padding: 14px 8px; border-bottom: 1px solid rgba(26,29,23,0.08); text-align: right; vertical-align: top; font-variant-numeric: tabular-nums;">${l.qty}</td>
+            <td style="padding: 14px 8px; border-bottom: 1px solid rgba(26,29,23,0.08); text-align: right; vertical-align: top; font-variant-numeric: tabular-nums;">${fmt(l.unitPrice)}</td>
+            <td style="padding: 14px 0 14px 8px; border-bottom: 1px solid rgba(26,29,23,0.08); text-align: right; vertical-align: top; font-variant-numeric: tabular-nums; white-space: nowrap;">${fmt(l.qty * l.unitPrice)}</td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="4" style="padding: 24px 0; text-align: center; color: rgba(26,29,23,0.4); font-style: italic;">No line items</td></tr>';
+
+      const clientBlock = [
+        fields.cName.value && `<strong>${esc(fields.cName.value)}</strong>`,
+        fields.cCompany.value && esc(fields.cCompany.value),
+        fields.cEmail.value && esc(fields.cEmail.value),
+        fields.cAddress.value && esc(fields.cAddress.value),
+      ].filter(Boolean).join('<br>');
+
+      const doc = `<!doctype html><html><head><meta charset="utf-8"><title>Quote ${esc(fields.ref.value)}</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px; background: #FAF7F2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #1A1D17; font-size: 13px; line-height: 1.6; }
+  .sheet { max-width: 720px; margin: 0 auto; background: #FAF7F2; padding: 48px 56px; border: 1px solid rgba(26,29,23,0.08); border-radius: 8px; }
+  .brand img { height: 40px; width: auto; display: block; }
+  .label { font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #1A5C12; }
+  h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 500; color: #1A1D17; margin: 24px 0 8px; letter-spacing: -0.01em; }
+  h2 { font-family: Georgia, serif; font-size: 17px; font-weight: 500; color: #1A1D17; margin: 32px 0 12px; }
+  table { width: 100%; border-collapse: collapse; }
+  .totals td { padding: 4px 0; font-size: 13px; }
+  .totals .grand { font-size: 16px; font-weight: 600; border-top: 2px solid #1A1D17; padding-top: 10px; }
+  a { color: #1A5C12; text-decoration: none; }
+  @media print { body { padding: 0; background: #fff; } .sheet { border: none; border-radius: 0; padding: 0; max-width: none; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <table style="margin-bottom: 32px;">
+    <tr>
+      <td style="vertical-align: top;">
+        <div class="brand"><a href="https://oakfox.co.uk"><img src="/images/site/logo.png" alt="OakFox" /></a></div>
+        <p style="margin: 14px 0 0; font-size: 11px; color: rgba(26,29,23,0.6); line-height: 1.5;">
+          OakFox Limited<br>
+          Martland Mill, Mart Ln<br>
+          Burscough, Ormskirk L40 0SD<br>
+          nathan@oakfox.co.uk · oakfox.co.uk
+        </p>
+      </td>
+      <td style="vertical-align: top; text-align: right;">
+        <p class="label" style="margin: 0;">Quote</p>
+        <p style="margin: 6px 0 0; font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 13px; color: #1A1D17;">${esc(fields.ref.value) || '—'}</p>
+        <p style="margin: 16px 0 0; font-size: 11px; color: rgba(26,29,23,0.6);">
+          Issued ${formatDate(fields.date.value)}<br>
+          Valid until ${formatDate(fields.valid.value)}
+        </p>
+      </td>
+    </tr>
+  </table>
+
+  <p class="label">Prepared for</p>
+  <p style="margin: 8px 0 0; line-height: 1.6;">${clientBlock || '<span style="color:rgba(26,29,23,0.3)">—</span>'}</p>
+
+  <h1>${esc(fields.pTitle.value) || 'Project quote'}</h1>
+  ${fields.pScope.value ? `<p style="margin: 16px 0 0; color: rgba(26,29,23,0.8); max-width: 60ch;">${nlToBr(fields.pScope.value)}</p>` : ''}
+
+  <h2>Scope & pricing</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left; padding: 0 0 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(26,29,23,0.5); font-weight: 500; border-bottom: 1px solid rgba(26,29,23,0.15);">Description</th>
+        <th style="text-align: right; padding: 0 8px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(26,29,23,0.5); font-weight: 500; border-bottom: 1px solid rgba(26,29,23,0.15); width: 60px;">Qty</th>
+        <th style="text-align: right; padding: 0 8px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(26,29,23,0.5); font-weight: 500; border-bottom: 1px solid rgba(26,29,23,0.15); width: 90px;">Unit</th>
+        <th style="text-align: right; padding: 0 0 8px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(26,29,23,0.5); font-weight: 500; border-bottom: 1px solid rgba(26,29,23,0.15); width: 100px;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>${linesHtml}</tbody>
+  </table>
+
+  <table class="totals" style="margin-top: 24px; max-width: 320px; margin-left: auto;">
+    <tr><td style="color: rgba(26,29,23,0.6);">Subtotal</td><td style="text-align: right; font-variant-numeric: tabular-nums;">${fmt(subtotal)}</td></tr>
+    ${fields.vatOn.checked ? `<tr><td style="color: rgba(26,29,23,0.6);">VAT (20%)</td><td style="text-align: right; font-variant-numeric: tabular-nums;">${fmt(vat)}</td></tr>` : ''}
+    <tr class="grand"><td>Total</td><td style="text-align: right; font-variant-numeric: tabular-nums;">${fmt(total)}</td></tr>
+  </table>
+
+  <h2>Payment terms</h2>
+  <p style="margin: 8px 0 0; color: rgba(26,29,23,0.8); max-width: 60ch;">${nlToBr(fields.tPayment.value) || '<span style="color:rgba(26,29,23,0.3)">—</span>'}</p>
+
+  ${fields.tNotes.value ? `<h2>Notes</h2><p style="margin: 8px 0 0; color: rgba(26,29,23,0.8); max-width: 60ch;">${nlToBr(fields.tNotes.value)}</p>` : ''}
+
+  <div style="margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(26,29,23,0.1);">
+    <p style="margin: 0; font-size: 11px; color: rgba(26,29,23,0.45); line-height: 1.6;">
+      Acceptance of this quote may be confirmed by reply email referencing ${esc(fields.ref.value) || 'this quote reference'}. Prices are in GBP and exclude third-party costs (hosting, stock assets, domains) unless specified. Quote valid until ${formatDate(fields.valid.value)}.
+    </p>
+    <p style="margin: 16px 0 0; font-size: 11px; color: rgba(26,29,23,0.4);">
+      OakFox Limited · Registered in England, Companies House 17118912 · oakfox.co.uk
+    </p>
+  </div>
+</div>
+</body></html>`;
+
+      previewFrame.srcdoc = doc;
+    }
+
+    // ── Wire up listeners ──
+    Object.values(fields).forEach((el) => {
+      el.addEventListener('input', recalc);
+      el.addEventListener('change', recalc);
+    });
+
+    $('add-line').addEventListener('click', () => {
+      lines.push({ description: '', qty: 1, unitPrice: 0 });
+      renderLines();
+    });
+
+    $('save-draft').addEventListener('click', () => {
+      const draft = {
+        ref: fields.ref.value,
+        date: fields.date.value,
+        valid: fields.valid.value,
+        cName: fields.cName.value,
+        cCompany: fields.cCompany.value,
+        cEmail: fields.cEmail.value,
+        cAddress: fields.cAddress.value,
+        pTitle: fields.pTitle.value,
+        pScope: fields.pScope.value,
+        tPayment: fields.tPayment.value,
+        tNotes: fields.tNotes.value,
+        vatOn: fields.vatOn.checked,
+        lines,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+      setStatus('Draft saved.', 'ok');
+    });
+
+    $('load-draft').addEventListener('click', () => {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) { setStatus('No saved draft found.', 'error'); return; }
+      try {
+        const draft = JSON.parse(raw);
+        fields.ref.value = draft.ref ?? '';
+        fields.date.value = draft.date ?? '';
+        fields.valid.value = draft.valid ?? '';
+        fields.cName.value = draft.cName ?? '';
+        fields.cCompany.value = draft.cCompany ?? '';
+        fields.cEmail.value = draft.cEmail ?? '';
+        fields.cAddress.value = draft.cAddress ?? '';
+        fields.pTitle.value = draft.pTitle ?? '';
+        fields.pScope.value = draft.pScope ?? '';
+        fields.tPayment.value = draft.tPayment ?? '';
+        fields.tNotes.value = draft.tNotes ?? '';
+        fields.vatOn.checked = !!draft.vatOn;
+        lines = Array.isArray(draft.lines) ? draft.lines : [];
+        renderLines();
+        setStatus('Draft loaded.', 'ok');
+      } catch {
+        setStatus('Could not parse saved draft.', 'error');
+      }
+    });
+
+    $('clear-all').addEventListener('click', () => {
+      if (!confirm('Clear all quote fields? This does not delete any saved draft.')) return;
+      Object.values(fields).forEach((el) => {
+        if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = false;
+        else (el as HTMLInputElement | HTMLTextAreaElement).value = '';
+      });
+      lines = [];
+      initDefaults();
+      renderLines();
+      setStatus('Cleared.', '');
+    });
+
+    $('print-quote').addEventListener('click', () => {
+      const win = previewFrame.contentWindow;
+      if (!win) return;
+      win.focus();
+      win.print();
+    });
+
+    // ── Init ──
+    initDefaults();
+    lines = [{ description: '', qty: 1, unitPrice: 0 }];
+    renderLines();
+  </script>
+
+  <style>
+    @media (max-width: 720px) {
+      .quote-grid-3 { grid-template-columns: 1fr !important; }
+      .quote-grid-2 { grid-template-columns: 1fr !important; }
+      #lines-list .line-row { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</DashboardLayout>
