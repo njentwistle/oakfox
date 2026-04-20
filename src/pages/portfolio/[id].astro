@@ -14,6 +14,15 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const { Content } = await render(item);
 
+const categoryServiceMap: Record<string, { href: string; label: string }> = {
+  branding: { href: '/services/branding', label: 'Branding service' },
+  design: { href: '/services/web-design', label: 'Web design service' },
+  development: { href: '/services/development', label: 'Development service' },
+  marketing: { href: '/services/marketing', label: 'Marketing service' },
+  consultancy: { href: '/services/environmental/consultancy', label: 'Environmental consultancy service' },
+};
+const relatedService = categoryServiceMap[item.data.category];
+
 const projectUrl = `https://oakfox.co.uk/portfolio/${item.id}`;
 const projectSchema: Record<string, unknown> = {
   '@type': 'CreativeWork',
@@ -71,9 +80,15 @@ const breadcrumbs = {
       <a href="/portfolio" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
         &larr; Back to Portfolio
       </a>
-      <span class="text-xs font-medium text-forest uppercase tracking-widest block mb-3">
-        {item.data.category}
-      </span>
+      {relatedService ? (
+        <a href={relatedService.href} class="text-xs font-medium text-forest uppercase tracking-widest block mb-3 hover:underline underline-offset-4">
+          {item.data.category}
+        </a>
+      ) : (
+        <span class="text-xs font-medium text-forest uppercase tracking-widest block mb-3">
+          {item.data.category}
+        </span>
+      )}
       <h1 class="text-4xl md:text-5xl font-bold tracking-tight">{item.data.title}</h1>
       <p class="mt-4 text-lg text-gray max-w-2xl">{item.data.description}</p>
 
@@ -127,6 +142,20 @@ const breadcrumbs = {
       )}
     </div>
   </article>
+
+  {relatedService && (
+    <section class="py-12 border-t border-stone">
+      <div class="max-w-4xl mx-auto px-6">
+        <p class="label text-gray mb-4">Related service</p>
+        <a href={relatedService.href} class="group inline-flex items-baseline gap-3 text-[15px] md:text-base font-medium text-ink hover:text-forest transition-colors duration-300">
+          {relatedService.label}
+          <svg class="w-4 h-4 text-forest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  )}
 
   <!-- Next project CTA -->
   <section class="bg-forest text-cream py-16">

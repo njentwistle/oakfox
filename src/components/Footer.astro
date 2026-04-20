@@ -4,11 +4,28 @@ import Img from './Img.astro';
 
 const navLinks = [
   { label: 'Work', href: '/portfolio' },
-  { label: 'Services', href: '/services' },
   { label: 'Studio', href: '/about' },
   { label: 'Journal', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
+];
+
+const serviceLinks = [
+  { label: 'Branding', href: '/services/branding' },
+  { label: 'Web Design', href: '/services/web-design' },
+  { label: 'Development', href: '/services/development' },
+  { label: 'Copywriting', href: '/services/copywriting' },
+  { label: 'Marketing', href: '/services/marketing' },
+  { label: 'Environmental', href: '/services/environmental' },
+];
+
+const locationLinks = [
+  { label: 'Ormskirk', href: '/locations/ormskirk' },
+  { label: 'Burscough', href: '/locations/burscough' },
+  { label: 'Southport', href: '/locations/southport' },
+  { label: 'Preston', href: '/locations/preston' },
+  { label: 'Manchester', href: '/locations/manchester' },
+  { label: 'Lancashire', href: '/locations/lancashire' },
 ];
 ---
 
@@ -19,7 +36,7 @@ const navLinks = [
       <Img src="/images/site/logolight.png" alt="OakFox" class="h-14 md:h-20 w-auto" />
     </a>
 
-    <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
+    <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-start">
       <!-- Tagline + address -->
       <div class="md:col-span-4">
         <p class="text-[13px] text-cream/50 leading-relaxed max-w-xs">
@@ -33,23 +50,6 @@ const navLinks = [
             07730 396404
           </a>
         </address>
-      </div>
-
-      <!-- Nav -->
-      <nav class="md:col-span-3 md:col-start-6 flex flex-col gap-3">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-[13px] text-cream/50 hover:text-cream transition-colors duration-300"
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <!-- Newsletter -->
-      <div class="md:col-span-4 md:col-start-9">
-        <NewsletterSignup variant="footer" />
 
         <div class="mt-8 flex items-center gap-4">
           <a
@@ -77,6 +77,55 @@ const navLinks = [
             class="h-10 w-auto"
           />
         </div>
+      </div>
+
+      <!-- Services column -->
+      <div class="md:col-span-2 md:col-start-5">
+        <p class="text-[11px] font-mono uppercase tracking-widest text-cream/40 mb-4">Services</p>
+        <nav class="flex flex-col gap-2.5">
+          {serviceLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Locations column -->
+      <div class="md:col-span-2">
+        <p class="text-[11px] font-mono uppercase tracking-widest text-cream/40 mb-4">
+          <a href="/locations" class="hover:text-cream/70 transition-colors">Locations</a>
+        </p>
+        <nav class="flex flex-col gap-2.5">
+          {locationLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Studio + newsletter -->
+      <div class="md:col-span-4 md:col-start-9">
+        <p class="text-[11px] font-mono uppercase tracking-widest text-cream/40 mb-4">Studio</p>
+        <nav class="flex flex-col gap-2.5 mb-8">
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <NewsletterSignup variant="footer" />
       </div>
     </div>
 

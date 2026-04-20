@@ -4,11 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const faqs = [
   {
     q: 'What does OakFox do?',
-    a: 'OakFox is a sustainable design studio based in West Lancashire. We offer branding, design, web development, marketing strategy, and environmental consultancy — often in combination — for businesses that want to grow without the environmental cost.',
+    a: 'OakFox is a sustainable design studio based in West Lancashire. We offer <a href="/services/branding" class="text-forest underline underline-offset-4">branding</a>, <a href="/services/web-design" class="text-forest underline underline-offset-4">web design</a>, <a href="/services/development" class="text-forest underline underline-offset-4">web development</a>, <a href="/services/copywriting" class="text-forest underline underline-offset-4">copywriting</a>, <a href="/services/marketing" class="text-forest underline underline-offset-4">marketing</a>, and <a href="/services/environmental" class="text-forest underline underline-offset-4">environmental consultancy and automation</a> — often in combination — for businesses that want to grow without the environmental cost.',
   },
   {
     q: 'Where is OakFox based? Do you work with clients outside the UK?',
-    a: "We're based in rural West Lancashire and registered as a company in England. We work with clients across the UK, Ireland, and mainland Europe. Most of our collaboration happens remotely, with occasional visits for brand discovery, shoots, or installations.",
+    a: "We're based in rural West Lancashire and registered as a company in England. Our studio is in <a href=\"/locations/burscough\" class=\"text-forest underline underline-offset-4\">Burscough</a>, between <a href=\"/locations/ormskirk\" class=\"text-forest underline underline-offset-4\">Ormskirk</a> and <a href=\"/locations/southport\" class=\"text-forest underline underline-offset-4\">Southport</a>. We work with clients across the UK, Ireland, and mainland Europe — see our <a href=\"/locations\" class=\"text-forest underline underline-offset-4\">locations page</a> for where we know the ground best. Most collaboration happens remotely, with occasional visits for brand discovery, shoots, or installations.",
   },
   {
     q: 'What does a typical OakFox project look like?',
@@ -44,6 +44,8 @@ const faqs = [
   },
 ];
 
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, '');
+
 const faqSchema = {
   '@type': 'FAQPage',
   '@id': 'https://oakfox.co.uk/faq#faq',
@@ -52,7 +54,7 @@ const faqSchema = {
     name: item.q,
     acceptedAnswer: {
       '@type': 'Answer',
-      text: item.a,
+      text: stripHtml(item.a),
     },
   })),
 };
@@ -93,9 +95,7 @@ const breadcrumbs = {
                 {item.q}
               </h2>
             </dt>
-            <dd class="text-[15px] text-ink/70 leading-relaxed">
-              {item.a}
-            </dd>
+            <dd class="text-[15px] text-ink/70 leading-relaxed" set:html={item.a}></dd>
           </div>
         ))}
       </dl>
