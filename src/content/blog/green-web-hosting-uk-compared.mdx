@@ -1,0 +1,116 @@
+---
+title: "Green Web Hosting UK Compared (2026)"
+description: "A practical comparison of verified renewable-powered web hosting providers serving the UK market in 2026. Prices, data centre locations, performance, and honest caveats."
+date: 2026-04-02
+category: "Development"
+author: "Nathan James Entwistle"
+tags: ["green hosting", "web development", "sustainability", "infrastructure", "uk"]
+draft: false
+---
+
+If you build, commission, or maintain websites in the UK and care about their carbon footprint, your hosting choice is the single biggest lever you have. This is a working comparison of the green hosting providers we actually use at OakFox, their UK availability, performance, pricing, and the honest caveats behind each one. Updated April 2026.
+
+## What Counts as "Green" Hosting?
+
+The term gets abused. Genuine green hosting means one of three things, ideally two:
+
+1. **Renewable-powered data centres** — running on matched or directly-contracted renewable energy (solar, wind, hydro). Verified by a third party.
+2. **Carbon-matched operations** — not just the servers but cooling, offices, networking, procurement.
+3. **Listed on [The Green Web Foundation](https://www.thegreenwebfoundation.org/green-web-check/)** — an independent, auditable registry. This is the check we run before recommending any host.
+
+"Carbon neutral" on its own is usually a tell. It often means "we buy offsets for diesel backup power" rather than "we do not burn diesel in the first place". Dig into the methodology before trusting the marketing.
+
+## The Providers We Use
+
+### Cloudflare Pages
+
+- **Green credentials**: Cloudflare publishes [annual impact reports](https://www.cloudflare.com/impact/). 100% renewable-matched energy across their network since 2021. Listed on The Green Web Foundation.
+- **Performance**: Global CDN, edge delivery, sub-100ms time-to-first-byte for static content. Excellent.
+- **UK presence**: 30+ edge locations in the UK (LHR, MAN, EDI).
+- **Pricing**: Free tier for most sites. Pro from $20/month if you need advanced features.
+- **Good for**: Static Astro, Next.js, Eleventy, or React sites. Our default for marketing sites.
+- **Caveat**: Free tier has a soft 500 builds/month cap. Above that you pay. Site owners hitting the cap usually have more fundamental architecture issues to address.
+
+### Netlify
+
+- **Green credentials**: 100% renewable energy for infrastructure, published annually. Listed on The Green Web Foundation.
+- **Performance**: Global CDN, similar tier to Cloudflare Pages. Slightly slower cold starts on serverless functions.
+- **UK presence**: CDN edges in London and Manchester.
+- **Pricing**: Free tier is generous. Pro from $19/month.
+- **Good for**: Teams used to the Netlify DX, form handling built-in, good for agencies managing multiple small sites.
+- **Caveat**: Bandwidth pricing at scale has got expensive. Above ~100GB/month, Cloudflare works out cheaper for similar performance.
+
+### Vercel
+
+- **Green credentials**: Matched renewable energy across all regions. Detailed sustainability disclosures in their yearly report. Listed on The Green Web Foundation.
+- **Performance**: Best-in-class for Next.js. Excellent for React-heavy applications.
+- **UK presence**: London region (LHR) available; can be pinned as the primary deployment region.
+- **Pricing**: Generous free hobby tier. Pro from $20/user/month.
+- **Good for**: Next.js apps, React SSR, API-heavy applications with edge functions.
+- **Caveat**: Pricing at scale is opaque and can surprise you. Function invocation costs add up. For pure static sites, Cloudflare Pages is cheaper at almost every scale.
+
+### Krystal (UK)
+
+- **Green credentials**: [B Corp certified](https://www.krystal.uk/why-krystal). 100% renewable energy across their UK data centres. Listed on The Green Web Foundation. Plants a tree for every new hosting account.
+- **Performance**: UK-centric; fast within the UK, adequate internationally. No global CDN unless paired with Cloudflare in front.
+- **UK presence**: Data centres in Manchester and London. Data stays in UK jurisdiction by default.
+- **Pricing**: Shared hosting from £5/month. Managed WordPress from £8/month.
+- **Good for**: UK-only audiences, WordPress sites needing traditional cPanel hosting, clients who explicitly want UK data residency.
+- **Caveat**: Not designed for static Jamstack architecture. If your site is Astro or Next.js, the modern stack providers above give better DX.
+
+### GreenGeeks
+
+- **Green credentials**: Purchases 300% matching wind credits through Bonneville Environmental Foundation. Listed on The Green Web Foundation.
+- **Performance**: Adequate. Lower tier than Cloudflare or Vercel.
+- **UK presence**: No native UK data centre — Amsterdam is the closest for EU customers.
+- **Pricing**: From $2.95/month on promotional pricing, real price around $11/month.
+- **Good for**: Budget-sensitive WordPress sites where full-stack Jamstack is overkill.
+- **Caveat**: The 300% matching is unusual and worth reading carefully. Matched credits are different from direct renewable contracting — it is genuine but one step further abstracted than Cloudflare or Krystal.
+
+### Kualo (UK)
+
+- **Green credentials**: 100% solar-powered UK data centre. Listed on The Green Web Foundation. B Corp certified.
+- **Performance**: UK-centric. Good within the UK, slower internationally.
+- **UK presence**: London data centre.
+- **Pricing**: Shared hosting from £2.99/month.
+- **Good for**: UK small business sites on traditional hosting, WordPress, client handover scenarios where cPanel is required.
+- **Caveat**: Small operation compared to the giants. Support is responsive but limited hours.
+
+## What We Recommend
+
+For most new OakFox projects:
+
+- **Static marketing site (Astro, Eleventy)** → Cloudflare Pages. Free, fastest, greenest, best DX.
+- **Next.js application** → Vercel pinned to the London region. Best-in-class for that stack.
+- **WordPress with UK data residency** → Krystal or Kualo. Both verified-green, both UK-hosted.
+- **Budget WordPress where data location does not matter** → GreenGeeks or Krystal shared tier.
+
+If a client has specific data residency requirements (NHS, public sector, or clients bound by procurement rules), Krystal or Kualo are the answer. Otherwise Cloudflare Pages beats almost every alternative on performance per watt per pound.
+
+## What to Watch Out For
+
+- **"Green" badges without disclosure**. If a host claims green credentials but does not publish an annual sustainability report, treat the claim as marketing. Genuine providers publish detail.
+- **Offsets as the sole mechanism**. Offsets are a last-resort mitigation, not a substitute for reduction. Providers who lean heavily on "carbon neutral" language usually mean "we buy offsets".
+- **Unlimited bandwidth on £2/month plans**. Uneconomic hosting is usually shared on overloaded servers. Performance suffers, meaning your pages load slowly, meaning users wait longer, meaning more energy consumed. A £8/month plan that actually performs is greener than a £2/month plan that does not.
+- **"Premium" tiers that are basically the same product**. Some providers charge a premium for "green" hosting when their infrastructure is already green at the base tier. Do not pay twice.
+
+## Checking Your Current Host
+
+If you already have a website and want to know where it stands:
+
+1. Run it through [The Green Web Foundation's checker](https://www.thegreenwebfoundation.org/green-web-check/)
+2. Compare its Lighthouse performance score to our targets (95+ for sustainable sites)
+3. Measure its page weight with Chrome DevTools — aim for under 1MB for marketing pages
+4. Check your CO2 per page view at [websitecarbon.com](https://www.websitecarbon.com/)
+
+A poorly-hosted, bloated WordPress site can be 10–40× worse than a well-built static site on green hosting. The gap is worth closing.
+
+## When to Migrate
+
+A migration from grey hosting to green hosting is usually a one-weekend job for a static site, two to three days for a WordPress site, and a proper scoped project for a complex application. The sustainability case is unambiguous. The commercial case is strong — green-hosted sites tend to be faster, cheaper at scale, and have better uptime than the bargain-basement legacy hosts.
+
+If you are planning a [sustainable website build](/services/web-design) or [considering a hosting migration](/services/development), we include verified green hosting as a deliverable on every project we take on. Send us a few lines via [the contact form](/contact) — we reply within 24 hours.
+
+---
+
+*This guide is refreshed roughly every six months. If a provider we have listed changes credentials materially, we will update this page and note the change below.*

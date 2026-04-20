@@ -6,6 +6,16 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const topTags = Array.from(tagCounts.entries())
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 12);
+
 const pageUrl = 'https://oakfox.co.uk/blog';
 
 const blogSchema = {
@@ -43,20 +53,49 @@ const breadcrumbs = {
 >
   <section class="pt-32 pb-8">
     <div class="max-w-7xl mx-auto px-6">
-      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">The Blog</p>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">The Blog</h1>
+      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Journal</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">Journal</h1>
       <p class="mt-6 text-lg text-gray max-w-2xl">
-        From experiments with new technologies and marketing strategy breakdowns,
-        to casual posts about my interests and personal life. I hope you find
-        something to interest you!
+        Essays and practical guides on sustainable branding, accessible web
+        design, green web development, honest marketing, and environmental
+        consultancy — written by <a href="/about#nathan" class="text-forest underline underline-offset-4">Nathan James Entwistle</a>.
       </p>
       <div class="mt-6 flex flex-wrap gap-4">
         <a href="/contact" class="text-forest font-medium text-sm hover:underline underline-offset-4">
-          Not interested in ramblings, start my project! &rarr;
+          Start a project &rarr;
         </a>
         <a href="/portfolio" class="text-forest font-medium text-sm hover:underline underline-offset-4">
-          See more of what we do &rarr;
+          See selected work &rarr;
         </a>
+      </div>
+
+      <div class="mt-10 flex flex-col gap-4">
+        <div class="relative max-w-md">
+          <input
+            id="blog-search"
+            type="search"
+            placeholder="Search posts…"
+            class="w-full pl-11 pr-4 py-3 rounded-full border border-stone bg-cream text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition-all"
+            aria-label="Search posts"
+          />
+          <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+          </svg>
+        </div>
+        {topTags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="text-[11px] font-mono uppercase tracking-widest text-gray pr-2 self-center">Tags</span>
+            {topTags.map(([tag, count]) => (
+              <a
+                href={`/blog/tags/${tag}`}
+                class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full hover:bg-forest hover:text-cream transition-colors duration-300"
+              >
+                {tag} <span class="text-forest/60">· {count}</span>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -64,11 +103,15 @@ const breadcrumbs = {
   <section class="py-8 pb-24">
     <div class="max-w-7xl mx-auto px-6">
       {posts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
             <a
               href={`/blog/${post.id}`}
-              class="group block rounded-2xl border border-gray-light p-6 transition-all duration-300 hover:border-forest hover:shadow-lg"
+              class="blog-card group block rounded-2xl border border-gray-light p-6 transition-all duration-300 hover:border-forest hover:shadow-lg"
+              data-title={post.data.title.toLowerCase()}
+              data-description={post.data.description.toLowerCase()}
+              data-tags={post.data.tags.join(' ').toLowerCase()}
+              data-category={post.data.category.toLowerCase()}
             >
               <span class="text-xs font-medium text-forest uppercase tracking-widest">
                 {post.data.category}
@@ -79,7 +122,7 @@ const breadcrumbs = {
               <p class="text-gray text-sm mt-2 line-clamp-3">{post.data.description}</p>
               <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-light">
                 <span class="text-xs text-gray">{post.data.author}</span>
-                <time class="text-xs text-gray">
+                <time datetime={post.data.date.toISOString()} class="text-xs text-gray">
                   {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </time>
               </div>
@@ -89,8 +132,32 @@ const breadcrumbs = {
       ) : (
         <p class="text-gray text-center py-12">Blog posts coming soon.</p>
       )}
+      <p id="blog-empty" class="hidden text-gray text-center py-12">No posts match that search.</p>
     </div>
   </section>
+
+  <script>
+    const input = document.getElementById('blog-search') as HTMLInputElement | null;
+    const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-card');
+    const empty = document.getElementById('blog-empty');
+
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const hay = [
+          card.dataset.title ?? '',
+          card.dataset.description ?? '',
+          card.dataset.tags ?? '',
+          card.dataset.category ?? '',
+        ].join(' ');
+        const match = q === '' || hay.includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) visible += 1;
+      });
+      if (empty) empty.classList.toggle('hidden', visible > 0);
+    });
+  </script>
 
   <section class="py-20 md:py-24 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

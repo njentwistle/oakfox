@@ -16,14 +16,21 @@ interface Props {
 const {
   title,
   description = 'Sustainable design, development, marketing and consultancy — West Lancashire, UK.',
-  image = '/og-default.png',
+  image,
   type = 'website',
   noIndex = false,
   schema,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const imageURL = new URL(image, Astro.site).toString();
+
+// Resolve a dynamic OG image based on the current path. Falls back to the
+// static default if the page is not one we generate an OG image for.
+const normalisedPath = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const ogSlug = normalisedPath === '' ? 'home' : normalisedPath;
+const ogImagePath = image ?? `/og/${ogSlug}.png`;
+const imageURL = new URL(ogImagePath, Astro.site).toString();
+
 const fullTitle = `${title} | OakFox`;
 
 const postalAddress = {

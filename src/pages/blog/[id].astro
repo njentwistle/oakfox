@@ -4,13 +4,25 @@ import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    const related = posts
+      .filter((p) => p.id !== post.id)
+      .map((p) => ({
+        post: p,
+        score: p.data.tags.filter((t) => post.data.tags.includes(t)).length,
+      }))
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score || b.post.data.date.valueOf() - a.post.data.date.valueOf())
+      .slice(0, 3)
+      .map((r) => r.post);
+    return {
+      params: { id: post.id },
+      props: { post, related },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, related } = Astro.props;
 const { Content } = await render(post);
 
 const articleUrl = `https://oakfox.co.uk/blog/${post.id}`;
@@ -28,6 +40,7 @@ const articleSchema = {
   keywords: post.data.tags.join(', '),
   author: {
     '@type': 'Person',
+    '@id': 'https://oakfox.co.uk/about#nathan',
     name: post.data.author,
     url: 'https://oakfox.co.uk/about',
   },
@@ -42,13 +55,30 @@ const breadcrumbs = {
     { '@type': 'ListItem', position: 3, name: post.data.title, item: articleUrl },
   ],
 };
+
+const pageSchemas: Record<string, unknown>[] = [articleSchema, breadcrumbs];
+if (post.data.howto) {
+  pageSchemas.push({
+    '@type': 'HowTo',
+    '@id': `${articleUrl}#howto`,
+    name: post.data.howto.name,
+    description: post.data.howto.description,
+    ...(post.data.howto.totalTime ? { totalTime: post.data.howto.totalTime } : {}),
+    step: post.data.howto.steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  });
+}
 ---
 
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
   type="article"
-  schema={[articleSchema, breadcrumbs]}
+  schema={pageSchemas}
 >
   <article class="pt-32 pb-24">
     <div class="max-w-3xl mx-auto px-6">
@@ -62,9 +92,11 @@ const breadcrumbs = {
         {post.data.title}
       </h1>
       <div class="flex items-center gap-4 mt-6 text-sm text-gray">
-        <span>{post.data.author}</span>
+        <a href="/about#nathan" class="hover:text-forest transition-colors duration-300">
+          {post.data.author}
+        </a>
         <span>&middot;</span>
-        <time>
+        <time datetime={post.data.date.toISOString()}>
           {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
         </time>
       </div>
@@ -72,9 +104,12 @@ const breadcrumbs = {
       {post.data.tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-4">
           {post.data.tags.map((tag: string) => (
-            <span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full">
+            <a
+              href={`/blog/tags/${tag}`}
+              class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full hover:bg-forest hover:text-cream transition-colors duration-300"
+            >
               {tag}
-            </span>
+            </a>
           ))}
         </div>
       )}
@@ -87,6 +122,33 @@ const breadcrumbs = {
       </div>
     </div>
   </article>
+
+  {related.length > 0 && (
+    <section class="py-16 md:py-20 border-t border-stone">
+      <div class="max-w-4xl mx-auto px-6">
+        <p class="label text-gray mb-10">Related reading</p>
+        <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+          {related.map((r) => (
+            <a
+              href={`/blog/${r.id}`}
+              class="group block rounded-2xl border border-stone p-6 transition-all duration-300 hover:border-forest"
+            >
+              <span class="text-xs font-medium text-forest uppercase tracking-widest">
+                {r.data.category}
+              </span>
+              <h3 class="text-base md:text-lg font-semibold mt-3 group-hover:text-forest transition-colors duration-300">
+                {r.data.title}
+              </h3>
+              <p class="text-[13px] text-ink/60 mt-2 line-clamp-3">{r.data.description}</p>
+              <time datetime={r.data.date.toISOString()} class="mt-4 block text-[11px] text-ink/40">
+                {r.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </time>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- CTA -->
   <section class="bg-forest text-cream py-16">

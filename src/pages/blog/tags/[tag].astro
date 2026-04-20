@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tagMap = new Map<string, typeof posts>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const arr = tagMap.get(tag) ?? [];
+      arr.push(post);
+      tagMap.set(tag, arr);
+    }
+  }
+  return Array.from(tagMap.entries()).map(([tag, entries]) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const pageUrl = `https://oakfox.co.uk/blog/tags/${tag}`;
+const displayTag = tag.charAt(0).toUpperCase() + tag.slice(1).replace(/-/g, ' ');
+
+const collectionSchema = {
+  '@type': 'CollectionPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: `OakFox Journal — ${displayTag}`,
+  description: `Articles from the OakFox journal tagged "${displayTag}" — ${posts.length} post${posts.length === 1 ? '' : 's'}.`,
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://oakfox.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: `Tag: ${displayTag}`, item: pageUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${displayTag} — OakFox Journal`}
+  description={`Articles from the OakFox journal tagged "${displayTag}". ${posts.length} post${posts.length === 1 ? '' : 's'} on sustainable design, development, marketing, and environmental practice.`}
+  schema={[collectionSchema, breadcrumbs]}
+>
+  <section class="pt-32 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <a href="/blog" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
+        &larr; All posts
+      </a>
+      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Tag</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">{displayTag}</h1>
+      <p class="mt-6 text-lg text-gray max-w-2xl">
+        {posts.length} post{posts.length === 1 ? '' : 's'} tagged "{displayTag}" — from the OakFox journal.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-8 pb-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <a
+            href={`/blog/${post.id}`}
+            class="group block rounded-2xl border border-gray-light p-6 transition-all duration-300 hover:border-forest hover:shadow-lg"
+          >
+            <span class="text-xs font-medium text-forest uppercase tracking-widest">
+              {post.data.category}
+            </span>
+            <h2 class="text-xl font-semibold mt-3 group-hover:text-forest transition-colors duration-300">
+              {post.data.title}
+            </h2>
+            <p class="text-gray text-sm mt-2 line-clamp-3">{post.data.description}</p>
+            <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-light">
+              <span class="text-xs text-gray">{post.data.author}</span>
+              <time class="text-xs text-gray">
+                {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

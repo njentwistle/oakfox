@@ -33,6 +33,21 @@ const blog = defineCollection({
     author: z.string().default('Nathan James Entwistle'),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    howto: z
+      .object({
+        name: z.string(),
+        description: z.string(),
+        totalTime: z.string().optional(),
+        steps: z
+          .array(
+            z.object({
+              name: z.string(),
+              text: z.string(),
+            })
+          )
+          .min(1),
+      })
+      .optional(),
   }),
 });
 
