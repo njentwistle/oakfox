@@ -79,12 +79,49 @@ const forWho = [
   'Service-led businesses whose footprint is hidden in consumables and supply chains',
   'Founders who want recommendations they can act on, not a report that sits in a drawer',
 ];
+
+const faqs = [
+  {
+    q: 'How much does a sustainability consultancy engagement cost?',
+    a: 'Environmental consultancy at OakFox typically runs from £2,500 for a focused audit of a single area (e.g. packaging or supply chain) to £8,000+ for a full operational audit with implementation support across three to six months. Retainers start at £750/month for ongoing advisory. Every proposal is scoped to the specific business.',
+  },
+  {
+    q: 'Are you qualified to advise on sustainability?',
+    a: 'We are operators and designers, not ISO-accredited auditors. Our advice is practical, supplier-focused, and pitched at independent businesses — not enterprises needing formal CSRD reporting. Where a client needs formal carbon accounting or ISO-14001 work, we refer them to specialists we trust. Our edge is practical change, not compliance paperwork.',
+  },
+  {
+    q: 'What kinds of changes do you typically recommend?',
+    a: 'Shorter supply chains, verified-green suppliers for consumables and packaging, cleaning product switches, energy efficiency retrofits, waste stream rationalisation, procurement changes, menu or product reformulation, and staff training. Every recommendation comes with a specific supplier, a specific cost, and an expected impact.',
+  },
+  {
+    q: 'How do you avoid greenwashing in the advice you give?',
+    a: 'We vet every supplier we recommend — checking certifications, supply chain transparency, and operating practices. We refuse to greenwash claims on behalf of clients and will push back if a proposed marketing line outstrips what the business is actually doing. Credibility beats a better press release every time.',
+  },
+  {
+    q: 'Do you work with small businesses, or only large ones?',
+    a: 'Small businesses are the bulk of our consultancy work — independent hospitality, small producers, retailers, and service-led businesses. Large enterprises usually have in-house sustainability teams and formal reporting needs we are not the best fit for. We are most useful to businesses between £250k and £10m turnover.',
+  },
+  {
+    q: 'How long before we see results from implementing the recommendations?',
+    a: 'Supplier switches often take effect within weeks of implementation — packaging orders, cleaning products, consumables. Operational changes (energy, waste streams) typically show results within one to three months. Supply chain restructuring is slower, three to six months. We review at three and six months so progress is tracked properly.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Environmental Consultancy"
-  description="Practical environmental consultancy for independent businesses. Supply chain, packaging, and operational audits with recommendations you can actually implement."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Environmental Consultancy for Small Business — UK"
+  description="OakFox offers practical environmental consultancy for independent UK businesses. Operational, supply chain, and packaging audits with real suppliers, real costs, and implementation support — no greenwashing."
+  schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
@@ -196,6 +233,27 @@ const forWho = [
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Consultancy <em class="text-forest">questions</em> we hear a lot.
+          </h2>
+        </div>
+        <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {faqs.map((f) => (
+            <div class="reveal border-b border-stone py-6">
+              <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </section>

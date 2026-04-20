@@ -19,9 +19,32 @@ const services = [
   { name: 'Copywriting', description: 'Words that earn attention.', href: '/services/copywriting' },
   { name: 'Marketing', description: 'Strategy that respects the audience.', href: '/services/marketing' },
 ];
+
+const homeSchema = {
+  '@type': 'WebPage',
+  '@id': 'https://oakfox.co.uk/#webpage',
+  url: 'https://oakfox.co.uk/',
+  name: 'OakFox — Sustainable Design Studio, West Lancashire UK',
+  description:
+    'OakFox is a sustainable design studio in West Lancashire, UK, offering branding, web design, development, marketing, and environmental consultancy for independent businesses and established brands.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  about: { '@id': 'https://oakfox.co.uk/#organization' },
+  primaryImageOfPage: 'https://oakfox.co.uk/og-default.png',
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    ],
+  },
+};
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  title="Sustainable Design Studio, West Lancashire"
+  description="OakFox is a sustainable design studio in West Lancashire, UK. Branding, web design, web development, marketing, and environmental consultancy for independent businesses and established brands — 15+ years of experience, no greenwashing."
+  schema={homeSchema}
+>
   <!-- ========== HERO ========== -->
   <section class="relative min-h-screen flex flex-col justify-center overflow-hidden">
     <div class="hero-glow"></div>

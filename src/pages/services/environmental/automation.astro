@@ -75,12 +75,49 @@ const principles = [
     body: 'We integrate into the booking systems, CRMs, and data sources you already use. We do not sell a platform you have to onboard into.',
   },
 ];
+
+const faqs = [
+  {
+    q: 'What is a Preliminary Ecological Appraisal (PEA) and can you automate it?',
+    a: 'A Preliminary Ecological Appraisal is the first-stage survey ecological consultants produce to assess a site for protected species, habitats, and biodiversity value — normally required for planning applications. We cannot automate the site survey itself, but we can automate the writing, formatting, and report production from the data you collect in the field. Typical time savings: four to six hours per PEA report.',
+  },
+  {
+    q: 'Does this work for BNG (Biodiversity Net Gain) reporting?',
+    a: 'Yes. We build automation around the Statutory Biodiversity Metric and Natural England\'s BNG reporting frameworks — taking field data into compliant, submission-ready documentation. We are currently working with consultancies producing thirty to two hundred BNG assessments per year.',
+  },
+  {
+    q: 'Will an AI system replace our ecologists?',
+    a: 'No. Our systems do not make ecological judgements, species identifications, or risk assessments — those stay with qualified ecologists. What they do is remove the writing, formatting, evidence-chasing, and administrative load that eats three days of every five. The expert work becomes the whole job.',
+  },
+  {
+    q: 'How secure is the data you hold?',
+    a: 'All automation we build runs on UK-hosted, GDPR-compliant infrastructure with encrypted storage, access control, and audit logs. We do not train external AI models on your data, and we do not share data between clients. The systems are built to be acceptable to a client\'s IT governance review.',
+  },
+  {
+    q: 'Do you work with regenerative farmers on SFI and Countryside Stewardship applications?',
+    a: 'Yes. We build drafting systems that take farm data — land parcels, existing schemes, management plans — and produce first-draft applications for SFI, Countryside Stewardship, and related schemes. You review, adjust, and submit. Time savings typically run from fifty to eighty per cent of the current effort.',
+  },
+  {
+    q: 'How long does a typical automation build take?',
+    a: 'A first working prototype of a single workflow usually ships in four to six weeks. Refinement during a live pilot takes another four to eight weeks, depending on how many edge cases exist in your data. Handover and documentation close out the engagement. Most consultancies are using the system in production within three months of kick-off.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Environmental Automation"
-  description="OakFox builds intelligent automation for environmental consultancies, ecologists, and regenerative farmers. Report generation, grant drafting, and compliance workflows — built on green infrastructure."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Automation for Ecologists & Environmental Consultancies — UK"
+  description="OakFox builds intelligent automation for ecologists, environmental consultancies, and regenerative farmers. PEA, BNG, SFI report generation — GDPR-compliant, green-hosted, and designed to save four to six hours per report."
+  schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
@@ -192,6 +229,27 @@ const principles = [
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Automation <em class="text-forest">questions</em> we hear a lot.
+          </h2>
+        </div>
+        <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {faqs.map((f) => (
+            <div class="reveal border-b border-stone py-6">
+              <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </section>

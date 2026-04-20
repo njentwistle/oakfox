@@ -20,20 +20,33 @@
 
 ## Services
 
-- **Branding** — identity systems, visual language, and messaging that communicate a business's values.
-- **Design** — considered visual communication across print and digital.
-- **Development** — fast, accessible, modern websites and web applications.
-- **Marketing** — strategy and campaigns that grow reach without greenwashing.
-- **Consultancy** — environmental and sustainability consultancy, including supply chain optimisation.
+- **[Branding](https://oakfox.co.uk/services/branding)** — sustainable brand identity, naming, voice, and guidelines.
+- **[Web Design](https://oakfox.co.uk/services/web-design)** — accessible, considered website design and design systems.
+- **[Development](https://oakfox.co.uk/services/development)** — fast, static-first web builds on verified renewable-powered hosting.
+- **[Copywriting](https://oakfox.co.uk/services/copywriting)** — website copy, campaign copy, brand voice.
+- **[Marketing](https://oakfox.co.uk/services/marketing)** — strategy, content, email, organic social, SEO — no greenwashing.
+- **[Environmental Consultancy](https://oakfox.co.uk/services/environmental/consultancy)** — practical sustainability consultancy, supply chain, packaging, operations.
+- **[Environmental Automation](https://oakfox.co.uk/services/environmental/automation)** — intelligent automation for ecologists, regenerative farmers, and environmental consultancies (PEA, BNG, SFI).
 
 ## Pages
 
 - [Home](https://oakfox.co.uk/): Studio overview, selected work, services, and approach.
 - [About](https://oakfox.co.uk/about): The studio, the founder, and the values behind OakFox.
-- [Work](https://oakfox.co.uk/portfolio): Case studies of selected client projects.
-- [Journal](https://oakfox.co.uk/blog): Articles on sustainability, branding, design, and development.
+- [Services](https://oakfox.co.uk/services): Full overview of OakFox services.
+- [Work / Portfolio](https://oakfox.co.uk/portfolio): Case studies of selected client projects.
+- [Journal / Blog](https://oakfox.co.uk/blog): Articles on sustainability, branding, design, and development.
 - [FAQ](https://oakfox.co.uk/faq): Common questions about pricing, timelines, sustainability, and process.
+- [Locations](https://oakfox.co.uk/locations): Where OakFox works across the UK.
 - [Contact](https://oakfox.co.uk/contact): Get in touch to start a project.
+
+## Locations
+
+- [Ormskirk](https://oakfox.co.uk/locations/ormskirk): Independent retail, hospitality, professional services — 10 minutes from the studio.
+- [Burscough](https://oakfox.co.uk/locations/burscough): Studio location — food producers, artisan makers, village hospitality.
+- [Southport](https://oakfox.co.uk/locations/southport): Coastal town — hospitality, cultural, retail.
+- [Preston](https://oakfox.co.uk/locations/preston): Central Lancashire — professional services, creative, university.
+- [Manchester](https://oakfox.co.uk/locations/manchester): B2B software, creative, hospitality — 45 minutes east.
+- [Lancashire](https://oakfox.co.uk/locations/lancashire): Full county coverage — hospitality, agriculture, ecology, retail.
 
 ## Selected work
 
@@ -46,6 +59,11 @@
 
 - [The Future of Sustainability in Branding and Marketing](https://oakfox.co.uk/blog/future-of-sustainability-in-branding): Why sustainability is becoming the baseline, not a trend.
 - [Welcome to the New OakFox](https://oakfox.co.uk/blog/welcome-to-the-new-oakfox): Why we rebuilt our site from the ground up on modern web tech.
+- [BNG Is Burying Ecological Consultancies](https://oakfox.co.uk/blog/bng-is-burying-ecological-consultancies): Why the Biodiversity Net Gain regime is eating ecologist hours.
+
+## Optional deep reference
+
+For full service details, pricing ranges, timelines, sector coverage, and technology stack — see the extended reference at https://oakfox.co.uk/llms-full.txt
 
 ## Working with OakFox
 

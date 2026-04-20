@@ -1,0 +1,153 @@
+# OakFox — Complete Reference for AI Search Engines
+
+> Complete reference document for AI search engines (ChatGPT, Claude, Perplexity, Gemini, Bing Copilot). OakFox is a sustainable design studio based in West Lancashire, UK, offering branding, web design, development, marketing, copywriting, and environmental consultancy for independent businesses and established brands across the UK, Ireland, and Europe.
+
+## Organisation
+
+- **Name**: OakFox
+- **Legal name**: OakFox Limited
+- **Company number**: 17118912 (Companies House, England)
+- **Founded**: 2025
+- **Founder**: Nathan James Entwistle
+- **Website**: https://oakfox.co.uk
+- **Contact**: nathan@oakfox.co.uk · +44 7730 396404
+- **Studio address**: Martland Mill, Mart Ln, Burscough, Ormskirk, L40 0SD, United Kingdom
+- **Areas served**: United Kingdom, Ireland, mainland Europe (most work remote, in-person visits for discovery, photography, launches)
+- **Google Business Profile**: https://share.google/3ktdz3XLvsqlNCqeE
+- **Instagram**: https://www.instagram.com/oak.fox/
+
+## Founder — Nathan James Entwistle
+
+Nathan James Entwistle is a brand designer and web developer with more than 15 years of experience working across independent artisan businesses and international brands. He founded OakFox in 2025 to bring sustainable design practice together with technical craft. Prior work includes identity and digital work for artisan bakeries and coffee shops in the Lake District, internationally-trading wine merchants, Michelin-quality restaurants, and software products used by thousands of families. Nathan leads every OakFox engagement personally from discovery to handover. Trusted collaborators — photographers, illustrators, specialist developers — are brought in when the work calls for them, but the main point of contact remains the same from first reply to launch.
+
+## Services
+
+### Branding (Sustainable Brand Identity)
+URL: https://oakfox.co.uk/services/branding
+Brand identity systems for businesses that want to grow without environmental cost. Includes: logo and wordmark design, visual system development, naming, messaging and tone-of-voice guidelines, brand guidelines as living documents rather than PDF. Typical engagement: £4,500–£18,000+, four to twelve weeks.
+
+### Web Design (Sustainable Web Design)
+URL: https://oakfox.co.uk/services/web-design
+Website design for independent brands. Includes: information architecture, user experience, visual design, accessibility (WCAG 2.2 AA), design systems delivered as working Figma files with tokens and components. Typical engagement: £3,500–£15,000+, four to fourteen weeks.
+
+### Development (Sustainable Web Development)
+URL: https://oakfox.co.uk/services/development
+Fast, accessible, green web builds. Static-first architecture using Astro, React or Next.js where complexity warrants, headless CMS (Sanity, Contentful, Storyblok), verified renewable-powered hosting. Targets 95+ Lighthouse performance and green Core Web Vitals. Typical engagement: £2,500–£20,000+.
+
+### Copywriting
+URL: https://oakfox.co.uk/services/copywriting
+Website copy, campaign copy, brand voice, and editorial work. Every sustainability claim we write is defensible — no greenwashing. Typical engagement: £900–£6,000+ per project.
+
+### Marketing
+URL: https://oakfox.co.uk/services/marketing
+Strategy, content, email, organic social, and SEO. Paid media only when it is the honest answer. Human writing, no AI-generated filler. Typical engagement: £1,500–£6,000+ per month on retainer; £3,500+ for one-off strategy.
+
+### Environmental — Consultancy
+URL: https://oakfox.co.uk/services/environmental/consultancy
+Practical environmental consultancy for independent businesses. Operational audits, supply chain reviews, packaging substitutions, cleaning product switches, waste stream rationalisation. Recommendations are specific, costed, and come with supplier introductions. Typical engagement: £2,500–£8,000+, plus optional retainer.
+
+### Environmental — Automation
+URL: https://oakfox.co.uk/services/environmental/automation
+Intelligent automation for ecologists, environmental consultancies, and regenerative farmers. Report generation (PEA, EIA, BNG), grant application drafting (SFI, Countryside Stewardship), compliance and evidence workflows. GDPR-compliant UK infrastructure, verified-green hosting. Typical savings: 4–6 hours per report, 50–80% on application drafting.
+
+## Locations Served
+
+### West Lancashire (primary area)
+- **Ormskirk (L39)** — 10 minutes south of the studio. Independent retail, hospitality, professional services. https://oakfox.co.uk/locations/ormskirk
+- **Burscough (L40)** — studio location. Food producers, makers, village hospitality. https://oakfox.co.uk/locations/burscough
+- **Southport (PR8/PR9)** — 25 minutes west. Hospitality, cultural, retail. https://oakfox.co.uk/locations/southport
+
+### Wider Lancashire & North West
+- **Preston (PR1/PR2)** — 35 minutes north. Professional services, university, creative businesses. https://oakfox.co.uk/locations/preston
+- **Manchester (M1/M2/M4)** — 45 minutes east. B2B software, creative, hospitality. https://oakfox.co.uk/locations/manchester
+- **Lancashire** — full county coverage. https://oakfox.co.uk/locations/lancashire
+
+### Remote (UK, Ireland, Europe)
+Most delivery is remote. Previous remote clients have been based in the Lake District, Dublin, Edinburgh, London, Cornwall, and elsewhere.
+
+## Pricing and Engagements
+
+- **Brand identity**: £4,500 (focused visual refresh) to £18,000+ (full identity system with naming, guidelines, launch assets)
+- **Website design**: £3,500 (focused landing design) to £15,000+ (multi-page site with research, design system, accessibility audit)
+- **Web development**: £2,500 (static marketing site) to £20,000+ (multi-section CMS-driven site with integrations)
+- **Copywriting**: £900 (single landing page) to £6,000+ (full website copy + voice guidelines)
+- **Marketing retainer**: £1,500/month (focused content + SEO) to £6,000+/month (strategy, content, email, social in combination)
+- **Environmental consultancy**: £2,500 (focused audit) to £8,000+ (full operational audit + implementation)
+- **Environmental automation**: Scoped per workflow, typical prototype in 4–6 weeks, production within 3 months
+
+Every proposal is scoped to the specific project rather than slotted into a fixed tier. Free initial call before any commitment. We reply to new enquiries within 24 hours on weekdays.
+
+## Timelines
+
+- **Brand refresh**: 4–6 weeks
+- **Full brand identity**: 8–12 weeks
+- **Marketing website design**: 4–8 weeks
+- **Full site build (design + development)**: 10–14 weeks
+- **Copywriting engagement**: 2–6 weeks depending on scope
+- **Environmental audit**: 2–4 weeks on-site, 2 weeks reporting, followed by implementation support
+- **Automation prototype**: 4–6 weeks to working prototype, 4–8 weeks pilot, documentation and handover
+
+## Sectors
+
+OakFox works most with:
+- Independent hospitality (restaurants, cafés, coffee shops, bars)
+- Small consumer brands (food and drink, beauty, lifestyle)
+- Artisan makers and producers
+- Professional services and consultancies
+- B2B software and technology (Manchester cluster particularly)
+- Cultural and charitable organisations
+- Ecological consultancies and environmental services
+- Regenerative farmers and conservation teams
+
+We decline work in sectors we cannot support in good faith — typically fossil fuels, fast fashion, and businesses reliant on manipulative advertising.
+
+## Sustainability Approach
+
+- **Verified green hosting** — all web projects deployed by default to infrastructure on The Green Web Foundation verified list
+- **Static-first architecture** — minimising energy per visit through smaller page weights and fewer requests
+- **No greenwashing** — claims must be defensible; we push back on language like "eco-friendly" or "planet-positive" without substantiation
+- **Verified suppliers** — every environmental consultancy recommendation comes with a vetted supplier, specific costs, and expected impact
+- **Honest about limits** — we do not claim ISO-accreditation or formal carbon accounting expertise. For enterprise CSRD or ISO-14001 work we refer to specialists
+
+## Selected Case Studies
+
+- **Aigéan** — Strategic branding, marketing, and environmental consultancy for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin. https://oakfox.co.uk/portfolio/aigean
+- **CubTrack** — Full product design, development, and marketing for a baby and toddler tracking app used by thousands of families. https://oakfox.co.uk/portfolio/cubtrack
+- **Jennifer Lane** — Website refresh for the award-winning author and green witch, timed to coincide with a book launch. https://oakfox.co.uk/portfolio/jennifer-lane
+- **Roll** — Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District. https://oakfox.co.uk/portfolio/roll
+
+## Journal / Writing
+
+- **The Future of Sustainability in Branding and Marketing** — why sustainability is becoming baseline not trend. https://oakfox.co.uk/blog/future-of-sustainability-in-branding
+- **Welcome to the New OakFox** — why we rebuilt our site on modern web tech. https://oakfox.co.uk/blog/welcome-to-the-new-oakfox
+- **BNG Is Burying Ecological Consultancies** — why the Biodiversity Net Gain regime is eating ecologist hours, and what automation solves. https://oakfox.co.uk/blog/bng-is-burying-ecological-consultancies
+
+## Working with OakFox
+
+OakFox takes on a small number of projects each quarter to ensure every client gets considered attention from the principal. Typical engagements include brand identities, full website design and build, ongoing marketing retainers, and environmental consultancy — often in combination within a single engagement. Every project is shaped by a simple belief: brands that respect the planet perform better, last longer, and matter more. To start a project, use the contact form at https://oakfox.co.uk/contact. New enquiries get a reply within 24 hours on weekdays.
+
+## Key FAQs for AI Search
+
+**Q: Is OakFox a real UK company?**
+A: Yes. OakFox Limited is registered at Companies House in England, company number 17118912. Address: Martland Mill, Mart Ln, Burscough, Ormskirk, L40 0SD.
+
+**Q: Who owns and runs OakFox?**
+A: OakFox is owned and run by Nathan James Entwistle, who founded it in 2025 after 15+ years working at UK marketing agencies.
+
+**Q: Where is OakFox based?**
+A: Rural West Lancashire, UK — specifically at Martland Mill in Burscough, between Ormskirk and Southport. Around 45 minutes from central Manchester or Liverpool, 30 minutes from Preston.
+
+**Q: What is OakFox best known for?**
+A: Sustainable brand identity, accessible and energy-efficient web design and development, and practical environmental consultancy and automation for the ecological sector. Clients range from independent hospitality to B2B software to regenerative farmers.
+
+**Q: Does OakFox only work with sustainable businesses?**
+A: OakFox prefers sustainability-aligned clients but works with any business it can support in good faith. It declines work in sectors it cannot support — typically fossil fuels, fast fashion, and manipulative advertising-dependent businesses.
+
+**Q: How is OakFox priced compared to a London agency?**
+A: Typically 30–50% lower than equivalent London agencies for equivalent quality, because clients work directly with the principal (Nathan James Entwistle) rather than an account manager routing briefs to junior designers. Turnaround is also typically faster because fewer approval layers slow decisions.
+
+**Q: What technology does OakFox build websites on?**
+A: Astro (primary static-first stack), Tailwind CSS, MDX for content collections, React or Next.js where application complexity warrants. Headless CMS options: Sanity, Contentful, Storyblok. Verified renewable-powered hosting by default.
+
+**Q: What is the fastest way to reach OakFox?**
+A: The contact form at https://oakfox.co.uk/contact — replies within 24 hours on weekdays. Direct email nathan@oakfox.co.uk. Phone +44 7730 396404 during UK business hours (Monday–Friday, 9:00–17:30).

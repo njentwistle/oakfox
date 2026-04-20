@@ -59,12 +59,49 @@ const forWho = [
   'Teams launching a site, a product, or a campaign under a deadline',
   'Anyone who has been quoted "£50 per 500 words" and noticed the quality',
 ];
+
+const faqs = [
+  {
+    q: 'How much does website copywriting cost?',
+    a: 'Copywriting projects at OakFox typically range from £900 for a single well-crafted landing page to £6,000+ for a full website copy overhaul including voice guidelines. Every quote is case-by-case, priced on scope and expertise required rather than word count. We send a detailed proposal after a free initial call.',
+  },
+  {
+    q: 'Do you write SEO-optimised copy?',
+    a: 'Yes — but we write for readers first, search engines second. That means keyword research informs topic and structure, not sentence composition. Pages rank because they answer a search intent better than the competition, not because they stuff the target phrase into every paragraph. We deliver copy that reads naturally and ranks.',
+  },
+  {
+    q: 'What is the difference between copywriting and content writing?',
+    a: 'Copywriting is persuasive, commercially-oriented writing: homepages, service pages, email sequences, landing pages. Content writing is editorial or educational: articles, guides, long-form resources. We do both, but brief them differently — copy earns a decision, content earns trust.',
+  },
+  {
+    q: 'Will you use my existing brand voice or create one?',
+    a: 'Either. If you have a voice guide, we stress-test it and write to it. If you do not, we can develop one as the first module of the project — principles, tone rules, vocabulary lists, examples of good and bad for your team to reference when they write. It takes a few hours and pays for itself forever.',
+  },
+  {
+    q: 'How do you handle sustainability claims and avoid greenwashing?',
+    a: 'Every claim we write is one you could defend to a regulator. We ask for evidence, check supplier chains where relevant, and refuse to write vague language like "eco-friendly" or "planet-positive" without substantiation. Clear claims, honest caveats, stronger brand — greenwashing is a short-term gain and a long-term reputational liability.',
+  },
+  {
+    q: 'How many rounds of revisions are included?',
+    a: 'Two rounds of edits are included as standard on all copywriting engagements. Most projects never need the second. Additional rounds are chargeable at a transparent hourly rate, agreed in the proposal, but are rarely needed.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Copywriting"
-  description="Copywriting for brands that value substance over slogans. Website copy, campaign copy, brand voice, and editing — honest, precise, built to convert without the marketing-speak."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Brand & Website Copywriter — UK"
+  description="OakFox writes website copy, campaign copy, brand voice, and long-form for brands that value substance over slogans. Honest, precise, SEO-aware — without the marketing-speak or greenwashing."
+  schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
@@ -150,6 +187,27 @@ const forWho = [
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Copywriting <em class="text-forest">questions</em> we hear a lot.
+          </h2>
+        </div>
+        <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {faqs.map((f) => (
+            <div class="reveal border-b border-stone py-6">
+              <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </section>

@@ -59,12 +59,49 @@ const forWho = [
   'Founders who have been burned by shiny framework choices and want a site they can still run in five years',
   'Teams wanting a site that passes a Lighthouse audit without compromises',
 ];
+
+const faqs = [
+  {
+    q: 'What tech stack do you build websites on?',
+    a: 'We default to static-first builds using Astro, with Tailwind CSS for styling, MDX for content collections, and a headless CMS (Sanity, Contentful, or Storyblok depending on fit) when the client needs to edit. For applications we reach for React, Next.js, or Vue where the complexity justifies it — but we start with the lightest architecture that solves the problem.',
+  },
+  {
+    q: 'How much does a custom website build cost?',
+    a: 'Custom web development at OakFox typically ranges from £2,500 for a static marketing site to £20,000+ for a multi-section CMS-driven site with integrations. Every quote is case-by-case. We send a detailed written proposal after a free initial call.',
+  },
+  {
+    q: 'What is "green web hosting" and why does it matter?',
+    a: 'Green web hosting runs on verified renewable-powered infrastructure — solar, wind, hydro — rather than fossil-fuel-backed grid power. Websites are responsible for a meaningful share of global digital emissions, so hosting choice is one of the highest-leverage sustainability decisions a business makes. We deploy by default to providers on The Green Web Foundation verified list.',
+  },
+  {
+    q: 'Do you work with Shopify, WordPress, or other CMS platforms?',
+    a: 'Yes — where they fit. Shopify for e-commerce when the feature set matches; Shopify Hydrogen where a custom frontend is justified. WordPress only when the client has an existing ecosystem we should not break. For most marketing sites we prefer headless CMS options — faster, more secure, easier to maintain, far fewer plugin conflicts.',
+  },
+  {
+    q: 'Will my website be fast and pass Core Web Vitals?',
+    a: 'Yes. Every site we build targets a 95+ Lighthouse performance score and green Core Web Vitals out of the box. Static rendering, optimised images, minimal JavaScript, and edge hosting combine to give pages that load in well under a second on 4G. We audit at every sprint, not at the end.',
+  },
+  {
+    q: 'Do you offer ongoing website support and maintenance?',
+    a: 'Yes. After launch we offer monthly retainers covering security updates, content edits, performance monitoring, and small feature work. Retainers are scoped to the hours you actually need rather than a fixed package. Alternatively we do a clean handover to your in-house team with documentation written assuming the reader was not in the room.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Development"
-  description="Web development for brands that care what sits under the hood. Fast, accessible, sustainable builds with modern static-first architecture — hosted on verified green infrastructure."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Sustainable Web Development Agency — UK"
+  description="OakFox builds fast, accessible, sustainable websites. Static-first architecture with Astro, headless CMS, and verified green hosting — for brands that care what sits under the hood."
+  schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
@@ -150,6 +187,27 @@ const forWho = [
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Web development <em class="text-forest">questions</em> we hear a lot.
+          </h2>
+        </div>
+        <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {faqs.map((f) => (
+            <div class="reveal border-b border-stone py-6">
+              <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </section>

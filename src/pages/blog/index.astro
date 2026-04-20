@@ -5,9 +5,42 @@ import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const pageUrl = 'https://oakfox.co.uk/blog';
+
+const blogSchema = {
+  '@type': 'Blog',
+  '@id': `${pageUrl}#blog`,
+  url: pageUrl,
+  name: 'OakFox Journal',
+  description:
+    'Essays and practical guides on sustainable branding, accessible web design, green web development, marketing without greenwashing, and environmental consultancy — from OakFox, a sustainable design studio in West Lancashire, UK.',
+  inLanguage: 'en-GB',
+  publisher: { '@id': 'https://oakfox.co.uk/#organization' },
+  blogPost: posts.slice(0, 10).map((post) => ({
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    url: `https://oakfox.co.uk/blog/${post.id}`,
+    author: { '@type': 'Person', name: post.data.author },
+  })),
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Journal', item: pageUrl },
+  ],
+};
 ---
 
-<BaseLayout title="Blog" description="From experiments with new technologies and marketing strategy breakdowns, to casual posts about interests and personal life.">
+<BaseLayout
+  title="Journal — Sustainable Branding, Web Design & Environmental Writing"
+  description="Essays and practical guides from OakFox on sustainable branding, accessible web design, green web development, honest marketing, and environmental consultancy — written by Nathan James Entwistle."
+  schema={[blogSchema, breadcrumbs]}
+>
   <section class="pt-32 pb-8">
     <div class="max-w-7xl mx-auto px-6">
       <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">The Blog</p>

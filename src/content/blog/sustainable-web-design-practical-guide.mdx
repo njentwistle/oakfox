@@ -1,0 +1,144 @@
+---
+title: "Sustainable Web Design: A Practical Guide for UK Businesses"
+description: "What sustainable web design actually means, how much energy your website uses, and the specific changes that cut emissions — with real numbers, not marketing lines."
+date: 2026-04-20
+category: "Web Design"
+author: "Nathan James Entwistle"
+tags: ["web design", "sustainability", "performance", "accessibility", "green hosting"]
+draft: false
+---
+
+Most articles on "sustainable web design" are marketing dressed up as advice. This one tries not to be. If you run or commission websites in the UK and want to know what actually reduces their environmental impact — without the platitudes — this is the practical version.
+
+## What Sustainable Web Design Actually Means
+
+The internet is responsible for roughly 3.7% of global carbon emissions — comparable to the aviation industry. Every page view draws energy from data centres, network infrastructure, and the device in the user's hand. Sustainable web design reduces that draw without compromising the experience.
+
+It is not the same as "eco-friendly design" — there is no moss on your homepage, no green leaf logo. It is an engineering discipline:
+
+- **Less data transferred per visit** (smaller images, leaner code, fewer requests)
+- **Less compute required to render** (static HTML where possible, minimal JavaScript)
+- **Infrastructure running on renewable energy** (verified green hosting)
+- **Longevity** (sites that do not need rebuilding in two years when the framework falls out of fashion)
+
+Get those four right and you have done 90% of the work.
+
+## Measure Before You Change Anything
+
+Before cutting kilobytes, find out where you actually stand. The tools:
+
+- **[Website Carbon Calculator](https://www.websitecarbon.com/)** — estimates grams of CO2 per page view. A good starting benchmark.
+- **[Ecograder](https://ecograder.com/)** — scores pages on green design principles and lists specific issues.
+- **[Google PageSpeed Insights](https://pagespeed.web.dev/)** — measures Core Web Vitals, which correlate strongly with energy efficiency.
+- **[The Green Web Foundation](https://www.thegreenwebfoundation.org/green-web-check/)** — checks whether your host runs on renewable power.
+
+A typical UK marketing site we inherit comes in at 2–4g CO2 per page view on a grid-powered host. Sites we rebuild land between 0.1g and 0.3g on a green host — a 10× to 40× improvement. That is the magnitude of the opportunity.
+
+## The Highest-Leverage Changes
+
+Not all changes move the needle equally. In order of impact for a typical UK marketing site:
+
+### 1. Switch to a verified green host
+
+This is the single highest-leverage change. Moving from a generic grid-powered host to one on The Green Web Foundation's verified list can cut emissions per visit by 60–80% with no code change at all. Reliable options used by OakFox-built sites:
+
+- **Cloudflare Pages** — verified green, free tier, excellent performance
+- **Netlify** — 100% renewable energy for infrastructure
+- **Vercel** — runs on matched renewable power
+- **Krystal** (UK-based) — verified green hosting with UK data centres
+
+Cost is usually neutral or lower than legacy hosting. There is no reason not to move.
+
+### 2. Optimise images properly
+
+Images are almost always the largest portion of page weight. The wins:
+
+- **Use modern formats** — AVIF where supported, WebP as fallback, JPEG last. AVIF is typically 50% smaller than JPEG at the same perceptual quality.
+- **Size images to purpose** — stop serving 4000px-wide hero images that will be displayed at 1200px.
+- **Use responsive `srcset`** — serve smaller images to smaller screens.
+- **Lazy-load below the fold** — native `loading="lazy"` on `<img>` is free.
+- **Drop unnecessary images** — ask "does this image add information, or is it decoration?" Decoration is often a waste.
+
+A typical marketing site with eight to fifteen images can cut its total weight by 60% without changing a single pixel of final displayed resolution.
+
+### 3. Reduce JavaScript
+
+JavaScript is the most energy-expensive part of a typical website. Every kilobyte shipped takes bandwidth to download, CPU to parse, memory to hold, and battery to execute — multiplied across every visitor's device.
+
+Practical cuts:
+
+- **Static rendering** — use Astro, 11ty, Hugo, or similar to pre-render HTML. Most marketing pages do not need SPA frameworks.
+- **Remove unused libraries** — audit the site with Chrome DevTools "Coverage" panel. Libraries unused on most pages are candidates for deletion.
+- **Defer what is not critical** — analytics, chat widgets, and embedded third-party code should load after the main content renders, not before.
+- **No tag managers if they are not earning their weight** — GTM alone ships 50–80KB before it loads anything useful.
+
+### 4. Clean, semantic HTML and restrained CSS
+
+Less code is less to download, parse, and render. Tailwind CSS (which we use extensively) is deceptive on this axis — the raw source is large but the compiled production CSS typically comes out at 5–15KB gzipped because unused classes are purged. Verify the production bundle.
+
+### 5. Efficient fonts
+
+Web fonts are usually the second-largest source of page weight after images. Cuts:
+
+- **Subset to the characters you actually need** — Latin Extended is rarely necessary for an English-language site
+- **Use `font-display: swap`** — shows system font first, swaps to custom font when loaded
+- **Preconnect to your font host** — cuts DNS and TLS overhead
+- **Consider variable fonts** — a single variable font file often replaces three or four static weight files
+
+## Accessibility Is Part of Sustainability
+
+Accessible websites are faster, leaner, more durable, and work for more people. WCAG 2.2 AA is not a separate discipline from sustainable web design — it is the same discipline.
+
+Specifics that compound both accessibility and energy efficiency:
+
+- **Semantic HTML** — `<button>`, `<nav>`, `<main>`, `<article>`. Screen readers use them. So do search engines. And they replace JavaScript-heavy custom components.
+- **Keyboard navigation from the start** — every interactive element reachable and operable without a mouse.
+- **Colour contrast ratios of 4.5:1 (text) and 3:1 (UI)** — verified with tools, not eyeballed.
+- **Alt text written with intent** — not a machine-generated placeholder.
+- **Focus states visible** — never `outline: none` without a replacement.
+
+We target WCAG 2.2 AA as a minimum on every OakFox project. Accessibility overlays (AccessiBe, UserWay) are not a substitute — they ship more JavaScript, frequently break sites, and have been the subject of growing litigation.
+
+## Design for Longevity
+
+The most sustainable website is the one you do not have to rebuild. Choices that extend useful life:
+
+- **Avoid frameworks of the month** — the framework decision sets your maintenance floor for the next five years. Pick stable, well-funded options.
+- **Design systems over one-off pages** — tokens, components, and patterns extend a site's useful life far longer than bespoke designs.
+- **Separate content from structure** — content in a CMS or Markdown files, not hardcoded in layouts. Lets you refresh copy without touching code.
+- **Write documentation assuming you will not be around** — future maintainers need to understand what you built and why.
+
+Every rebuild is a carbon cost. Every year you extend a site's useful life reduces that cost.
+
+## What Sustainable Web Design Is Not
+
+A few things sustainable web design is *not*, because the term gets abused:
+
+- **It is not dark mode alone.** Dark mode saves meaningful energy on OLED screens but has zero effect on LCDs or the server side. Useful, but marginal.
+- **It is not a Wix site with a green leaf in the logo.** Low-code platforms often ship enormous page weights and lock you into infrastructure with no green credentials.
+- **It is not a carbon offset.** Offsets are a credibility hazard, not a solution. Reduce first, offset only the residue, and be transparent about both.
+- **It is not a one-off audit.** Sites gain weight over time. Sustainability is a maintenance discipline, not a launch achievement.
+
+## Practical Next Steps
+
+If you have an existing website and want to make it more sustainable:
+
+1. **Benchmark it** — run Website Carbon Calculator, Ecograder, and PageSpeed on your top five pages.
+2. **Move to a green host** — biggest single lift, usually one weekend of work.
+3. **Audit images** — formats, sizing, lazy-loading. A good afternoon's work for most small sites.
+4. **Remove unused JavaScript** — kill the tag manager if it is not earning its keep.
+5. **Add WCAG 2.2 AA as a standing requirement** — every new feature, every review.
+
+If you are commissioning a new site, the brief should include:
+
+- Verified green hosting as a deliverable
+- A performance budget (page weight, Largest Contentful Paint target)
+- WCAG 2.2 AA conformance as a non-negotiable
+- A design system handed over as part of the project
+- Documentation written for maintenance, not marketing
+
+## OakFox's Approach
+
+We build every site to these standards by default. Our Astro-based stack delivers sub-0.3g CO2 per page view on verified green hosting, with 95+ Lighthouse performance scores and WCAG 2.2 AA compliance from the first commit.
+
+If you want to discuss a [sustainable web design](/services/web-design) or [web development](/services/development) project, [send us a few lines](/contact). We reply within 24 hours.

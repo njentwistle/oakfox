@@ -1,89 +1,242 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Img from '../components/Img.astro';
+
+const pageUrl = 'https://oakfox.co.uk/about';
+
+const person = {
+  '@type': 'Person',
+  '@id': 'https://oakfox.co.uk/about#nathan',
+  name: 'Nathan James Entwistle',
+  alternateName: 'Nathan Entwistle',
+  jobTitle: 'Founder, Designer & Developer',
+  worksFor: { '@id': 'https://oakfox.co.uk/#organization' },
+  url: pageUrl,
+  image: 'https://oakfox.co.uk/images/site/nathan.jpg',
+  description:
+    'Brand designer and developer with 15+ years of experience across independent businesses and international brands. Founder of OakFox, a sustainable design studio based in West Lancashire, UK.',
+  knowsAbout: [
+    'Brand identity design',
+    'Sustainable web design',
+    'Web development',
+    'Astro, React, and static-first architecture',
+    'Marketing strategy',
+    'Environmental consultancy',
+    'Supply chain sustainability',
+  ],
+  sameAs: [
+    'https://www.instagram.com/oak.fox/',
+    'https://find-and-update.company-information.service.gov.uk/company/17118912',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Burscough',
+    addressRegion: 'Lancashire',
+    addressCountry: 'GB',
+  },
+};
+
+const aboutPage = {
+  '@type': 'AboutPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: 'About OakFox — Sustainable Design Studio in West Lancashire',
+  description:
+    'OakFox is a sustainable branding, web design, development, marketing and environmental consultancy studio based in West Lancashire, UK. Founded by Nathan James Entwistle.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  about: { '@id': 'https://oakfox.co.uk/#organization' },
+  mainEntity: { '@id': 'https://oakfox.co.uk/about#nathan' },
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: pageUrl },
+  ],
+};
+
+const values = [
+  {
+    title: 'Sustainability first, not last',
+    body: 'Every decision — from the suppliers we recommend to the hosting we deploy on — is weighed for environmental impact. We work on verified renewable-powered infrastructure and will tell you when a project cannot be delivered responsibly under the terms proposed.',
+  },
+  {
+    title: 'Craft over volume',
+    body: 'We take on a small number of projects each quarter. No templates, no reskins, no pipeline of junior designers producing work under a senior name. You get the person who quoted you, doing the work.',
+  },
+  {
+    title: 'Honest partnership',
+    body: 'Transparent timelines, transparent pricing, transparent capability. If something is outside our wheelhouse we will tell you. If a supplier you have been recommended is greenwashing, we will say so.',
+  },
+];
+
+const credentials = [
+  '15+ years of brand and web design experience',
+  'Worked with independent businesses and international brands',
+  'OakFox Limited — registered in England, Companies House number 17118912',
+  'Member of the West Lancashire creative community — based at Martland Mill, Burscough',
+];
 ---
 
-<BaseLayout title="About Us" description="Learn about OakFox — award-winning design, development, and sustainability consulting from rural West Lancashire.">
-  <!-- Hero -->
-  <section class="pt-32 pb-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">About Us</p>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">
-        Does anybody read these things?
+<BaseLayout
+  title="About OakFox — Sustainable Design Studio in West Lancashire"
+  description="OakFox is a sustainable design studio in West Lancashire, UK. Founded by Nathan James Entwistle — 15+ years of branding, web design, development, marketing, and environmental consultancy for independent businesses and international brands."
+  schema={[aboutPage, person, breadcrumbs]}
+>
+  <!-- ========== HERO ========== -->
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="hero-glow" style="top: 45%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <p class="label text-forest mb-8">About OakFox</p>
+      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
+        A <em class="text-forest">sustainable</em> design studio,
+        built on <em class="text-forest">considered</em> work.
       </h1>
-      <p class="mt-6 text-lg text-gray max-w-2xl">
-        We like to think so. Here's a bit about who we are, what we do, and why
-        we do it.
-      </p>
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8">
+        <p class="md:col-span-7 text-[15px] md:text-base text-ink/65 leading-relaxed">
+          OakFox is an independent design studio based in rural West Lancashire,
+          UK. We combine brand identity, web design, web development, marketing,
+          and environmental consultancy — often in a single engagement — for
+          businesses that want to grow without the environmental cost. Founded
+          and led by Nathan James Entwistle, we take on a small number of projects
+          each quarter so every client gets considered attention from the person
+          they hired, not the person that person manages.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- Nathan -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="aspect-square rounded-2xl overflow-hidden bg-forest/5">
-          <Img src="/images/site/nathan.jpg" alt="Nathan James Entwistle" class="w-full h-full object-cover" />
+  <!-- ========== NATHAN ========== -->
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
+        <div class="md:col-span-5">
+          <div class="img-wrap bg-forest/5 overflow-hidden">
+            <Img src="/images/site/nathan.jpg" alt="Nathan James Entwistle, founder of OakFox" class="w-full h-auto" />
+          </div>
         </div>
-        <div>
-          <h2 class="text-3xl font-bold tracking-tight">Nathan James Entwistle</h2>
-          <p class="text-forest font-medium text-sm mt-1">
+        <div class="md:col-span-6 md:col-start-7">
+          <p class="label text-gray mb-4">The founder</p>
+          <h2 class="headline text-2xl md:text-3xl">Nathan James Entwistle</h2>
+          <p class="label text-forest mt-2">
             Husband, father, designer, developer, American football fan.
           </p>
-          <p class="mt-6 text-gray leading-relaxed">
-            A brand designer and website developer with over 15 years of experience,
-            Nathan has worked at some of the top marketing agencies in the UK. From
-            independent artisan coffee shops and bakeries to internationally-trading
-            wine merchants — he's created brands and digital experiences for a huge
-            variety of businesses.
+          <div class="mt-8 space-y-5 text-[15px] text-ink/70 leading-relaxed">
+            <p>
+              A brand designer and web developer with more than 15 years of
+              experience, Nathan has worked at some of the UK's top marketing
+              agencies — from independent artisan bakeries and coffee shops in
+              the Lake District, to internationally-trading wine merchants,
+              Michelin-quality restaurants, and software products used by
+              thousands of families.
+            </p>
+            <p>
+              He leads every OakFox engagement personally — discovery, design
+              direction, development, and handover. Trusted collaborators
+              (photographers, illustrators, specialist developers) are brought
+              in when the work calls for them, but your main point of contact
+              stays the same from the first reply to the launch.
+            </p>
+            <p>
+              Outside of OakFox he builds tools for the environmental sector,
+              writes about sustainable branding, and can usually be found
+              chasing two small children around somewhere in West Lancashire.
+            </p>
+          </div>
+
+          <ul class="mt-10 border-t border-stone">
+            {credentials.map((line) => (
+              <li class="border-b border-stone py-4 text-[14px] text-ink/75 leading-relaxed">
+                {line}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VALUES ========== -->
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">What drives us</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            The <em class="text-forest">values</em> the work is built on.
+          </h2>
+        </div>
+        <div class="md:col-span-7 md:col-start-6 grid gap-8">
+          {values.map((v) => (
+            <div class="reveal border-t border-stone pt-6">
+              <h3 class="text-base md:text-lg font-medium text-ink mb-2">{v.title}</h3>
+              <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{v.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOCATION ========== -->
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Where we are</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Based in <em class="text-forest">West Lancashire</em>.
+            Working <em class="text-forest">UK-wide</em>.
+          </h2>
+        </div>
+        <div class="md:col-span-7 md:col-start-6 text-[15px] text-ink/70 leading-relaxed space-y-5">
+          <p>
+            Our studio sits in Martland Mill, Burscough — between Ormskirk and
+            Southport — a few minutes from the West Lancashire coast and
+            roughly 45 minutes from central Manchester or Liverpool. Most
+            client collaboration happens remotely, with in-person visits for
+            brand discovery, photography, or installations when they matter.
           </p>
-          <p class="mt-4 text-gray leading-relaxed">
-            His services span from local startups to international corporations,
-            bringing together expertise in brand design, web development, UX, and
-            sustainable practices.
+          <p>
+            We work with independent businesses and established brands across
+            the UK, Ireland, and mainland Europe. Local clients have included
+            studios in <a href="/locations/ormskirk" class="text-forest underline underline-offset-4">Ormskirk</a>,
+            <a href="/locations/southport" class="text-forest underline underline-offset-4">Southport</a>,
+            <a href="/locations/preston" class="text-forest underline underline-offset-4">Preston</a>,
+            and <a href="/locations/manchester" class="text-forest underline underline-offset-4">Manchester</a>;
+            remote clients have ranged from the Lake District and Dublin to
+            London and further.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Values -->
-  <section class="bg-forest text-cream py-24">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-cream mb-16">
-        What drives us
-      </h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[
-          { title: 'Sustainability First', desc: 'Every decision we make considers its environmental impact. We help brands grow without costing the earth.' },
-          { title: 'Craft & Quality', desc: 'We believe in doing things properly. No shortcuts, no templates — just thoughtful, bespoke work.' },
-          { title: 'Honest Partnership', desc: 'We work with you, not for you. Transparent communication and genuine collaboration at every step.' },
-        ].map((value) => (
-          <div class="border border-cream/20 rounded-2xl p-8">
-            <h3 class="text-xl font-semibold text-cream mb-3">{value.title}</h3>
-            <p class="text-cream-dark/70 text-sm leading-relaxed">{value.desc}</p>
-          </div>
-        ))}
+  <!-- ========== CTA ========== -->
+  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div class="reveal max-w-2xl">
+        <p class="label text-gray mb-6">Next step</p>
+        <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
+          Let's build something <em class="text-forest">that lasts</em>.
+        </h2>
+        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+          Whether you are a start-up finding your feet, an established brand
+          ready to evolve, or a specialist team buried in paperwork — send a
+          few lines. We reply within 24 hours.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+          Start a conversation
+          <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-24">
-    <div class="max-w-3xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-        Let's work together.
-      </h2>
-      <p class="mt-4 text-gray max-w-xl mx-auto">
-        Whether you're a startup finding your feet or an established brand ready
-        to evolve, we'd love to hear from you.
-      </p>
-      <a
-        href="/contact"
-        class="inline-block mt-8 bg-forest text-cream px-8 py-3 font-medium rounded-full transition-all duration-300 hover:bg-forest-dark hover:scale-105"
-      >
-        Get in Touch
-      </a>
     </div>
   </section>
 </BaseLayout>

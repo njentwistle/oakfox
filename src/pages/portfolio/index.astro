@@ -7,9 +7,41 @@ const allWork = (await getCollection('portfolio'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const categories = ['all', ...new Set(allWork.map((item) => item.data.category))];
+
+const pageUrl = 'https://oakfox.co.uk/portfolio';
+
+const collectionSchema = {
+  '@type': 'CollectionPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: 'OakFox Portfolio — Selected Branding, Web Design & Development Work',
+  description:
+    'Selected case studies from OakFox — brand identity, web design, development, and marketing for independent hospitality, consumer, professional, and sustainability-focused businesses.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  hasPart: allWork.map((item) => ({
+    '@type': 'CreativeWork',
+    name: item.data.title,
+    description: item.data.description,
+    url: `https://oakfox.co.uk/portfolio/${item.id}`,
+    genre: item.data.category,
+  })),
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'Portfolio', item: pageUrl },
+  ],
+};
 ---
 
-<BaseLayout title="Portfolio" description="Explore our portfolio of branding, design, development, and marketing projects.">
+<BaseLayout
+  title="Portfolio — Branding, Web Design & Development Case Studies"
+  description="Selected case studies from OakFox — brand identity, sustainable web design, and development for independent businesses across the UK, Ireland, and Europe."
+  schema={[collectionSchema, breadcrumbs]}
+>
   <section class="pt-32 pb-8">
     <div class="max-w-7xl mx-auto px-6">
       <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Our Work</p>

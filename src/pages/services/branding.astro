@@ -57,12 +57,49 @@ const forWho = [
   'Established brands whose identity no longer reflects how far they have come',
   'Founders who want considered creative direction, not a deck of stock mood boards',
 ];
+
+const faqs = [
+  {
+    q: 'How much does a brand identity cost?',
+    a: 'Brand identity projects at OakFox typically range from £4,500 for a focused visual refresh to £18,000+ for a full identity system with naming, messaging, guidelines, and launch assets. Every quote is shaped around the specific project rather than a fixed tier. We send a detailed written proposal after a free initial call.',
+  },
+  {
+    q: 'How long does a branding project take?',
+    a: 'A focused brand refresh typically takes four to six weeks. A full brand identity system — naming, visual language, messaging, guidelines, and launch assets — usually runs eight to twelve weeks from kick-off to handover. We agree the timeline during scoping and protect it with weekly milestone reviews.',
+  },
+  {
+    q: 'What makes OakFox a sustainable branding agency?',
+    a: 'Sustainability runs through every decision: we work only with collaborators we can verify, recommend print partners on renewable-powered presses, deliver digital assets in formats optimised for energy-efficient delivery, and challenge clients when they propose greenwashing. We also decline projects we cannot support in good faith.',
+  },
+  {
+    q: 'Do you offer naming as part of a brand identity project?',
+    a: 'Yes. Naming is included as a scoped module for any full identity project and can be delivered as a standalone engagement. We research the competitive landscape, generate candidate names with rationale, check availability at Companies House and at common domain registrars, and deliver a shortlist with reasoning rather than a longlist that makes you guess.',
+  },
+  {
+    q: 'Where are you based, and do you work in person?',
+    a: 'Our studio is at Martland Mill, Burscough, in rural West Lancashire — between Ormskirk and Southport, and roughly 45 minutes from central Manchester or Liverpool. Most collaboration happens remotely. We visit in person for brand discovery workshops, shoots, and launches when they matter.',
+  },
+  {
+    q: 'Can you handle the website, marketing, and environmental consultancy too?',
+    a: 'Yes — it is how we work best. Branding often leads into web design, development, marketing, or environmental consultancy within the same engagement. Working in combination gives a far more coherent result than stitching together three agencies.',
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Sustainable Brand Identity"
-  description="OakFox designs brand identities for businesses that want to grow without the environmental cost. Logo, voice, guidelines — built to last."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Sustainable Branding Agency — Brand Identity Design UK"
+  description="OakFox is a sustainable branding agency in West Lancashire, UK. Brand identity, naming, voice, and guidelines for independent businesses and established brands — built to last, without greenwashing."
+  schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
@@ -148,6 +185,27 @@ const forWho = [
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            Branding <em class="text-forest">questions</em> we hear a lot.
+          </h2>
+        </div>
+        <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
+          {faqs.map((f) => (
+            <div class="reveal border-b border-stone py-6">
+              <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </section>
