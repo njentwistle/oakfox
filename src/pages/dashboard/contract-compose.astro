@@ -1,0 +1,441 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+const defaultClauses = {
+  ip: 'Upon receipt of full payment, OakFox Limited ("OakFox") assigns to the Client all intellectual property rights in the final deliverables produced under this Agreement. OakFox retains ownership of any pre-existing tools, processes, source files, and underlying methodologies used in their creation. OakFox retains the right to display finished work in its portfolio and promotional materials unless the Client requests otherwise in writing.',
+  confidentiality: 'Both parties agree to keep confidential any non-public information disclosed to them during the engagement and marked as confidential or reasonably understood to be confidential. This obligation survives termination of this Agreement for a period of two years.',
+  termination: 'Either party may terminate this Agreement by giving fourteen (14) days\' written notice. On termination, the Client shall pay OakFox for all work performed up to the termination date, together with any non-refundable costs already incurred. All delivered work remains subject to the intellectual property terms above.',
+  liability: 'OakFox\'s total aggregate liability under this Agreement is limited to the total fees paid by the Client under this Agreement in the twelve months preceding the claim. OakFox is not liable for any indirect, consequential, or loss-of-profit damages. Nothing in this clause limits liability for death or personal injury caused by negligence, or for fraud.',
+  law: 'This Agreement is governed by the laws of England and Wales. The parties submit to the exclusive jurisdiction of the English courts.',
+};
+---
+
+<DashboardLayout title="Compose Contract">
+  <div class="db-fade-in">
+    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Compose a contract</h1>
+        <p style="color: var(--db-text-muted); font-size: 13px;">Draft a client services agreement. Standard clauses are pre-filled — edit per engagement. Not a substitute for legal advice on bespoke terms.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="save-draft" class="db-btn">Save draft</button>
+        <button type="button" id="load-draft" class="db-btn">Load draft</button>
+        <button type="button" id="clear-all" class="db-btn">Clear</button>
+      </div>
+    </header>
+
+    <!-- Agreement details -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Agreement details</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="con-grid-2">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Reference</label>
+          <input id="c-ref" type="text" class="db-input" placeholder="CON-…" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Effective date</label>
+          <input id="c-date" type="date" class="db-input" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Client -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">The Client</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="con-grid-2">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Legal name / Company</label>
+          <input id="cl-name" type="text" class="db-input" placeholder="Smith &amp; Co. Limited" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Contact / Signatory</label>
+          <input id="cl-signatory" type="text" class="db-input" placeholder="Jane Smith, Director" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Email</label>
+          <input id="cl-email" type="email" class="db-input" placeholder="jane@smithco.com" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Registered address</label>
+          <input id="cl-address" type="text" class="db-input" placeholder="1 High Street, Ormskirk, L39…" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Company no. (optional)</label>
+          <input id="cl-company-no" type="text" class="db-input" placeholder="12345678" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Project -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Project</h2>
+      <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Title</label>
+          <input id="p-title" type="text" class="db-input" placeholder="Website Design &amp; Development" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Scope of work</label>
+          <textarea id="p-scope" class="db-input" rows="5" placeholder="A full description of the work to be carried out under this agreement — what's included, what's not." style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <label class="db-label">Deliverables</label>
+          <button type="button" id="add-deliverable" class="db-btn db-btn-sm">+ Add</button>
+        </div>
+        <div id="deliverables-list"></div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;" class="con-grid-2">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Start date</label>
+          <input id="t-start" type="date" class="db-input" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Target completion</label>
+          <input id="t-end" type="date" class="db-input" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Fee -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Fees</h2>
+      <div style="display: grid; grid-template-columns: 200px 1fr; gap: 12px;" class="con-grid-2">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Fee type</label>
+          <select id="f-type" class="db-input" style="width: 100%;">
+            <option value="fixed">Fixed fee</option>
+            <option value="hourly">Hourly rate</option>
+            <option value="retainer">Monthly retainer</option>
+          </select>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Amount (£)</label>
+          <input id="f-amount" type="number" class="db-input" placeholder="0.00" step="0.01" min="0" style="width: 100%;" />
+        </div>
+      </div>
+      <div style="margin-top: 12px;">
+        <label class="db-label" style="display: block; margin-bottom: 6px;">Payment schedule</label>
+        <textarea id="f-schedule" class="db-input" rows="3" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;">50% deposit payable on signature of this Agreement. 50% balance payable on delivery. Invoices are payable within 14 days of issue.</textarea>
+      </div>
+    </div>
+
+    <!-- Standard clauses -->
+    <div class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Standard clauses</h2>
+      <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 14px;">Pre-filled defaults. Edit per engagement if needed.</p>
+      <div style="display: grid; grid-template-columns: 1fr; gap: 14px;">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Intellectual property</label>
+          <textarea id="cl-ip" class="db-input" rows="4" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">{defaultClauses.ip}</textarea>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Confidentiality</label>
+          <textarea id="cl-conf" class="db-input" rows="3" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">{defaultClauses.confidentiality}</textarea>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Termination</label>
+          <textarea id="cl-term" class="db-input" rows="3" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">{defaultClauses.termination}</textarea>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Limitation of liability</label>
+          <textarea id="cl-liab" class="db-input" rows="3" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">{defaultClauses.liability}</textarea>
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Governing law</label>
+          <textarea id="cl-law" class="db-input" rows="2" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">{defaultClauses.law}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional terms -->
+    <div class="db-card" style="margin-bottom: 24px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Additional terms (optional)</h2>
+      <textarea id="extra-terms" class="db-input" rows="4" placeholder="Anything specific to this engagement — warranties, revisions policy, third-party cost handling, timeline dependencies." style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"></textarea>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+      <button type="button" id="print-contract" class="db-btn db-btn-primary" style="margin-left: auto;">Print / Save as PDF</button>
+    </div>
+
+    <p id="contract-status" style="font-size: 13px; font-family: 'JetBrains Mono', monospace; min-height: 20px; color: var(--db-text-muted);"></p>
+
+    <!-- Preview -->
+    <details style="margin-top: 16px;" open>
+      <summary style="cursor: pointer; color: var(--db-text-muted); font-size: 13px; user-select: none;">Preview</summary>
+      <iframe id="preview-frame" title="Contract preview" style="width: 100%; min-height: 1200px; border: 1px solid var(--db-border); border-radius: 10px; margin-top: 12px; background: #FAF7F2;"></iframe>
+    </details>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'oakfox_contract_draft';
+
+    const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+
+    const fields = {
+      ref: $<HTMLInputElement>('c-ref'),
+      date: $<HTMLInputElement>('c-date'),
+      clName: $<HTMLInputElement>('cl-name'),
+      clSignatory: $<HTMLInputElement>('cl-signatory'),
+      clEmail: $<HTMLInputElement>('cl-email'),
+      clAddress: $<HTMLInputElement>('cl-address'),
+      clCompanyNo: $<HTMLInputElement>('cl-company-no'),
+      pTitle: $<HTMLInputElement>('p-title'),
+      pScope: $<HTMLTextAreaElement>('p-scope'),
+      tStart: $<HTMLInputElement>('t-start'),
+      tEnd: $<HTMLInputElement>('t-end'),
+      fType: $<HTMLSelectElement>('f-type'),
+      fAmount: $<HTMLInputElement>('f-amount'),
+      fSchedule: $<HTMLTextAreaElement>('f-schedule'),
+      clIp: $<HTMLTextAreaElement>('cl-ip'),
+      clConf: $<HTMLTextAreaElement>('cl-conf'),
+      clTerm: $<HTMLTextAreaElement>('cl-term'),
+      clLiab: $<HTMLTextAreaElement>('cl-liab'),
+      clLaw: $<HTMLTextAreaElement>('cl-law'),
+      extraTerms: $<HTMLTextAreaElement>('extra-terms'),
+    };
+
+    const deliverablesList = $('deliverables-list');
+    const previewFrame = $<HTMLIFrameElement>('preview-frame');
+    const statusEl = $('contract-status');
+
+    let deliverables: string[] = [];
+
+    function setStatus(msg: string, state: 'ok' | 'error' | '' = '') {
+      statusEl.textContent = msg;
+      statusEl.style.color = state === 'error' ? 'var(--db-danger)' : state === 'ok' ? 'var(--db-accent)' : 'var(--db-text-muted)';
+      if (msg) setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ''; }, 4000);
+    }
+
+    function genRef(): string {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const rand = Math.floor(Math.random() * 900 + 100);
+      return `CON-${yyyy}${mm}${dd}-${rand}`;
+    }
+
+    function initDefaults() {
+      if (!fields.ref.value) fields.ref.value = genRef();
+      if (!fields.date.value) fields.date.value = new Date().toISOString().split('T')[0];
+    }
+
+    function renderDeliverables() {
+      if (deliverables.length === 0) {
+        deliverablesList.innerHTML = '<p style="color: var(--db-text-muted); font-size: 13px; padding: 8px 0;">No deliverables yet. Add one to get started.</p>';
+        renderPreview();
+        return;
+      }
+      deliverablesList.innerHTML = deliverables.map((d, i) => `
+        <div class="del-row" style="display: grid; grid-template-columns: 1fr 40px; gap: 8px; margin-bottom: 8px; align-items: start;">
+          <input type="text" class="db-input del-text" value="${d.replace(/"/g, '&quot;')}" placeholder="e.g. Homepage design in Figma" data-i="${i}" />
+          <button type="button" class="db-btn del-del" data-i="${i}" style="padding: 6px 10px; color: var(--db-danger);" aria-label="Remove">&times;</button>
+        </div>
+      `).join('');
+      deliverablesList.querySelectorAll<HTMLInputElement>('.del-text').forEach(el => {
+        el.addEventListener('input', () => { deliverables[Number(el.dataset.i)] = el.value; renderPreview(); });
+      });
+      deliverablesList.querySelectorAll<HTMLButtonElement>('.del-del').forEach(el => {
+        el.addEventListener('click', () => {
+          deliverables.splice(Number(el.dataset.i), 1);
+          renderDeliverables();
+        });
+      });
+      renderPreview();
+    }
+
+    function esc(s: string): string {
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function nlToP(s: string): string {
+      return esc(s).split(/\n\s*\n/).filter(Boolean).map(p => `<p style="margin: 0 0 10px;">${p.replace(/\n/g, '<br>')}</p>`).join('');
+    }
+
+    function formatDate(iso: string): string {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-');
+      return `${d} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m, 10) - 1]} ${y}`;
+    }
+
+    function feeSummary(): string {
+      const type = fields.fType.value;
+      const amount = parseFloat(fields.fAmount.value) || 0;
+      const fmt = '£' + amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (!amount) return '—';
+      if (type === 'fixed') return `${fmt} fixed fee, excluding VAT unless stated.`;
+      if (type === 'hourly') return `${fmt} per hour, excluding VAT unless stated. Work is billed to the nearest quarter-hour.`;
+      if (type === 'retainer') return `${fmt} per calendar month, excluding VAT unless stated. The retainer renews monthly until terminated in accordance with this Agreement.`;
+      return fmt;
+    }
+
+    function renderPreview() {
+      const delHtml = deliverables.length
+        ? `<ol style="margin: 8px 0 0 20px; padding: 0;">${deliverables.filter(d => d.trim()).map(d => `<li style="margin: 0 0 6px; line-height: 1.6;">${esc(d)}</li>`).join('')}</ol>`
+        : '<p style="margin: 8px 0 0; color: rgba(26,29,23,0.4); font-style: italic;">To be agreed in writing between the parties.</p>';
+
+      const clientBlock = `
+        <strong>${esc(fields.clName.value) || '[Client legal name]'}</strong>${fields.clCompanyNo.value ? ` (company no. ${esc(fields.clCompanyNo.value)})` : ''}<br>
+        ${esc(fields.clAddress.value) || '[Registered address]'}
+      `;
+
+      const doc = `<!doctype html><html><head><meta charset="utf-8"><title>Services Agreement ${esc(fields.ref.value)}</title>
+<style>
+  @page { size: A4; margin: 22mm 18mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px; background: #FAF7F2; font-family: Georgia, 'Times New Roman', serif; color: #1A1D17; font-size: 12.5px; line-height: 1.65; }
+  .sheet { max-width: 720px; margin: 0 auto; background: #FAF7F2; padding: 48px 64px; border: 1px solid rgba(26,29,23,0.08); border-radius: 8px; }
+  .brand img { height: 40px; width: auto; display: block; }
+  .label { font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #1A5C12; }
+  h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 500; color: #1A1D17; margin: 24px 0 4px; letter-spacing: -0.01em; }
+  h2 { font-family: Georgia, serif; font-size: 15px; font-weight: 600; color: #1A1D17; margin: 28px 0 10px; padding-top: 14px; border-top: 1px solid rgba(26,29,23,0.12); }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .clause-num { display: inline-block; width: 32px; color: rgba(26,29,23,0.45); font-weight: 500; font-family: 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 11px; }
+  .sig-table { width: 100%; margin-top: 56px; border-collapse: collapse; }
+  .sig-table td { padding: 0 16px; vertical-align: top; width: 50%; }
+  .sig-line { border-bottom: 1px solid #1A1D17; height: 48px; margin-bottom: 8px; }
+  @media print { body { padding: 0; background: #fff; } .sheet { border: none; border-radius: 0; padding: 0; max-width: none; } h2 { page-break-after: avoid; } p { orphans: 3; widows: 3; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="brand" style="margin-bottom: 20px;"><a href="https://oakfox.co.uk" style="text-decoration: none;"><img src="/images/site/logo.png" alt="OakFox" /></a></div>
+
+  <p class="label">Services Agreement · Ref ${esc(fields.ref.value) || '—'}</p>
+  <h1>${esc(fields.pTitle.value) || '[Project title]'}</h1>
+  <p style="margin: 6px 0 0; color: rgba(26,29,23,0.6); font-size: 12px;">Effective ${formatDate(fields.date.value)}</p>
+
+  <h2><span class="clause-num">1.</span>Parties</h2>
+  <p style="margin: 0;">This Agreement is made between:</p>
+  <p style="margin: 10px 0 0;"><strong>OakFox Limited</strong> (company no. 17118912), a company registered in England with its registered office at Martland Mill, Mart Ln, Burscough, Ormskirk L40 0SD ("<strong>OakFox</strong>"); and</p>
+  <p style="margin: 10px 0 0;">${clientBlock} (the "<strong>Client</strong>").</p>
+  ${fields.clSignatory.value ? `<p style="margin: 10px 0 0; color: rgba(26,29,23,0.7); font-size: 12px;">Client signatory: ${esc(fields.clSignatory.value)}${fields.clEmail.value ? ` (${esc(fields.clEmail.value)})` : ''}.</p>` : ''}
+
+  <h2><span class="clause-num">2.</span>Scope of Work</h2>
+  ${fields.pScope.value ? nlToP(fields.pScope.value) : '<p style="margin: 0; color: rgba(26,29,23,0.4); font-style: italic;">[Scope of work to be inserted]</p>'}
+
+  <h2><span class="clause-num">3.</span>Deliverables</h2>
+  ${delHtml}
+
+  <h2><span class="clause-num">4.</span>Timeline</h2>
+  <p style="margin: 0;">Work shall commence on ${formatDate(fields.tStart.value)}${fields.tEnd.value ? ` and the target completion date is ${formatDate(fields.tEnd.value)}` : ''}. Timelines are dependent on timely Client input, approvals, and the provision of content where applicable.</p>
+
+  <h2><span class="clause-num">5.</span>Fees and Payment</h2>
+  <p style="margin: 0;">${esc(feeSummary())}</p>
+  ${fields.fSchedule.value ? `<div style="margin: 10px 0 0;">${nlToP(fields.fSchedule.value)}</div>` : ''}
+
+  <h2><span class="clause-num">6.</span>Intellectual Property</h2>
+  ${fields.clIp.value ? nlToP(fields.clIp.value) : ''}
+
+  <h2><span class="clause-num">7.</span>Confidentiality</h2>
+  ${fields.clConf.value ? nlToP(fields.clConf.value) : ''}
+
+  <h2><span class="clause-num">8.</span>Termination</h2>
+  ${fields.clTerm.value ? nlToP(fields.clTerm.value) : ''}
+
+  <h2><span class="clause-num">9.</span>Limitation of Liability</h2>
+  ${fields.clLiab.value ? nlToP(fields.clLiab.value) : ''}
+
+  <h2><span class="clause-num">10.</span>Governing Law</h2>
+  ${fields.clLaw.value ? nlToP(fields.clLaw.value) : ''}
+
+  ${fields.extraTerms.value ? `<h2><span class="clause-num">11.</span>Additional Terms</h2>${nlToP(fields.extraTerms.value)}` : ''}
+
+  <h2>Signatures</h2>
+  <p style="margin: 0 0 20px;">The parties accept the terms of this Agreement as of the effective date above.</p>
+  <table class="sig-table">
+    <tr>
+      <td>
+        <div class="sig-line"></div>
+        <p style="margin: 0; font-family: Georgia, serif; font-size: 12px;"><strong>Nathan James Entwistle</strong><br>
+        <span style="color: rgba(26,29,23,0.6);">Director, OakFox Limited</span></p>
+        <p style="margin: 10px 0 0; color: rgba(26,29,23,0.5); font-size: 11px;">Date: ______________________</p>
+      </td>
+      <td>
+        <div class="sig-line"></div>
+        <p style="margin: 0; font-family: Georgia, serif; font-size: 12px;"><strong>${esc(fields.clSignatory.value) || '[Client signatory name]'}</strong><br>
+        <span style="color: rgba(26,29,23,0.6);">for and on behalf of ${esc(fields.clName.value) || '[Client legal name]'}</span></p>
+        <p style="margin: 10px 0 0; color: rgba(26,29,23,0.5); font-size: 11px;">Date: ______________________</p>
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(26,29,23,0.1);">
+    <p style="margin: 0; font-size: 10px; color: rgba(26,29,23,0.4); font-family: 'SFMono-Regular', Menlo, Consolas, monospace;">
+      OakFox Limited · Registered in England, Companies House 17118912 · Agreement ref ${esc(fields.ref.value) || '—'}
+    </p>
+  </div>
+</div>
+</body></html>`;
+
+      previewFrame.srcdoc = doc;
+    }
+
+    Object.values(fields).forEach((el) => {
+      el.addEventListener('input', renderPreview);
+      el.addEventListener('change', renderPreview);
+    });
+
+    $('add-deliverable').addEventListener('click', () => {
+      deliverables.push('');
+      renderDeliverables();
+    });
+
+    $('save-draft').addEventListener('click', () => {
+      const draft: Record<string, unknown> = { deliverables };
+      Object.entries(fields).forEach(([k, el]) => {
+        draft[k] = (el as HTMLInputElement).value;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+      setStatus('Draft saved.', 'ok');
+    });
+
+    $('load-draft').addEventListener('click', () => {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) { setStatus('No saved draft found.', 'error'); return; }
+      try {
+        const draft = JSON.parse(raw) as Record<string, unknown>;
+        Object.entries(fields).forEach(([k, el]) => {
+          (el as HTMLInputElement).value = (draft[k] as string) ?? '';
+        });
+        deliverables = Array.isArray(draft.deliverables) ? (draft.deliverables as string[]) : [];
+        renderDeliverables();
+        setStatus('Draft loaded.', 'ok');
+      } catch {
+        setStatus('Could not parse saved draft.', 'error');
+      }
+    });
+
+    $('clear-all').addEventListener('click', () => {
+      if (!confirm('Clear all contract fields? This does not delete any saved draft.')) return;
+      Object.entries(fields).forEach(([, el]) => {
+        (el as HTMLInputElement | HTMLTextAreaElement).value = '';
+      });
+      deliverables = [];
+      initDefaults();
+      renderDeliverables();
+      setStatus('Cleared.', '');
+    });
+
+    $('print-contract').addEventListener('click', () => {
+      const win = previewFrame.contentWindow;
+      if (!win) return;
+      win.focus();
+      win.print();
+    });
+
+    initDefaults();
+    renderDeliverables();
+  </script>
+
+  <style>
+    @media (max-width: 820px) {
+      .con-grid-2 { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</DashboardLayout>
