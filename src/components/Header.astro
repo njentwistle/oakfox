@@ -1,14 +1,40 @@
 ---
 import Img from './Img.astro';
 
-const navLinks = [
+interface NavChild {
+  label: string;
+  href: string;
+  indent?: boolean;
+}
+
+interface NavLink {
+  label: string;
+  href: string;
+  children?: NavChild[];
+}
+
+const navLinks: NavLink[] = [
   { label: 'Work', href: '/portfolio' },
-  { label: 'Services', href: '/services' },
+  {
+    label: 'Services',
+    href: '/services',
+    children: [
+      { label: 'Branding', href: '/services/branding' },
+      { label: 'Environmental', href: '/services/environmental' },
+      { label: 'Consultancy', href: '/services/environmental/consultancy', indent: true },
+      { label: 'Automation', href: '/services/environmental/automation', indent: true },
+    ],
+  },
   { label: 'Studio', href: '/about' },
   { label: 'Journal', href: '/blog' },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const isActive = (href: string) => {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(href + '/');
+};
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
@@ -20,15 +46,48 @@ const currentPath = Astro.url.pathname;
     <!-- Desktop nav -->
     <nav class="hidden md:flex items-center gap-10">
       {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={[
-            'text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest',
-            currentPath === link.href ? 'text-forest' : 'text-ink/70',
-          ]}
-        >
-          {link.label}
-        </a>
+        link.children ? (
+          <div class="relative nav-dropdown">
+            <a
+              href={link.href}
+              class:list={[
+                'inline-flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest py-2',
+                isActive(link.href) ? 'text-forest' : 'text-ink/70',
+              ]}
+            >
+              {link.label}
+              <svg class="w-3 h-3 transition-transform duration-300 nav-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div class="nav-dropdown-panel absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible transition-all duration-300 min-w-[220px]">
+              <div class="bg-cream border border-stone/60 rounded-md shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] py-2.5">
+                {link.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class:list={[
+                      'block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest',
+                      child.indent && 'pl-9',
+                      isActive(child.href) ? 'text-forest' : 'text-ink/75',
+                    ]}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a
+            href={link.href}
+            class:list={[
+              'text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest',
+              isActive(link.href) ? 'text-forest' : 'text-ink/70',
+            ]}
+          >
+            {link.label}
+          </a>
+        )
       ))}
     </nav>
 
@@ -59,19 +118,37 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile nav panel -->
   <nav
     id="mobile-nav"
-    class="fixed top-0 right-0 h-full w-72 bg-cream z-50 transform translate-x-full transition-transform duration-500"
+    class="fixed top-0 right-0 h-full w-72 bg-cream z-50 transform translate-x-full transition-transform duration-500 overflow-y-auto"
   >
-    <div class="p-8 pt-24 flex flex-col gap-6 h-full">
+    <div class="p-8 pt-24 flex flex-col gap-5 h-full">
       {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={[
-            'text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest',
-            currentPath === link.href ? 'text-forest' : 'text-ink',
-          ]}
-        >
-          {link.label}
-        </a>
+        <div>
+          <a
+            href={link.href}
+            class:list={[
+              'text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest',
+              isActive(link.href) ? 'text-forest' : 'text-ink',
+            ]}
+          >
+            {link.label}
+          </a>
+          {link.children && (
+            <div class="mt-3 ml-1 flex flex-col gap-2.5 border-l border-stone pl-4">
+              {link.children.map((child) => (
+                <a
+                  href={child.href}
+                  class:list={[
+                    'text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest',
+                    child.indent && 'pl-3',
+                    isActive(child.href) ? 'text-forest' : 'text-ink/70',
+                  ]}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       ))}
       <a
         href="/contact"
@@ -85,3 +162,15 @@ const currentPath = Astro.url.pathname;
     </div>
   </nav>
 </header>
+
+<style>
+  .nav-dropdown:hover .nav-dropdown-panel,
+  .nav-dropdown:focus-within .nav-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav-dropdown:hover .nav-chevron,
+  .nav-dropdown:focus-within .nav-chevron {
+    transform: rotate(180deg);
+  }
+</style>
