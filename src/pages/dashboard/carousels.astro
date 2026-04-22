@@ -1,0 +1,637 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Carousels">
+  <div class="db-fade-in">
+    <header style="margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 class="db-heading" style="font-size: 28px; margin: 0 0 4px;">Carousels</h1>
+        <p class="db-mono db-label" style="font-size: 11px;">Instagram · 1080 × 1080 · Edit, preview, download</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="db-btn db-btn-sm" id="car-import">Import JSON</button>
+        <button class="db-btn db-btn-sm" id="car-export">Export JSON</button>
+        <button class="db-btn db-btn-sm" id="car-reset">Reset templates</button>
+        <button class="db-btn db-btn-primary db-btn-sm" id="car-download-all">Download all PNGs</button>
+      </div>
+    </header>
+
+    <div class="db-card" style="margin-bottom: 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+      <label class="db-label" style="display: flex; align-items: center; gap: 8px;">
+        Carousel
+        <select class="db-select" id="car-picker"></select>
+      </label>
+      <button class="db-btn db-btn-sm" id="car-new">+ New</button>
+      <button class="db-btn db-btn-sm" id="car-rename">Rename</button>
+      <button class="db-btn db-btn-sm" id="car-duplicate">Duplicate</button>
+      <button class="db-btn db-btn-sm" id="car-delete" style="color: var(--db-fox);">Delete</button>
+      <div style="flex: 1;"></div>
+      <label class="db-label" style="display: flex; align-items: center; gap: 8px;">
+        Preview
+        <select class="db-select" id="car-scale">
+          <option value="0.25">25%</option>
+          <option value="0.35" selected>35%</option>
+          <option value="0.45">45%</option>
+          <option value="0.6">60%</option>
+          <option value="0.8">80%</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="db-card" style="margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+        <h2 class="db-heading" style="font-size: 18px;">Slides</h2>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <select class="db-select" id="car-add-layout">
+            <option value="cover-cream">+ Cover (cream)</option>
+            <option value="cover-forest">+ Cover (forest)</option>
+            <option value="cover-numbered">+ Cover (numbered)</option>
+            <option value="body-text">+ Body text</option>
+            <option value="body-quote">+ Body quote</option>
+            <option value="body-image">+ Body image</option>
+            <option value="body-stat">+ Body stat</option>
+            <option value="cta">+ CTA</option>
+          </select>
+          <button class="db-btn db-btn-sm" id="car-add-slide">Add slide</button>
+        </div>
+      </div>
+      <div id="car-slides"></div>
+    </div>
+  </div>
+
+  <input type="file" id="car-import-file" accept="application/json" style="display:none;" />
+
+  <style is:global>
+    .car-slide-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 18px;
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius-lg);
+      margin-bottom: 16px;
+      background: rgba(0,0,0,0.15);
+    }
+    @media (max-width: 900px) {
+      .car-slide-row { grid-template-columns: 1fr; }
+    }
+    .car-slide-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .car-slide-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--db-text-muted);
+    }
+    .car-field {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .car-field > span {
+      display: block;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--db-text-muted);
+      margin-bottom: 4px;
+    }
+    .car-field input, .car-field textarea, .car-field select {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius);
+      padding: 8px 10px;
+      color: var(--db-text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+    }
+    .car-field textarea { min-height: 60px; resize: vertical; font-family: 'Inter', sans-serif; }
+    .car-preview-wrap {
+      background: repeating-conic-gradient(#12150f 0 25%, #0e110d 0 50%) 50%/16px 16px;
+      border-radius: var(--db-radius);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 12px;
+    }
+    .car-preview-frame {
+      position: relative;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      overflow: hidden;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .car-scale { transform-origin: top left; }
+    .car-image-drop {
+      border: 1.5px dashed var(--db-border);
+      border-radius: var(--db-radius);
+      padding: 14px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--db-text-muted);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .car-image-drop:hover, .car-image-drop.drag {
+      border-color: var(--db-accent);
+      background: var(--db-accent-soft);
+      color: var(--db-text);
+    }
+    .car-image-thumb {
+      margin-top: 8px;
+      width: 100%;
+      aspect-ratio: 1;
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--db-radius);
+      border: 1px solid var(--db-border);
+    }
+    .car-slide-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .car-slide-actions button {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--db-border);
+      color: var(--db-text-secondary);
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .car-slide-actions button:hover { background: var(--db-accent-soft); color: var(--db-text); }
+    .car-slide-actions button.danger:hover { background: rgba(196,107,31,0.15); color: var(--db-fox); }
+    .ig-slide { width: 1080px; height: 1080px; position: relative; overflow: hidden; }
+    .imgbg { background-size: cover !important; background-position: center !important; }
+    .car-dl-row { display: flex; gap: 8px; margin-top: 10px; }
+    .car-dl-row button { flex: 1; }
+  </style>
+
+  <script is:inline src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+  <script is:inline>
+    (function() {
+      const STORAGE_KEY = 'oakfox_carousels_v1';
+      const ACTIVE_KEY = 'oakfox_carousels_active';
+
+      const DEFAULTS = {
+        'case-study': {
+          name: 'Case study · Jennifer Lane',
+          slides: [
+            {layout:'cover-numbered',bigNumber:'01',eyebrow:'Case study · March 2026',headline:'Four weeks until <em>Underwing</em> launched. We had work to do.'},
+            {layout:'body-image',eyebrow:'The brief',title:"Refresh Jennifer Lane's website in time for her fifth book launch.",image:''},
+            {layout:'body-text',title:'The 2021 site had served Jenn through four books.',body:'Her fifth deserved a home that matched how her writing had grown. Ethereal but inviting, warm rather than austere — with a light/dark toggle so readers can choose their own mood.'},
+            {layout:'body-stat',eyebrow:'Turnaround',stat:'Four',statLabel:'weeks from kickoff to launch.'},
+            {layout:'body-image',eyebrow:'Design',title:'A home that puts her writing first.',image:''},
+            {layout:'body-quote',title:"[Jennifer's words — a line from her about the process, the launch, or how the new site feels.]",attribution:'Jennifer Lane'},
+            {layout:'body-stat',eyebrow:'Under the hood',stat:'0',statLabel:'trackers. One cookie. Renewable hosting.'},
+            {layout:'body-text',title:'Built to last, not just to launch.',body:'Renewable energy powered hosting. A CMS Jenn runs herself. Lower carbon, lower maintenance, longer life.'},
+            {layout:'cta',eyebrow:'Ready when you are',headline:"Websites shouldn't cost the earth.",body:'We build sites that load fast, last long, and leave a lighter footprint.',cta:'Link in the bio to start your project'}
+          ]
+        },
+        'earth-day-launch': {
+          name: 'Earth Day · OakFox launch',
+          slides: [
+            {layout:'cover-forest',eyebrow:'Earth Day · 22 April 2026',headline:'A fitting day to say <em>hello</em>.'},
+            {layout:'body-text',title:"We're OakFox.",body:'A small studio in West Lancashire. Branding, web, marketing and environmental consultancy — for businesses that want to grow without costing the earth.'},
+            {layout:'body-stat',eyebrow:'Between us',stat:'15+',statLabel:'years of design, development and consultancy experience brought to a new studio.'},
+            {layout:'body-image',eyebrow:'What we do',title:'From the supply chain to the code we ship.',image:''},
+            {layout:'body-quote',title:"Good design and good ethics aren't at odds.",attribution:'OakFox'},
+            {layout:'body-stat',eyebrow:'Verified, not claimed',stat:'0',statLabel:'greenwash. Green Web verified hosting. SME Climate Hub committed.'},
+            {layout:'body-text',title:'Why we do it this way.',body:'Brands that respect the planet perform better, last longer, and matter more.'},
+            {layout:'cta',eyebrow:'Ready when you are',headline:"Let's build something that <em>lasts</em>.",body:"Whatever you're making — if it should outlive the launch, we should talk.",cta:'oakfox.co.uk'}
+          ]
+        },
+        'hot-take': {
+          name: 'Sustainability hot-take',
+          slides: [
+            {layout:'cover-forest',eyebrow:'Studio notes · 03',headline:"Green isn't a <em>colour</em>. It's a <em>decision</em>."},
+            {layout:'body-text',step:'01',title:"A leaf logo doesn't make a brand sustainable.",body:'Nor does a "carbon-neutral" badge, a recycled-paper business card, or a green-tinted hero image. Aesthetic gestures have become the cheapest form of greenwashing.'},
+            {layout:'body-stat',eyebrow:'The internet',stat:'4%',statLabel:'of global emissions come from digital.'},
+            {layout:'body-text',step:'02',title:'The web is infrastructure. Every decision adds up.',body:'Static-first architectures. Smaller images. Fewer third-party scripts. Hosting on renewables. These are the unsexy calls that actually reduce footprint.'},
+            {layout:'body-quote',title:"Sustainability isn't what you say on the About page. It's what you ship.",attribution:'OakFox'},
+            {layout:'body-text',step:'03',title:'Ask your agency specific questions.',body:"What hosting? What framework? What's the page weight? If they answer in buzzwords, that's your answer."},
+            {layout:'cta',eyebrow:'Ready when you are',headline:"Websites shouldn't cost the earth.",body:'We build sites that load fast, last long, and leave a lighter footprint.',cta:'Link in the bio to start your project'}
+          ]
+        }
+      };
+
+      const LAYOUT_FIELDS = {
+        'cover-cream':    [['eyebrow','Eyebrow','input'],['headline','Headline (HTML ok)','textarea']],
+        'cover-forest':   [['eyebrow','Eyebrow','input'],['headline','Headline (HTML ok)','textarea']],
+        'cover-numbered': [['bigNumber','Big number','input'],['eyebrow','Eyebrow','input'],['headline','Headline (HTML ok)','textarea']],
+        'body-text':      [['step','Step (e.g. 01) — optional','input'],['title','Title (HTML ok)','textarea'],['body','Body','textarea']],
+        'body-quote':     [['title','Quote','textarea'],['attribution','Attribution','input']],
+        'body-image':     [['eyebrow','Eyebrow','input'],['title','Title (HTML ok)','textarea']],
+        'body-stat':      [['eyebrow','Eyebrow','input'],['stat','Stat','input'],['statLabel','Stat label (HTML ok)','textarea']],
+        'cta':            [['eyebrow','Eyebrow','input'],['headline','Headline (HTML ok)','textarea'],['body','Body','textarea'],['cta','CTA button','input']]
+      };
+
+      const OAKFOX_LOGO = '';
+
+      function loadData() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(DEFAULTS));
+      }
+      function saveData() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) { console.warn('Storage full', e); }
+      }
+
+      let data = loadData();
+      let activeKey = localStorage.getItem(ACTIVE_KEY) || Object.keys(data)[0] || null;
+      if (!data[activeKey]) activeKey = Object.keys(data)[0] || null;
+      let scale = 0.35;
+
+      const picker = document.getElementById('car-picker');
+      const slidesEl = document.getElementById('car-slides');
+      const scalePicker = document.getElementById('car-scale');
+
+      scalePicker.addEventListener('change', (e) => {
+        scale = parseFloat(e.target.value);
+        render();
+      });
+
+      picker.addEventListener('change', (e) => {
+        activeKey = e.target.value;
+        localStorage.setItem(ACTIVE_KEY, activeKey);
+        render();
+      });
+
+      document.getElementById('car-new').addEventListener('click', () => {
+        const name = prompt('New carousel name:');
+        if (!name) return;
+        const key = 'custom-' + Date.now();
+        data[key] = { name, slides: [{layout:'cover-cream',eyebrow:'',headline:'New carousel'}] };
+        activeKey = key;
+        localStorage.setItem(ACTIVE_KEY, activeKey);
+        saveData(); render();
+      });
+
+      document.getElementById('car-rename').addEventListener('click', () => {
+        if (!activeKey) return;
+        const name = prompt('Rename carousel:', data[activeKey].name);
+        if (!name) return;
+        data[activeKey].name = name;
+        saveData(); render();
+      });
+
+      document.getElementById('car-duplicate').addEventListener('click', () => {
+        if (!activeKey) return;
+        const key = 'custom-' + Date.now();
+        data[key] = JSON.parse(JSON.stringify(data[activeKey]));
+        data[key].name = data[activeKey].name + ' (copy)';
+        activeKey = key;
+        localStorage.setItem(ACTIVE_KEY, activeKey);
+        saveData(); render();
+      });
+
+      document.getElementById('car-delete').addEventListener('click', () => {
+        if (!activeKey) return;
+        if (!confirm('Delete "' + data[activeKey].name + '"?')) return;
+        delete data[activeKey];
+        activeKey = Object.keys(data)[0] || null;
+        if (activeKey) localStorage.setItem(ACTIVE_KEY, activeKey);
+        saveData(); render();
+      });
+
+      document.getElementById('car-reset').addEventListener('click', () => {
+        if (!confirm('Reset to default templates? Your custom carousels will be kept.')) return;
+        Object.keys(DEFAULTS).forEach(k => { data[k] = JSON.parse(JSON.stringify(DEFAULTS[k])); });
+        saveData(); render();
+      });
+
+      document.getElementById('car-export').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'oakfox-carousels-' + new Date().toISOString().slice(0,10) + '.json';
+        a.click();
+      });
+
+      document.getElementById('car-import').addEventListener('click', () => {
+        document.getElementById('car-import-file').click();
+      });
+      document.getElementById('car-import-file').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = () => {
+          try {
+            const imported = JSON.parse(r.result);
+            if (confirm('Replace all carousels with imported data? Cancel to merge instead.')) {
+              data = imported;
+            } else {
+              Object.assign(data, imported);
+            }
+            activeKey = Object.keys(data)[0];
+            localStorage.setItem(ACTIVE_KEY, activeKey);
+            saveData(); render();
+          } catch(err) { alert('Invalid JSON: ' + err.message); }
+          e.target.value = '';
+        };
+        r.readAsText(file);
+      });
+
+      document.getElementById('car-add-slide').addEventListener('click', () => {
+        if (!activeKey) return;
+        const layout = document.getElementById('car-add-layout').value;
+        const blank = {layout};
+        LAYOUT_FIELDS[layout].forEach(([k]) => { blank[k] = ''; });
+        data[activeKey].slides.push(blank);
+        saveData(); render();
+      });
+
+      document.getElementById('car-download-all').addEventListener('click', async () => {
+        if (!activeKey) return;
+        const slides = data[activeKey].slides;
+        for (let i = 0; i < slides.length; i++) {
+          await downloadSlide(i);
+          await new Promise(r => setTimeout(r, 300));
+        }
+      });
+
+      function esc(s) {
+        return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      }
+
+      function renderPicker() {
+        picker.innerHTML = Object.entries(data).map(([k,v]) =>
+          `<option value="${esc(k)}"${k===activeKey?' selected':''}>${esc(v.name)}</option>`
+        ).join('');
+      }
+
+      function chromeHtml(i, total, light, last) {
+        const color = light ? '#F5F0E8' : '#1A1D17';
+        const opacity = light ? 0.7 : 0.55;
+        const logoEl = '';
+        return `
+          <div style="position:absolute;top:44px;right:44px;z-index:5;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.15em;color:${color};opacity:${light?0.75:0.6}">${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</div>
+          <div style="position:absolute;top:44px;left:44px;z-index:5;font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:${color};opacity:${light?0.95:0.9}">OakFox</div>
+          <div style="position:absolute;bottom:44px;left:44px;z-index:5;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:${color};opacity:${opacity}">oakfox.co.uk</div>
+          ${last ? '' : `<div style="position:absolute;bottom:44px;right:44px;z-index:5;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:${color};opacity:${opacity}"><span>Swipe</span><span style="font-size:22px;line-height:1">→</span></div>`}
+        `;
+      }
+
+      function slideHtml(slide, i, total) {
+        const s = slide || {};
+        const L = s.layout || 'body-text';
+        let bg, inner;
+        if (L === 'cover-cream') {
+          bg = '#F5F0E8';
+          inner = chromeHtml(i,total,false,false) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 80px 140px">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:32px">${esc(s.eyebrow)}</div>`:''}
+              <h1 style="font-family:'Playfair Display',serif;font-weight:700;font-size:118px;line-height:0.98;letter-spacing:-0.02em;color:#1A1D17;margin:0">${s.headline||''}</h1>
+            </div>`;
+        } else if (L === 'cover-forest') {
+          bg = '#1A5C12';
+          inner = chromeHtml(i,total,true,false) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 80px 140px">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#F5F0E8;opacity:0.7;margin-bottom:32px">${esc(s.eyebrow)}</div>`:''}
+              <h1 style="font-family:'Playfair Display',serif;font-weight:700;font-size:118px;line-height:0.98;letter-spacing:-0.02em;color:#F5F0E8;margin:0">${s.headline||''}</h1>
+            </div>`;
+        } else if (L === 'cover-numbered') {
+          bg = '#F5F0E8';
+          inner = chromeHtml(i,total,false,false) + `
+            <div style="position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:end;padding:0 80px 140px">
+              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:320px;line-height:0.82;letter-spacing:-0.04em;color:#1A5C12;font-style:italic">${esc(s.bigNumber||'01')}</div>
+              <div>
+                ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:24px">${esc(s.eyebrow)}</div>`:''}
+                <h1 style="font-family:'Playfair Display',serif;font-weight:700;font-size:64px;line-height:1.02;letter-spacing:-0.015em;color:#1A1D17;margin:0">${s.headline||''}</h1>
+              </div>
+            </div>`;
+        } else if (L === 'body-text') {
+          bg = '#F5F0E8';
+          inner = chromeHtml(i,total,false,false) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 90px">
+              ${s.step?`<div style="font-family:'Playfair Display',serif;font-style:italic;font-size:42px;color:#1A5C12;margin-bottom:20px;line-height:1">${esc(s.step)}</div>`:''}
+              ${s.title?`<h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:68px;line-height:1.04;letter-spacing:-0.015em;color:#1A1D17;margin:0 0 32px">${s.title}</h2>`:''}
+              ${s.body?`<p style="font-family:'Work Sans',sans-serif;font-size:28px;line-height:1.5;color:#1A1D17;margin:0;max-width:860px">${esc(s.body)}</p>`:''}
+            </div>`;
+        } else if (L === 'body-quote') {
+          bg = '#FAF7F2';
+          inner = chromeHtml(i,total,false,false) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 90px">
+              <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:200px;color:#1A5C12;line-height:0.7;margin-bottom:20px;height:80px">"</div>
+              <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:60px;line-height:1.08;letter-spacing:-0.015em;color:#1A1D17;margin:0">${s.title||''}</h2>
+              ${s.attribution?`<div style="margin-top:36px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#8A8680">— ${esc(s.attribution)}</div>`:''}
+            </div>`;
+        } else if (L === 'body-image') {
+          bg = '#F5F0E8';
+          const imgStyle = s.image ? (s.image.startsWith('linear-gradient') || s.image.startsWith('url(') ? `background:${s.image}` : `background-image:url('${s.image}')`) : 'background:linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)';
+          inner = chromeHtml(i,total,false,false) + `
+            <div class="imgbg" style="position:absolute;top:130px;left:80px;right:80px;bottom:260px;${imgStyle};border-radius:16px"></div>
+            <div style="position:absolute;left:90px;right:90px;bottom:120px">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:14px">${esc(s.eyebrow)}</div>`:''}
+              ${s.title?`<h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:46px;line-height:1.06;letter-spacing:-0.01em;color:#1A1D17;margin:0">${s.title}</h2>`:''}
+            </div>`;
+        } else if (L === 'body-stat') {
+          bg = '#1A5C12';
+          inner = chromeHtml(i,total,true,false) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 90px">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#F5F0E8;opacity:0.7;margin-bottom:24px">${esc(s.eyebrow)}</div>`:''}
+              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:240px;line-height:0.9;letter-spacing:-0.03em;color:#F5F0E8">${esc(s.stat||'')}</div>
+              ${s.statLabel?`<div style="font-family:'Playfair Display',serif;font-weight:700;font-size:44px;line-height:1.1;color:#F5F0E8;margin-top:16px;max-width:780px">${s.statLabel}</div>`:''}
+            </div>`;
+        } else if (L === 'cta') {
+          bg = '#1A1D17';
+          inner = chromeHtml(i,total,true,true) + `
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 90px">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#F5F0E8;opacity:0.55;margin-bottom:28px">${esc(s.eyebrow)}</div>`:''}
+              <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:90px;line-height:1.02;letter-spacing:-0.02em;color:#F5F0E8;margin:0">${s.headline||''}</h2>
+              ${s.body?`<p style="font-family:'Work Sans',sans-serif;font-size:24px;line-height:1.55;color:#F5F0E8;opacity:0.75;margin:36px 0 0;max-width:780px">${esc(s.body)}</p>`:''}
+              ${s.cta?`<div style="margin-top:56px;display:inline-flex;align-self:flex-start;align-items:center;gap:14px;padding:22px 40px;background:#1A5C12;color:#F5F0E8;border-radius:9999px;font-family:'Work Sans',sans-serif;font-weight:500;font-size:22px">${esc(s.cta)}<span style="font-size:22px">→</span></div>`:''}
+            </div>`;
+        } else {
+          bg = '#F5F0E8';
+          inner = `<div style="padding:40px;color:#1A1D17">Unknown layout: ${esc(L)}</div>`;
+        }
+        return `<div class="ig-slide" data-slide-idx="${i}" style="background:${bg}">${inner}</div>`;
+      }
+
+      function fieldsHtml(slide, idx) {
+        const fields = LAYOUT_FIELDS[slide.layout] || [];
+        let html = '';
+        html += `<label class="car-field"><span>Layout</span><select data-idx="${idx}" data-k="layout">
+          ${Object.keys(LAYOUT_FIELDS).map(l => `<option value="${l}"${l===slide.layout?' selected':''}>${l}</option>`).join('')}
+        </select></label>`;
+        fields.forEach(([k,label,type]) => {
+          const val = slide[k] == null ? '' : slide[k];
+          if (type === 'textarea') {
+            html += `<label class="car-field"><span>${esc(label)}</span><textarea data-idx="${idx}" data-k="${k}">${esc(val)}</textarea></label>`;
+          } else {
+            html += `<label class="car-field"><span>${esc(label)}</span><input type="text" data-idx="${idx}" data-k="${k}" value="${esc(val)}"/></label>`;
+          }
+        });
+        if (slide.layout === 'body-image') {
+          const img = slide.image || '';
+          const isUrl = img.startsWith('data:') || (img.startsWith('url(') && !img.includes('gradient'));
+          const thumbBg = isUrl ? img : (img || 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)');
+          const thumbStyle = thumbBg.startsWith('linear-gradient') || thumbBg.startsWith('url(') ? `background:${thumbBg}` : `background-image:url('${thumbBg}')`;
+          html += `<div class="car-field"><span>Image</span>
+            <div class="car-image-drop" data-drop="${idx}">Click or drop an image here</div>
+            <input type="file" accept="image/*" data-file="${idx}" style="display:none;"/>
+            <div class="car-image-thumb imgbg" style="${thumbStyle}"></div>
+            ${img?`<button type="button" class="db-btn db-btn-sm" data-clear-image="${idx}" style="margin-top:8px;">Clear image</button>`:''}
+          </div>`;
+        }
+        return html;
+      }
+
+      function renderSlides() {
+        if (!activeKey || !data[activeKey]) { slidesEl.innerHTML = '<p style="color:var(--db-text-muted);padding:20px;">No carousel selected.</p>'; return; }
+        const slides = data[activeKey].slides;
+        slidesEl.innerHTML = slides.map((slide, i) => `
+          <div class="car-slide-row" data-row="${i}">
+            <div>
+              <div class="car-slide-head">
+                <span class="car-slide-meta">Slide ${String(i+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')} · ${esc(slide.layout)}</span>
+                <div class="car-slide-actions">
+                  <button data-move-up="${i}" ${i===0?'disabled':''}>↑</button>
+                  <button data-move-down="${i}" ${i===slides.length-1?'disabled':''}>↓</button>
+                  <button data-dup="${i}">Duplicate</button>
+                  <button class="danger" data-remove="${i}">Delete</button>
+                </div>
+              </div>
+              ${fieldsHtml(slide, i)}
+              <div class="car-dl-row">
+                <button class="db-btn db-btn-primary db-btn-sm" data-dl="${i}">Download PNG</button>
+              </div>
+            </div>
+            <div>
+              <div class="car-preview-wrap">
+                <div class="car-preview-frame" style="width:${1080*scale}px;height:${1080*scale}px">
+                  <div class="car-scale" style="transform:scale(${scale})">
+                    ${slideHtml(slide, i, slides.length)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        slidesEl.querySelectorAll('[data-k]').forEach(el => {
+          el.addEventListener('input', onFieldChange);
+          el.addEventListener('change', onFieldChange);
+        });
+        slidesEl.querySelectorAll('[data-move-up]').forEach(el => el.addEventListener('click', () => moveSlide(+el.dataset.moveUp, -1)));
+        slidesEl.querySelectorAll('[data-move-down]').forEach(el => el.addEventListener('click', () => moveSlide(+el.dataset.moveDown, 1)));
+        slidesEl.querySelectorAll('[data-dup]').forEach(el => el.addEventListener('click', () => {
+          const i = +el.dataset.dup;
+          data[activeKey].slides.splice(i+1, 0, JSON.parse(JSON.stringify(data[activeKey].slides[i])));
+          saveData(); render();
+        }));
+        slidesEl.querySelectorAll('[data-remove]').forEach(el => el.addEventListener('click', () => {
+          const i = +el.dataset.remove;
+          if (!confirm('Delete slide ' + (i+1) + '?')) return;
+          data[activeKey].slides.splice(i, 1);
+          saveData(); render();
+        }));
+        slidesEl.querySelectorAll('[data-dl]').forEach(el => el.addEventListener('click', () => downloadSlide(+el.dataset.dl)));
+        slidesEl.querySelectorAll('[data-drop]').forEach(drop => {
+          const i = +drop.dataset.drop;
+          const fileInput = slidesEl.querySelector(`[data-file="${i}"]`);
+          drop.addEventListener('click', () => fileInput.click());
+          fileInput.addEventListener('change', (e) => { handleImageFile(i, e.target.files[0]); e.target.value = ''; });
+          ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('drag'); }));
+          ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('drag'); }));
+          drop.addEventListener('drop', (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleImageFile(i, f); });
+        });
+        slidesEl.querySelectorAll('[data-clear-image]').forEach(el => el.addEventListener('click', () => {
+          const i = +el.dataset.clearImage;
+          data[activeKey].slides[i].image = '';
+          saveData(); render();
+        }));
+      }
+
+      function handleImageFile(idx, file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+        const r = new FileReader();
+        r.onload = () => {
+          data[activeKey].slides[idx].image = r.result;
+          try { saveData(); } catch(e) {
+            alert('Image too large for storage. It will be used this session but will not persist. Consider a smaller image.');
+          }
+          render();
+        };
+        r.readAsDataURL(file);
+      }
+
+      function onFieldChange(e) {
+        const i = +e.target.dataset.idx;
+        const k = e.target.dataset.k;
+        const val = e.target.value;
+        const old = data[activeKey].slides[i][k];
+        data[activeKey].slides[i][k] = val;
+        if (k === 'layout' && old !== val) {
+          const blank = {layout: val};
+          LAYOUT_FIELDS[val].forEach(([fk]) => { blank[fk] = data[activeKey].slides[i][fk] || ''; });
+          data[activeKey].slides[i] = blank;
+        }
+        saveData();
+        if (k === 'layout') render();
+        else {
+          const row = slidesEl.querySelector(`[data-row="${i}"] .car-scale`);
+          if (row) row.innerHTML = slideHtml(data[activeKey].slides[i], i, data[activeKey].slides.length);
+        }
+      }
+
+      function moveSlide(i, dir) {
+        const slides = data[activeKey].slides;
+        const j = i + dir;
+        if (j < 0 || j >= slides.length) return;
+        [slides[i], slides[j]] = [slides[j], slides[i]];
+        saveData(); render();
+      }
+
+      async function downloadSlide(idx) {
+        const slides = data[activeKey].slides;
+        const host = document.createElement('div');
+        host.style.cssText = 'position:fixed;left:-20000px;top:0;width:1080px;height:1080px;';
+        host.innerHTML = slideHtml(slides[idx], idx, slides.length);
+        document.body.appendChild(host);
+        try {
+          await document.fonts.ready;
+          const node = host.firstElementChild;
+          const dataUrl = await htmlToImage.toPng(node, { width: 1080, height: 1080, pixelRatio: 2, cacheBust: true });
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = `oakfox-${activeKey}-${String(idx+1).padStart(2,'0')}.png`;
+          a.rel = 'noopener';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => a.remove(), 500);
+        } catch(err) {
+          alert('Download failed: ' + err.message);
+        } finally {
+          document.body.removeChild(host);
+        }
+      }
+
+      function render() {
+        renderPicker();
+        renderSlides();
+      }
+
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'stylesheet';
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Work+Sans:wght@400;500;600;700&display=swap';
+      document.head.appendChild(fontLink);
+
+      render();
+    })();
+  </script>
+</DashboardLayout>
