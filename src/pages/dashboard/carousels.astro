@@ -375,10 +375,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       function chromeHtml(i, total, light, last) {
         const color = light ? '#F5F0E8' : '#1A1D17';
         const opacity = light ? 0.7 : 0.55;
-        const logoEl = '';
+        const logoSrc = light ? '/images/site/logolight.png' : '/images/site/logo.png';
         return `
           <div style="position:absolute;top:44px;right:44px;z-index:5;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.15em;color:${color};opacity:${light?0.75:0.6}">${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</div>
-          <div style="position:absolute;top:44px;left:44px;z-index:5;font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:${color};opacity:${light?0.95:0.9}">OakFox</div>
+          <img src="${logoSrc}" alt="OakFox" crossorigin="anonymous" style="position:absolute;top:40px;left:44px;z-index:5;height:80px;width:auto;display:block" />
           <div style="position:absolute;bottom:44px;left:44px;z-index:5;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:${color};opacity:${opacity}">oakfox.co.uk</div>
           ${last ? '' : `<div style="position:absolute;bottom:44px;right:44px;z-index:5;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:${color};opacity:${opacity}"><span>Swipe</span><span style="font-size:22px;line-height:1">→</span></div>`}
         `;
@@ -430,9 +430,12 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
             </div>`;
         } else if (L === 'body-image') {
           bg = '#F5F0E8';
-          const imgStyle = s.image ? (s.image.startsWith('linear-gradient') || s.image.startsWith('url(') ? `background:${s.image}` : `background-image:url('${s.image}')`) : 'background:linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)';
-          inner = chromeHtml(i,total,false,false) + `
-            <div class="imgbg" style="position:absolute;top:130px;left:80px;right:80px;bottom:260px;${imgStyle};border-radius:16px"></div>
+          const img = s.image || '';
+          const isRaster = img && (img.startsWith('data:') || img.startsWith('http') || img.startsWith('/'));
+          const imgBlock = isRaster
+            ? `<div style="position:absolute;top:130px;left:80px;right:80px;bottom:260px;border-radius:16px;overflow:hidden;background:#ddd"><img src="${img}" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover;display:block"/></div>`
+            : `<div style="position:absolute;top:130px;left:80px;right:80px;bottom:260px;border-radius:16px;background:${img && img.startsWith('linear-gradient') ? img : 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)'}"></div>`;
+          inner = chromeHtml(i,total,false,false) + imgBlock + `
             <div style="position:absolute;left:90px;right:90px;bottom:120px">
               ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:14px">${esc(s.eyebrow)}</div>`:''}
               ${s.title?`<h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:46px;line-height:1.06;letter-spacing:-0.01em;color:#1A1D17;margin:0">${s.title}</h2>`:''}
@@ -477,13 +480,14 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         });
         if (slide.layout === 'body-image') {
           const img = slide.image || '';
-          const isUrl = img.startsWith('data:') || (img.startsWith('url(') && !img.includes('gradient'));
-          const thumbBg = isUrl ? img : (img || 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)');
-          const thumbStyle = thumbBg.startsWith('linear-gradient') || thumbBg.startsWith('url(') ? `background:${thumbBg}` : `background-image:url('${thumbBg}')`;
+          const isRaster = img && (img.startsWith('data:') || img.startsWith('http') || img.startsWith('/'));
+          const thumb = isRaster
+            ? `<div class="car-image-thumb" style="background:#ddd;overflow:hidden"><img src="${esc(img)}" style="width:100%;height:100%;object-fit:cover;display:block"/></div>`
+            : `<div class="car-image-thumb" style="background:${img && img.startsWith('linear-gradient') ? img : 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)'}"></div>`;
           html += `<div class="car-field"><span>Image</span>
             <div class="car-image-drop" data-drop="${idx}">Click or drop an image here</div>
             <input type="file" accept="image/*" data-file="${idx}" style="display:none;"/>
-            <div class="car-image-thumb imgbg" style="${thumbStyle}"></div>
+            ${thumb}
             ${img?`<button type="button" class="db-btn db-btn-sm" data-clear-image="${idx}" style="margin-top:8px;">Clear image</button>`:''}
           </div>`;
         }
@@ -605,8 +609,13 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         document.body.appendChild(host);
         try {
           await document.fonts.ready;
+          const imgs = Array.from(host.querySelectorAll('img'));
+          await Promise.all(imgs.map(img => img.complete && img.naturalWidth
+            ? Promise.resolve()
+            : new Promise(res => { img.onload = res; img.onerror = res; })
+          ));
           const node = host.firstElementChild;
-          const dataUrl = await htmlToImage.toPng(node, { width: 1080, height: 1080, pixelRatio: 2, cacheBust: true });
+          const dataUrl = await htmlToImage.toPng(node, { width: 1080, height: 1080, pixelRatio: 3, cacheBust: true });
           const a = document.createElement('a');
           a.href = dataUrl;
           a.download = `oakfox-${activeKey}-${String(idx+1).padStart(2,'0')}.png`;
