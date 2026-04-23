@@ -1,0 +1,517 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+type Field = {
+  id: string;
+  label: string;
+  type?: 'text' | 'textarea' | 'url' | 'email' | 'tel' | 'number' | 'date';
+  placeholder?: string;
+  hint?: string;
+};
+
+type Section = {
+  id: string;
+  label: string;
+  blurb: string;
+  icon: string;
+  fields: Field[];
+};
+
+const sections: Section[] = [
+  {
+    id: 'web',
+    label: 'Web',
+    blurb: 'Websites, landing pages, e-commerce, redesigns.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+    fields: [
+      { id: 'web_goal', label: 'What is the primary goal of this website?', type: 'textarea', placeholder: 'Generate leads, sell products, build authority, replace an outdated site...' },
+      { id: 'web_current', label: 'Current site URL (if any)', type: 'url', placeholder: 'https://' },
+      { id: 'web_audience', label: 'Who is the target audience?', type: 'textarea', placeholder: 'Demographics, location, industry, stage of buying journey...' },
+      { id: 'web_pages', label: 'Pages / sections you already know you need', type: 'textarea', placeholder: 'Home, About, Services, Case Studies, Contact, Blog...' },
+      { id: 'web_features', label: 'Functional requirements', type: 'textarea', placeholder: 'Online booking, payments, members area, CMS, multi-language, newsletter signup...' },
+      { id: 'web_likes', label: 'Three sites you like (and why)', type: 'textarea', placeholder: 'Paste links + a line on what works for each.' },
+      { id: 'web_dislikes', label: 'Anything you explicitly don\'t want', type: 'textarea', placeholder: 'No carousels, no stock imagery, no pop-ups...' },
+      { id: 'web_content', label: 'Who will write the copy and supply images?', type: 'text', placeholder: 'You, us, a mix, a copywriter...' },
+      { id: 'web_tech', label: 'Tech constraints or existing stack', type: 'text', placeholder: 'WordPress, Shopify, hosted somewhere specific, CRM integration...' },
+      { id: 'web_success', label: 'How will we know the site is a success?', type: 'textarea', placeholder: 'More enquiries, faster load, higher conversion, looks good to investors...' },
+    ],
+  },
+  {
+    id: 'branding',
+    label: 'Branding',
+    blurb: 'Identity, logos, visual systems, guidelines.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+    fields: [
+      { id: 'brand_story', label: 'In one paragraph, what does the business do and why does it exist?', type: 'textarea' },
+      { id: 'brand_name', label: 'Is the name locked? Any tagline in mind?', type: 'text' },
+      { id: 'brand_values', label: 'Three words that describe the brand\'s personality', type: 'text', placeholder: 'e.g. warm, modern, expert' },
+      { id: 'brand_not', label: 'Three words the brand is NOT', type: 'text', placeholder: 'e.g. corporate, loud, cheap' },
+      { id: 'brand_audience', label: 'Who are we talking to?', type: 'textarea', placeholder: 'The person buying or choosing you — paint a picture.' },
+      { id: 'brand_competitors', label: 'Competitors / adjacent brands', type: 'textarea', placeholder: 'Who you see in the same space and where you want to differ.' },
+      { id: 'brand_likes', label: 'Brands you admire (any industry)', type: 'textarea', placeholder: 'Links or names + why.' },
+      { id: 'brand_assets', label: 'Existing assets we should keep / evolve', type: 'textarea', placeholder: 'Current logo, colours, fonts, photography, illustration style...' },
+      { id: 'brand_touchpoints', label: 'Where will the brand show up?', type: 'textarea', placeholder: 'Website, signage, packaging, vehicle livery, uniforms, social, stationery...' },
+      { id: 'brand_success', label: 'What should people feel when they encounter the brand?', type: 'textarea' },
+    ],
+  },
+  {
+    id: 'marketing',
+    label: 'Marketing',
+    blurb: 'Campaigns, SEO, content, social, paid ads, email.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8v18l-18-8z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>`,
+    fields: [
+      { id: 'mkt_goal', label: 'Top marketing objective for the next 6–12 months', type: 'textarea', placeholder: 'Lead volume, brand awareness, launch, conversion rate, retention...' },
+      { id: 'mkt_audience', label: 'Describe your ideal customer', type: 'textarea', placeholder: 'Who they are, what they worry about, what they\'re searching for.' },
+      { id: 'mkt_current', label: 'What marketing are you doing right now?', type: 'textarea', placeholder: 'Channels, rough spend, what\'s working, what\'s not.' },
+      { id: 'mkt_channels', label: 'Channels you want to focus on', type: 'text', placeholder: 'SEO, Google Ads, Meta, LinkedIn, email, content, PR...' },
+      { id: 'mkt_usp', label: 'Why do customers choose you over alternatives?', type: 'textarea' },
+      { id: 'mkt_budget', label: 'Monthly marketing budget (ballpark)', type: 'text', placeholder: 'Inc. ad spend vs. retainer split if known.' },
+      { id: 'mkt_tools', label: 'Tools / platforms already in use', type: 'textarea', placeholder: 'GA4, Search Console, Mailchimp, HubSpot, Meta Business...' },
+      { id: 'mkt_kpis', label: 'How do you measure success?', type: 'textarea', placeholder: 'Leads/month, cost per lead, ROAS, organic traffic, revenue attributed...' },
+      { id: 'mkt_content', label: 'Who can produce content / be on camera?', type: 'text' },
+      { id: 'mkt_deadlines', label: 'Any fixed dates we\'re working toward?', type: 'textarea', placeholder: 'Product launch, seasonal push, event, trade show...' },
+    ],
+  },
+  {
+    id: 'development',
+    label: 'Development',
+    blurb: 'Apps, integrations, automations, bespoke tools.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+    fields: [
+      { id: 'dev_problem', label: 'What problem are we solving?', type: 'textarea', placeholder: 'The workflow, pain point, or opportunity in plain English.' },
+      { id: 'dev_users', label: 'Who are the users?', type: 'textarea', placeholder: 'Internal team, customers, public, specific roles... how many?' },
+      { id: 'dev_scope', label: 'Core features for v1', type: 'textarea', placeholder: 'List the must-haves. We\'ll park the nice-to-haves separately.' },
+      { id: 'dev_nice', label: 'Nice-to-haves for later', type: 'textarea' },
+      { id: 'dev_existing', label: 'Existing systems it must talk to', type: 'textarea', placeholder: 'CRMs, Zapier, APIs, spreadsheets, accounting software, Stripe...' },
+      { id: 'dev_data', label: 'What data flows in and out?', type: 'textarea', placeholder: 'Think: inputs, outputs, who sees what, any sensitive data.' },
+      { id: 'dev_constraints', label: 'Technical constraints or preferences', type: 'textarea', placeholder: 'Hosting requirements, existing stack, compliance (GDPR, PCI), must-use language/framework...' },
+      { id: 'dev_scale', label: 'Expected scale', type: 'text', placeholder: 'Users, records, requests — order of magnitude is enough.' },
+      { id: 'dev_maintain', label: 'Who will maintain / own it after launch?', type: 'text' },
+      { id: 'dev_success', label: 'What does "done and working" look like?', type: 'textarea' },
+    ],
+  },
+  {
+    id: 'consultancy',
+    label: 'Consultancy',
+    blurb: 'Advisory, audits, strategy workshops, mentoring.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    fields: [
+      { id: 'cons_topic', label: 'What area do you want help thinking through?', type: 'textarea', placeholder: 'Brand strategy, positioning, digital audit, go-to-market, org/process...' },
+      { id: 'cons_context', label: 'Where is the business today?', type: 'textarea', placeholder: 'Stage, team size, revenue bracket, momentum, obstacles.' },
+      { id: 'cons_decision', label: 'Is there a specific decision on the table?', type: 'textarea' },
+      { id: 'cons_triedwhat', label: 'What have you already tried?', type: 'textarea' },
+      { id: 'cons_stakeholders', label: 'Who else needs to be in the room?', type: 'text' },
+      { id: 'cons_format', label: 'Preferred format', type: 'text', placeholder: 'One-off workshop, monthly check-in, written audit, on-call retainer...' },
+      { id: 'cons_horizon', label: 'Timeframe for decisions / impact', type: 'text', placeholder: 'Next 30 days, this quarter, this year.' },
+      { id: 'cons_success', label: 'What would a great outcome from our engagement look like?', type: 'textarea' },
+    ],
+  },
+];
+---
+
+<DashboardLayout title="Client onboarding">
+  <div class="db-fade-in">
+    <header style="margin-bottom: 28px;">
+      <h1 class="db-heading" style="font-size: 32px; margin-bottom: 6px;">Client onboarding</h1>
+      <p style="color: var(--db-text-muted); font-size: 13px; max-width: 680px;">Fill in together on a call, or share the dashboard screen. Tick the areas of work that apply — each opens its own section. Answers save locally as you type. On submit, a full copy goes to nathan@oakfox.co.uk and a summary copy goes to the client.</p>
+    </header>
+
+    <!-- Progress pill -->
+    <div style="position: sticky; top: 0; z-index: 5; background: var(--db-bg); padding: 10px 0; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+      <div style="flex: 1; height: 6px; background: var(--db-surface); border-radius: 999px; overflow: hidden;">
+        <div id="progress-bar" style="height: 100%; width: 0%; background: var(--db-accent); transition: width 0.3s ease;"></div>
+      </div>
+      <span id="progress-label" class="db-mono db-label" style="font-size: 11px; white-space: nowrap;">0 / 0</span>
+      <button type="button" id="clear-draft" class="db-btn db-btn-sm" style="flex-shrink: 0;">Clear draft</button>
+    </div>
+
+    <!-- Client basics -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 4px;">Client basics</h2>
+      <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 18px;">Required — so we can send the summary to the right inbox.</p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;" class="basics-grid">
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Your name *</label>
+          <input type="text" class="db-input" data-basic="client_name" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Company *</label>
+          <input type="text" class="db-input" data-basic="client_company" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Email *</label>
+          <input type="email" class="db-input" data-basic="client_email" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Phone</label>
+          <input type="tel" class="db-input" data-basic="client_phone" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Website (if any)</label>
+          <input type="url" class="db-input" data-basic="client_site" placeholder="https://" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Role / title</label>
+          <input type="text" class="db-input" data-basic="client_role" style="width: 100%;" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Overall budget (ballpark)</label>
+          <input type="text" class="db-input" data-basic="client_budget" placeholder="e.g. £3–5k one-off, or £1k/mo retainer" style="width: 100%;" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label class="db-label" style="display: block; margin-bottom: 6px;">Timeline / desired start</label>
+          <input type="text" class="db-input" data-basic="client_timeline" placeholder="e.g. kick off in two weeks, launch before summer" style="width: 100%;" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label class="db-label" style="display: block; margin-bottom: 6px;">How did you hear about OakFox?</label>
+          <input type="text" class="db-input" data-basic="client_source" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Scope tickboxes -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 4px;">Areas of work</h2>
+      <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 18px;">Tick every area you'd like help with. Each opens a section below.</p>
+      <div id="scope-tiles" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+        {sections.map((s) => (
+          <label class="scope-tile" data-section={s.id}>
+            <input type="checkbox" class="scope-checkbox" data-section={s.id} />
+            <div class="scope-icon" set:html={s.icon}></div>
+            <div class="scope-body">
+              <div class="scope-label">{s.label}</div>
+              <div class="scope-blurb">{s.blurb}</div>
+            </div>
+          </label>
+        ))}
+      </div>
+    </div>
+
+    <!-- Dynamic sections -->
+    {sections.map((s) => (
+      <section class="onboarding-section" data-section={s.id} style="display: none; margin-bottom: 20px;">
+        <div class="db-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+            <div class="scope-icon" style="width: 28px; height: 28px;" set:html={s.icon}></div>
+            <h2 class="db-heading" style="font-size: 20px;">{s.label}</h2>
+          </div>
+          <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 20px;">{s.blurb}</p>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            {s.fields.map((f) => (
+              <div>
+                <label class="db-label" style="display: block; margin-bottom: 6px;">{f.label}</label>
+                {f.type === 'textarea' ? (
+                  <textarea class="db-input onboarding-field" data-field-id={f.id} data-field-label={f.label} data-section={s.id} rows="3" placeholder={f.placeholder} style="width: 100%; line-height: 1.55;"></textarea>
+                ) : (
+                  <input type={f.type ?? 'text'} class="db-input onboarding-field" data-field-id={f.id} data-field-label={f.label} data-section={s.id} placeholder={f.placeholder} style="width: 100%;" />
+                )}
+                {f.hint && <p style="color: var(--db-text-muted); font-size: 11px; margin-top: 4px;">{f.hint}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Wrap up + submit -->
+    <div class="db-card" style="margin-bottom: 20px;">
+      <h2 class="db-heading" style="font-size: 18px; margin-bottom: 14px;">Anything else?</h2>
+      <label class="db-label" style="display: block; margin-bottom: 6px;">Other notes, questions, or context we should know</label>
+      <textarea class="db-input" data-basic="client_notes" rows="4" style="width: 100%;"></textarea>
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px;">
+      <button type="button" id="submit-btn" class="db-btn db-btn-primary">Submit & email summary</button>
+      <button type="button" id="download-btn" class="db-btn">Download as .txt</button>
+      <span id="autosave-indicator" class="db-mono db-label" style="font-size: 11px; color: var(--db-text-muted);"></span>
+    </div>
+    <p id="submit-status" style="font-size: 13px; font-family: 'JetBrains Mono', monospace; min-height: 20px;"></p>
+  </div>
+
+  <style>
+    .scope-tile {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--db-border);
+      border-radius: var(--db-radius);
+      background: var(--db-surface);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .scope-tile:hover { border-color: var(--db-accent); }
+    .scope-tile.active { border-color: var(--db-accent); background: rgba(196, 107, 31, 0.06); }
+    .scope-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--db-border);
+      border-radius: 4px;
+      background: transparent;
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+    .scope-checkbox:checked { background: var(--db-accent); border-color: var(--db-accent); }
+    .scope-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px; top: 1px;
+      width: 5px; height: 10px;
+      border: solid var(--db-bg);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .scope-icon {
+      width: 22px; height: 22px;
+      color: var(--db-accent);
+      flex-shrink: 0;
+    }
+    .scope-icon svg { width: 100%; height: 100%; }
+    .scope-label { font-size: 14px; font-weight: 600; color: var(--db-text); margin-bottom: 2px; }
+    .scope-blurb { font-size: 12px; color: var(--db-text-muted); line-height: 1.4; }
+    @media (max-width: 640px) {
+      .basics-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+  <script>
+    const STORAGE_KEY = 'oakfox_onboarding_draft_v1';
+    const basics = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-basic]');
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('.scope-checkbox');
+    const sections = document.querySelectorAll<HTMLElement>('.onboarding-section');
+    const tiles = document.querySelectorAll<HTMLLabelElement>('.scope-tile');
+    const fields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.onboarding-field');
+    const progressBar = document.getElementById('progress-bar') as HTMLDivElement;
+    const progressLabel = document.getElementById('progress-label')!;
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const downloadBtn = document.getElementById('download-btn') as HTMLButtonElement;
+    const clearBtn = document.getElementById('clear-draft') as HTMLButtonElement;
+    const statusEl = document.getElementById('submit-status')!;
+    const autosaveEl = document.getElementById('autosave-indicator')!;
+
+    type Draft = {
+      basics: Record<string, string>;
+      selected: string[];
+      answers: Record<string, string>;
+    };
+
+    function readDraft(): Draft {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch {}
+      return { basics: {}, selected: [], answers: {} };
+    }
+
+    function writeDraft(d: Draft) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+      const t = new Date();
+      autosaveEl.textContent = `Saved ${t.getHours().toString().padStart(2, '0')}:${t.getMinutes().toString().padStart(2, '0')}`;
+    }
+
+    function currentDraft(): Draft {
+      const basicsObj: Record<string, string> = {};
+      basics.forEach((el) => {
+        const k = el.getAttribute('data-basic')!;
+        basicsObj[k] = (el.value || '').trim();
+      });
+      const selected: string[] = [];
+      checkboxes.forEach((cb) => { if (cb.checked) selected.push(cb.getAttribute('data-section')!); });
+      const answers: Record<string, string> = {};
+      fields.forEach((el) => {
+        const section = el.getAttribute('data-section')!;
+        if (!selected.includes(section)) return;
+        const id = el.getAttribute('data-field-id')!;
+        answers[id] = (el.value || '').trim();
+      });
+      return { basics: basicsObj, selected, answers };
+    }
+
+    function setStatus(msg: string, state: 'ok' | 'error' | '' = '') {
+      statusEl.textContent = msg;
+      statusEl.style.color = state === 'error' ? 'var(--db-danger, #c0392b)' : state === 'ok' ? 'var(--db-accent)' : 'var(--db-text-muted)';
+    }
+
+    function updateProgress() {
+      const d = currentDraft();
+      const basicKeys = Array.from(basics).map((el) => el.getAttribute('data-basic')!);
+      const requiredBasics = ['client_name', 'client_company', 'client_email'];
+      let totalFields = basicKeys.length;
+      let filled = basicKeys.filter((k) => d.basics[k]).length;
+
+      const activeFields = Array.from(fields).filter((f) => d.selected.includes(f.getAttribute('data-section')!));
+      totalFields += activeFields.length;
+      filled += activeFields.filter((f) => (f.value || '').trim().length > 0).length;
+
+      const pct = totalFields ? Math.round((filled / totalFields) * 100) : 0;
+      progressBar.style.width = pct + '%';
+      progressLabel.textContent = `${filled} / ${totalFields} fields`;
+
+      const missingBasics = requiredBasics.filter((k) => !d.basics[k]);
+      submitBtn.disabled = missingBasics.length > 0 || d.selected.length === 0;
+      submitBtn.style.opacity = submitBtn.disabled ? '0.5' : '1';
+      submitBtn.style.cursor = submitBtn.disabled ? 'not-allowed' : 'pointer';
+    }
+
+    function toggleSection(id: string, show: boolean) {
+      sections.forEach((s) => {
+        if (s.getAttribute('data-section') === id) s.style.display = show ? 'block' : 'none';
+      });
+      tiles.forEach((t) => {
+        if (t.getAttribute('data-section') === id) t.classList.toggle('active', show);
+      });
+    }
+
+    // Hydrate from draft
+    (function hydrate() {
+      const d = readDraft();
+      basics.forEach((el) => {
+        const k = el.getAttribute('data-basic')!;
+        if (d.basics[k]) (el as HTMLInputElement).value = d.basics[k];
+      });
+      checkboxes.forEach((cb) => {
+        const id = cb.getAttribute('data-section')!;
+        if (d.selected.includes(id)) { cb.checked = true; toggleSection(id, true); }
+      });
+      fields.forEach((el) => {
+        const id = el.getAttribute('data-field-id')!;
+        if (d.answers[id]) (el as HTMLInputElement).value = d.answers[id];
+      });
+      updateProgress();
+    })();
+
+    // Listeners
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', () => {
+        toggleSection(cb.getAttribute('data-section')!, cb.checked);
+        writeDraft(currentDraft());
+        updateProgress();
+      });
+    });
+
+    let saveTimer: number | undefined;
+    function onInput() {
+      clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(() => {
+        writeDraft(currentDraft());
+        updateProgress();
+      }, 400);
+    }
+    basics.forEach((el) => el.addEventListener('input', onInput));
+    fields.forEach((el) => el.addEventListener('input', onInput));
+
+    clearBtn.addEventListener('click', () => {
+      if (!confirm('Clear all answers? This cannot be undone.')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      basics.forEach((el) => { (el as HTMLInputElement).value = ''; });
+      fields.forEach((el) => { (el as HTMLInputElement).value = ''; });
+      checkboxes.forEach((cb) => { cb.checked = false; toggleSection(cb.getAttribute('data-section')!, false); });
+      autosaveEl.textContent = '';
+      setStatus('Draft cleared.', '');
+      updateProgress();
+    });
+
+    // Build a human-readable text summary for the download + email body fallback
+    function buildSummary(d: Draft): string {
+      const lines: string[] = [];
+      lines.push('OAKFOX CLIENT ONBOARDING');
+      lines.push(new Date().toLocaleString());
+      lines.push('');
+      lines.push('— Client basics —');
+      const basicsMeta: Record<string, string> = {
+        client_name: 'Name', client_company: 'Company', client_email: 'Email', client_phone: 'Phone',
+        client_site: 'Website', client_role: 'Role', client_budget: 'Budget',
+        client_timeline: 'Timeline', client_source: 'Heard via', client_notes: 'Notes'
+      };
+      Object.entries(basicsMeta).forEach(([k, lbl]) => {
+        if (d.basics[k]) lines.push(`${lbl}: ${d.basics[k]}`);
+      });
+      lines.push('');
+      lines.push(`— Areas selected: ${d.selected.join(', ') || 'none'} —`);
+      lines.push('');
+
+      d.selected.forEach((sid) => {
+        const sectionFields = Array.from(fields).filter((f) => f.getAttribute('data-section') === sid);
+        if (!sectionFields.length) return;
+        lines.push(`## ${sid.toUpperCase()}`);
+        sectionFields.forEach((f) => {
+          const label = f.getAttribute('data-field-label')!;
+          const id = f.getAttribute('data-field-id')!;
+          const val = d.answers[id];
+          if (val) { lines.push(`• ${label}`); lines.push(`  ${val.replace(/\n/g, '\n  ')}`); lines.push(''); }
+        });
+        lines.push('');
+      });
+
+      return lines.join('\n');
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      const d = currentDraft();
+      const txt = buildSummary(d);
+      const safeName = (d.basics.client_company || d.basics.client_name || 'onboarding').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+      const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `oakfox-onboarding-${safeName}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    submitBtn.addEventListener('click', async () => {
+      const d = currentDraft();
+      if (!d.basics.client_name || !d.basics.client_company || !d.basics.client_email) {
+        setStatus('Please fill in client name, company and email.', 'error');
+        return;
+      }
+      if (!d.selected.length) {
+        setStatus('Tick at least one area of work.', 'error');
+        return;
+      }
+
+      // Build field-label map so PHP can print labels without knowing them
+      const fieldLabels: Record<string, string> = {};
+      fields.forEach((f) => {
+        const id = f.getAttribute('data-field-id')!;
+        const lbl = f.getAttribute('data-field-label')!;
+        fieldLabels[id] = lbl;
+      });
+
+      submitBtn.disabled = true;
+      setStatus('Sending…', '');
+
+      try {
+        const res = await fetch('/api/onboarding.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            basics: d.basics,
+            selected: d.selected,
+            answers: d.answers,
+            fieldLabels,
+            summary: buildSummary(d),
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Could not send.');
+        }
+        setStatus('Sent. A copy is on its way to both inboxes.', 'ok');
+        // Keep the draft until the user explicitly clears — in case they want to re-send
+      } catch (e: any) {
+        setStatus(e.message || 'Something went wrong.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        updateProgress();
+      }
+    });
+  </script>
+</DashboardLayout>
