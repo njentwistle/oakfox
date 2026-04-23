@@ -266,16 +266,27 @@
     backdrop-filter: blur(var(--db-blur));
     -webkit-backdrop-filter: blur(var(--db-blur));
     border-top: 1px solid var(--db-border);
-    padding: 6px 0 env(safe-area-inset-bottom, 8px);
-    justify-content: space-around;
+    padding: 6px 4px env(safe-area-inset-bottom, 8px);
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
   }
+  .db-tab-bar::-webkit-scrollbar { display: none; }
 
   .db-tab-link {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    padding: 8px 16px;
+    padding: 8px 12px;
+    min-width: 64px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
     font-size: 10px;
     font-weight: 500;
     color: var(--db-text-muted);
