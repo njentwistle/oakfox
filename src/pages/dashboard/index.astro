@@ -300,6 +300,52 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     }
     seedOakFoxTasks();
 
+    // ── Batch 2: growth / outreach / operational maturity ──
+    function seedOakFoxBatch2() {
+      if (localStorage.getItem('oakfox_seeded_batch2')) return;
+      const batch = [
+        { title: 'Build case study landing page on oakfox.co.uk', category: 'Development', date: '2026-05-01' },
+        { title: 'Write 3 SEO-focused blog posts targeting West Lancashire keywords', category: 'Marketing', date: '2026-05-05' },
+        { title: 'Set up lead capture form with Mailchimp integration', category: 'Development', date: '2026-04-29' },
+        { title: 'Create a cold outreach email sequence for local businesses', category: 'Marketing', date: '2026-04-30' },
+        { title: 'Identify and list 30 target prospect businesses in West Lancashire', category: 'Marketing', date: '2026-04-28' },
+        { title: 'Record a 60-second intro/about video for LinkedIn and site', category: 'Marketing', date: '2026-05-03' },
+        { title: 'Add testimonials/social proof section to homepage', category: 'Development', date: '2026-05-02' },
+        { title: 'Set up Calendly or booking system for discovery calls', category: 'Admin', date: '2026-04-28' },
+        { title: 'Write a sustainability/eco-credentials page for oakfox.co.uk', category: 'Development', date: '2026-05-04' },
+        { title: 'Create a service pricing sheet (internal reference)', category: 'Admin', date: '2026-04-30' },
+        { title: 'Attend or RSVP to 2 local networking events in May', category: 'Personal', date: '2026-05-06' },
+        { title: 'Set up monthly finance review process (P&L, expenses, forecasting)', category: 'Admin', date: '2026-05-01' },
+        { title: 'Create referral partner program outline', category: 'Admin', date: '2026-05-05' },
+        { title: 'Publish first LinkedIn thought-leadership post', category: 'Marketing', date: '2026-04-27' },
+        { title: 'Set up a simple CRM (HubSpot Free or Notion) to track leads', category: 'Admin', date: '2026-04-29' },
+        { title: 'Design and order business cards with QR code to site', category: 'Marketing', date: '2026-05-07' },
+        { title: 'Write a "Why sustainable web design matters" pillar article', category: 'Marketing', date: '2026-05-08' },
+        { title: 'Audit oakfox.co.uk performance with Lighthouse and fix issues', category: 'Development', date: '2026-05-02' },
+        { title: 'Create a weekly "OakFox ops" review ritual (pipeline, content, finance)', category: 'Personal', date: '2026-04-27' },
+        { title: 'Draft a post-project client feedback questionnaire', category: 'Admin', date: '2026-05-06' },
+      ];
+
+      const now = new Date();
+      const tasks = getTasks();
+      batch.forEach(b => {
+        if (tasks.some(t => t.title === b.title && (t.agency || 'OakFox') === 'OakFox')) return;
+        tasks.push({
+          id: crypto.randomUUID(),
+          title: b.title,
+          category: b.category,
+          agency: 'OakFox',
+          dueDate: b.date,
+          dueTime: '',
+          completed: false,
+          createdAt: now.toISOString(),
+        });
+      });
+      saveTasks(tasks);
+      localStorage.setItem('oakfox_seeded_batch2', 'true');
+    }
+    seedOakFoxBatch2();
+
     // ── Social media plan generator ──
     function generateSocialPlan(project: Project) {
       const tasks = getTasks();
