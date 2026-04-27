@@ -105,11 +105,17 @@ Nathan
 OakFox · oakfox.co.uk · 07730 396404
 EOT;
 
-$headers = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+// Envelope sender must be a real cPanel mailbox so Exim sets a valid Return-Path.
+// Without this, SPF fails at Gmail/Outlook and the message is silently dropped.
+$envelopeSender = 'nathan@oakfox.co.uk';
+$headers = "From: OakFox <{$envelopeSender}>\r\n";
 $headers .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-@mail($booking['email'], $clientSubject, $clientBody, $headers);
+$clientSent = mail($booking['email'], $clientSubject, $clientBody, $headers, '-f' . $envelopeSender);
+if (!$clientSent) {
+    error_log('[booking] client confirmation failed for ' . $booking['email'] . ' (id ' . $id . ')');
+}
 
 // Email Nathan
 $adminSubject = 'New booking — ' . $startDt->format('j M, H:i') . ' · ' . $booking['name'];
@@ -127,7 +133,10 @@ Notes:
 Booking ID: {$id}
 EOT;
 
-@mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers);
+$adminSent = mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers, '-f' . $envelopeSender);
+if (!$adminSent) {
+    error_log('[booking] admin notification failed for booking id ' . $id);
+}
 
 echo json_encode([
     'success' => true,

@@ -55,11 +55,16 @@ Message:
 {$message}
 EOT;
 
-$headers = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+// Envelope sender must be a real cPanel mailbox so SPF passes at Gmail/Outlook.
+$envelopeSender = 'nathan@oakfox.co.uk';
+$headers = "From: OakFox <{$envelopeSender}>\r\n";
 $headers .= "Reply-To: {$name} <{$email}>\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-$sent = mail($to, $subject, $nathanBody, $headers);
+$sent = mail($to, $subject, $nathanBody, $headers, '-f' . $envelopeSender);
+if (!$sent) {
+    error_log('[contact] admin notification failed for ' . $email);
+}
 
 // ── Confirmation to client ──
 $clientSubject = "Thanks for getting in touch — OakFox";
@@ -80,11 +85,14 @@ Nathan
 OakFox — oakfox.co.uk
 EOT;
 
-$clientHeaders = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+$clientHeaders = "From: OakFox <{$envelopeSender}>\r\n";
 $clientHeaders .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
 $clientHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-mail($email, $clientSubject, $clientBody, $clientHeaders);
+$clientSent = mail($email, $clientSubject, $clientBody, $clientHeaders, '-f' . $envelopeSender);
+if (!$clientSent) {
+    error_log('[contact] client confirmation failed for ' . $email);
+}
 
 if ($sent) {
     echo json_encode(['success' => true]);

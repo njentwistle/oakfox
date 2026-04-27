@@ -86,11 +86,29 @@ confirm.
 OakFox · oakfox.co.uk
 EOT;
 
-$headers = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+// Envelope sender must be a real cPanel mailbox so SPF passes at Gmail/Outlook.
+$envelopeSender = 'nathan@oakfox.co.uk';
+$headers = "From: OakFox <{$envelopeSender}>\r\n";
 $headers .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-@mail($email, $subject, $body, $headers);
+$subscriberSent = mail($email, $subject, $body, $headers, '-f' . $envelopeSender);
+if (!$subscriberSent) {
+    error_log('[newsletter] confirmation email failed for ' . $email);
+}
+
+// Notify Nathan of the new pending subscriber
+$adminSubject = 'New newsletter signup (pending) — ' . $email;
+$adminBody = <<<EOT
+A new email address signed up to the OakFox newsletter and has been sent
+a double opt-in confirmation link.
+
+Email: {$email}
+Status: pending confirmation
+Time: {$now}
+EOT;
+
+mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers, '-f' . $envelopeSender);
 
 echo json_encode([
     'success' => true,

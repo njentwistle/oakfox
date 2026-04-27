@@ -45,10 +45,25 @@ If you ever want to leave, one click does it:
 — Nathan
 OakFox · oakfox.co.uk
 EOT;
-                $headers = "From: OakFox <noreply@oakfox.co.uk>\r\n";
+                // Envelope sender must be a real cPanel mailbox so SPF passes at Gmail/Outlook.
+                $envelopeSender = 'nathan@oakfox.co.uk';
+                $headers = "From: OakFox <{$envelopeSender}>\r\n";
                 $headers .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
                 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-                @mail($sub['email'], $thanksSubject, $thanksBody, $headers);
+                $welcomeSent = mail($sub['email'], $thanksSubject, $thanksBody, $headers, '-f' . $envelopeSender);
+                if (!$welcomeSent) {
+                    error_log('[newsletter-confirm] welcome email failed for ' . $sub['email']);
+                }
+
+                // Notify Nathan that a subscriber confirmed
+                $adminSubject = 'Newsletter subscriber confirmed — ' . $sub['email'];
+                $adminBody = <<<EOT
+A subscriber confirmed their OakFox newsletter signup.
+
+Email: {$sub['email']}
+Confirmed: {$now}
+EOT;
+                mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers, '-f' . $envelopeSender);
             } else {
                 $heading = 'Could not save';
                 $message = 'Please try the link again shortly.';
