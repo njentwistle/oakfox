@@ -34,10 +34,8 @@ jobs:
           sudo apt-get install -y lftp
           lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" <<EOF
           debug 1
-          set ftp:ssl-allow yes
-          set ftp:ssl-force yes
-          set ftp:ssl-protect-data yes
-          set ssl:verify-certificate no
+          set ftp:ssl-allow no
+          set ftp:ssl-force no
           set ftp:passive-mode yes
           set ftp:fix-pasv-address yes
           set ftp:use-feat no
