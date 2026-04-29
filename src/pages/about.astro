@@ -78,6 +78,40 @@ const credentials = [
   'OakFox Limited — registered in England, Companies House number 17118912',
   'Member of the West Lancashire creative community — based at Martland Mill, Burscough',
 ];
+
+const capabilities = [
+  {
+    title: 'Brand & identity',
+    body: 'Strategy, naming, identity systems, packaging and print — built to hold up across every surface a business actually uses.',
+  },
+  {
+    title: 'Web design & development',
+    body: 'Static-first sites on renewable-powered infrastructure. Astro, React, headless CMS — measured against real performance and carbon budgets.',
+  },
+  {
+    title: 'Marketing & content',
+    body: 'Editorial direction, campaign work, photography and copy commissioned through our network of trusted specialists.',
+  },
+  {
+    title: 'Environmental consultancy',
+    body: 'Sustainability audits, supply-chain review, reporting and the original research that informs it — covering ancient woodlands, biodiversity and UK ecosystem health.',
+  },
+];
+
+const research = [
+  {
+    title: 'Public perception of ancient woodlands',
+    body: 'Original field and survey research into how UK communities understand, value and engage with ancient woodland habitats.',
+  },
+  {
+    title: 'Biodiversity & UK ecosystem health',
+    body: 'Ongoing study of biodiversity indicators across UK ecosystems, with a focus on how independent businesses and landowners can contribute meaningfully.',
+  },
+  {
+    title: 'Sustainability in practice',
+    body: 'Applied research into supply-chain transparency, greenwashing patterns and the operational reality of low-impact business.',
+  },
+];
 ---
 
 <BaseLayout
@@ -96,63 +130,79 @@ const credentials = [
       </h1>
       <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8">
         <p class="md:col-span-7 text-[15px] md:text-base text-ink/65 leading-relaxed">
-          OakFox is an independent design studio based in rural West Lancashire,
-          UK. We combine brand identity, web design, web development, marketing,
-          and environmental consultancy — often in a single engagement — for
-          businesses that want to grow without the environmental cost. Founded
-          and led by Nathan James Entwistle, we take on a small number of projects
-          each quarter so every client gets considered attention from the person
-          they hired, not the person that person manages.
+          OakFox is an independent design and environmental studio based in
+          rural West Lancashire, UK. We combine brand identity, web design and
+          development, marketing, and environmental consultancy — often inside
+          a single engagement — for businesses that want to grow without the
+          environmental cost. Our work is informed by original research into
+          ancient woodlands, biodiversity and the health of UK ecosystems,
+          which means sustainability arrives as evidence, not as a tagline.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ========== NATHAN ========== -->
+  <!-- ========== HOW THE STUDIO WORKS ========== -->
   <section class="py-20 md:py-28 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
-      <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
-        <div class="md:col-span-5">
-          <div class="img-wrap bg-forest/5 overflow-hidden">
-            <Img src="/images/site/nathan.jpg" alt="Nathan James Entwistle, founder of OakFox" class="w-full h-auto" />
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-gray mb-6">How the studio works</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            A <em class="text-forest">small studio</em> with a wider <em class="text-forest">network</em>.
+          </h2>
+          <div class="mt-8 space-y-5 text-[15px] text-ink/65 leading-relaxed">
+            <p>
+              OakFox runs as a tight core team backed by a network of trusted
+              specialists — photographers, illustrators, copywriters and
+              specialist developers — brought in when a project calls for them.
+            </p>
+            <p>
+              Engagements are deliberately limited each quarter so every
+              client gets considered attention. Brand, web and environmental
+              work sits under one roof, so a single project can move from
+              identity to launch to sustainability reporting without changing
+              hands.
+            </p>
           </div>
         </div>
-        <div class="md:col-span-6 md:col-start-7">
-          <p class="label text-gray mb-4">The founder</p>
-          <h2 class="headline text-2xl md:text-3xl">Nathan James Entwistle</h2>
-          <p class="label text-forest mt-2">
-            Husband, father, designer, developer, American football fan.
-          </p>
-          <div class="mt-8 space-y-5 text-[15px] text-ink/70 leading-relaxed">
-            <p>
-              A brand designer and web developer with more than 15 years of
-              experience, Nathan has worked at some of the UK's top marketing
-              agencies — from independent artisan bakeries and coffee shops in
-              the Lake District, to internationally-trading wine merchants,
-              Michelin-quality restaurants, and software products used by
-              thousands of families.
-            </p>
-            <p>
-              He leads every OakFox engagement personally — discovery, design
-              direction, development, and handover. Trusted collaborators
-              (photographers, illustrators, specialist developers) are brought
-              in when the work calls for them, but your main point of contact
-              stays the same from the first reply to the launch.
-            </p>
-            <p>
-              Outside of OakFox he builds tools for the environmental sector,
-              writes about sustainable branding, and can usually be found
-              chasing two small children around somewhere in West Lancashire.
-            </p>
-          </div>
 
-          <ul class="mt-10 border-t border-stone">
-            {credentials.map((line) => (
-              <li class="border-b border-stone py-4 text-[14px] text-ink/75 leading-relaxed">
-                {line}
-              </li>
-            ))}
-          </ul>
+        <div class="md:col-span-7 md:col-start-6 grid sm:grid-cols-2 gap-x-8 gap-y-8">
+          {capabilities.map((c) => (
+            <div class="reveal border-t border-stone pt-6">
+              <h3 class="text-base md:text-lg font-medium text-ink mb-2">{c.title}</h3>
+              <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ENVIRONMENTAL RESEARCH ========== -->
+  <section class="py-20 md:py-28 border-t border-stone bg-forest/[0.03]">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <p class="label text-forest mb-6">Environmental research</p>
+          <h2 class="headline text-2xl md:text-3xl">
+            A <em class="text-forest">vested interest</em> in the sector we serve.
+          </h2>
+          <p class="mt-8 text-[15px] text-ink/65 leading-relaxed">
+            Our environmental consultancy work is grounded in original
+            research, not borrowed credentials. The studio has conducted
+            and published work on the topics below, and we draw on it
+            directly when advising clients on sustainability claims,
+            supply chains and reporting.
+          </p>
+        </div>
+        <div class="md:col-span-7 md:col-start-6 grid gap-8">
+          {research.map((r) => (
+            <div class="reveal border-t border-forest/15 pt-6">
+              <h3 class="text-base md:text-lg font-medium text-ink mb-2">{r.title}</h3>
+              <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{r.body}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -175,6 +225,42 @@ const credentials = [
               <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{v.body}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOUNDER ========== -->
+  <section class="py-20 md:py-28 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
+        <div class="md:col-span-4">
+          <div class="img-wrap bg-forest/5 overflow-hidden">
+            <Img src="/images/site/nathan.jpg" alt="Nathan James Entwistle, founder of OakFox" class="w-full h-auto" />
+          </div>
+        </div>
+        <div class="md:col-span-7 md:col-start-6">
+          <p class="label text-gray mb-4">The founder</p>
+          <h2 class="headline text-2xl md:text-3xl">Nathan James Entwistle</h2>
+          <div class="mt-6 space-y-5 text-[15px] text-ink/70 leading-relaxed">
+            <p>
+              Nathan founded OakFox after 15+ years working across UK
+              marketing agencies — for independent artisan bakeries and Lake
+              District coffee shops, internationally-trading wine merchants,
+              Michelin-quality restaurants, and software products used by
+              thousands of families. He leads studio direction, sets the
+              environmental research agenda, and stays involved in every
+              engagement from discovery through handover.
+            </p>
+          </div>
+
+          <ul class="mt-8 border-t border-stone">
+            {credentials.map((line) => (
+              <li class="border-b border-stone py-4 text-[14px] text-ink/75 leading-relaxed">
+                {line}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
