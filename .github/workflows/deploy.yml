@@ -40,15 +40,16 @@ jobs:
           set ftp:fix-pasv-address yes
           set ftp:use-feat no
           set ftp:use-mlsd no
-          set net:timeout 45
-          set net:max-retries 20
-          set net:reconnect-interval-base 10
-          set net:reconnect-interval-max 90
+          set net:timeout 30
+          set net:idle 30
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set net:reconnect-interval-max 20
           set net:reconnect-interval-multiplier 1.5
           set mirror:use-pget-n 1
           set mirror:parallel-directories yes
           set cmd:fail-exit yes
-          mirror --reverse --verbose --parallel=4 --ignore-time --continue --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
-          mirror --reverse --verbose --parallel=4 --ignore-time --continue ./dist/images/ ./public_html/images/
+          mirror --reverse --verbose --parallel=2 --ignore-time --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
+          mirror --reverse --verbose --parallel=2 --ignore-time ./dist/images/ ./public_html/images/
           bye
           EOF
