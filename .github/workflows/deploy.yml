@@ -29,17 +29,12 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
-      - name: Deploy via lftp
+      - name: Deploy via SFTP (lftp)
         run: |
           sudo apt-get install -y lftp
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" <<EOF
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "sftp://${{ secrets.FTP_HOST }}" <<EOF
           debug 1
-          set ftp:ssl-allow no
-          set ftp:ssl-force no
-          set ftp:passive-mode yes
-          set ftp:fix-pasv-address yes
-          set ftp:use-feat no
-          set ftp:use-mlsd no
+          set sftp:auto-confirm yes
           set net:timeout 30
           set net:idle 30
           set net:max-retries 3
