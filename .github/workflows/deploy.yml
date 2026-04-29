@@ -1,11 +1,11 @@
-name: Deploy to cPanel
+name: Build and push to deploy branch
 
 on:
   push:
     branches: [main]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -20,31 +20,35 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Upload build artefact (fallback for FTP failures)
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dist
-          path: dist/
-          retention-days: 14
-          include-hidden-files: true
-
-      - name: Deploy via SFTP (lftp)
+      - name: Write .cpanel.yml into dist
         run: |
-          sudo apt-get install -y lftp
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "sftp://${{ secrets.FTP_HOST }}" <<EOF
-          debug 1
-          set sftp:auto-confirm yes
-          set net:timeout 30
-          set net:idle 30
-          set net:max-retries 3
-          set net:reconnect-interval-base 5
-          set net:reconnect-interval-max 20
-          set net:reconnect-interval-multiplier 1.5
-          set mirror:use-pget-n 1
-          set mirror:parallel-directories yes
-          set cmd:fail-exit yes
-          mirror --reverse --verbose --parallel=2 --ignore-time --exclude .htpasswd --exclude images/ ./dist/ ./public_html/
-          mirror --reverse --verbose --parallel=2 --ignore-time ./dist/images/ ./public_html/images/
-          bye
-          EOF
+          cat > dist/.cpanel.yml << 'YAML'
+          ---
+          deployment:
+            tasks:
+              - export DEPLOYPATH=/home/oakfoxco/public_html/
+              - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='dashboard/.htpasswd' . $DEPLOYPATH
+              - /bin/find $DEPLOYPATH -type f -exec /bin/chmod 644 {} \;
+              - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;
+          YAML
+
+      - name: Force-push dist to deploy branch
+        run: |
+          cd dist
+          git init -q
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${{ github.sha }}"
+          git branch -M deploy
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push --force origin deploy
+
+      # Optional: auto-trigger cPanel deploy via UAPI.
+      # Uncomment and add CPANEL_TOKEN secret + cPanel host URL to enable.
+      #
+      # - name: Trigger cPanel deployment
+      #   run: |
+      #     curl -fsS -X POST \
+      #       -H "Authorization: cpanel oakfoxco:${{ secrets.CPANEL_TOKEN }}" \
+      #       "https://oakfox.co.uk:2083/execute/VersionControlDeployment/create?repository_root=%2Fhome%2Foakfoxco%2Frepositories%2Foakfox"
