@@ -170,7 +170,15 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     }
     .car-slide-actions button:hover { background: var(--db-accent-soft); color: var(--db-text); }
     .car-slide-actions button.danger:hover { background: rgba(196,107,31,0.15); color: var(--db-fox); }
-    .ig-slide { width: 1080px; height: 1080px; position: relative; overflow: hidden; }
+    .ig-slide {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    .ig-slide, .ig-slide * { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
     .imgbg { background-size: cover !important; background-position: center !important; }
     .car-dl-row { display: flex; gap: 8px; margin-top: 10px; }
     .car-dl-row button { flex: 1; }
@@ -604,9 +612,9 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       async function downloadSlide(idx) {
         const slides = data[activeKey].slides;
         const host = document.createElement('div');
-        host.style.cssText = 'position:fixed;left:-20000px;top:0;width:1080px;height:1080px;';
+        host.style.cssText = 'position:absolute;left:-20000px;top:0;width:1080px;height:1080px;-webkit-text-size-adjust:100%;text-size-adjust:100%;contain:layout style;';
         host.innerHTML = slideHtml(slides[idx], idx, slides.length);
-        document.body.appendChild(host);
+        document.documentElement.appendChild(host);
         try {
           await document.fonts.ready;
           const imgs = Array.from(host.querySelectorAll('img'));
@@ -626,7 +634,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         } catch(err) {
           alert('Download failed: ' + err.message);
         } finally {
-          document.body.removeChild(host);
+          host.remove();
         }
       }
 
