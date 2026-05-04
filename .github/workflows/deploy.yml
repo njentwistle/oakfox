@@ -32,17 +32,38 @@ jobs:
               - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;
           YAML
 
-      - name: Force-push dist to deploy branch
+      - name: Push dist to deploy branch (linear history, fast-forwardable)
         run: |
-          cd dist
-          git init -q
-          git config user.name "GitHub Actions"
+          REMOTE="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          # Try to clone the existing deploy branch; if it doesn't exist yet, init a fresh orphan.
+          if git clone --depth=1 --branch=deploy --single-branch "$REMOTE" deploy-clone 2>/dev/null; then
+            echo "Cloned existing deploy branch"
+          else
+            echo "deploy branch missing — initialising fresh"
+            mkdir deploy-clone
+            cd deploy-clone
+            git init -q
+            git checkout --orphan deploy
+            git remote add origin "$REMOTE"
+            cd ..
+          fi
+
+          cd deploy-clone
+          git config user.name  "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
+
+          # Wipe everything except .git, then drop in the new dist contents.
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          cp -a ../dist/. .
+
           git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to deploy"
+            exit 0
+          fi
+
           git commit -q -m "Deploy ${{ github.sha }}"
-          git branch -M deploy
-          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          git push --force origin deploy
+          git push origin deploy
 
       # Optional: auto-trigger cPanel deploy via UAPI.
       # Uncomment and add CPANEL_TOKEN secret + cPanel host URL to enable.
