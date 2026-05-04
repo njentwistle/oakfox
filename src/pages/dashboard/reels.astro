@@ -127,7 +127,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
   <input type="file" id="rl-import-file" accept="application/json" style="display:none;" />
 
-  <style is:global>
+  <style is:inline>
     .rl-grid { display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 20px; align-items: start; }
     @media (max-width: 1100px) { .rl-grid { grid-template-columns: 1fr; } }
 
