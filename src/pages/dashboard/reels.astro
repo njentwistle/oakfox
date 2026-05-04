@@ -74,17 +74,17 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           <div class="rl-drop" id="rl-bg-drop">Click or drop a video here</div>
           <input type="file" id="rl-bg-file" accept="video/*" style="display:none;" />
           <div id="rl-bg-meta" class="rl-bg-meta"></div>
-          <div class="rl-row" style="margin-top:10px;">
-            <label class="rl-field" style="flex:1;"><span>Duration (s)</span><input type="number" id="rl-duration" min="1" max="90" step="0.5" value="15" /></label>
-            <label class="rl-field" style="flex:1;"><span>Loop bg</span>
+          <div class="rl-row">
+            <label class="rl-field"><span>Duration (s)</span><input type="number" id="rl-duration" min="1" max="90" step="0.5" value="15" /></label>
+            <label class="rl-field"><span>Loop bg</span>
               <select id="rl-loop"><option value="1" selected>Yes</option><option value="0">No</option></select>
             </label>
           </div>
           <div class="rl-row">
-            <label class="rl-field" style="flex:1;"><span>Object fit</span>
+            <label class="rl-field"><span>Object fit</span>
               <select id="rl-bg-fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select>
             </label>
-            <label class="rl-field" style="flex:1;"><span>Tint opacity</span>
+            <label class="rl-field"><span>Tint opacity</span>
               <input type="range" id="rl-tint" min="0" max="1" step="0.05" value="0" />
             </label>
           </div>
@@ -92,7 +92,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
         <div class="rl-side-section">
           <h3 class="db-heading" style="font-size: 14px; margin: 0 0 10px;">Add layer</h3>
-          <div class="rl-row">
+          <div class="rl-row rl-row-buttons">
             <button class="db-btn db-btn-sm" data-add="text">+ Text</button>
             <button class="db-btn db-btn-sm" data-add="logo">+ Logo</button>
             <button class="db-btn db-btn-sm" data-add="image">+ Image</button>
@@ -159,19 +159,24 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     .rl-stage.show-guides .rl-guide-v, .rl-stage.show-guides .rl-guide-h { display: block; opacity: 0.35; }
     .rl-stage .rl-guide.snap-active { display: block !important; opacity: 1 !important; background: #FFD700; }
 
-    .rl-side-card { display: flex; flex-direction: column; gap: 18px; }
-    .rl-side-section { padding-bottom: 14px; border-bottom: 1px solid var(--db-border); }
+    .rl-side-card { display: flex; flex-direction: column; gap: 22px; }
+    .rl-side-section { padding-bottom: 18px; border-bottom: 1px solid var(--db-border); }
     .rl-side-section:last-child { border-bottom: none; padding-bottom: 0; }
-    .rl-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; margin-top: 8px; }
+    .rl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .rl-row.rl-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .rl-row.rl-row-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .rl-row.rl-row-buttons .db-btn-sm { flex: 1; min-width: 0; }
 
-    .rl-field { display:block; }
-    .rl-field > span { display:block; font-size:10px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:var(--db-text-muted); margin-bottom:4px; }
+    .rl-field { display:block !important; min-width: 0; }
+    .rl-field > span { display:block !important; font-size:10px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:var(--db-text-muted); margin-bottom:6px; line-height:1.2; }
     .rl-field input, .rl-field textarea, .rl-field select {
-      width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--db-border); border-radius: var(--db-radius);
-      padding: 7px 9px; color: var(--db-text); font-family: 'Inter', sans-serif; font-size: 13px;
+      width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid var(--db-border); border-radius: var(--db-radius);
+      padding: 8px 10px; color: var(--db-text); font-family: 'Inter', sans-serif; font-size: 13px; height: 36px;
     }
-    .rl-field input[type="range"] { padding: 0; }
-    .rl-field input[type="color"] { padding: 2px; height: 32px; }
+    .rl-field textarea { height: auto; min-height: 76px; resize: vertical; }
+    .rl-field input[type="range"] { padding: 0; height: 36px; }
+    .rl-field input[type="color"] { padding: 2px; height: 36px; }
+    .rl-field input[type="number"] { -moz-appearance: textfield; }
 
     .rl-drop { border: 1.5px dashed var(--db-border); border-radius: var(--db-radius); padding: 18px; text-align: center; font-size: 12px; color: var(--db-text-muted); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
     .rl-drop:hover, .rl-drop.drag { border-color: var(--db-accent); background: var(--db-accent-soft); color: var(--db-text); }
@@ -180,18 +185,22 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     .rl-stage-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .rl-toggle { font-family:'JetBrains Mono',monospace; font-size:11px; color: var(--db-text-secondary); display:flex; gap:6px; align-items:center; cursor:pointer; }
 
-    .rl-layers { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
-    .rl-layer-row { display:flex; align-items:center; gap:8px; padding:8px 10px; background: rgba(255,255,255,0.03); border:1px solid var(--db-border); border-radius:6px; cursor:pointer; }
+    .rl-layers { display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+    .rl-layer-row { display:grid; grid-template-columns: 56px 1fr auto; align-items:center; gap:10px; padding:10px 12px; background: rgba(255,255,255,0.03); border:1px solid var(--db-border); border-radius:8px; cursor:pointer; }
     .rl-layer-row:hover { background: var(--db-accent-soft); }
     .rl-layer-row.selected { background: rgba(196,107,31,0.15); border-color: var(--db-fox); }
-    .rl-layer-row .rl-layer-label { flex:1; font-size:12px; color:var(--db-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .rl-layer-row .rl-layer-label { font-size:13px; color:var(--db-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width: 0; }
     .rl-layer-row .rl-layer-type { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--db-text-muted); }
-    .rl-layer-row button { background: transparent; border: 1px solid var(--db-border); color: var(--db-text-secondary); border-radius: 4px; font-size:11px; padding:3px 7px; cursor:pointer; }
-    .rl-layer-row button:hover { background: var(--db-accent-soft); color: var(--db-text); }
+    .rl-layer-row .rl-layer-actions { display:flex; gap:4px; flex-shrink: 0; }
+    .rl-layer-row button { background: transparent; border: 1px solid var(--db-border); color: var(--db-text-secondary); border-radius: 4px; font-size:11px; padding:4px 8px; cursor:pointer; line-height:1; min-width: 26px; }
+    .rl-layer-row button:hover:not(:disabled) { background: var(--db-accent-soft); color: var(--db-text); }
+    .rl-layer-row button:disabled { opacity: 0.3; cursor: not-allowed; }
     .rl-layer-row button.danger:hover { background: rgba(196,107,31,0.15); color: var(--db-fox); }
 
-    .rl-inspector { display:flex; flex-direction:column; gap:10px; }
+    .rl-inspector { display:flex; flex-direction:column; gap:12px; }
+    .rl-inspector > .rl-row { margin-top: 0; }
     .rl-empty { color: var(--db-text-muted); font-size: 12px; margin: 0; }
+    .rl-toggle-row { display:flex; gap:14px; flex-wrap:wrap; padding-top: 4px; }
 
     .rl-render-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px); }
     .rl-render-box { background: #14180f; border: 1px solid var(--db-border); border-radius: var(--db-radius-lg); padding: 30px 36px; max-width: 420px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
@@ -396,9 +405,11 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           <div class="rl-layer-row${L.id===selectedId?' selected':''}" data-id="${esc(L.id)}">
             <span class="rl-layer-type">${esc(L.type)}</span>
             <span class="rl-layer-label">${esc(layerLabel(L))}</span>
-            <button data-up="${esc(L.id)}" ${i===0?'disabled':''}>↑</button>
-            <button data-down="${esc(L.id)}" ${i===r.layers.length-1?'disabled':''}>↓</button>
-            <button class="danger" data-del="${esc(L.id)}">×</button>
+            <span class="rl-layer-actions">
+              <button data-up="${esc(L.id)}" ${i===0?'disabled':''} title="Move up">↑</button>
+              <button data-down="${esc(L.id)}" ${i===r.layers.length-1?'disabled':''} title="Move down">↓</button>
+              <button class="danger" data-del="${esc(L.id)}" title="Delete">×</button>
+            </span>
           </div>
         `).join('');
         els.layers.querySelectorAll('.rl-layer-row').forEach(row => {
@@ -425,21 +436,21 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
         const common = `
           <div class="rl-row">
-            <label class="rl-field" style="flex:1;"><span>X</span><input type="number" data-prop="x" value="${L.x}"/></label>
-            <label class="rl-field" style="flex:1;"><span>Y</span><input type="number" data-prop="y" value="${L.y}"/></label>
+            <label class="rl-field"><span>X</span><input type="number" data-prop="x" value="${L.x}"/></label>
+            <label class="rl-field"><span>Y</span><input type="number" data-prop="y" value="${L.y}"/></label>
           </div>
           <div class="rl-row">
-            <label class="rl-field" style="flex:1;"><span>W</span><input type="number" data-prop="w" value="${L.w}"/></label>
-            <label class="rl-field" style="flex:1;"><span>H</span><input type="number" data-prop="h" value="${L.h}"/></label>
+            <label class="rl-field"><span>Width</span><input type="number" data-prop="w" value="${L.w}"/></label>
+            <label class="rl-field"><span>Height</span><input type="number" data-prop="h" value="${L.h}"/></label>
           </div>
-          <div class="rl-row">
+          <div class="rl-row rl-row-3 rl-row-buttons">
             <button class="db-btn db-btn-sm" data-center="h">Centre H</button>
             <button class="db-btn db-btn-sm" data-center="v">Centre V</button>
             <button class="db-btn db-btn-sm" data-center="both">Centre both</button>
           </div>
           <div class="rl-row">
-            <label class="rl-field" style="flex:1;"><span>Opacity</span><input type="range" min="0" max="1" step="0.05" data-prop="opacity" value="${L.opacity==null?1:L.opacity}"/></label>
-            <label class="rl-field" style="flex:1;"><span>Rotate</span><input type="number" data-prop="rotation" value="${L.rotation||0}" step="1"/></label>
+            <label class="rl-field"><span>Opacity</span><input type="range" min="0" max="1" step="0.05" data-prop="opacity" value="${L.opacity==null?1:L.opacity}"/></label>
+            <label class="rl-field"><span>Rotate (°)</span><input type="number" data-prop="rotation" value="${L.rotation||0}" step="1"/></label>
           </div>
         `;
 
@@ -448,7 +459,7 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           typeFields = `
             <label class="rl-field"><span>Text</span><textarea data-prop="text" rows="3">${esc(L.text||'')}</textarea></label>
             <div class="rl-row">
-              <label class="rl-field" style="flex:2;"><span>Font</span>
+              <label class="rl-field"><span>Font</span>
                 <select data-prop="font">
                   <option value="'Playfair Display', serif"${L.font==="'Playfair Display', serif"?' selected':''}>Playfair Display</option>
                   <option value="'Work Sans', sans-serif"${L.font==="'Work Sans', sans-serif"?' selected':''}>Work Sans</option>
@@ -456,10 +467,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
                   <option value="'JetBrains Mono', monospace"${L.font==="'JetBrains Mono', monospace"?' selected':''}>JetBrains Mono</option>
                 </select>
               </label>
-              <label class="rl-field" style="flex:1;"><span>Size</span><input type="number" data-prop="size" value="${L.size||80}"/></label>
+              <label class="rl-field"><span>Size (px)</span><input type="number" data-prop="size" value="${L.size||80}"/></label>
             </div>
-            <div class="rl-row">
-              <label class="rl-field" style="flex:1;"><span>Weight</span>
+            <div class="rl-row rl-row-3">
+              <label class="rl-field"><span>Weight</span>
                 <select data-prop="weight">
                   <option value="400"${L.weight==400?' selected':''}>400</option>
                   <option value="500"${L.weight==500?' selected':''}>500</option>
@@ -467,34 +478,34 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
                   <option value="700"${L.weight==700?' selected':''}>700</option>
                 </select>
               </label>
-              <label class="rl-field" style="flex:1;"><span>Align</span>
+              <label class="rl-field"><span>Align</span>
                 <select data-prop="align">
                   <option value="left"${L.align==='left'?' selected':''}>Left</option>
                   <option value="center"${L.align==='center'?' selected':''}>Centre</option>
                   <option value="right"${L.align==='right'?' selected':''}>Right</option>
                 </select>
               </label>
-              <label class="rl-field" style="flex:1;"><span>Colour</span><input type="color" data-prop="color" value="${L.color||'#ffffff'}"/></label>
+              <label class="rl-field"><span>Colour</span><input type="color" data-prop="color" value="${L.color||'#ffffff'}"/></label>
             </div>
-            <label class="rl-toggle" style="margin-top:8px;"><input type="checkbox" data-prop="shadow" ${L.shadow?'checked':''}/> Drop shadow</label>
+            <div class="rl-toggle-row"><label class="rl-toggle"><input type="checkbox" data-prop="shadow" ${L.shadow?'checked':''}/> Drop shadow</label></div>
           `;
         } else if (L.type === 'logo' || L.type === 'image') {
           typeFields = `
             <div class="rl-drop" data-layer-drop="${esc(L.id)}">${L.src?'Replace image':'Click or drop image'}</div>
             <input type="file" accept="image/*" data-layer-file="${esc(L.id)}" style="display:none;"/>
-            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:6px;">Clear source</button>`:''}
+            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:8px;">Clear source</button>`:''}
           `;
         } else if (L.type === 'video') {
           typeFields = `
             <div class="rl-drop" data-layer-drop="${esc(L.id)}">${L.src?'Replace video':'Click or drop video'}</div>
             <input type="file" accept="video/*" data-layer-file="${esc(L.id)}" style="display:none;"/>
-            <label class="rl-field" style="margin-top:8px;"><span>Object fit</span>
+            <label class="rl-field" style="margin-top:10px;"><span>Object fit</span>
               <select data-prop="fit">
                 <option value="contain"${(L.fit||'contain')==='contain'?' selected':''}>Contain</option>
                 <option value="cover"${L.fit==='cover'?' selected':''}>Cover</option>
               </select>
             </label>
-            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:6px;">Clear source</button>`:''}
+            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:8px;">Clear source</button>`:''}
           `;
         }
 
