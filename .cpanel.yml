@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/oakfoxco/public_html/
+    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='dashboard/.htpasswd' . $DEPLOYPATH
+    - /bin/find $DEPLOYPATH -type f -exec /bin/chmod 644 {} \;
+    - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;

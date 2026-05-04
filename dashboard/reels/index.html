@@ -1,0 +1,955 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Reels — OakFox Dashboard</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/DashboardLayout.CYJA_dFP.css"></head> <body class="db-root"> <!-- Sidebar (desktop) --> <aside class="db-sidebar"> <img src="/images/site/logolight.png" alt="OakFox" class="db-sidebar-logo"> <!-- Agency switcher --> <div class="db-agency-switcher" id="agency-switcher"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <nav class="db-sidebar-nav"> <a href="/dashboard" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/planner" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/bookings" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/carousels" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-sidebar-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <div style="border-top: 1px solid var(--db-border); padding-top: 16px; margin-top: 8px;"> <a href="#" id="logout-btn" class="db-sidebar-link" style="color: var(--db-text-muted); font-size: 12px;"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+Sign out
+</a> <p class="db-sidebar-footer" style="margin-top: 12px;">You're building something real.</p> </div> </aside> <!-- Mobile tab bar --> <nav class="db-tab-bar"> <a href="/dashboard" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/planner" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/bookings" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/carousels" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-tab-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <!-- Mobile agency switcher --> <div class="db-mobile-agency" id="agency-switcher-mobile"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <!-- Main content --> <main class="db-main">  <div class="db-fade-in"> <header style="margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;"> <div> <h1 class="db-heading" style="font-size: 28px; margin: 0 0 4px;">Reels</h1> <p class="db-mono db-label" style="font-size: 11px;">Instagram · 1080 × 1920 · Compose, preview, export MP4</p> </div> <div style="display: flex; gap: 8px; flex-wrap: wrap;"> <button class="db-btn db-btn-sm" id="rl-import">Import JSON</button> <button class="db-btn db-btn-sm" id="rl-export">Export JSON</button> <button class="db-btn db-btn-primary db-btn-sm" id="rl-render">Render MP4</button> </div> </header> <div class="db-card" style="margin-bottom: 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;"> <label class="db-label" style="display: flex; align-items: center; gap: 8px;">
+Reel
+<select class="db-select" id="rl-picker"></select> </label> <button class="db-btn db-btn-sm" id="rl-new">+ New</button> <button class="db-btn db-btn-sm" id="rl-rename">Rename</button> <button class="db-btn db-btn-sm" id="rl-duplicate">Duplicate</button> <button class="db-btn db-btn-sm" id="rl-delete" style="color: var(--db-fox);">Delete</button> <div style="flex: 1;"></div> <label class="db-label" style="display: flex; align-items: center; gap: 8px;">
+Preview
+<select class="db-select" id="rl-scale"> <option value="0.18">18%</option> <option value="0.25" selected>25%</option> <option value="0.35">35%</option> <option value="0.45">45%</option> </select> </label> </div> <div class="rl-grid"> <div class="db-card rl-stage-card"> <div class="rl-stage-head"> <h2 class="db-heading" style="font-size: 16px; margin: 0;">Stage</h2> <div class="rl-stage-meta"> <span id="rl-meta-bg">No background</span> <span class="rl-dot">·</span> <span id="rl-meta-layers">0 layers</span> <span class="rl-dot">·</span> <span id="rl-meta-dur">0.0s</span> </div> </div> <div class="rl-stage-wrap" id="rl-stage-wrap"> <div class="rl-stage-frame" id="rl-stage-frame"> <div class="rl-stage-scale" id="rl-stage-scale"> <div class="rl-stage" id="rl-stage"> <div class="rl-guide rl-guide-v" id="rl-guide-v"></div> <div class="rl-guide rl-guide-h" id="rl-guide-h"></div> </div> </div> </div> </div> <div class="rl-stage-controls"> <button class="db-btn db-btn-sm" id="rl-play">Play ▶</button> <button class="db-btn db-btn-sm" id="rl-restart">Restart</button> <label class="rl-toggle"><input type="checkbox" id="rl-mute" checked> Mute preview</label> <label class="rl-toggle"><input type="checkbox" id="rl-show-guides" checked> Show centre guides</label> <label class="rl-toggle"><input type="checkbox" id="rl-snap" checked> Snap to centre</label> </div> </div> <div class="db-card rl-side-card"> <div class="rl-side-section"> <h3 class="db-heading" style="font-size: 14px; margin: 0 0 10px;">Background video</h3> <div class="rl-drop" id="rl-bg-drop">Click or drop a video here</div> <input type="file" id="rl-bg-file" accept="video/*" style="display:none;"> <div id="rl-bg-meta" class="rl-bg-meta"></div> <div class="rl-row"> <label class="rl-field"><span>Duration (s)</span><input type="number" id="rl-duration" min="1" max="90" step="0.5" value="15"></label> <label class="rl-field"><span>Loop bg</span> <select id="rl-loop"><option value="1" selected>Yes</option><option value="0">No</option></select> </label> </div> <div class="rl-row"> <label class="rl-field"><span>Object fit</span> <select id="rl-bg-fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select> </label> <label class="rl-field"><span>Tint opacity</span> <input type="range" id="rl-tint" min="0" max="1" step="0.05" value="0"> </label> </div> </div> <div class="rl-side-section"> <h3 class="db-heading" style="font-size: 14px; margin: 0 0 10px;">Add layer</h3> <div class="rl-row rl-row-buttons"> <button class="db-btn db-btn-sm" data-add="text">+ Text</button> <button class="db-btn db-btn-sm" data-add="logo">+ Logo</button> <button class="db-btn db-btn-sm" data-add="image">+ Image</button> <button class="db-btn db-btn-sm" data-add="video">+ Video</button> </div> </div> <div class="rl-side-section"> <h3 class="db-heading" style="font-size: 14px; margin: 0 0 10px;">Layers</h3> <div id="rl-layers" class="rl-layers"></div> </div> <div class="rl-side-section" id="rl-inspector-wrap"> <h3 class="db-heading" style="font-size: 14px; margin: 0 0 10px;">Inspector</h3> <div id="rl-inspector" class="rl-inspector"> <p class="rl-empty">Select a layer to edit it.</p> </div> </div> </div> </div> <div class="rl-render-overlay" id="rl-render-overlay" style="display:none;"> <div class="rl-render-box"> <div class="rl-render-spinner"></div> <h3 class="db-heading" style="margin: 14px 0 6px; font-size:18px;">Rendering reel</h3> <p id="rl-render-status" class="rl-render-status">Recording…</p> <div class="rl-render-bar"><div id="rl-render-bar-fill"></div></div> <button class="db-btn db-btn-sm" id="rl-render-cancel" style="margin-top: 14px;">Cancel</button> </div> </div> </div> <input type="file" id="rl-import-file" accept="application/json" style="display:none;"> <style>
+    .rl-grid { display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 20px; align-items: start; }
+    @media (max-width: 1100px) { .rl-grid { grid-template-columns: 1fr; } }
+
+    .rl-stage-card { display: flex; flex-direction: column; gap: 14px; }
+    .rl-stage-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .rl-stage-meta { font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--db-text-muted); letter-spacing: 0.08em; text-transform: uppercase; display:flex; gap:8px; flex-wrap:wrap; }
+    .rl-dot { opacity: 0.5; }
+
+    .rl-stage-wrap { background: repeating-conic-gradient(#12150f 0 25%, #0e110d 0 50%) 50%/16px 16px; border-radius: var(--db-radius); padding: 18px; display: flex; justify-content: center; }
+    .rl-stage-frame { position: relative; box-shadow: 0 8px 30px rgba(0,0,0,0.5); border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+    .rl-stage-scale { transform-origin: top left; }
+    .rl-stage { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: #0a0a0a; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    .rl-stage, .rl-stage * { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+
+    .rl-bg-video, .rl-bg-tint { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .rl-bg-tint { background: #000; pointer-events: none; }
+
+    .rl-layer { position: absolute; box-sizing: border-box; cursor: move; user-select: none; }
+    .rl-layer.selected { outline: 2px dashed #C46B1F; outline-offset: 2px; }
+    .rl-layer.dragging { opacity: 0.92; }
+    .rl-layer img, .rl-layer video { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+    .rl-layer .rl-text-inner { width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding: 0; line-height:1.1; word-break: break-word; pointer-events:none; }
+
+    .rl-handle { position: absolute; width: 22px; height: 22px; background: #C46B1F; border: 2px solid #fff; border-radius: 50%; right: -11px; bottom: -11px; cursor: nwse-resize; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+
+    .rl-guide { position: absolute; pointer-events: none; background: rgba(196,107,31,0.9); box-shadow: 0 0 0 1px rgba(0,0,0,0.3); display: none; }
+    .rl-guide-v { left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-1px); }
+    .rl-guide-h { top: 50%; left: 0; right: 0; height: 2px; transform: translateY(-1px); }
+    .rl-stage.show-guides .rl-guide-v, .rl-stage.show-guides .rl-guide-h { display: block; opacity: 0.35; }
+    .rl-stage .rl-guide.snap-active { display: block !important; opacity: 1 !important; background: #FFD700; }
+
+    .rl-side-card { display: flex; flex-direction: column; gap: 22px; }
+    .rl-side-section { padding-bottom: 18px; border-bottom: 1px solid var(--db-border); }
+    .rl-side-section:last-child { border-bottom: none; padding-bottom: 0; }
+    .rl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .rl-row.rl-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .rl-row.rl-row-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .rl-row.rl-row-buttons .db-btn-sm { flex: 1; min-width: 0; }
+
+    .rl-field { display:block !important; min-width: 0; }
+    .rl-field > span { display:block !important; font-size:10px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:var(--db-text-muted); margin-bottom:6px; line-height:1.2; }
+    .rl-field input, .rl-field textarea, .rl-field select {
+      width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid var(--db-border); border-radius: var(--db-radius);
+      padding: 8px 10px; color: var(--db-text); font-family: 'Inter', sans-serif; font-size: 13px; height: 36px;
+    }
+    .rl-field textarea { height: auto; min-height: 76px; resize: vertical; }
+    .rl-field input[type="range"] { padding: 0; height: 36px; }
+    .rl-field input[type="color"] { padding: 2px; height: 36px; }
+    .rl-field input[type="number"] { -moz-appearance: textfield; }
+
+    .rl-drop { border: 1.5px dashed var(--db-border); border-radius: var(--db-radius); padding: 18px; text-align: center; font-size: 12px; color: var(--db-text-muted); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+    .rl-drop:hover, .rl-drop.drag { border-color: var(--db-accent); background: var(--db-accent-soft); color: var(--db-text); }
+    .rl-bg-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--db-text-muted); margin-top: 8px; word-break: break-all; }
+
+    .rl-stage-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .rl-toggle { font-family:'JetBrains Mono',monospace; font-size:11px; color: var(--db-text-secondary); display:flex; gap:6px; align-items:center; cursor:pointer; }
+
+    .rl-layers { display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+    .rl-layer-row { display:grid; grid-template-columns: 56px 1fr auto; align-items:center; gap:10px; padding:10px 12px; background: rgba(255,255,255,0.03); border:1px solid var(--db-border); border-radius:8px; cursor:pointer; }
+    .rl-layer-row:hover { background: var(--db-accent-soft); }
+    .rl-layer-row.selected { background: rgba(196,107,31,0.15); border-color: var(--db-fox); }
+    .rl-layer-row .rl-layer-label { font-size:13px; color:var(--db-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width: 0; }
+    .rl-layer-row .rl-layer-type { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--db-text-muted); }
+    .rl-layer-row .rl-layer-actions { display:flex; gap:4px; flex-shrink: 0; }
+    .rl-layer-row button { background: transparent; border: 1px solid var(--db-border); color: var(--db-text-secondary); border-radius: 4px; font-size:11px; padding:4px 8px; cursor:pointer; line-height:1; min-width: 26px; }
+    .rl-layer-row button:hover:not(:disabled) { background: var(--db-accent-soft); color: var(--db-text); }
+    .rl-layer-row button:disabled { opacity: 0.3; cursor: not-allowed; }
+    .rl-layer-row button.danger:hover { background: rgba(196,107,31,0.15); color: var(--db-fox); }
+
+    .rl-inspector { display:flex; flex-direction:column; gap:12px; }
+    .rl-inspector > .rl-row { margin-top: 0; }
+    .rl-empty { color: var(--db-text-muted); font-size: 12px; margin: 0; }
+    .rl-toggle-row { display:flex; gap:14px; flex-wrap:wrap; padding-top: 4px; }
+
+    .rl-render-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px); }
+    .rl-render-box { background: #14180f; border: 1px solid var(--db-border); border-radius: var(--db-radius-lg); padding: 30px 36px; max-width: 420px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .rl-render-spinner { width: 36px; height: 36px; border: 3px solid var(--db-border); border-top-color: var(--db-fox); border-radius: 50%; margin: 0 auto; animation: rl-spin 0.8s linear infinite; }
+    @keyframes rl-spin { to { transform: rotate(360deg); } }
+    .rl-render-status { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--db-text-muted); margin: 4px 0 12px; }
+    .rl-render-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .rl-render-bar > div { height: 100%; width: 0%; background: var(--db-fox); transition: width 0.2s; }
+  </style> <script>
+    (function() {
+      const STORAGE_KEY = 'oakfox_reels_v1';
+      const ACTIVE_KEY = 'oakfox_reels_active';
+      const STAGE_W = 1080, STAGE_H = 1920;
+      const SNAP_PX = 14;
+
+      const DEFAULTS = {
+        'starter': {
+          name: 'Starter reel',
+          background: { src: '', name: '', fit: 'cover', tint: 0, mute: true },
+          duration: 15,
+          loop: true,
+          layers: [
+            { id: 'l1', type: 'logo', src: '/images/site/logolight.png', x: 80, y: 80, w: 220, h: 90, opacity: 1, rotation: 0 },
+            { id: 'l2', type: 'text', text: 'Your headline\ngoes here', x: 90, y: 760, w: 900, h: 400, color: '#F5F0E8', font: "'Playfair Display', serif", weight: 700, size: 110, align: 'center', shadow: 1, opacity: 1, rotation: 0 }
+          ]
+        }
+      };
+
+      function loadData() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(DEFAULTS));
+      }
+      function saveData() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stripBlobsForStorage(data))); }
+        catch(e) { console.warn('Storage full', e); }
+      }
+      function stripBlobsForStorage(d) {
+        const copy = JSON.parse(JSON.stringify(d));
+        Object.keys(copy).forEach(k => {
+          const r = copy[k];
+          if (r.background && typeof r.background.src === 'string' && r.background.src.startsWith('blob:')) r.background.src = '';
+          (r.layers || []).forEach(L => {
+            if (typeof L.src === 'string' && L.src.startsWith('blob:')) L.src = '';
+          });
+        });
+        return copy;
+      }
+
+      let data = loadData();
+      let activeKey = localStorage.getItem(ACTIVE_KEY) || Object.keys(data)[0] || null;
+      if (!data[activeKey]) activeKey = Object.keys(data)[0] || null;
+      let scale = 0.25;
+      let selectedId = null;
+      let bgVideoEl = null;
+      let layerVideoEls = {};
+      let renderCancelled = false;
+
+      const els = {
+        picker: document.getElementById('rl-picker'),
+        scale: document.getElementById('rl-scale'),
+        stage: document.getElementById('rl-stage'),
+        stageScale: document.getElementById('rl-stage-scale'),
+        stageFrame: document.getElementById('rl-stage-frame'),
+        guideV: document.getElementById('rl-guide-v'),
+        guideH: document.getElementById('rl-guide-h'),
+        layers: document.getElementById('rl-layers'),
+        inspector: document.getElementById('rl-inspector'),
+        bgDrop: document.getElementById('rl-bg-drop'),
+        bgFile: document.getElementById('rl-bg-file'),
+        bgMeta: document.getElementById('rl-bg-meta'),
+        duration: document.getElementById('rl-duration'),
+        loop: document.getElementById('rl-loop'),
+        bgFit: document.getElementById('rl-bg-fit'),
+        tint: document.getElementById('rl-tint'),
+        play: document.getElementById('rl-play'),
+        restart: document.getElementById('rl-restart'),
+        mute: document.getElementById('rl-mute'),
+        showGuides: document.getElementById('rl-show-guides'),
+        snap: document.getElementById('rl-snap'),
+        metaBg: document.getElementById('rl-meta-bg'),
+        metaLayers: document.getElementById('rl-meta-layers'),
+        metaDur: document.getElementById('rl-meta-dur'),
+        renderOverlay: document.getElementById('rl-render-overlay'),
+        renderStatus: document.getElementById('rl-render-status'),
+        renderBar: document.getElementById('rl-render-bar-fill'),
+        renderCancel: document.getElementById('rl-render-cancel'),
+      };
+
+      function reel() { return activeKey ? data[activeKey] : null; }
+      function uid() { return 'l' + Math.random().toString(36).slice(2, 9); }
+      function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+      function renderPicker() {
+        els.picker.innerHTML = Object.entries(data).map(([k,v]) =>
+          `<option value="${esc(k)}"${k===activeKey?' selected':''}>${esc(v.name)}</option>`
+        ).join('');
+      }
+
+      function applyScale() {
+        els.stageScale.style.transform = `scale(${scale})`;
+        els.stageFrame.style.width = (STAGE_W * scale) + 'px';
+        els.stageFrame.style.height = (STAGE_H * scale) + 'px';
+      }
+
+      function rebuildBackground() {
+        const r = reel(); if (!r) return;
+        const old = els.stage.querySelector('video.rl-bg-video');
+        if (old) old.remove();
+        const tintEl = els.stage.querySelector('.rl-bg-tint') || (() => {
+          const t = document.createElement('div'); t.className = 'rl-bg-tint';
+          els.stage.insertBefore(t, els.stage.firstChild); return t;
+        })();
+        if (r.background.src) {
+          const v = document.createElement('video');
+          v.className = 'rl-bg-video';
+          v.src = r.background.src;
+          v.muted = true; v.playsInline = true; v.loop = !!r.loop;
+          v.style.objectFit = r.background.fit || 'cover';
+          v.preload = 'auto';
+          v.crossOrigin = 'anonymous';
+          els.stage.insertBefore(v, els.stage.firstChild);
+          bgVideoEl = v;
+          v.addEventListener('loadedmetadata', () => {
+            els.metaBg.textContent = `Video · ${Math.round(v.videoWidth)}×${Math.round(v.videoHeight)} · ${v.duration.toFixed(1)}s`;
+            updateMeta();
+          });
+        } else {
+          bgVideoEl = null;
+          els.metaBg.textContent = 'No background';
+        }
+        tintEl.style.opacity = r.background.tint || 0;
+      }
+
+      function rebuildLayers() {
+        const r = reel(); if (!r) return;
+        Array.from(els.stage.querySelectorAll('.rl-layer')).forEach(n => n.remove());
+        layerVideoEls = {};
+        r.layers.forEach(L => {
+          const node = document.createElement('div');
+          node.className = 'rl-layer' + (L.id === selectedId ? ' selected' : '');
+          node.dataset.id = L.id;
+          applyLayerStyle(node, L);
+          if (L.type === 'text') {
+            const inner = document.createElement('div');
+            inner.className = 'rl-text-inner';
+            inner.style.color = L.color || '#fff';
+            inner.style.fontFamily = L.font || "'Playfair Display', serif";
+            inner.style.fontWeight = L.weight || 700;
+            inner.style.fontSize = (L.size || 80) + 'px';
+            inner.style.textAlign = L.align || 'center';
+            inner.style.justifyContent = L.align === 'left' ? 'flex-start' : (L.align === 'right' ? 'flex-end' : 'center');
+            if (L.shadow) inner.style.textShadow = '0 4px 24px rgba(0,0,0,0.55)';
+            inner.style.whiteSpace = 'pre-wrap';
+            inner.textContent = L.text || '';
+            node.appendChild(inner);
+          } else if (L.type === 'logo' || L.type === 'image') {
+            if (L.src) { const img = document.createElement('img'); img.src = L.src; img.crossOrigin = 'anonymous'; node.appendChild(img); }
+          } else if (L.type === 'video') {
+            if (L.src) {
+              const v = document.createElement('video');
+              v.src = L.src; v.muted = true; v.playsInline = true; v.loop = true; v.preload = 'auto'; v.crossOrigin = 'anonymous';
+              v.style.objectFit = L.fit || 'contain';
+              node.appendChild(v);
+              layerVideoEls[L.id] = v;
+            }
+          }
+          if (L.id === selectedId) {
+            const h = document.createElement('div'); h.className = 'rl-handle'; h.dataset.handle = '1';
+            node.appendChild(h);
+          }
+          attachDrag(node, L);
+          els.stage.appendChild(node);
+        });
+        updateMeta();
+      }
+
+      function applyLayerStyle(node, L) {
+        node.style.left = L.x + 'px';
+        node.style.top = L.y + 'px';
+        node.style.width = L.w + 'px';
+        node.style.height = L.h + 'px';
+        node.style.opacity = L.opacity == null ? 1 : L.opacity;
+        node.style.transform = L.rotation ? `rotate(${L.rotation}deg)` : '';
+        node.style.zIndex = L.z || 1;
+      }
+
+      function updateMeta() {
+        const r = reel(); if (!r) return;
+        els.metaLayers.textContent = `${r.layers.length} layer${r.layers.length===1?'':'s'}`;
+        els.metaDur.textContent = `${(+r.duration).toFixed(1)}s`;
+      }
+
+      function renderLayerList() {
+        const r = reel(); if (!r) { els.layers.innerHTML = ''; return; }
+        if (!r.layers.length) { els.layers.innerHTML = '<p class="rl-empty">No layers yet.</p>'; return; }
+        els.layers.innerHTML = r.layers.map((L, i) => `
+          <div class="rl-layer-row${L.id===selectedId?' selected':''}" data-id="${esc(L.id)}">
+            <span class="rl-layer-type">${esc(L.type)}</span>
+            <span class="rl-layer-label">${esc(layerLabel(L))}</span>
+            <span class="rl-layer-actions">
+              <button data-up="${esc(L.id)}" ${i===0?'disabled':''} title="Move up">↑</button>
+              <button data-down="${esc(L.id)}" ${i===r.layers.length-1?'disabled':''} title="Move down">↓</button>
+              <button class="danger" data-del="${esc(L.id)}" title="Delete">×</button>
+            </span>
+          </div>
+        `).join('');
+        els.layers.querySelectorAll('.rl-layer-row').forEach(row => {
+          row.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            selectedId = row.dataset.id; renderLayerList(); rebuildLayers(); renderInspector();
+          });
+        });
+        els.layers.querySelectorAll('[data-up]').forEach(b => b.addEventListener('click', () => moveLayer(b.dataset.up, -1)));
+        els.layers.querySelectorAll('[data-down]').forEach(b => b.addEventListener('click', () => moveLayer(b.dataset.down, 1)));
+        els.layers.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => removeLayer(b.dataset.del)));
+      }
+
+      function layerLabel(L) {
+        if (L.type === 'text') return (L.text || '').split('\n')[0].slice(0, 32) || '(empty text)';
+        if (L.src) { const parts = L.src.split('/'); return parts[parts.length-1].slice(0, 32); }
+        return '(no source)';
+      }
+
+      function renderInspector() {
+        const r = reel(); if (!r) return;
+        const L = r.layers.find(x => x.id === selectedId);
+        if (!L) { els.inspector.innerHTML = '<p class="rl-empty">Select a layer to edit it.</p>'; return; }
+
+        const common = `
+          <div class="rl-row">
+            <label class="rl-field"><span>X</span><input type="number" data-prop="x" value="${L.x}"/></label>
+            <label class="rl-field"><span>Y</span><input type="number" data-prop="y" value="${L.y}"/></label>
+          </div>
+          <div class="rl-row">
+            <label class="rl-field"><span>Width</span><input type="number" data-prop="w" value="${L.w}"/></label>
+            <label class="rl-field"><span>Height</span><input type="number" data-prop="h" value="${L.h}"/></label>
+          </div>
+          <div class="rl-row rl-row-3 rl-row-buttons">
+            <button class="db-btn db-btn-sm" data-center="h">Centre H</button>
+            <button class="db-btn db-btn-sm" data-center="v">Centre V</button>
+            <button class="db-btn db-btn-sm" data-center="both">Centre both</button>
+          </div>
+          <div class="rl-row">
+            <label class="rl-field"><span>Opacity</span><input type="range" min="0" max="1" step="0.05" data-prop="opacity" value="${L.opacity==null?1:L.opacity}"/></label>
+            <label class="rl-field"><span>Rotate (°)</span><input type="number" data-prop="rotation" value="${L.rotation||0}" step="1"/></label>
+          </div>
+        `;
+
+        let typeFields = '';
+        if (L.type === 'text') {
+          typeFields = `
+            <label class="rl-field"><span>Text</span><textarea data-prop="text" rows="3">${esc(L.text||'')}</textarea></label>
+            <div class="rl-row">
+              <label class="rl-field"><span>Font</span>
+                <select data-prop="font">
+                  <option value="'Playfair Display', serif"${L.font==="'Playfair Display', serif"?' selected':''}>Playfair Display</option>
+                  <option value="'Work Sans', sans-serif"${L.font==="'Work Sans', sans-serif"?' selected':''}>Work Sans</option>
+                  <option value="'Inter', sans-serif"${L.font==="'Inter', sans-serif"?' selected':''}>Inter</option>
+                  <option value="'JetBrains Mono', monospace"${L.font==="'JetBrains Mono', monospace"?' selected':''}>JetBrains Mono</option>
+                </select>
+              </label>
+              <label class="rl-field"><span>Size (px)</span><input type="number" data-prop="size" value="${L.size||80}"/></label>
+            </div>
+            <div class="rl-row rl-row-3">
+              <label class="rl-field"><span>Weight</span>
+                <select data-prop="weight">
+                  <option value="400"${L.weight==400?' selected':''}>400</option>
+                  <option value="500"${L.weight==500?' selected':''}>500</option>
+                  <option value="600"${L.weight==600?' selected':''}>600</option>
+                  <option value="700"${L.weight==700?' selected':''}>700</option>
+                </select>
+              </label>
+              <label class="rl-field"><span>Align</span>
+                <select data-prop="align">
+                  <option value="left"${L.align==='left'?' selected':''}>Left</option>
+                  <option value="center"${L.align==='center'?' selected':''}>Centre</option>
+                  <option value="right"${L.align==='right'?' selected':''}>Right</option>
+                </select>
+              </label>
+              <label class="rl-field"><span>Colour</span><input type="color" data-prop="color" value="${L.color||'#ffffff'}"/></label>
+            </div>
+            <div class="rl-toggle-row"><label class="rl-toggle"><input type="checkbox" data-prop="shadow" ${L.shadow?'checked':''}/> Drop shadow</label></div>
+          `;
+        } else if (L.type === 'logo' || L.type === 'image') {
+          typeFields = `
+            <div class="rl-drop" data-layer-drop="${esc(L.id)}">${L.src?'Replace image':'Click or drop image'}</div>
+            <input type="file" accept="image/*" data-layer-file="${esc(L.id)}" style="display:none;"/>
+            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:8px;">Clear source</button>`:''}
+          `;
+        } else if (L.type === 'video') {
+          typeFields = `
+            <div class="rl-drop" data-layer-drop="${esc(L.id)}">${L.src?'Replace video':'Click or drop video'}</div>
+            <input type="file" accept="video/*" data-layer-file="${esc(L.id)}" style="display:none;"/>
+            <label class="rl-field" style="margin-top:10px;"><span>Object fit</span>
+              <select data-prop="fit">
+                <option value="contain"${(L.fit||'contain')==='contain'?' selected':''}>Contain</option>
+                <option value="cover"${L.fit==='cover'?' selected':''}>Cover</option>
+              </select>
+            </label>
+            ${L.src?`<button class="db-btn db-btn-sm" data-clear-src="${esc(L.id)}" style="margin-top:8px;">Clear source</button>`:''}
+          `;
+        }
+
+        els.inspector.innerHTML = typeFields + common;
+
+        els.inspector.querySelectorAll('[data-prop]').forEach(el => {
+          const handler = (e) => {
+            const k = el.dataset.prop;
+            let v;
+            if (el.type === 'checkbox') v = el.checked ? 1 : 0;
+            else if (el.type === 'number' || el.type === 'range') v = parseFloat(el.value);
+            else v = el.value;
+            L[k] = v; saveData(); rebuildLayers(); renderLayerList();
+          };
+          el.addEventListener('input', handler); el.addEventListener('change', handler);
+        });
+
+        els.inspector.querySelectorAll('[data-center]').forEach(b => b.addEventListener('click', () => {
+          const mode = b.dataset.center;
+          if (mode === 'h' || mode === 'both') L.x = Math.round((STAGE_W - L.w) / 2);
+          if (mode === 'v' || mode === 'both') L.y = Math.round((STAGE_H - L.h) / 2);
+          saveData(); rebuildLayers(); renderInspector();
+        }));
+
+        els.inspector.querySelectorAll('[data-layer-drop]').forEach(d => {
+          const id = d.dataset.layerDrop;
+          const file = els.inspector.querySelector(`[data-layer-file="${id}"]`);
+          d.addEventListener('click', () => file.click());
+          file.addEventListener('change', (e) => { handleLayerFile(id, e.target.files[0]); e.target.value = ''; });
+          ['dragenter','dragover'].forEach(ev => d.addEventListener(ev, (e) => { e.preventDefault(); d.classList.add('drag'); }));
+          ['dragleave','drop'].forEach(ev => d.addEventListener(ev, (e) => { e.preventDefault(); d.classList.remove('drag'); }));
+          d.addEventListener('drop', (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleLayerFile(id, f); });
+        });
+
+        els.inspector.querySelectorAll('[data-clear-src]').forEach(b => b.addEventListener('click', () => {
+          const lyr = reel().layers.find(x => x.id === b.dataset.clearSrc); if (lyr) { lyr.src = ''; saveData(); rebuildLayers(); renderInspector(); }
+        }));
+      }
+
+      function handleLayerFile(id, file) {
+        if (!file) return;
+        const lyr = reel().layers.find(x => x.id === id); if (!lyr) return;
+        if (lyr.type === 'video') {
+          const url = URL.createObjectURL(file);
+          lyr.src = url;
+          rebuildLayers(); renderInspector();
+        } else {
+          const r = new FileReader();
+          r.onload = () => { lyr.src = r.result; saveData(); rebuildLayers(); renderInspector(); };
+          r.readAsDataURL(file);
+        }
+      }
+
+      function moveLayer(id, dir) {
+        const r = reel(); const i = r.layers.findIndex(x => x.id === id);
+        const j = i + dir; if (j < 0 || j >= r.layers.length) return;
+        [r.layers[i], r.layers[j]] = [r.layers[j], r.layers[i]];
+        saveData(); rebuildLayers(); renderLayerList();
+      }
+      function removeLayer(id) {
+        if (!confirm('Delete this layer?')) return;
+        const r = reel(); r.layers = r.layers.filter(x => x.id !== id);
+        if (selectedId === id) selectedId = null;
+        saveData(); rebuildLayers(); renderLayerList(); renderInspector();
+      }
+
+      function attachDrag(node, L) {
+        let dragging = false, resizing = false;
+        let startX = 0, startY = 0, startLX = 0, startLY = 0, startW = 0, startH = 0;
+        let stageRect = null;
+        const getPoint = (e) => e.touches ? e.touches[0] : e;
+
+        node.addEventListener('pointerdown', (e) => {
+          if (e.target.dataset.handle) {
+            resizing = true;
+          } else {
+            dragging = true;
+          }
+          selectedId = L.id; renderLayerList(); renderInspector();
+          Array.from(els.stage.querySelectorAll('.rl-layer')).forEach(n => n.classList.remove('selected'));
+          node.classList.add('selected', 'dragging');
+          if (!node.querySelector('.rl-handle')) {
+            const h = document.createElement('div'); h.className = 'rl-handle'; h.dataset.handle = '1'; node.appendChild(h);
+          }
+          stageRect = els.stageScale.getBoundingClientRect();
+          const p = getPoint(e);
+          startX = p.clientX; startY = p.clientY;
+          startLX = L.x; startLY = L.y; startW = L.w; startH = L.h;
+          node.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        });
+
+        node.addEventListener('pointermove', (e) => {
+          if (!dragging && !resizing) return;
+          const p = getPoint(e);
+          const dx = (p.clientX - startX) / scale;
+          const dy = (p.clientY - startY) / scale;
+          if (dragging) {
+            let nx = Math.round(startLX + dx);
+            let ny = Math.round(startLY + dy);
+            const cx = Math.round((STAGE_W - L.w) / 2);
+            const cy = Math.round((STAGE_H - L.h) / 2);
+            const snapOn = els.snap.checked;
+            let snappedV = false, snappedH = false;
+            if (snapOn) {
+              if (Math.abs(nx - cx) < SNAP_PX) { nx = cx; snappedV = true; }
+              if (Math.abs(ny - cy) < SNAP_PX) { ny = cy; snappedH = true; }
+            }
+            els.guideV.classList.toggle('snap-active', snappedV);
+            els.guideH.classList.toggle('snap-active', snappedH);
+            L.x = nx; L.y = ny;
+          } else if (resizing) {
+            L.w = Math.max(20, Math.round(startW + dx));
+            L.h = Math.max(20, Math.round(startH + dy));
+          }
+          applyLayerStyle(node, L);
+          if (els.inspector.querySelector('[data-prop="x"]')) {
+            els.inspector.querySelector('[data-prop="x"]').value = L.x;
+            els.inspector.querySelector('[data-prop="y"]').value = L.y;
+            els.inspector.querySelector('[data-prop="w"]').value = L.w;
+            els.inspector.querySelector('[data-prop="h"]').value = L.h;
+          }
+        });
+
+        const end = (e) => {
+          if (!dragging && !resizing) return;
+          dragging = false; resizing = false;
+          node.classList.remove('dragging');
+          els.guideV.classList.remove('snap-active');
+          els.guideH.classList.remove('snap-active');
+          saveData();
+          try { node.releasePointerCapture(e.pointerId); } catch(_) {}
+        };
+        node.addEventListener('pointerup', end);
+        node.addEventListener('pointercancel', end);
+      }
+
+      function addLayer(type) {
+        const r = reel(); if (!r) return;
+        const id = uid();
+        let L;
+        if (type === 'text') {
+          L = { id, type, text: 'New text', x: 90, y: 800, w: 900, h: 320, color: '#FFFFFF', font: "'Playfair Display', serif", weight: 700, size: 96, align: 'center', shadow: 1, opacity: 1, rotation: 0 };
+        } else if (type === 'logo') {
+          L = { id, type, src: '/images/site/logolight.png', x: 80, y: 80, w: 220, h: 90, opacity: 1, rotation: 0 };
+        } else if (type === 'image') {
+          L = { id, type, src: '', x: 240, y: 700, w: 600, h: 600, opacity: 1, rotation: 0 };
+        } else {
+          L = { id, type, src: '', x: 140, y: 600, w: 800, h: 800, fit: 'cover', opacity: 1, rotation: 0 };
+        }
+        r.layers.push(L); selectedId = id; saveData(); rebuildLayers(); renderLayerList(); renderInspector();
+      }
+
+      // Background drop / file
+      function bindBg() {
+        els.bgDrop.addEventListener('click', () => els.bgFile.click());
+        els.bgFile.addEventListener('change', (e) => { handleBgFile(e.target.files[0]); e.target.value = ''; });
+        ['dragenter','dragover'].forEach(ev => els.bgDrop.addEventListener(ev, (e) => { e.preventDefault(); els.bgDrop.classList.add('drag'); }));
+        ['dragleave','drop'].forEach(ev => els.bgDrop.addEventListener(ev, (e) => { e.preventDefault(); els.bgDrop.classList.remove('drag'); }));
+        els.bgDrop.addEventListener('drop', (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleBgFile(f); });
+      }
+      function handleBgFile(file) {
+        if (!file) return;
+        const r = reel(); if (!r) return;
+        const url = URL.createObjectURL(file);
+        r.background.src = url;
+        r.background.name = file.name;
+        rebuildBackground();
+      }
+
+      // Top controls
+      els.scale.addEventListener('change', (e) => { scale = parseFloat(e.target.value); applyScale(); });
+      els.picker.addEventListener('change', (e) => { activeKey = e.target.value; localStorage.setItem(ACTIVE_KEY, activeKey); selectedId = null; render(); });
+      els.duration.addEventListener('input', () => { reel().duration = parseFloat(els.duration.value) || 15; saveData(); updateMeta(); });
+      els.loop.addEventListener('change', () => { reel().loop = els.loop.value === '1'; saveData(); rebuildBackground(); });
+      els.bgFit.addEventListener('change', () => { reel().background.fit = els.bgFit.value; saveData(); rebuildBackground(); });
+      els.tint.addEventListener('input', () => { reel().background.tint = parseFloat(els.tint.value); saveData(); rebuildBackground(); });
+      els.mute.addEventListener('change', () => { if (bgVideoEl) bgVideoEl.muted = els.mute.checked; });
+      els.showGuides.addEventListener('change', () => { els.stage.classList.toggle('show-guides', els.showGuides.checked); });
+
+      els.play.addEventListener('click', () => {
+        if (bgVideoEl) { bgVideoEl.muted = els.mute.checked; bgVideoEl.play().catch(()=>{}); }
+        Object.values(layerVideoEls).forEach(v => v.play().catch(()=>{}));
+      });
+      els.restart.addEventListener('click', () => {
+        if (bgVideoEl) { bgVideoEl.currentTime = 0; bgVideoEl.play().catch(()=>{}); }
+        Object.values(layerVideoEls).forEach(v => { v.currentTime = 0; v.play().catch(()=>{}); });
+      });
+
+      document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => addLayer(b.dataset.add)));
+
+      els.stage.addEventListener('pointerdown', (e) => {
+        if (e.target === els.stage || e.target.classList.contains('rl-bg-tint') || e.target.classList.contains('rl-bg-video')) {
+          selectedId = null; renderLayerList(); rebuildLayers(); renderInspector();
+        }
+      });
+
+      // Reel CRUD
+      document.getElementById('rl-new').addEventListener('click', () => {
+        const name = prompt('New reel name:'); if (!name) return;
+        const key = 'r-' + Date.now();
+        data[key] = { name, background: { src: '', name: '', fit: 'cover', tint: 0, mute: true }, duration: 15, loop: true, layers: [] };
+        activeKey = key; localStorage.setItem(ACTIVE_KEY, activeKey); saveData(); render();
+      });
+      document.getElementById('rl-rename').addEventListener('click', () => {
+        if (!activeKey) return;
+        const name = prompt('Rename reel:', data[activeKey].name); if (!name) return;
+        data[activeKey].name = name; saveData(); render();
+      });
+      document.getElementById('rl-duplicate').addEventListener('click', () => {
+        if (!activeKey) return;
+        const key = 'r-' + Date.now();
+        data[key] = JSON.parse(JSON.stringify(data[activeKey]));
+        data[key].name = data[activeKey].name + ' (copy)';
+        if (data[key].background && data[key].background.src && data[key].background.src.startsWith('blob:')) data[key].background.src = '';
+        (data[key].layers||[]).forEach(L => { if (L.src && L.src.startsWith('blob:')) L.src = ''; });
+        activeKey = key; localStorage.setItem(ACTIVE_KEY, activeKey); saveData(); render();
+      });
+      document.getElementById('rl-delete').addEventListener('click', () => {
+        if (!activeKey) return;
+        if (!confirm('Delete "' + data[activeKey].name + '"?')) return;
+        delete data[activeKey];
+        activeKey = Object.keys(data)[0] || null;
+        if (activeKey) localStorage.setItem(ACTIVE_KEY, activeKey);
+        saveData(); render();
+      });
+
+      document.getElementById('rl-export').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(stripBlobsForStorage(data), null, 2)], {type:'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = 'oakfox-reels-' + new Date().toISOString().slice(0,10) + '.json'; a.click();
+      });
+      document.getElementById('rl-import').addEventListener('click', () => document.getElementById('rl-import-file').click());
+      document.getElementById('rl-import-file').addEventListener('change', (e) => {
+        const file = e.target.files[0]; if (!file) return;
+        const r = new FileReader();
+        r.onload = () => {
+          try {
+            const imported = JSON.parse(r.result);
+            if (confirm('Replace all reels with imported data? Cancel to merge instead.')) data = imported;
+            else Object.assign(data, imported);
+            activeKey = Object.keys(data)[0]; localStorage.setItem(ACTIVE_KEY, activeKey);
+            saveData(); render();
+          } catch(err) { alert('Invalid JSON: ' + err.message); }
+          e.target.value = '';
+        };
+        r.readAsText(file);
+      });
+
+      // RENDER PIPELINE — canvas + MediaRecorder → ffmpeg.wasm → MP4
+      document.getElementById('rl-render').addEventListener('click', () => renderReel());
+      els.renderCancel.addEventListener('click', () => { renderCancelled = true; });
+
+      let ffmpegInstance = null;
+      async function loadFFmpeg() {
+        if (ffmpegInstance) return ffmpegInstance;
+        if (!window.FFmpeg) {
+          await new Promise((res, rej) => {
+            const s = document.createElement('script');
+            s.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js';
+            s.onload = res; s.onerror = rej; document.head.appendChild(s);
+          });
+          await new Promise((res, rej) => {
+            const s = document.createElement('script');
+            s.src = 'https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js';
+            s.onload = res; s.onerror = rej; document.head.appendChild(s);
+          });
+        }
+        const { FFmpeg } = window.FFmpegWASM || window.FFmpeg;
+        const inst = new FFmpeg();
+        inst.on('log', ({ message }) => console.log('[ffmpeg]', message));
+        const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd';
+        const { toBlobURL } = window.FFmpegUtil;
+        await inst.load({
+          coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+          wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+        });
+        ffmpegInstance = inst;
+        return inst;
+      }
+
+      async function renderReel() {
+        const r = reel(); if (!r) return;
+        renderCancelled = false;
+        els.renderOverlay.style.display = 'flex';
+        els.renderBar.style.width = '0%';
+
+        try {
+          els.renderStatus.textContent = 'Preparing media…';
+          await document.fonts.ready;
+
+          const FPS = 30;
+          const dur = Math.max(1, Math.min(90, +r.duration || 15));
+          const totalFrames = Math.round(dur * FPS);
+
+          // Offscreen canvas
+          const canvas = document.createElement('canvas');
+          canvas.width = STAGE_W; canvas.height = STAGE_H;
+          const ctx = canvas.getContext('2d');
+
+          // Background video — clone for offscreen playback
+          let bgV = null;
+          if (r.background.src) {
+            bgV = document.createElement('video');
+            bgV.src = r.background.src; bgV.muted = true; bgV.playsInline = true; bgV.crossOrigin = 'anonymous'; bgV.loop = !!r.loop;
+            await new Promise((res, rej) => { bgV.onloadeddata = res; bgV.onerror = () => rej(new Error('Background video failed to load')); });
+          }
+
+          // Layer videos
+          const layerVids = {};
+          for (const L of r.layers) {
+            if (L.type === 'video' && L.src) {
+              const v = document.createElement('video');
+              v.src = L.src; v.muted = true; v.playsInline = true; v.crossOrigin = 'anonymous'; v.loop = true;
+              await new Promise((res, rej) => { v.onloadeddata = res; v.onerror = () => rej(new Error('Layer video failed to load')); });
+              layerVids[L.id] = v;
+            }
+          }
+
+          // Layer images
+          const layerImgs = {};
+          for (const L of r.layers) {
+            if ((L.type === 'logo' || L.type === 'image') && L.src) {
+              const img = new Image(); img.crossOrigin = 'anonymous'; img.src = L.src;
+              await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('Image failed to load: ' + L.src.slice(0,40))); });
+              layerImgs[L.id] = img;
+            }
+          }
+
+          // Capture stream from canvas
+          const stream = canvas.captureStream(FPS);
+          const mimeCandidates = [
+            'video/webm;codecs=vp9',
+            'video/webm;codecs=vp8',
+            'video/webm',
+          ];
+          const mime = mimeCandidates.find(m => MediaRecorder.isTypeSupported(m));
+          if (!mime) throw new Error('No supported MediaRecorder format.');
+          const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 12_000_000 });
+          const chunks = [];
+          recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+          const recDone = new Promise(res => { recorder.onstop = res; });
+
+          // Start playback
+          if (bgV) { try { bgV.currentTime = 0; await bgV.play(); } catch(e){} }
+          for (const v of Object.values(layerVids)) { try { v.currentTime = 0; await v.play(); } catch(e){} }
+
+          recorder.start();
+          els.renderStatus.textContent = 'Recording 0%';
+
+          const frameMs = 1000 / FPS;
+          const start = performance.now();
+          let frame = 0;
+
+          await new Promise((resolveLoop) => {
+            function drawFrame() {
+              if (renderCancelled) { resolveLoop(); return; }
+              const t = (performance.now() - start) / 1000;
+              if (t >= dur || frame >= totalFrames) { resolveLoop(); return; }
+
+              ctx.fillStyle = '#000';
+              ctx.fillRect(0, 0, STAGE_W, STAGE_H);
+
+              if (bgV) {
+                drawCover(ctx, bgV, 0, 0, STAGE_W, STAGE_H, r.background.fit || 'cover');
+              }
+              if (r.background.tint) {
+                ctx.fillStyle = `rgba(0,0,0,${r.background.tint})`;
+                ctx.fillRect(0, 0, STAGE_W, STAGE_H);
+              }
+
+              for (const L of r.layers) {
+                ctx.save();
+                ctx.globalAlpha = L.opacity == null ? 1 : L.opacity;
+                if (L.rotation) {
+                  ctx.translate(L.x + L.w/2, L.y + L.h/2);
+                  ctx.rotate(L.rotation * Math.PI / 180);
+                  ctx.translate(-(L.x + L.w/2), -(L.y + L.h/2));
+                }
+                if (L.type === 'text') {
+                  drawText(ctx, L);
+                } else if ((L.type === 'logo' || L.type === 'image') && layerImgs[L.id]) {
+                  drawContain(ctx, layerImgs[L.id], L.x, L.y, L.w, L.h);
+                } else if (L.type === 'video' && layerVids[L.id]) {
+                  drawCover(ctx, layerVids[L.id], L.x, L.y, L.w, L.h, L.fit || 'contain');
+                }
+                ctx.restore();
+              }
+
+              frame++;
+              const pct = Math.round((frame / totalFrames) * 100);
+              els.renderBar.style.width = pct + '%';
+              els.renderStatus.textContent = `Recording ${pct}%`;
+
+              const target = start + frame * frameMs;
+              const wait = Math.max(0, target - performance.now());
+              setTimeout(drawFrame, wait);
+            }
+            drawFrame();
+          });
+
+          recorder.stop();
+          await recDone;
+          if (bgV) bgV.pause();
+          for (const v of Object.values(layerVids)) v.pause();
+
+          if (renderCancelled) { els.renderOverlay.style.display = 'none'; return; }
+
+          const webmBlob = new Blob(chunks, { type: 'video/webm' });
+
+          // Convert to MP4
+          els.renderStatus.textContent = 'Loading converter…';
+          els.renderBar.style.width = '0%';
+          const ff = await loadFFmpeg();
+          const { fetchFile } = window.FFmpegUtil;
+          await ff.writeFile('in.webm', await fetchFile(webmBlob));
+
+          ff.on('progress', ({ progress }) => {
+            const p = Math.round((progress || 0) * 100);
+            els.renderBar.style.width = p + '%';
+            els.renderStatus.textContent = `Converting to MP4 ${p}%`;
+          });
+
+          els.renderStatus.textContent = 'Converting to MP4…';
+          await ff.exec([
+            '-i', 'in.webm',
+            '-c:v', 'libx264',
+            '-preset', 'medium',
+            '-crf', '18',
+            '-pix_fmt', 'yuv420p',
+            '-movflags', '+faststart',
+            '-r', String(FPS),
+            'out.mp4'
+          ]);
+
+          const mp4 = await ff.readFile('out.mp4');
+          const mp4Blob = new Blob([mp4.buffer], { type: 'video/mp4' });
+          const url = URL.createObjectURL(mp4Blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = `oakfox-reel-${activeKey}-${Date.now()}.mp4`;
+          document.body.appendChild(a); a.click(); setTimeout(()=>{ a.remove(); URL.revokeObjectURL(url); }, 1500);
+
+          els.renderStatus.textContent = 'Done.';
+          els.renderBar.style.width = '100%';
+          setTimeout(() => { els.renderOverlay.style.display = 'none'; }, 800);
+        } catch (err) {
+          console.error(err);
+          alert('Render failed: ' + err.message);
+          els.renderOverlay.style.display = 'none';
+        }
+      }
+
+      function drawCover(ctx, src, x, y, w, h, fit) {
+        const sw = src.videoWidth || src.naturalWidth || src.width;
+        const sh = src.videoHeight || src.naturalHeight || src.height;
+        if (!sw || !sh) return;
+        const dr = w / h, sr = sw / sh;
+        let dx = x, dy = y, dw = w, dh = h;
+        if (fit === 'contain') {
+          if (sr > dr) { dh = w / sr; dy = y + (h - dh) / 2; }
+          else { dw = h * sr; dx = x + (w - dw) / 2; }
+          ctx.drawImage(src, dx, dy, dw, dh);
+        } else {
+          let cw = sw, ch = sh, cx = 0, cy = 0;
+          if (sr > dr) { cw = sh * dr; cx = (sw - cw) / 2; }
+          else { ch = sw / dr; cy = (sh - ch) / 2; }
+          ctx.drawImage(src, cx, cy, cw, ch, x, y, w, h);
+        }
+      }
+      function drawContain(ctx, src, x, y, w, h) { drawCover(ctx, src, x, y, w, h, 'contain'); }
+
+      function drawText(ctx, L) {
+        const lines = (L.text || '').split('\n');
+        const size = L.size || 80;
+        ctx.font = `${L.weight||700} ${size}px ${L.font || 'serif'}`;
+        ctx.fillStyle = L.color || '#fff';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = L.align || 'center';
+        if (L.shadow) {
+          ctx.shadowColor = 'rgba(0,0,0,0.55)';
+          ctx.shadowBlur = 24;
+          ctx.shadowOffsetY = 4;
+        }
+        const lineH = size * 1.1;
+        const wrapped = [];
+        for (const ln of lines) wrapped.push(...wrapLine(ctx, ln, L.w));
+        const totalH = wrapped.length * lineH;
+        const startY = L.y + (L.h - totalH) / 2 + lineH / 2;
+        const tx = L.align === 'left' ? L.x : (L.align === 'right' ? L.x + L.w : L.x + L.w / 2);
+        wrapped.forEach((ln, i) => ctx.fillText(ln, tx, startY + i * lineH));
+      }
+      function wrapLine(ctx, text, maxWidth) {
+        if (!text) return [''];
+        const words = text.split(' ');
+        const lines = []; let cur = '';
+        for (const w of words) {
+          const test = cur ? cur + ' ' + w : w;
+          if (ctx.measureText(test).width > maxWidth && cur) { lines.push(cur); cur = w; }
+          else cur = test;
+        }
+        if (cur) lines.push(cur);
+        return lines;
+      }
+
+      // Boot
+      function render() {
+        renderPicker();
+        const r = reel(); if (!r) return;
+        els.duration.value = r.duration;
+        els.loop.value = r.loop ? '1' : '0';
+        els.bgFit.value = r.background.fit || 'cover';
+        els.tint.value = r.background.tint || 0;
+        els.stage.classList.toggle('show-guides', els.showGuides.checked);
+        applyScale();
+        rebuildBackground();
+        rebuildLayers();
+        renderLayerList();
+        renderInspector();
+      }
+
+      bindBg();
+      render();
+    })();
+  </script>  </main> <!-- Auth gate --> <script>
+      (function() {
+        var s = sessionStorage.getItem('oakfox_auth');
+        if (!s) { window.location.replace('/dashboard/login'); return; }
+        try {
+          var p = JSON.parse(s);
+          if (!p.authed || p.expires < Date.now()) {
+            sessionStorage.removeItem('oakfox_auth');
+            window.location.replace('/dashboard/login');
+          }
+        } catch(e) {
+          sessionStorage.removeItem('oakfox_auth');
+          window.location.replace('/dashboard/login');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          // Logout handler
+          var btn = document.getElementById('logout-btn');
+          if (btn) {
+            btn.addEventListener('click', function(e) {
+              e.preventDefault();
+              sessionStorage.removeItem('oakfox_auth');
+              window.location.replace('/dashboard/login');
+            });
+          }
+
+          // Agency switcher — sync both desktop and mobile
+          var activeAgency = localStorage.getItem('oakfox_agency') || 'OakFox';
+          var allAgencyBtns = document.querySelectorAll('.db-agency-btn');
+          allAgencyBtns.forEach(function(b) {
+            if (b.getAttribute('data-agency') === activeAgency) {
+              b.classList.add('active');
+            } else {
+              b.classList.remove('active');
+            }
+            b.addEventListener('click', function() {
+              allAgencyBtns.forEach(function(x) { x.classList.remove('active'); });
+              var agency = b.getAttribute('data-agency');
+              // Highlight all buttons with this agency (desktop + mobile)
+              allAgencyBtns.forEach(function(x) {
+                if (x.getAttribute('data-agency') === agency) x.classList.add('active');
+              });
+              localStorage.setItem('oakfox_agency', agency);
+              window.dispatchEvent(new CustomEvent('agencychange', { detail: { agency: agency } }));
+            });
+          });
+        });
+      })();
+    </script> </body> </html>

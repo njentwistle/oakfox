@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "OakFox Dashboard"
+AuthUserFile /home/oakfoxco/.htpasswd
+Require valid-user
