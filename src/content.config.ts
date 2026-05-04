@@ -30,9 +30,17 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     category: z.string(),
-    author: z.string().default('Nathan James Entwistle'),
+    author: z.string().default('OakFox'),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    faq: z
+      .array(
+        z.object({
+          q: z.string(),
+          a: z.string(),
+        })
+      )
+      .optional(),
     howto: z
       .object({
         name: z.string(),

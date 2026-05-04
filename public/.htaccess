@@ -1,14 +1,22 @@
 # OakFox root .htaccess
 
 Options -Indexes
+DirectorySlash On
 
 RewriteEngine On
 
-# --- Canonical host: force https://www.oakfox.co.uk ---
-# Collapses http://, https://oakfox.co.uk, and http://www. variants into one canonical origin.
+# --- Canonical host: force https://oakfox.co.uk (no www) ---
+# Matches astro.config.mjs (site: 'https://oakfox.co.uk') and JSON-LD schema.
 RewriteCond %{HTTPS} off [OR]
-RewriteCond %{HTTP_HOST} ^oakfox\.co\.uk$ [NC]
-RewriteRule ^(.*)$ https://www.oakfox.co.uk/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.oakfox\.co\.uk$ [NC]
+RewriteRule ^(.*)$ https://oakfox.co.uk/$1 [R=301,L]
+
+# --- Force trailing slash on directory-style URLs (301) ---
+# Excludes existing files and URLs with file extensions.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]+$
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ /$1/ [R=301,L]
 
 # --- Legacy WordPress URLs (old oakfox.co.uk) → current equivalents ---
 RedirectMatch 301 ^/my-work/branding/aigean/?$ /portfolio/aigean/
@@ -17,11 +25,12 @@ RedirectMatch 301 ^/my-work/design/?$ /portfolio/
 RedirectMatch 301 ^/my-work/development/?$ /portfolio/
 RedirectMatch 301 ^/my-work/?$ /portfolio/
 RedirectMatch 301 ^/about-me/?$ /about/
+RedirectMatch 301 ^/about-us/?$ /about/
 RedirectMatch 301 ^/contact-me/?$ /contact/
+RedirectMatch 301 ^/contact-us/?$ /contact/
 RedirectMatch 301 ^/whats-new-for-2025-a-design-jump-forward/?$ /blog/
 
 # --- Foreign legacy URLs (listings-era, no equivalent) → 410 Gone ---
-# 410 tells Google the page is permanently gone; de-indexes faster than 404.
 RedirectMatch gone ^/listing/
 RedirectMatch gone ^/categories/?$
 RedirectMatch gone ^/registry/?$

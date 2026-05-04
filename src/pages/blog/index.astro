@@ -33,7 +33,7 @@ const blogSchema = {
     description: post.data.description,
     datePublished: post.data.date.toISOString(),
     url: `https://oakfox.co.uk/blog/${post.id}`,
-    author: { '@type': 'Person', name: post.data.author },
+    author: { '@id': 'https://oakfox.co.uk/#organization' },
   })),
 };
 
@@ -48,7 +48,7 @@ const breadcrumbs = {
 
 <BaseLayout
   title="Journal — Sustainable Branding, Web Design & Environmental Writing"
-  description="Essays and practical guides from OakFox on sustainable branding, accessible web design, green web development, honest marketing, and environmental consultancy — written by Nathan James Entwistle."
+  description="Essays and practical guides from the OakFox studio on sustainable branding, accessible web design, green web development, honest marketing, and environmental consultancy."
   schema={[blogSchema, breadcrumbs]}
 >
   <section class="pt-32 pb-8">
@@ -56,9 +56,9 @@ const breadcrumbs = {
       <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Journal</p>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">Journal</h1>
       <p class="mt-6 text-lg text-gray max-w-2xl">
-        Essays and practical guides on sustainable branding, accessible web
-        design, green web development, honest marketing, and environmental
-        consultancy — written by <a href="/about#nathan" class="text-forest underline underline-offset-4">Nathan James Entwistle</a>.
+        Essays and practical guides from the <a href="/about" class="text-forest underline underline-offset-4">OakFox studio</a>
+        on sustainable branding, accessible web design, green web development,
+        honest marketing, and environmental consultancy.
       </p>
       <div class="mt-6 flex flex-wrap gap-4">
         <a href="/contact" class="text-forest font-medium text-sm hover:underline underline-offset-4">

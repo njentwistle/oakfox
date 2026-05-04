@@ -38,12 +38,7 @@ const articleSchema = {
   mainEntityOfPage: articleUrl,
   articleSection: post.data.category,
   keywords: post.data.tags.join(', '),
-  author: {
-    '@type': 'Person',
-    '@id': 'https://oakfox.co.uk/about#nathan',
-    name: post.data.author,
-    url: 'https://oakfox.co.uk/about',
-  },
+  author: { '@id': 'https://oakfox.co.uk/#organization' },
   publisher: { '@id': 'https://oakfox.co.uk/#organization' },
 };
 
@@ -57,6 +52,17 @@ const breadcrumbs = {
 };
 
 const pageSchemas: Record<string, unknown>[] = [articleSchema, breadcrumbs];
+if (post.data.faq && post.data.faq.length > 0) {
+  pageSchemas.push({
+    '@type': 'FAQPage',
+    '@id': `${articleUrl}#faq`,
+    mainEntity: post.data.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  });
+}
 if (post.data.howto) {
   pageSchemas.push({
     '@type': 'HowTo',
@@ -92,7 +98,7 @@ if (post.data.howto) {
         {post.data.title}
       </h1>
       <div class="flex items-center gap-4 mt-6 text-sm text-gray">
-        <a href="/about#nathan" class="hover:text-forest transition-colors duration-300">
+        <a href="/about" class="hover:text-forest transition-colors duration-300">
           {post.data.author}
         </a>
         <span>&middot;</span>
@@ -120,6 +126,21 @@ if (post.data.howto) {
         prose-img:rounded-2xl">
         <Content />
       </div>
+
+      {post.data.faq && post.data.faq.length > 0 && (
+        <section class="mt-16 pt-12 border-t border-stone">
+          <p class="label text-gray mb-6">Frequently asked</p>
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-8">Common questions</h2>
+          <dl class="border-t border-stone">
+            {post.data.faq.map((f) => (
+              <div class="border-b border-stone py-6">
+                <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
+                <dd class="text-[14px] md:text-[15px] text-ink/70 leading-relaxed">{f.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
     </div>
   </article>
 
@@ -151,16 +172,27 @@ if (post.data.howto) {
   )}
 
   <!-- CTA -->
-  <section class="bg-forest text-cream py-16">
-    <div class="max-w-3xl mx-auto px-6 text-center">
-      <h2 class="text-2xl font-bold text-cream">Enjoyed this post?</h2>
-      <p class="text-cream-dark/80 mt-2">Check out more of our work or get in touch.</p>
-      <div class="mt-6 flex flex-wrap justify-center gap-4">
-        <a href="/blog" class="border border-cream text-cream px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest">
-          More Posts
+  <section class="py-20 md:py-28 border-t border-stone relative overflow-hidden">
+    <div class="hero-glow" style="top: 50%;"></div>
+    <div class="max-w-3xl mx-auto px-6 relative z-10">
+      <p class="label text-gray mb-6">Working on something similar?</p>
+      <h2 class="headline text-2xl md:text-3xl lg:text-4xl">
+        Tell us about your <em class="text-forest">project</em>.
+      </h2>
+      <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-xl">
+        We work with independent businesses and established brands across the UK,
+        Ireland, and Europe — branding, web, marketing, and environmental
+        consultancy. Send a few lines and we'll reply within 24 hours.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+        <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-5 py-3 rounded-full">
+          Start a conversation
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
-        <a href="/contact" class="bg-cream text-forest px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream-dark">
-          Get in Touch
+        <a href="/book" class="inline-flex items-center gap-2 text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300">
+          Or book a free call
         </a>
       </div>
     </div>
