@@ -20,10 +20,12 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Copy .cpanel.yml into dist
+      - name: Copy .cpanel.yml and deploy.sh into dist
         run: |
           cp .cpanel.yml dist/.cpanel.yml
-          echo '--- .cpanel.yml contents (verify column-0) ---'
+          cp deploy.sh dist/deploy.sh
+          chmod +x dist/deploy.sh
+          echo '--- .cpanel.yml contents ---'
           cat -A dist/.cpanel.yml
 
       - name: Push dist to deploy branch (linear history, fast-forwardable)

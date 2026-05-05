@@ -1,9 +1,4 @@
 ---
 deployment:
   tasks:
-    - /bin/echo "=== Deploy $(date) ===" > /home/oakfoxco/deploy.log
-    - /bin/echo "PWD=$(pwd)" >> /home/oakfoxco/deploy.log
-    - /usr/bin/which rsync >> /home/oakfoxco/deploy.log 2>&1 || /bin/echo "rsync not in /usr/bin/which path" >> /home/oakfoxco/deploy.log
-    - /bin/ls -la >> /home/oakfoxco/deploy.log 2>&1
-    - /usr/bin/rsync -av --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='dashboard/.htpasswd' ./ /home/oakfoxco/public_html/ >> /home/oakfoxco/deploy.log 2>&1 || /bin/echo "RSYNC FAILED exit=$?" >> /home/oakfoxco/deploy.log
-    - /bin/echo "=== End $(date) ===" >> /home/oakfoxco/deploy.log
+    - /bin/sh /home/oakfoxco/repositories/oakfox/deploy.sh > /home/oakfoxco/deploy.log 2>&1
