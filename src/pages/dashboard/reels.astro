@@ -7,7 +7,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     <header style="margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
       <div>
         <h1 class="db-heading" style="font-size: 28px; margin: 0 0 4px;">Reels</h1>
-        <p class="db-mono db-label" style="font-size: 11px;">Instagram · 1080 × 1920 · Compose, preview, export MP4</p>
+        <p class="db-mono db-label" style="font-size: 11px;">
+          Instagram · 1080 × 1920 · Compose, preview, export MP4
+          <span id="rl-save-status" style="margin-left: 10px; opacity: 0.7;">· Saved</span>
+        </p>
       </div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
         <button class="db-btn db-btn-sm" id="rl-import">Import JSON</button>
@@ -231,6 +234,51 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         }
       };
 
+      // ---------- IndexedDB media store ----------
+      // Stores user-uploaded video/image Blobs keyed by uuid so they survive reload.
+      // Layer / background objects keep an `mediaKey` field; the runtime `src` is
+      // a fresh blob URL recreated from the stored Blob each time the page loads.
+      const IDB_NAME = 'oakfox_reels_media';
+      const IDB_STORE = 'media';
+      let idbPromise = null;
+      function openIDB() {
+        if (idbPromise) return idbPromise;
+        idbPromise = new Promise((res, rej) => {
+          const req = indexedDB.open(IDB_NAME, 1);
+          req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => rej(req.error);
+        });
+        return idbPromise;
+      }
+      async function idbPut(key, blob) {
+        const db = await openIDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          tx.objectStore(IDB_STORE).put(blob, key);
+          tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+        });
+      }
+      async function idbGet(key) {
+        const db = await openIDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(IDB_STORE, 'readonly');
+          const req = tx.objectStore(IDB_STORE).get(key);
+          req.onsuccess = () => res(req.result || null);
+          req.onerror = () => rej(req.error);
+        });
+      }
+      async function idbDelete(key) {
+        if (!key) return;
+        const db = await openIDB();
+        return new Promise((res) => {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          tx.objectStore(IDB_STORE).delete(key);
+          tx.oncomplete = res; tx.onerror = res;
+        });
+      }
+      function newMediaKey() { return 'm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8); }
+
       function loadData() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -238,11 +286,24 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         } catch (e) {}
         return JSON.parse(JSON.stringify(DEFAULTS));
       }
+
+      // Save indicator — debounce updates so saves feel instant but the badge doesn't flicker.
+      let saveTimer = null;
+      function setSaveStatus(text, faded) {
+        const el = document.getElementById('rl-save-status');
+        if (!el) return;
+        el.textContent = '· ' + text;
+        el.style.opacity = faded ? 0.7 : 1;
+      }
       function saveData() {
+        setSaveStatus('Saving…', false);
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stripBlobsForStorage(data))); }
-        catch(e) { console.warn('Storage full', e); }
+        catch(e) { console.warn('Storage full', e); setSaveStatus('Save failed', false); return; }
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => setSaveStatus('Saved', true), 250);
       }
       function stripBlobsForStorage(d) {
+        // Persist mediaKey + name; drop the transient blob: src — it's regenerated on load.
         const copy = JSON.parse(JSON.stringify(d));
         Object.keys(copy).forEach(k => {
           const r = copy[k];
@@ -252,6 +313,24 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
           });
         });
         return copy;
+      }
+
+      // Walk all reels, pull each mediaKey out of IDB and turn it back into a fresh
+      // blob URL. Called once on boot so dropped videos/images survive reload.
+      async function rehydrateMedia() {
+        for (const k of Object.keys(data)) {
+          const r = data[k];
+          if (r.background && r.background.mediaKey && !r.background.src) {
+            const blob = await idbGet(r.background.mediaKey);
+            if (blob) r.background.src = URL.createObjectURL(blob);
+          }
+          for (const L of (r.layers || [])) {
+            if (L.mediaKey && !(typeof L.src === 'string' && L.src.length)) {
+              const blob = await idbGet(L.mediaKey);
+              if (blob) L.src = URL.createObjectURL(blob);
+            }
+          }
+        }
       }
 
       let data = loadData();
@@ -541,22 +620,28 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         });
 
         els.inspector.querySelectorAll('[data-clear-src]').forEach(b => b.addEventListener('click', () => {
-          const lyr = reel().layers.find(x => x.id === b.dataset.clearSrc); if (lyr) { lyr.src = ''; saveData(); rebuildLayers(); renderInspector(); }
+          const lyr = reel().layers.find(x => x.id === b.dataset.clearSrc);
+          if (!lyr) return;
+          if (lyr.mediaKey) { idbDelete(lyr.mediaKey); lyr.mediaKey = null; }
+          lyr.src = '';
+          saveData(); rebuildLayers(); renderInspector();
         }));
       }
 
-      function handleLayerFile(id, file) {
+      async function handleLayerFile(id, file) {
         if (!file) return;
         const lyr = reel().layers.find(x => x.id === id); if (!lyr) return;
-        if (lyr.type === 'video') {
-          const url = URL.createObjectURL(file);
-          lyr.src = url;
-          rebuildLayers(); renderInspector();
-        } else {
-          const r = new FileReader();
-          r.onload = () => { lyr.src = r.result; saveData(); rebuildLayers(); renderInspector(); };
-          r.readAsDataURL(file);
-        }
+        // Videos go to IDB (too big for localStorage). Images also go to IDB so the
+        // saved JSON stays small — re-hydrated to a blob URL on load.
+        if (lyr.mediaKey) idbDelete(lyr.mediaKey);
+        const key = newMediaKey();
+        try { await idbPut(key, file); }
+        catch(e) { alert('Could not persist media — quota exceeded? Falling back to session-only.'); }
+        lyr.mediaKey = key;
+        lyr.src = URL.createObjectURL(file);
+        saveData();
+        rebuildLayers();
+        renderInspector();
       }
 
       function moveLayer(id, dir) {
@@ -567,7 +652,10 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       }
       function removeLayer(id) {
         if (!confirm('Delete this layer?')) return;
-        const r = reel(); r.layers = r.layers.filter(x => x.id !== id);
+        const r = reel();
+        const removed = r.layers.find(x => x.id === id);
+        if (removed && removed.mediaKey) idbDelete(removed.mediaKey);
+        r.layers = r.layers.filter(x => x.id !== id);
         if (selectedId === id) selectedId = null;
         saveData(); rebuildLayers(); renderLayerList(); renderInspector();
       }
@@ -667,12 +755,18 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         ['dragleave','drop'].forEach(ev => els.bgDrop.addEventListener(ev, (e) => { e.preventDefault(); els.bgDrop.classList.remove('drag'); }));
         els.bgDrop.addEventListener('drop', (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleBgFile(f); });
       }
-      function handleBgFile(file) {
+      async function handleBgFile(file) {
         if (!file) return;
         const r = reel(); if (!r) return;
-        const url = URL.createObjectURL(file);
-        r.background.src = url;
+        // Replace any existing background blob in IDB before storing the new one.
+        if (r.background.mediaKey) idbDelete(r.background.mediaKey);
+        const key = newMediaKey();
+        try { await idbPut(key, file); }
+        catch(e) { alert('Could not persist video — quota exceeded? Falling back to session-only.'); }
+        r.background.mediaKey = key;
+        r.background.src = URL.createObjectURL(file);
         r.background.name = file.name;
+        saveData();
         rebuildBackground();
       }
 
@@ -720,13 +814,18 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         const key = 'r-' + Date.now();
         data[key] = JSON.parse(JSON.stringify(data[activeKey]));
         data[key].name = data[activeKey].name + ' (copy)';
-        if (data[key].background && data[key].background.src && data[key].background.src.startsWith('blob:')) data[key].background.src = '';
-        (data[key].layers||[]).forEach(L => { if (L.src && L.src.startsWith('blob:')) L.src = ''; });
+        // Strip media references from the copy — reusing the same IDB key would mean
+        // deleting one reel wipes the other's media. User can re-upload on the copy.
+        if (data[key].background) { data[key].background.src = ''; data[key].background.mediaKey = null; }
+        (data[key].layers||[]).forEach(L => { L.src = ''; L.mediaKey = null; });
         activeKey = key; localStorage.setItem(ACTIVE_KEY, activeKey); saveData(); render();
       });
       document.getElementById('rl-delete').addEventListener('click', () => {
         if (!activeKey) return;
         if (!confirm('Delete "' + data[activeKey].name + '"?')) return;
+        const r = data[activeKey];
+        if (r.background && r.background.mediaKey) idbDelete(r.background.mediaKey);
+        (r.layers || []).forEach(L => { if (L.mediaKey) idbDelete(L.mediaKey); });
         delete data[activeKey];
         activeKey = Object.keys(data)[0] || null;
         if (activeKey) localStorage.setItem(ACTIVE_KEY, activeKey);
@@ -777,11 +876,13 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         const { FFmpeg } = window.FFmpegWASM || window.FFmpeg;
         const inst = new FFmpeg();
         inst.on('log', ({ message }) => console.log('[ffmpeg]', message));
-        const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd';
+        const coreBase = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd';
+        const ffmpegBase = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd';
         const { toBlobURL } = window.FFmpegUtil;
         await inst.load({
-          coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-          wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+          classWorkerURL: await toBlobURL(`${ffmpegBase}/814.ffmpeg.js`, 'text/javascript'),
+          coreURL: await toBlobURL(`${coreBase}/ffmpeg-core.js`, 'text/javascript'),
+          wasmURL: await toBlobURL(`${coreBase}/ffmpeg-core.wasm`, 'application/wasm'),
         });
         ffmpegInstance = inst;
         return inst;
@@ -1028,6 +1129,9 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
       bindBg();
       render();
+      // Restore any dropped videos/images from IndexedDB, then re-render so they appear.
+      rehydrateMedia().then(() => { rebuildBackground(); rebuildLayers(); renderInspector(); })
+        .catch(e => console.warn('Media rehydrate failed', e));
     })();
   </script>
 </DashboardLayout>
