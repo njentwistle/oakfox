@@ -753,10 +753,15 @@ Preview
         const coreBase = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd';
         const ffmpegBase = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd';
         const { toBlobURL } = window.FFmpegUtil;
+        // classWorkerURL must be a same-origin blob: (Worker constructor blocks
+        // cross-origin scripts). coreURL/wasmURL are loaded inside the worker
+        // via fetch+importScripts, where unpkg's CORS headers are sufficient —
+        // wrapping them in blob URLs here breaks the worker's relative-path
+        // resolution and produces "failed to import ffmpeg-core.js".
         await inst.load({
           classWorkerURL: await toBlobURL(`${ffmpegBase}/814.ffmpeg.js`, 'text/javascript'),
-          coreURL: await toBlobURL(`${coreBase}/ffmpeg-core.js`, 'text/javascript'),
-          wasmURL: await toBlobURL(`${coreBase}/ffmpeg-core.wasm`, 'application/wasm'),
+          coreURL: `${coreBase}/ffmpeg-core.js`,
+          wasmURL: `${coreBase}/ffmpeg-core.wasm`,
         });
         ffmpegInstance = inst;
         return inst;
@@ -891,44 +896,57 @@ Preview
 
           const webmBlob = new Blob(chunks, { type: 'video/webm' });
 
-          // Convert to MP4
+          // Try MP4 conversion via ffmpeg.wasm. If anything in the converter
+          // fails (worker load error, OOM, etc.) we still hand the user the
+          // WebM so they don't lose the recording.
+          const downloadBlob = (blob, ext) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `oakfox-reel-${activeKey}-${Date.now()}.${ext}`;
+            document.body.appendChild(a); a.click();
+            setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 1500);
+          };
+
           els.renderStatus.textContent = 'Loading converter…';
           els.renderBar.style.width = '0%';
-          const ff = await loadFFmpeg();
-          const { fetchFile } = window.FFmpegUtil;
-          await ff.writeFile('in.webm', await fetchFile(webmBlob));
+          let mp4Ok = false;
+          try {
+            const ff = await loadFFmpeg();
+            const { fetchFile } = window.FFmpegUtil;
+            await ff.writeFile('in.webm', await fetchFile(webmBlob));
+            ff.on('progress', ({ progress }) => {
+              const p = Math.round((progress || 0) * 100);
+              els.renderBar.style.width = p + '%';
+              els.renderStatus.textContent = `Converting to MP4 ${p}%`;
+            });
+            els.renderStatus.textContent = 'Converting to MP4…';
+            await ff.exec([
+              '-i', 'in.webm',
+              '-c:v', 'libx264',
+              '-preset', 'medium',
+              '-crf', '18',
+              '-pix_fmt', 'yuv420p',
+              '-movflags', '+faststart',
+              '-r', String(FPS),
+              'out.mp4'
+            ]);
+            const mp4 = await ff.readFile('out.mp4');
+            downloadBlob(new Blob([mp4.buffer], { type: 'video/mp4' }), 'mp4');
+            mp4Ok = true;
+          } catch (convErr) {
+            console.warn('MP4 conversion failed, falling back to WebM:', convErr);
+            els.renderStatus.textContent = 'MP4 converter failed — downloading WebM instead.';
+            downloadBlob(webmBlob, 'webm');
+          }
 
-          ff.on('progress', ({ progress }) => {
-            const p = Math.round((progress || 0) * 100);
-            els.renderBar.style.width = p + '%';
-            els.renderStatus.textContent = `Converting to MP4 ${p}%`;
-          });
-
-          els.renderStatus.textContent = 'Converting to MP4…';
-          await ff.exec([
-            '-i', 'in.webm',
-            '-c:v', 'libx264',
-            '-preset', 'medium',
-            '-crf', '18',
-            '-pix_fmt', 'yuv420p',
-            '-movflags', '+faststart',
-            '-r', String(FPS),
-            'out.mp4'
-          ]);
-
-          const mp4 = await ff.readFile('out.mp4');
-          const mp4Blob = new Blob([mp4.buffer], { type: 'video/mp4' });
-          const url = URL.createObjectURL(mp4Blob);
-          const a = document.createElement('a');
-          a.href = url; a.download = `oakfox-reel-${activeKey}-${Date.now()}.mp4`;
-          document.body.appendChild(a); a.click(); setTimeout(()=>{ a.remove(); URL.revokeObjectURL(url); }, 1500);
-
-          els.renderStatus.textContent = 'Done.';
+          els.renderStatus.textContent = mp4Ok ? 'Done.' : 'Saved as WebM. Convert externally for Instagram.';
           els.renderBar.style.width = '100%';
-          setTimeout(() => { els.renderOverlay.style.display = 'none'; }, 800);
+          setTimeout(() => { els.renderOverlay.style.display = 'none'; }, mp4Ok ? 800 : 2400);
         } catch (err) {
-          console.error(err);
-          alert('Render failed: ' + err.message);
+          console.error('Render failed:', err);
+          const detail = (err && err.message) || (err && err.toString && err.toString()) || JSON.stringify(err) || 'unknown';
+          alert('Render failed: ' + detail + '\n\nOpen DevTools → Console for the full error.');
           els.renderOverlay.style.display = 'none';
         }
       }
