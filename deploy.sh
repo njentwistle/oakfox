@@ -28,4 +28,10 @@ if [ -f "$BACKUP" ]; then
   echo "Restored .htpasswd"
 fi
 
+# LiteSpeed/Apache need every file world-readable and every dir world-executable.
+# tar can extract with stricter modes; force 644/755 so .htaccess et al stay readable.
+echo "Resetting permissions to 644/755..."
+find "$DEST" -type f -exec chmod 644 {} \; 2>/dev/null || true
+find "$DEST" -type d -exec chmod 755 {} \; 2>/dev/null || true
+
 echo "=== Deploy done $(date) ==="
