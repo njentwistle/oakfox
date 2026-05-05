@@ -20,17 +20,11 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Write .cpanel.yml into dist
+      - name: Copy .cpanel.yml into dist
         run: |
-          cat > dist/.cpanel.yml << 'YAML'
-          ---
-          deployment:
-            tasks:
-              - export DEPLOYPATH=/home/oakfoxco/public_html/
-              - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.gitignore' --exclude='.cpanel.yml' --exclude='dashboard/.htpasswd' . $DEPLOYPATH
-              - /bin/find $DEPLOYPATH -type f -exec /bin/chmod 644 {} \;
-              - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;
-          YAML
+          cp .cpanel.yml dist/.cpanel.yml
+          echo '--- .cpanel.yml contents (verify column-0) ---'
+          cat -A dist/.cpanel.yml
 
       - name: Push dist to deploy branch (linear history, fast-forwardable)
         run: |
