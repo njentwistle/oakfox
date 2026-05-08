@@ -46,29 +46,34 @@ const homeSchema = {
   schema={homeSchema}
 >
   <!-- ========== HERO ========== -->
-  <section class="relative min-h-screen flex flex-col justify-center overflow-hidden">
+  <section data-scene="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden">
     <div class="hero-glow"></div>
 
     <div class="max-w-[1400px] mx-auto w-full px-6 md:px-10 relative z-10 pt-32 pb-20 md:pt-40 md:pb-28">
-      <p class="label text-forest reveal-instant mb-10 md:mb-14">
+      <p class="label text-forest mb-10 md:mb-14">
         Sustainable design studio · West Lancashire
       </p>
 
       <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
-        <span class="block reveal-instant reveal-instant-d1">We build brands that <em class="text-forest">grow</em></span>
-        <span class="block reveal-instant reveal-instant-d2">without costing the <em class="text-forest">earth</em>.</span>
+        <span class="block">
+          <span class="split-word"><span>We</span></span> <span class="split-word"><span>build</span></span> <span class="split-word"><span>brands</span></span> <span class="split-word"><span>that</span></span> <em class="text-forest"><span class="split-word"><span>grow</span></span></em>
+        </span>
+        <span class="block">
+          <span class="split-word"><span>without</span></span> <span class="split-word"><span>costing</span></span> <span class="split-word"><span>the</span></span> <em class="text-forest"><span class="split-word"><span>earth</span></span></em><span class="split-word"><span>.</span></span>
+        </span>
       </h1>
 
       <div class="mt-12 md:mt-16 grid md:grid-cols-12 gap-8 items-end">
-        <p class="reveal-instant reveal-instant-d3 md:col-span-5 text-[15px] text-ink/60 leading-relaxed">
+        <p data-hero-paragraph class="md:col-span-5 text-[15px] text-ink/60 leading-relaxed">
           Design, development, marketing and environmental consultancy —
           from a small studio with 15+ years of experience across local
           independents and international brands.
         </p>
 
-        <div class="reveal-instant reveal-instant-d4 md:col-span-3 md:col-start-10 flex items-center justify-end">
+        <div class="md:col-span-3 md:col-start-10 flex items-center justify-end">
           <a
             href="/contact"
+            data-magnetic
             class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group"
           >
             Start a project
@@ -91,7 +96,7 @@ const homeSchema = {
   </section>
 
   <!-- ========== SELECTED WORK ========== -->
-  <section class="py-20 md:py-32">
+  <section data-scene="work" class="py-20 md:py-32">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="reveal flex items-baseline justify-between mb-12 md:mb-16">
         <p class="label text-gray">Selected work</p>
@@ -151,7 +156,7 @@ const homeSchema = {
   </section>
 
   <!-- ========== APPROACH ========== -->
-  <section class="py-20 md:py-32 border-t border-stone">
+  <section data-scene="approach" class="py-20 md:py-32 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-12 md:gap-16">
         <div class="reveal md:col-span-5">
@@ -187,21 +192,23 @@ const homeSchema = {
       </div>
 
       <!-- Stats -->
-      <div class="reveal mt-20 md:mt-28 grid grid-cols-3 gap-6 md:gap-12 border-t border-stone pt-10">
-        {[
-          { n: '15+', label: 'Years experience' },
-          { n: '120+', label: 'Projects delivered' },
-          { n: 'Est. 2025', label: 'West Lancashire, UK' },
-        ].map((stat) => (
-          <div>
-            <div class="headline text-2xl md:text-3xl">{stat.n}</div>
-            <div class="label text-gray mt-2">{stat.label}</div>
-          </div>
-        ))}
+      <div data-scene="stats" class="reveal mt-20 md:mt-28 grid grid-cols-3 gap-6 md:gap-12 border-t border-stone pt-10">
+        <div>
+          <div class="headline text-2xl md:text-3xl" data-count-to="15" data-count-suffix="+">15+</div>
+          <div class="label text-gray mt-2">Years experience</div>
+        </div>
+        <div>
+          <div class="headline text-2xl md:text-3xl" data-count-to="120" data-count-suffix="+">120+</div>
+          <div class="label text-gray mt-2">Projects delivered</div>
+        </div>
+        <div>
+          <div class="headline text-2xl md:text-3xl">Est. 2025</div>
+          <div class="label text-gray mt-2">West Lancashire, UK</div>
+        </div>
       </div>
 
       <!-- Locations signpost -->
-      <div class="reveal mt-16 md:mt-20 border-t border-stone pt-10 flex flex-wrap items-baseline gap-x-6 gap-y-3">
+      <div data-locations class="reveal mt-16 md:mt-20 border-t border-stone pt-10 flex flex-wrap items-baseline gap-x-6 gap-y-3">
         <p class="label text-gray">Serving</p>
         <a href="/locations/ormskirk" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Ormskirk</a>
         <a href="/locations/burscough" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Burscough</a>
@@ -216,7 +223,7 @@ const homeSchema = {
 
   <!-- ========== JOURNAL ========== -->
   {blogPosts.length > 0 && (
-    <section class="py-16 md:py-20 border-t border-stone">
+    <section data-scene="journal" class="py-16 md:py-20 border-t border-stone">
       <div class="max-w-[1400px] mx-auto px-6 md:px-10">
         <div class="reveal flex items-center justify-between gap-6">
           <div class="flex items-baseline gap-6 md:gap-10 min-w-0">
@@ -239,10 +246,10 @@ const homeSchema = {
   )}
 
   <!-- ========== CTA ========== -->
-  <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
+  <section data-scene="cta" class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-      <div class="reveal max-w-2xl">
+      <div class="max-w-2xl">
         <p class="label text-gray mb-6">Ready when you are</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
           Let's build something<br/>that <em class="text-forest">lasts</em>.
@@ -250,6 +257,7 @@ const homeSchema = {
         <div class="flex flex-wrap gap-4 mt-10">
           <a
             href="/book"
+            data-magnetic
             class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group"
           >
             Book a free call

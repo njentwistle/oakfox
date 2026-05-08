@@ -137,26 +137,31 @@ const breadcrumbs = {
   </section>
 
   <script>
-    const input = document.getElementById('blog-search') as HTMLInputElement | null;
-    const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-card');
-    const empty = document.getElementById('blog-empty');
+    function initBlogSearch() {
+      const input = document.getElementById('blog-search') as HTMLInputElement | null;
+      if (!input) return;
+      const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-card');
+      const empty = document.getElementById('blog-empty');
 
-    input?.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      let visible = 0;
-      cards.forEach((card) => {
-        const hay = [
-          card.dataset.title ?? '',
-          card.dataset.description ?? '',
-          card.dataset.tags ?? '',
-          card.dataset.category ?? '',
-        ].join(' ');
-        const match = q === '' || hay.includes(q);
-        card.style.display = match ? '' : 'none';
-        if (match) visible += 1;
+      input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        let visible = 0;
+        cards.forEach((card) => {
+          const hay = [
+            card.dataset.title ?? '',
+            card.dataset.description ?? '',
+            card.dataset.tags ?? '',
+            card.dataset.category ?? '',
+          ].join(' ');
+          const match = q === '' || hay.includes(q);
+          card.style.display = match ? '' : 'none';
+          if (match) visible += 1;
+        });
+        if (empty) empty.classList.toggle('hidden', visible > 0);
       });
-      if (empty) empty.classList.toggle('hidden', visible > 0);
-    });
+    }
+
+    document.addEventListener('astro:page-load', initBlogSearch);
   </script>
 
   <section class="py-20 md:py-24 border-t border-stone relative overflow-hidden">

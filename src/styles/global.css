@@ -167,3 +167,67 @@
 .img-wrap:hover img {
   transform: scale(1.04);
 }
+
+/* ---------- Split text (used by GSAP word/letter staggers) ---------- */
+.split-word,
+.split-letter {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+  line-height: inherit;
+  /* preserve trailing spaces between words */
+}
+.split-word > span,
+.split-letter > span {
+  display: inline-block;
+  will-change: transform;
+  transform: translateY(0);
+}
+/* Headlines containing italic <em> children must keep their italic
+   metric — the inner <em> is wrapped, so just propagate font-style. */
+.headline em .split-word > span,
+.headline .split-word em > span {
+  font-style: italic;
+}
+
+/* ---------- Page transition curtain ---------- */
+body.is-loading {
+  cursor: progress;
+}
+[data-route-progress] {
+  /* styled inline by transitions.ts; keeps no flash if JS fails */
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* Disable the more aggressive ambient animations */
+  .hero-glow,
+  .nudge {
+    animation: none !important;
+  }
+  /* Keep visual presence but skip the rise */
+  .reveal,
+  .reveal-instant {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Split-text masks become static, no slide */
+  .split-word,
+  .split-letter {
+    overflow: visible;
+  }
+  .split-word > span,
+  .split-letter > span {
+    transform: none !important;
+  }
+  /* Page transition curtain: simple opacity only */
+  body.is-loading {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+  }
+}

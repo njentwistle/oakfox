@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
@@ -123,7 +124,9 @@ const jsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light only" />
     <meta name="description" content={description} />
+    <ClientRouter />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
@@ -165,50 +168,81 @@ const jsonLd = {
     <Footer />
     {import.meta.env.PROD && <ConsentBanner />}
     <script>
-      // Scroll-aware header
-      const header = document.getElementById('site-header');
-      if (header) {
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-          } else {
-            header.classList.remove('scrolled');
-          }
+      import { bootMotion } from '../scripts/motion.ts';
+      import { bootTransitions } from '../scripts/transitions.ts';
+
+      // ----- Scroll-aware header (window listener stays bound across
+      //       soft-nav since the window itself doesn't change) ----------
+      const onScroll = () => {
+        const header = document.getElementById('site-header');
+        if (!header) return;
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // ----- Per-page bindings: mobile nav + reveal observer.
+      //       Re-runs after each soft navigation because the inline
+      //       <script> only executes once. ----------------------------
+      function bindMobileNav(): void {
+        const toggleEl = document.getElementById('mobile-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const overlayEl = document.getElementById('mobile-overlay');
+        if (!toggleEl || !mobileNav) return;
+        if (toggleEl.dataset.bound === '1') return;
+        toggleEl.dataset.bound = '1';
+        if (overlayEl) overlayEl.dataset.bound = '1';
+
+        const closeMobileNav = () => {
+          mobileNav.classList.add('translate-x-full');
+          overlayEl?.classList.add('hidden');
+          document.body.style.overflow = '';
+        };
+        toggleEl.addEventListener('click', () => {
+          mobileNav.classList.toggle('translate-x-full');
+          overlayEl?.classList.toggle('hidden');
+          document.body.style.overflow = mobileNav.classList.contains('translate-x-full') ? '' : 'hidden';
         });
+        overlayEl?.addEventListener('click', closeMobileNav);
       }
 
-      // Mobile nav toggle
-      const toggle = document.getElementById('mobile-toggle');
-      const mobileNav = document.getElementById('mobile-nav');
-      const overlay = document.getElementById('mobile-overlay');
-
-      function closeMobileNav() {
-        mobileNav?.classList.add('translate-x-full');
-        overlay?.classList.add('hidden');
-        document.body.style.overflow = '';
+      // ----- Fallback reveal observer for non-homepage `.reveal`s ------
+      // GSAP scenes drive `.reveal` on the homepage; this is a no-JS-
+      // friendly fallback for other pages. Harmless when GSAP runs.
+      function bindRevealFallback(): void {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+        );
+        document.querySelectorAll('.reveal:not(.visible)').forEach((el) => obs.observe(el));
       }
 
-      toggle?.addEventListener('click', () => {
-        mobileNav?.classList.toggle('translate-x-full');
-        overlay?.classList.toggle('hidden');
-        document.body.style.overflow = mobileNav?.classList.contains('translate-x-full') ? '' : 'hidden';
-      });
+      function onPageReady(): void {
+        onScroll();
+        bindMobileNav();
+        bindRevealFallback();
+      }
 
-      overlay?.addEventListener('click', closeMobileNav);
+      // Astro fires `astro:page-load` on initial load AND after each
+      // soft navigation. Subscribe once — listeners on `document` survive
+      // body swaps.
+      document.addEventListener('astro:page-load', onPageReady);
 
-      // Scroll-triggered reveals
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-      );
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+      // Also run immediately for the first paint in case the script
+      // executes after `astro:page-load` has already fired.
+      if (document.readyState !== 'loading') onPageReady();
+      else document.addEventListener('DOMContentLoaded', onPageReady, { once: true });
+
+      // ----- GSAP / Lenis / page transitions -----
+      bootMotion();
+      bootTransitions();
     </script>
   </body>
 </html>

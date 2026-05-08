@@ -126,28 +126,29 @@ const breadcrumbs = {
 </BaseLayout>
 
 <script>
-  const filters = document.querySelectorAll('#portfolio-filters button');
-  const items = document.querySelectorAll('#portfolio-grid > a');
+  function initPortfolioFilters() {
+    const filters = document.querySelectorAll<HTMLButtonElement>('#portfolio-filters button');
+    if (!filters.length) return;
+    const items = document.querySelectorAll<HTMLAnchorElement>('#portfolio-grid > a');
 
-  filters.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
 
-      filters.forEach((b) => {
-        b.classList.remove('bg-forest', 'text-cream', 'border-forest');
-        b.classList.add('border-gray-light', 'text-gray');
-      });
-      btn.classList.add('bg-forest', 'text-cream', 'border-forest');
-      btn.classList.remove('border-gray-light', 'text-gray');
+        filters.forEach((b) => {
+          b.classList.remove('bg-forest', 'text-cream', 'border-forest');
+          b.classList.add('border-gray-light', 'text-gray');
+        });
+        btn.classList.add('bg-forest', 'text-cream', 'border-forest');
+        btn.classList.remove('border-gray-light', 'text-gray');
 
-      items.forEach((item) => {
-        const cat = item.getAttribute('data-category');
-        if (filter === 'all' || cat === filter) {
-          (item as HTMLElement).style.display = '';
-        } else {
-          (item as HTMLElement).style.display = 'none';
-        }
+        items.forEach((item) => {
+          const cat = item.getAttribute('data-category');
+          item.style.display = filter === 'all' || cat === filter ? '' : 'none';
+        });
       });
     });
-  });
+  }
+
+  document.addEventListener('astro:page-load', initPortfolioFilters);
 </script>
