@@ -6,7 +6,7 @@ Sign out
 Carousel
 <select class="db-select" id="car-picker"></select> </label> <button class="db-btn db-btn-sm" id="car-new">+ New</button> <button class="db-btn db-btn-sm" id="car-rename">Rename</button> <button class="db-btn db-btn-sm" id="car-duplicate">Duplicate</button> <button class="db-btn db-btn-sm" id="car-delete" style="color: var(--db-fox);">Delete</button> <div style="flex: 1;"></div> <label class="db-label" style="display: flex; align-items: center; gap: 8px;">
 Preview
-<select class="db-select" id="car-scale"> <option value="0.25">25%</option> <option value="0.35" selected>35%</option> <option value="0.45">45%</option> <option value="0.6">60%</option> <option value="0.8">80%</option> </select> </label> </div> <div class="db-card" style="margin-bottom: 20px;"> <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;"> <h2 class="db-heading" style="font-size: 18px;">Slides</h2> <div style="display: flex; gap: 8px; flex-wrap: wrap;"> <select class="db-select" id="car-add-layout"> <option value="cover-cream">+ Cover (cream)</option> <option value="cover-forest">+ Cover (forest)</option> <option value="cover-numbered">+ Cover (numbered)</option> <option value="body-text">+ Body text</option> <option value="body-quote">+ Body quote</option> <option value="body-image">+ Body image</option> <option value="body-stat">+ Body stat</option> <option value="cta">+ CTA</option> </select> <button class="db-btn db-btn-sm" id="car-add-slide">Add slide</button> </div> </div> <div id="car-slides"></div> </div> </div> <input type="file" id="car-import-file" accept="application/json" style="display:none;">  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script> <script>
+<select class="db-select" id="car-scale"> <option value="0.25">25%</option> <option value="0.35" selected>35%</option> <option value="0.45">45%</option> <option value="0.6">60%</option> <option value="0.8">80%</option> </select> </label> </div> <div class="db-card" style="margin-bottom: 20px;"> <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;"> <h2 class="db-heading" style="font-size: 18px;">Slides</h2> <div style="display: flex; gap: 8px; flex-wrap: wrap;"> <select class="db-select" id="car-add-layout"> <option value="cover-cream">+ Cover (cream)</option> <option value="cover-forest">+ Cover (forest)</option> <option value="cover-numbered">+ Cover (numbered)</option> <option value="body-text">+ Body text</option> <option value="body-quote">+ Body quote</option> <option value="body-image">+ Body image</option> <option value="body-phone">+ Phone mockup</option> <option value="body-stat">+ Body stat</option> <option value="cta">+ CTA</option> </select> <button class="db-btn db-btn-sm" id="car-add-slide">Add slide</button> </div> </div> <div id="car-slides"></div> </div> </div> <input type="file" id="car-import-file" accept="application/json" style="display:none;">  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script> <script>
     (function() {
       const STORAGE_KEY = 'oakfox_carousels_v1';
       const ACTIVE_KEY = 'oakfox_carousels_active';
@@ -60,6 +60,7 @@ Preview
         'body-text':      [['step','Step (e.g. 01) — optional','input'],['title','Title (HTML ok)','textarea'],['body','Body','textarea']],
         'body-quote':     [['title','Quote','textarea'],['attribution','Attribution','input']],
         'body-image':     [['eyebrow','Eyebrow','input'],['title','Title (HTML ok)','textarea']],
+        'body-phone':     [['eyebrow','Eyebrow','input'],['title','Title (HTML ok)','textarea']],
         'body-stat':      [['eyebrow','Eyebrow','input'],['stat','Stat','input'],['statLabel','Stat label (HTML ok)','textarea']],
         'cta':            [['eyebrow','Eyebrow','input'],['headline','Headline (HTML ok)','textarea'],['body','Body','textarea'],['cta','CTA button','input']]
       };
@@ -268,6 +269,24 @@ Preview
               ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:14px">${esc(s.eyebrow)}</div>`:''}
               ${s.title?`<h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:46px;line-height:1.06;letter-spacing:-0.01em;color:#1A1D17;margin:0">${s.title}</h2>`:''}
             </div>`;
+        } else if (L === 'body-phone') {
+          bg = '#F5F0E8';
+          const img = s.image || '';
+          const isRaster = img && (img.startsWith('data:') || img.startsWith('http') || img.startsWith('/'));
+          const screenInner = isRaster
+            ? `<img src="${img}" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover;display:block"/>`
+            : `<div style="width:100%;height:100%;background:${img && img.startsWith('linear-gradient') ? img : 'linear-gradient(160deg,#1A5C12 0%,#2a7a1f 45%,#c4b89a 100%)'}"></div>`;
+          inner = chromeHtml(i,total,false,false) + `
+            <div style="position:absolute;top:140px;left:50%;transform:translateX(-50%);width:328px;height:700px;background:#1A1D17;border-radius:54px;padding:11px;box-sizing:border-box;box-shadow:0 30px 70px rgba(26,29,23,0.28),0 0 0 2px rgba(255,255,255,0.04) inset">
+              <div style="position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#0a0a0a">
+                ${screenInner}
+                <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);width:96px;height:28px;background:#000;border-radius:14px;z-index:2"></div>
+              </div>
+            </div>
+            <div style="position:absolute;left:90px;right:90px;bottom:120px;text-align:center">
+              ${s.eyebrow?`<div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#8A8680;margin-bottom:14px">${esc(s.eyebrow)}</div>`:''}
+              ${s.title?`<h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:42px;line-height:1.08;letter-spacing:-0.01em;color:#1A1D17;margin:0">${s.title}</h2>`:''}
+            </div>`;
         } else if (L === 'body-stat') {
           bg = '#1A5C12';
           inner = chromeHtml(i,total,true,false) + `
@@ -306,12 +325,15 @@ Preview
             html += `<label class="car-field"><span>${esc(label)}</span><input type="text" data-idx="${idx}" data-k="${k}" value="${esc(val)}"/></label>`;
           }
         });
-        if (slide.layout === 'body-image') {
+        if (slide.layout === 'body-image' || slide.layout === 'body-phone') {
           const img = slide.image || '';
           const isRaster = img && (img.startsWith('data:') || img.startsWith('http') || img.startsWith('/'));
+          const fallbackGrad = slide.layout === 'body-phone'
+            ? 'linear-gradient(160deg,#1A5C12 0%,#2a7a1f 45%,#c4b89a 100%)'
+            : 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)';
           const thumb = isRaster
             ? `<div class="car-image-thumb" style="background:#ddd;overflow:hidden"><img src="${esc(img)}" style="width:100%;height:100%;object-fit:cover;display:block"/></div>`
-            : `<div class="car-image-thumb" style="background:${img && img.startsWith('linear-gradient') ? img : 'linear-gradient(135deg,#2a4f1f,#6b8b5e 60%,#c4b89a)'}"></div>`;
+            : `<div class="car-image-thumb" style="background:${img && img.startsWith('linear-gradient') ? img : fallbackGrad}"></div>`;
           html += `<div class="car-field"><span>Image</span>
             <div class="car-image-drop" data-drop="${idx}">Click or drop an image here</div>
             <input type="file" accept="image/*" data-file="${idx}" style="display:none;"/>

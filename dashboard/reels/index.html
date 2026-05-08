@@ -735,33 +735,29 @@ Preview
       let ffmpegInstance = null;
       async function loadFFmpeg() {
         if (ffmpegInstance) return ffmpegInstance;
-        if (!window.FFmpeg) {
+        // Self-hosted under /vendor/ffmpeg/ — see the GitHub Actions workflow
+        // step "Download ffmpeg.wasm assets". Same-origin avoids the Worker
+        // and importScripts cross-origin restrictions hit by unpkg.
+        const VENDOR = '/vendor/ffmpeg';
+        if (!window.FFmpegWASM && !window.FFmpeg) {
           await new Promise((res, rej) => {
             const s = document.createElement('script');
-            s.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js';
+            s.src = `${VENDOR}/ffmpeg.js`;
             s.onload = res; s.onerror = rej; document.head.appendChild(s);
           });
           await new Promise((res, rej) => {
             const s = document.createElement('script');
-            s.src = 'https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js';
+            s.src = `${VENDOR}/util.js`;
             s.onload = res; s.onerror = rej; document.head.appendChild(s);
           });
         }
         const { FFmpeg } = window.FFmpegWASM || window.FFmpeg;
         const inst = new FFmpeg();
         inst.on('log', ({ message }) => console.log('[ffmpeg]', message));
-        const coreBase = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd';
-        const ffmpegBase = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd';
-        const { toBlobURL } = window.FFmpegUtil;
-        // classWorkerURL must be a same-origin blob: (Worker constructor blocks
-        // cross-origin scripts). coreURL/wasmURL are loaded inside the worker
-        // via fetch+importScripts, where unpkg's CORS headers are sufficient —
-        // wrapping them in blob URLs here breaks the worker's relative-path
-        // resolution and produces "failed to import ffmpeg-core.js".
         await inst.load({
-          classWorkerURL: await toBlobURL(`${ffmpegBase}/814.ffmpeg.js`, 'text/javascript'),
-          coreURL: `${coreBase}/ffmpeg-core.js`,
-          wasmURL: `${coreBase}/ffmpeg-core.wasm`,
+          classWorkerURL: `${VENDOR}/814.ffmpeg.js`,
+          coreURL: `${VENDOR}/ffmpeg-core.js`,
+          wasmURL: `${VENDOR}/ffmpeg-core.wasm`,
         });
         ffmpegInstance = inst;
         return inst;
