@@ -20,6 +20,22 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Download ffmpeg.wasm assets into dist/vendor/ffmpeg
+        # Self-host these so the dashboard reels renderer can spawn the worker
+        # same-origin (Worker constructor blocks cross-origin scripts and
+        # cross-origin importScripts is unreliable across browser/host combos).
+        run: |
+          mkdir -p dist/vendor/ffmpeg
+          BASE_FFMPEG="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd"
+          BASE_UTIL="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd"
+          BASE_CORE="https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd"
+          curl -fsSL "$BASE_FFMPEG/ffmpeg.js"        -o dist/vendor/ffmpeg/ffmpeg.js
+          curl -fsSL "$BASE_FFMPEG/814.ffmpeg.js"    -o dist/vendor/ffmpeg/814.ffmpeg.js
+          curl -fsSL "$BASE_UTIL/index.js"           -o dist/vendor/ffmpeg/util.js
+          curl -fsSL "$BASE_CORE/ffmpeg-core.js"     -o dist/vendor/ffmpeg/ffmpeg-core.js
+          curl -fsSL "$BASE_CORE/ffmpeg-core.wasm"   -o dist/vendor/ffmpeg/ffmpeg-core.wasm
+          ls -la dist/vendor/ffmpeg
+
       - name: Copy .cpanel.yml and deploy.sh into dist
         run: |
           cp .cpanel.yml dist/.cpanel.yml
