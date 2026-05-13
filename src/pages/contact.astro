@@ -7,6 +7,7 @@ const serviceOptions = [
   'Branding',
   'Design',
   'Development',
+  'Hosting',
   'Marketing',
   'Consultancy',
   'Everything',
@@ -200,12 +201,76 @@ const breadcrumbs = {
   </style>
 
   <script>
+    const serviceSlugToPill: Record<string, string> = {
+      branding: 'Branding',
+      design: 'Design',
+      'web-design': 'Design',
+      development: 'Development',
+      dev: 'Development',
+      hosting: 'Hosting',
+      'green-web-hosting': 'Hosting',
+      'web-hosting': 'Hosting',
+      marketing: 'Marketing',
+      consultancy: 'Consultancy',
+      environmental: 'Consultancy',
+    };
+
+    const hostingPlanCopy: Record<string, { label: string; message: string }> = {
+      'hosting-starter': {
+        label: 'Starter (£12 / month)',
+        message:
+          "Hi — I'd like to move to the Hosting Starter plan.\n\nMy current site: \nCurrently hosted at: \nAny specific dates or constraints for the move: ",
+      },
+      'hosting-growth': {
+        label: 'Growth (£28 / month)',
+        message:
+          "Hi — I'd like to move to the Hosting Growth plan.\n\nMy current site(s): \nCurrently hosted at: \nNumber of sites to migrate: \nAny specific dates or constraints for the move: ",
+      },
+      'hosting-business': {
+        label: 'Business (£58 / month)',
+        message:
+          "Hi — I'd like to discuss the Hosting Business plan.\n\nMy current site(s): \nCurrently hosted at: \nApprox monthly traffic: \nNumber of sites to migrate: \nAny specific dates or constraints for the move: ",
+      },
+    };
+
+    function tickPillByLabel(label: string) {
+      const pills = document.querySelectorAll<HTMLInputElement>('input[name="services[]"]');
+      for (const pill of pills) {
+        if (pill.value.toLowerCase() === label.toLowerCase()) {
+          pill.checked = true;
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function applyQueryParamsToForm() {
+      const params = new URLSearchParams(window.location.search);
+      const message = document.getElementById('message') as HTMLTextAreaElement | null;
+
+      const service = params.get('service');
+      if (service) {
+        const pillLabel = serviceSlugToPill[service.toLowerCase()];
+        if (pillLabel) tickPillByLabel(pillLabel);
+      }
+
+      const plan = params.get('plan');
+      if (plan && hostingPlanCopy[plan]) {
+        tickPillByLabel('Hosting');
+        if (message && !message.value) {
+          message.value = hostingPlanCopy[plan].message;
+        }
+      }
+    }
+
     function initContactForm() {
       const form = document.getElementById('contact-form') as HTMLFormElement | null;
       if (!form) return;
       const status = document.getElementById('form-status');
       const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
       if (!status || !submitBtn) return;
+
+      applyQueryParamsToForm();
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();

@@ -53,7 +53,6 @@ if (item.data.testimonial) {
       name: item.data.testimonial.author,
       ...(item.data.testimonial.role ? { jobTitle: item.data.testimonial.role } : {}),
     },
-    itemReviewed: { '@id': `${projectUrl}#project` },
   };
 }
 
