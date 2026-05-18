@@ -1,0 +1,112 @@
+---
+title: "Why Most Small Businesses Shouldn't Self-Host on Cloudflare Pages (Even Though It's Free)"
+description: "Cloudflare Pages is the cheapest, fastest, greenest static host going. So why do most small businesses get bitten by it? Where the free tier wins, and where managed green hosting earns its keep."
+date: 2026-05-18
+category: "Development"
+author: "OakFox"
+tags: ["green hosting", "small business", "infrastructure", "managed hosting", "cloudflare"]
+draft: false
+faq:
+  - q: "Is Cloudflare Pages really free?"
+    a: "Yes. The free tier covers unlimited static requests, unlimited CDN bandwidth, 500 builds per month and 100 custom domains. A typical small business marketing site won't ever pay Cloudflare a penny. The catch isn't the price. It's the support model, the DNS setup and the build pipeline, all of which assume you're a developer."
+  - q: "What does 'managed green hosting' actually include?"
+    a: "At OakFox it means we own the hosting account, configure DNS, manage SSL renewal, monitor uptime, handle backups, push updates from a git workflow and answer support questions in plain English. The infrastructure underneath is verified renewable (Cloudflare Pages, Krystal or Kualo, depending on the site), but the customer never has to touch it. Plans start at £12 a month."
+  - q: "Why pay for managed hosting if Cloudflare Pages is free?"
+    a: "Because the time cost of a self-hosted site is real, even when the bill is zero. A typical small business loses 6 to 10 hours a year to DNS changes, build failures, dependency updates and content edits that need a developer. At a £40/hour internal time cost, that's £240 to £400 a year. Managed hosting at £144 a year (£12/mo) covers all of it, with a human to call when something breaks."
+  - q: "Can I move from Cloudflare Pages to managed hosting later?"
+    a: "Yes, and it's a trivial migration if the site is already static. We take a copy of the git repository, redeploy it through our managed pipeline, point DNS at the new origin, and you're live within a day. There's no lock-in either direction. Going the other way, from managed back to self-hosted, is just as simple if you want to bring it in-house."
+  - q: "Isn't this just upselling against your own recommendation?"
+    a: "Fair question. We do recommend the Cloudflare Pages free tier for technical owners who want to self-manage. Our [green hosting comparison](/blog/green-web-hosting-uk-compared) lays it out without trying to sell anything. This article is about a different audience: non-technical owners who chose Cloudflare Pages because it was free, then hit the DNS and support friction, then ended up paying for a developer's hour every time they needed to change a phone number. Managed hosting is cheaper than that pattern."
+---
+
+Cloudflare Pages is brilliant. It's the host we use for most of our own static builds. It's verified green, it's on a global CDN, and the free tier is more generous than most paid plans elsewhere. We recommend it in [our green hosting comparison](/blog/green-web-hosting-uk-compared) without much hedging.
+
+For the right user.
+
+The right user is a developer, or at least someone who's comfortable in a terminal, knows what a CNAME record is, and is happy debugging a build pipeline at 9pm on a Sunday.
+
+That's not most small business owners. And when an owner who doesn't fit that profile picks Cloudflare Pages on price alone, it tends to end one of two ways. Either the account gets abandoned because the DNS migration never quite worked. Or the site limps along until something breaks and nobody knows how to fix it. Neither one is the host's fault. Both are predictable.
+
+Here's where the free tier is the right answer, and where it isn't.
+
+## Where Cloudflare Pages Free Tier Wins Outright
+
+Not burying the lead. Cloudflare Pages on the free tier is the right host for:
+
+- A developer or technical founder who's comfortable with git, DNS and CI/CD.
+- A side project or marketing experiment where uptime isn't commercially critical and the owner is happy to debug.
+- A high-traffic static site where the free tier's unlimited bandwidth genuinely matters (most paid hosts charge for egress at scale).
+- An agency-managed build where the agency owns the hosting account and handles every change for the client.
+
+In any of those cases, paying for managed hosting is a tax. The free tier is mature, fast, green and well-documented. We use it ourselves for every static site we host on behalf of a client whose contract includes managed hosting. The underlying infrastructure is Cloudflare. The value we add is the layer on top.
+
+## Where The Free Tier Quietly Fails Small Businesses
+
+The failure modes aren't dramatic. There's no outage. There's no bill shock. The site doesn't get hacked. What happens is small, persistent friction that adds up over a year. We've seen this pattern enough times to map it.
+
+### 1. The DNS Migration Stalls
+
+The owner bought their domain through GoDaddy or 123-Reg in 2018. To deploy on Cloudflare Pages they need to point the nameservers at Cloudflare. Cloudflare's docs are clear. The registrar's interface isn't. Forty minutes in, the owner has changed something but isn't sure what, the old email has stopped working, and nobody is sure if the change has propagated yet. They pay a developer £80 to fix it. From then on they're uneasy about touching DNS at all.
+
+### 2. The First Build Failure
+
+The site deploys fine for six months. Then a dependency updates, the build breaks, and the dashboard shows a stack trace mentioning `Node 18` and `vite`. The owner has no idea what either of those things is. The site is still live (Cloudflare keeps serving the last successful build), but the team's new About copy is stuck in a pull request and nobody can deploy it.
+
+### 3. Content Edits Need a Developer
+
+Small marketing sites built on Astro or Eleventy are fantastic for performance and sustainability. They aren't fantastic for non-technical content edits. Updating a phone number means a git commit. A new team-member photo means resizing an image, optimising it, and pushing it through the pipeline. The owner ends up texting their developer every fortnight for changes that would have taken five minutes in WordPress.
+
+### 4. The Email Tangle
+
+Cloudflare Pages doesn't host email. Most small businesses run email through Google Workspace or Microsoft 365 and need specific MX, SPF, DKIM and DMARC records configured alongside the site. Get one record wrong and either the website or the email breaks. We've done emergency call-outs for "the website is down" that turned out to be email DNS edited months earlier.
+
+### 5. There's Nobody to Call
+
+This is the one that catches people out. Cloudflare's free tier has community support only. No phone number, no live chat, no SLA. For technical users who can read docs and post on a forum, that's fine. For an owner who needs to be told, in plain English, that their site is up and they should refresh the page, it's a dead end.
+
+## The Real Cost of "Free"
+
+Let's put numbers on it. A typical small business marketing site on self-hosted Cloudflare Pages, over twelve months, tends to eat:
+
+- 2 hours of developer time for the initial DNS and email migration (£80 to £160).
+- 3 to 4 hours of developer time across the year for content edits the owner can't do themselves (£120 to £320).
+- 1 to 2 hours of developer time debugging the inevitable build failure or dependency update (£40 to £160).
+- 30 minutes of the owner's own time per support friction event. Six events a year is three hours of owner time at a notional £40/hour (£120).
+
+That's somewhere between **£360 and £760 a year**. On a "free" host.
+
+For comparison, our [managed green hosting](/services/green-web-hosting) is £144 a year on the entry tier. Same Cloudflare-grade green infrastructure underneath. DNS, email DNS, SSL, content edits, build pipeline, monitoring and a human to email when something's wrong are all included.
+
+The free tier is cheaper than managed hosting *only* if your time is worth nothing and you never break anything. If either of those isn't true, you're paying more for "free".
+
+## What Managed Green Hosting Actually Covers
+
+The term "managed hosting" gets used loosely, so it's worth being specific about what's in ours.
+
+At OakFox, [managed green hosting](/services/green-web-hosting) includes:
+
+- Verified renewable infrastructure (Cloudflare Pages, Krystal or Kualo, depending on what the site needs). All three are on [The Green Web Foundation registry](https://www.thegreenwebfoundation.org/green-web-check/).
+- Owned hosting account. We hold it, manage credentials and handle billing internally. The client never sees the dashboard unless they want to.
+- DNS and email DNS, including MX, SPF, DKIM and DMARC for Google Workspace or Microsoft 365.
+- SSL certificate management with automatic renewal. No expiry surprises.
+- Build pipeline maintenance. When Node updates or a dependency breaks, we fix it before it becomes a deploy failure.
+- Content edits. Small text and image changes turned around within 24 hours on the standard plan.
+- Monitoring and uptime alerts. We know if the site's down before the owner does.
+- Backups. Git-based for static sites, daily for WordPress sites, retained for 30 days.
+- Real UK support by email and phone, answered by the person who built the site, not a ticket queue.
+
+This isn't a unique offer. Several UK green hosts wrap a similar service around their infrastructure. We built ours because the off-the-shelf options either skip the green credentials (most managed WordPress hosts), skip the support layer (Cloudflare's own offering), or charge agency-tier prices for what is, at small business scale, a fairly simple service.
+
+## So When Should You Self-Host?
+
+The honest version. If you or someone on your team is technical, self-hosting on Cloudflare Pages free tier is the right call. The infrastructure is excellent, the price is unbeatable and the sustainability credentials are real. You don't need us, and we wouldn't pretend you do.
+
+If your team isn't technical, if your stomach drops a little when someone mentions DNS, then "free" isn't the right axis to be looking at. The right axis is: how much developer time will I burn this year, and how much will it cost when something breaks? On that one, managed wins almost every time.
+
+## A Note On Sustainability
+
+The reason any of this matters beyond the commercial side is that the alternative for non-technical owners is usually a £2.99/month shared host running WordPress on a coal-powered server in a basement. That's the path of least resistance, and it's also the worst possible outcome on every axis. Slow, insecure, high-carbon and (once you count the support hours) not actually cheap.
+
+Managed green hosting sits in the gap between "free but you handle it" and "cheap but it's grey and slow". For most small UK businesses, that gap is where the right answer lives.
+
+If you're weighing up where to host your next site, our [green hosting comparison](/blog/green-web-hosting-uk-compared) lays out the providers without any sales pressure. If you'd rather skip the comparison and have us handle the lot, send us a few lines via [the contact form](/contact). We reply within 24 hours, and the first month of managed hosting is on us if you're migrating off a non-green host.
