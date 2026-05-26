@@ -117,6 +117,23 @@ if (!$clientSent) {
     error_log('[booking] client confirmation failed for ' . $booking['email'] . ' (id ' . $id . ')');
 }
 
+// Ad attribution
+$utmSource   = htmlspecialchars(trim($_POST['utm_source'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmMedium   = htmlspecialchars(trim($_POST['utm_medium'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmCampaign = htmlspecialchars(trim($_POST['utm_campaign'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmTerm     = htmlspecialchars(trim($_POST['utm_term'] ?? ''), ENT_QUOTES, 'UTF-8');
+$gclid       = htmlspecialchars(trim($_POST['gclid'] ?? ''), ENT_QUOTES, 'UTF-8');
+
+$sourceInfo = '';
+if ($utmSource || $gclid) {
+    $sourceInfo = "\n--- Ad Attribution ---\n";
+    if ($gclid)       $sourceInfo .= "Google Ads Click: Yes\n";
+    if ($utmSource)   $sourceInfo .= "Source: {$utmSource}\n";
+    if ($utmMedium)   $sourceInfo .= "Medium: {$utmMedium}\n";
+    if ($utmCampaign) $sourceInfo .= "Campaign: {$utmCampaign}\n";
+    if ($utmTerm)     $sourceInfo .= "Keyword: {$utmTerm}\n";
+}
+
 // Email Nathan
 $adminSubject = 'New booking — ' . $startDt->format('j M, H:i') . ' · ' . $booking['name'];
 $adminBody = <<<EOT
@@ -131,6 +148,7 @@ Notes:
 {$booking['notes']}
 
 Booking ID: {$id}
+{$sourceInfo}
 EOT;
 
 $adminSent = mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers, '-f' . $envelopeSender);

@@ -380,6 +380,11 @@ const serviceSchema = {
 
       const fd = new FormData(form);
       fd.set('start', selectedSlot.start);
+      var adKeys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+      for (var i = 0; i < adKeys.length; i++) {
+        var val = sessionStorage.getItem('oakfox_' + adKeys[i]);
+        if (val) fd.set(adKeys[i], val);
+      }
 
       try {
         const res = await fetch('/api/booking.php', { method: 'POST', body: fd });
@@ -390,6 +395,11 @@ const serviceSchema = {
           stepDay.classList.add('hidden');
           stepDone.classList.remove('hidden');
           doneDetails.textContent = data.booking.label + ' — 30 minutes.';
+          if (window.gtag && window.__awConversionIds && window.__awConversionIds.booking) {
+            window.gtag('event', 'conversion', {
+              send_to: window.__awConversionIds.booking,
+            });
+          }
         } else {
           statusEl.textContent = data.error || 'Something went wrong. Please try again.';
           statusEl.setAttribute('data-state', 'error');

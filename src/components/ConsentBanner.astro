@@ -1,5 +1,8 @@
 ---
 const GA_ID = 'G-3EWKKEHGJ8';
+const AW_ID = 'AW-XXXXXXXXX'; // Replace with your Google Ads account ID
+const AW_CONTACT_CONVERSION = 'AW-XXXXXXXXX/XXXXXXXX'; // Replace: contact form conversion
+const AW_BOOKING_CONVERSION = 'AW-XXXXXXXXX/XXXXXXXX'; // Replace: booking conversion
 ---
 
 <div
@@ -33,7 +36,7 @@ const GA_ID = 'G-3EWKKEHGJ8';
   </div>
 </div>
 
-<script is:inline define:vars={{ GA_ID }}>
+<script is:inline define:vars={{ GA_ID, AW_ID, AW_CONTACT_CONVERSION, AW_BOOKING_CONVERSION }}>
   (function () {
     const KEY = 'oakfox-consent';
     const banner = document.getElementById('consent-banner');
@@ -51,7 +54,13 @@ const GA_ID = 'G-3EWKKEHGJ8';
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
       window.gtag('config', GA_ID, { anonymize_ip: true });
+      window.gtag('config', AW_ID);
     }
+
+    window.__awConversionIds = {
+      contact: AW_CONTACT_CONVERSION,
+      booking: AW_BOOKING_CONVERSION,
+    };
 
     function hide() {
       banner.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');

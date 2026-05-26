@@ -171,6 +171,16 @@ const jsonLd = {
       import { bootMotion } from '../scripts/motion.ts';
       import { bootTransitions } from '../scripts/transitions.ts';
 
+      // ----- Google Ads: capture gclid + UTM params on landing ------
+      (function captureAdParams() {
+        const params = new URLSearchParams(window.location.search);
+        const keys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+        for (const key of keys) {
+          const val = params.get(key);
+          if (val) sessionStorage.setItem('oakfox_' + key, val);
+        }
+      })();
+
       // ----- Scroll-aware header (window listener stays bound across
       //       soft-nav since the window itself doesn't change) ----------
       const onScroll = () => {

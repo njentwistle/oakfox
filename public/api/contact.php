@@ -31,7 +31,7 @@ $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 if (is_array($services)) {
-    $allowed = ['Branding', 'Design', 'Development', 'Marketing', 'Consultancy', 'Everything', 'Not Sure!'];
+    $allowed = ['Branding', 'Design', 'Development', 'Hosting', 'Marketing', 'Consultancy', 'Everything', 'Not Sure!'];
     $services = array_filter($services, fn($s) => in_array($s, $allowed));
     $serviceList = implode(', ', $services);
 } else {
@@ -41,6 +41,22 @@ if (is_array($services)) {
 $to = 'nathan@oakfox.co.uk';
 $subject = "New enquiry from {$name}";
 $date = date('j M Y, g:ia');
+
+$utmSource   = htmlspecialchars(trim($_POST['utm_source'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmMedium   = htmlspecialchars(trim($_POST['utm_medium'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmCampaign = htmlspecialchars(trim($_POST['utm_campaign'] ?? ''), ENT_QUOTES, 'UTF-8');
+$utmTerm     = htmlspecialchars(trim($_POST['utm_term'] ?? ''), ENT_QUOTES, 'UTF-8');
+$gclid       = htmlspecialchars(trim($_POST['gclid'] ?? ''), ENT_QUOTES, 'UTF-8');
+
+$sourceInfo = '';
+if ($utmSource || $gclid) {
+    $sourceInfo = "\n--- Ad Attribution ---\n";
+    if ($gclid)       $sourceInfo .= "Google Ads Click: Yes\n";
+    if ($utmSource)   $sourceInfo .= "Source: {$utmSource}\n";
+    if ($utmMedium)   $sourceInfo .= "Medium: {$utmMedium}\n";
+    if ($utmCampaign) $sourceInfo .= "Campaign: {$utmCampaign}\n";
+    if ($utmTerm)     $sourceInfo .= "Keyword: {$utmTerm}\n";
+}
 
 // ── Email to Nathan ──
 $nathanBody = <<<EOT
@@ -53,6 +69,7 @@ Date: {$date}
 
 Message:
 {$message}
+{$sourceInfo}
 EOT;
 
 // Envelope sender must be a real cPanel mailbox so SPF passes at Gmail/Outlook.

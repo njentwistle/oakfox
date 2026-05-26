@@ -277,6 +277,11 @@ const breadcrumbs = {
         submitBtn.textContent = 'Sending...';
 
         const formData = new FormData(form);
+        const adKeys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+        for (const key of adKeys) {
+          const val = sessionStorage.getItem('oakfox_' + key);
+          if (val) formData.set(key, val);
+        }
 
         try {
           const res = await fetch('/api/contact.php', {
@@ -289,6 +294,11 @@ const breadcrumbs = {
           if (res.ok && data.success) {
             status.style.color = '#1A5C12';
             status.textContent = "Message sent! We'll be in touch soon.";
+            if (window.gtag && window.__awConversionIds?.contact) {
+              window.gtag('event', 'conversion', {
+                send_to: window.__awConversionIds.contact,
+              });
+            }
             form.reset();
           } else {
             status.style.color = '#b44d4d';
