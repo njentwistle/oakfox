@@ -29,6 +29,9 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    // optional refresh date — drives schema dateModified without resetting the
+    // original publish date (date). Set when materially updating an old post.
+    updated: z.coerce.date().optional(),
     category: z.string(),
     author: z.string().default('OakFox'),
     tags: z.array(z.string()).default([]),
