@@ -15,7 +15,11 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
+
+# google service account key (used by scripts/gsc.mjs)
+gsc-service-account*.json
 
 # auth
 .htpasswd

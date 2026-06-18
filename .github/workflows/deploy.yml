@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history so the IndexNow step can diff the pushed commit range
+          # (github.event.before..sha) to find which pages actually changed.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -76,6 +80,13 @@ jobs:
 
           git commit -q -m "Deploy ${{ github.sha }}"
           git push origin deploy
+
+      - name: Ping IndexNow for changed pages
+        # Submits only the pages whose source changed in this push (intersected
+        # with the live sitemap, so drafts/future posts are excluded). Static
+        # site = a deploy IS the publish event. Fire-and-forget: the script
+        # never throws, so a failed ping can't fail the deploy.
+        run: node scripts/indexnow.mjs --changed ${{ github.event.before }} ${{ github.sha }}
 
       # Optional: auto-trigger cPanel deploy via UAPI.
       # Uncomment and add CPANEL_TOKEN secret + cPanel host URL to enable.
