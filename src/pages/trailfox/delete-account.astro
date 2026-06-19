@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/trailfox/delete-account';
+
+const webPage = {
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: 'Delete your TrailFox account',
+  description:
+    'How to delete your TrailFox account and the data associated with it. TrailFox is published by OakFox.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  about: { '@id': 'https://oakfox.co.uk/#organization' },
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'TrailFox', item: 'https://oakfox.co.uk/trailfox' },
+    { '@type': 'ListItem', position: 3, name: 'Delete account', item: pageUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title="Delete your TrailFox account"
+  description="How to delete your TrailFox account and the data associated with it — from within the app or by email. Published by OakFox."
+  schema={[webPage, breadcrumbs]}
+>
+  <article class="pt-32 pb-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <span class="text-xs font-medium text-forest uppercase tracking-widest block mb-3">
+        TrailFox
+      </span>
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+        Delete your account
+      </h1>
+
+      <div class="prose prose-lg max-w-none mt-12
+        prose-headings:font-bold prose-headings:tracking-tight
+        prose-a:text-forest prose-a:underline-offset-4">
+
+        <p>
+          This page explains how to delete your TrailFox account and the data
+          associated with it. TrailFox is published by OakFox.
+        </p>
+
+        <h2>Delete from within the app</h2>
+        <p>The quickest way is directly in the app:</p>
+        <ol>
+          <li>Open TrailFox and go to the <strong>Family</strong> (Settings) screen.</li>
+          <li>On your account card, tap <strong>Delete account</strong>.</li>
+          <li>Enter your password to confirm.</li>
+        </ol>
+        <p>Your account is then permanently deleted.</p>
+
+        <h2>Request deletion by email</h2>
+        <p>
+          If you can no longer access the app, email us at
+          <a href="mailto:nathan@oakfox.co.uk"><strong>nathan@oakfox.co.uk</strong></a>
+          from the address linked to your account and ask us to delete it. We will
+          action the request and confirm by reply.
+        </p>
+
+        <h2>What is deleted</h2>
+        <p>Deleting your account permanently removes:</p>
+        <ul>
+          <li>Your account and sign-in details (email address).</li>
+          <li>Your child profiles and any profile photos.</li>
+          <li>Your nature journal entries and any journal photos.</li>
+          <li>Your saved preferences and profile information.</li>
+        </ul>
+        <p>
+          This action cannot be undone. Records of in-app purchases held by Apple
+          or Google for legal and accounting purposes are retained by those
+          providers under their own policies.
+        </p>
+
+        <div class="not-prose mt-10 rounded-xl bg-forest/5 border border-forest/10 px-5 py-4 text-[15px] text-ink/80">
+          Questions about your data? See our
+          <a href="/trailfox/privacy" class="text-forest underline underline-offset-4">Privacy Policy</a>
+          or contact <a href="mailto:nathan@oakfox.co.uk" class="text-forest underline underline-offset-4"><strong>nathan@oakfox.co.uk</strong></a>.
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
