@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageUrl = 'https://oakfox.co.uk/trailfox/privacy';
+const lastUpdated = '2026-06-19';
+const lastUpdatedLabel = '19 June 2026';
+
+const privacyPage = {
+  '@type': 'PrivacyPolicy',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: 'TrailFox Privacy Policy',
+  description:
+    'Privacy policy for TrailFox, an outdoor nature activity app for parents and carers, published by OakFox.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  about: { '@id': 'https://oakfox.co.uk/#organization' },
+  dateModified: lastUpdated,
+};
+
+const breadcrumbs = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oakfox.co.uk/' },
+    { '@type': 'ListItem', position: 2, name: 'TrailFox', item: 'https://oakfox.co.uk/trailfox' },
+    { '@type': 'ListItem', position: 3, name: 'Privacy Policy', item: pageUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title="TrailFox Privacy Policy"
+  description="Privacy policy for TrailFox — the outdoor nature activity app for parents and carers, published by OakFox."
+  schema={[privacyPage, breadcrumbs]}
+>
+  <article class="pt-32 pb-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <span class="text-xs font-medium text-forest uppercase tracking-widest block mb-3">
+        TrailFox
+      </span>
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+        Privacy Policy
+      </h1>
+      <p class="text-sm text-gray mt-4">
+        Last updated: <time datetime={lastUpdated}>{lastUpdatedLabel}</time>
+      </p>
+
+      <div class="prose prose-lg max-w-none mt-12
+        prose-headings:font-bold prose-headings:tracking-tight
+        prose-a:text-forest prose-a:underline-offset-4">
+
+        <p>
+          TrailFox (“the app”) is published by OakFox (“we”, “us”). This policy
+          explains what information the app collects, how we use it, and the
+          choices you have. TrailFox is designed to be used by parents and carers
+          to plan and enjoy outdoor nature activities with their children.
+        </p>
+
+        <h2>Information we collect</h2>
+        <ul>
+          <li>
+            <strong>Account information.</strong> When you create an account we
+            collect your email address and an authentication identifier. Sign-in
+            is handled by Google Firebase Authentication.
+          </li>
+          <li>
+            <strong>Content you add.</strong> If you add photos (for example to a
+            child profile or journal), those images are stored in Google Firebase
+            Storage and associated with your account.
+          </li>
+          <li>
+            <strong>Activity data you create.</strong> Information you enter in the
+            app, such as child profiles and saved or journaled activities, is
+            stored against your account so it is available across your devices.
+          </li>
+          <li>
+            <strong>Purchase information.</strong> When you buy an activity pack,
+            the purchase is processed by Apple or Google and managed through
+            RevenueCat. We receive a record that the purchase occurred (which pack,
+            and your purchase status) so we can unlock content. We never receive
+            your full card details.
+          </li>
+          <li>
+            <strong>Device identifiers.</strong> RevenueCat and the app store
+            assign identifiers used to link a purchase to your account and to
+            restore purchases.
+          </li>
+        </ul>
+
+        <h2>What we do NOT do</h2>
+        <ul>
+          <li>We do not show third-party advertising.</li>
+          <li>We do not use third-party analytics or advertising trackers.</li>
+          <li>We do not sell your personal information.</li>
+        </ul>
+
+        <h2>How we use your information</h2>
+        <ul>
+          <li>To create and secure your account.</li>
+          <li>To save your content and sync it across your devices.</li>
+          <li>To process purchases and restore previously purchased packs.</li>
+          <li>To respond to support requests.</li>
+        </ul>
+
+        <h2>Service providers</h2>
+        <p>We share information only with the providers needed to run the app:</p>
+        <ul>
+          <li>
+            <strong>Google Firebase</strong> (Authentication, Cloud Firestore,
+            Storage) — account, content and activity data.
+          </li>
+          <li><strong>RevenueCat</strong> — purchase management.</li>
+          <li><strong>Apple App Store / Google Play</strong> — payment processing.</li>
+        </ul>
+        <p>Each provider processes data under its own privacy and security terms.</p>
+
+        <h2>Children’s privacy</h2>
+        <p>
+          TrailFox is intended to be set up and operated by an adult (a parent or
+          carer). Accounts are created by adults. We do not knowingly collect
+          personal information directly from children. If you believe a child has
+          provided us with personal information, please contact us and we will
+          delete it.
+        </p>
+
+        <h2>Data retention and deletion</h2>
+        <p>
+          We keep your information for as long as your account is active. You can
+          delete your account at any time from within the app (Settings → Delete
+          account), which removes your account and associated content from our
+          systems. You can also email us to request deletion.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          Depending on where you live, you may have rights to access, correct, or
+          delete your personal information. To exercise these rights, contact us
+          using the details below.
+        </p>
+
+        <h2>Contact us</h2>
+        <p>
+          If you have any questions about this policy, contact us at:<br />
+          <a href="mailto:nathan@oakfox.co.uk"><strong>nathan@oakfox.co.uk</strong></a>
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
