@@ -1,0 +1,180 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+// Build-time snapshot. The dashboard is static, so this list reflects the blog
+// as of the last deploy — which is exactly when the queue state can change.
+const now = Date.now();
+
+function statusOf(data: { draft: boolean; date: Date }): 'queued' | 'live' | 'draft' {
+  if (data.draft) return 'draft';
+  return data.date.valueOf() > now ? 'queued' : 'live';
+}
+
+const entries = await Promise.all(
+  (await getCollection('blog')).map(async (post) => ({
+    post,
+    status: statusOf(post.data),
+    Content: (await render(post)).Content,
+  }))
+);
+
+const byDateDesc = (a: typeof entries[number], b: typeof entries[number]) =>
+  b.post.data.date.valueOf() - a.post.data.date.valueOf();
+const byDateAsc = (a: typeof entries[number], b: typeof entries[number]) =>
+  a.post.data.date.valueOf() - b.post.data.date.valueOf();
+
+const groups = [
+  {
+    key: 'queued',
+    label: 'Queued',
+    badge: 'db-badge-in-progress',
+    blurb: 'Written, scheduled — goes live on its date at the next deploy.',
+    items: entries.filter((e) => e.status === 'queued').sort(byDateAsc),
+  },
+  {
+    key: 'live',
+    label: 'Live',
+    badge: 'db-badge-done',
+    blurb: 'Published and visible on the public site.',
+    items: entries.filter((e) => e.status === 'live').sort(byDateDesc),
+  },
+  {
+    key: 'draft',
+    label: 'Drafts',
+    badge: 'db-badge-not-started',
+    blurb: 'Marked draft:true — hidden everywhere until you flip the flag.',
+    items: entries.filter((e) => e.status === 'draft').sort(byDateDesc),
+  },
+];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const daysUntil = (d: Date) => Math.ceil((d.valueOf() - now) / 86_400_000);
+const builtAt = new Date(now);
+---
+
+<DashboardLayout title="Posts">
+  <div class="db-fade-in">
+    <header style="margin-bottom: 28px;">
+      <h1 class="db-heading" style="font-size: 32px;">Blog posts</h1>
+      <p style="color: var(--db-text-muted); font-size: 13px; margin-top: 8px; max-width: 60ch;">
+        Read-only view of every post and where it sits in the queue. To edit, delete, or
+        reschedule, change the matching <code class="db-mono">.mdx</code> file in
+        <code class="db-mono">src/content/blog/</code>, then commit, push, and deploy in cPanel.
+      </p>
+      <p style="color: var(--db-text-muted); font-size: 12px; margin-top: 6px;">
+        Snapshot as of last deploy &middot; {fmt(builtAt)}
+      </p>
+    </header>
+
+    {groups.map((group) => (
+      <section style="margin-bottom: 36px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;">
+          <h2 class="db-heading" style="font-size: 18px;">{group.label}</h2>
+          <span class={`db-badge ${group.badge}`}>{group.items.length}</span>
+        </div>
+        <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 14px;">{group.blurb}</p>
+
+        {group.items.length === 0 ? (
+          <p style="color: var(--db-text-muted); font-size: 13px; font-style: italic;">None.</p>
+        ) : (
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            {group.items.map((entry) => {
+              const Content = entry.Content;
+              const { post } = entry;
+              const live = entry.status === 'live';
+              const queued = entry.status === 'queued';
+              return (
+                <details class="db-card post-row">
+                  <summary class="post-summary">
+                    <span class="post-meta">
+                      <span class="post-title">{post.data.title}</span>
+                      <span class="post-slug db-mono">/blog/{post.id}</span>
+                    </span>
+                    <span class="post-side">
+                      {queued && (
+                        <span class="post-count">
+                          in {daysUntil(post.data.date)} day{daysUntil(post.data.date) === 1 ? '' : 's'}
+                        </span>
+                      )}
+                      <time class="post-date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                      <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </span>
+                  </summary>
+
+                  <div class="post-body">
+                    <div class="post-facts">
+                      <span class="db-mono"><span class="post-facts-k">Category</span> {post.data.category}</span>
+                      <span class="db-mono"><span class="post-facts-k">Author</span> {post.data.author}</span>
+                      {post.data.tags.length > 0 && (
+                        <span class="db-mono"><span class="post-facts-k">Tags</span> {post.data.tags.join(', ')}</span>
+                      )}
+                      {post.data.faq && (
+                        <span class="db-mono"><span class="post-facts-k">FAQ</span> {post.data.faq.length}</span>
+                      )}
+                      <span class="db-mono post-facts-file"><span class="post-facts-k">File</span> src/content/blog/{post.id}.mdx</span>
+                    </div>
+
+                    <p class="post-desc">{post.data.description}</p>
+
+                    {live && (
+                      <a class="db-btn db-btn-sm" href={`/blog/${post.id}`} target="_blank" rel="noopener">
+                        Open live post &rarr;
+                      </a>
+                    )}
+
+                    <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4">
+                      <Content />
+                    </article>
+                  </div>
+                </details>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    ))}
+  </div>
+
+  <style>
+    .post-row { padding: 0; overflow: hidden; }
+    .post-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+    }
+    .post-summary::-webkit-details-marker { display: none; }
+    .post-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .post-title { font-weight: 600; font-size: 14px; color: var(--db-text); }
+    .post-slug { font-size: 11px; color: var(--db-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .post-side { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .post-count {
+      font-size: 11px; font-weight: 600; color: var(--db-accent-hover);
+      background: var(--db-accent-soft); padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    .post-date { font-size: 12px; color: var(--db-text-secondary); white-space: nowrap; }
+    .post-chevron { width: 14px; height: 14px; color: var(--db-text-muted); transition: transform 0.2s; }
+    details[open] .post-chevron { transform: rotate(90deg); }
+    .post-body { padding: 4px 20px 22px; border-top: 1px solid var(--db-border); }
+    .post-facts {
+      display: flex; flex-wrap: wrap; gap: 6px 18px;
+      font-size: 11px; color: var(--db-text-secondary);
+      padding: 14px 0 4px;
+    }
+    .post-facts-k { color: var(--db-text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
+    .post-facts-file { width: 100%; color: var(--db-text-muted); }
+    .post-desc { font-size: 13px; color: var(--db-text-secondary); margin: 12px 0 16px; line-height: 1.6; }
+    .post-content { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--db-border-subtle); font-size: 15px; }
+    .db-btn-sm { margin-bottom: 4px; }
+    @media (max-width: 600px) {
+      .post-date { display: none; }
+    }
+  </style>
+</DashboardLayout>
