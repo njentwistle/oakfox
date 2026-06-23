@@ -1,0 +1,678 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Build-time seed of the real blog so the Blog channel is always accurate.
+// Derived (never stored) — the calendar's localStorage only holds manual/AI
+// items; blog items are re-merged from this seed on load.
+const now = Date.now();
+const blogSeed = (await getCollection('blog'))
+  .map((p) => ({
+    slug: p.id,
+    title: p.data.title,
+    date: p.data.date.toISOString().slice(0, 10),
+    status: p.data.draft ? 'draft' : p.data.date.valueOf() > now ? 'scheduled' : 'posted',
+  }))
+  .sort((a, b) => (a.date < b.date ? 1 : -1));
+---
+
+<DashboardLayout title="Content">
+  <div class="db-fade-in" id="content-app">
+    <header style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+      <h1 class="db-heading" style="font-size:32px;">Content calendar</h1>
+      <div style="display:flex; gap:8px;">
+        <button class="db-btn" id="backup-btn" title="Download a JSON backup of everything">Backup</button>
+        <button class="db-btn db-btn-primary" id="add-post-btn">+ Add post</button>
+      </div>
+    </header>
+    <p style="color:var(--db-text-muted); font-size:13px; margin-bottom:28px; max-width:72ch;">
+      Plan Instagram, both LinkedIn pages and the OakFox blog in one place. Imported ideas can
+      auto-build captions, carousels and reel shells. Saved in this browser only; the Blog channel
+      mirrors your real posts.
+    </p>
+
+    <!-- ── AI bridge ───────────────────────────────────────────── -->
+    <section class="db-card" style="margin-bottom:24px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+          <h2 class="db-heading" style="font-size:16px;">Generate content (free)</h2>
+          <p style="color:var(--db-text-muted); font-size:12px; margin-top:4px; max-width:64ch;">
+            Copy the prompt, paste it into free <strong>Claude.ai</strong> or <strong>ChatGPT</strong>, then
+            paste the JSON reply back. Import builds the cards <em>and</em> the captions, Instagram
+            carousels and reel script shells — ready in your Carousels / Reels tools.
+          </p>
+        </div>
+        <button class="db-btn db-btn-primary" id="copy-prompt-btn" style="white-space:nowrap;">Copy prompt</button>
+      </div>
+      <div style="margin-top:14px;">
+        <textarea class="db-textarea" id="ai-paste" rows="3" placeholder="Paste the AI's JSON reply here, then click Import…"></textarea>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+          <button class="db-btn db-btn-sm" id="import-ai-btn">Import content</button>
+          <span id="ai-msg" style="font-size:12px; color:var(--db-text-muted);"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Recently in the business ─────────────────────────────── -->
+    <section class="db-card" style="margin-bottom:24px;">
+      <h2 class="db-heading" style="font-size:16px;">Recently in the business</h2>
+      <p style="color:var(--db-text-muted); font-size:12px; margin-top:4px; margin-bottom:12px;">
+        Wins, launches, client work, milestones — this feeds the generator so posts stay current.
+      </p>
+      <div style="display:flex; gap:8px;">
+        <input type="text" class="db-input" id="biz-input" placeholder="e.g. Won the Aigéan rebrand · shipped the green-hosting page" style="flex:1;" />
+        <button class="db-btn db-btn-primary" id="biz-add-btn">Log</button>
+      </div>
+      <div id="biz-list" style="margin-top:14px; display:flex; flex-direction:column; gap:6px;"></div>
+    </section>
+
+    <!-- ── Calendar ─────────────────────────────────────────────── -->
+    <div id="cal-filters" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+      <button class="cal-chip active" data-channel="all">All</button>
+      <button class="cal-chip" data-channel="instagram">Instagram</button>
+      <button class="cal-chip" data-channel="linkedin-biz">LinkedIn · OakFox</button>
+      <button class="cal-chip" data-channel="linkedin-personal">LinkedIn · You</button>
+      <button class="cal-chip" data-channel="blog">Blog</button>
+    </div>
+
+    <div id="cal-list"></div>
+
+    <div id="archive-section" style="margin-top:28px; display:none;">
+      <button id="archive-toggle" style="display:flex; align-items:center; gap:8px; background:none; border:none; color:var(--db-text-muted); cursor:pointer; font-size:13px; font-weight:600; padding:8px 0;">
+        <svg id="archive-chevron" style="width:14px; height:14px; transition:transform .2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span id="archive-label">Posted &amp; past</span>
+      </button>
+      <div id="cal-archive" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ── Post modal ───────────────────────────────────────────── -->
+  <div id="post-modal" style="display:none;">
+    <div class="db-modal-overlay">
+      <div class="db-modal" style="max-height:88vh; overflow-y:auto;">
+        <h3 id="modal-heading">Add post</h3>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+              <label class="db-label">Date</label>
+              <input type="date" class="db-input" id="f-date" />
+            </div>
+            <div style="flex:1;">
+              <label class="db-label">Channel</label>
+              <select class="db-select" id="f-channel">
+                <option value="instagram">Instagram</option>
+                <option value="linkedin-biz">LinkedIn · OakFox</option>
+                <option value="linkedin-personal">LinkedIn · You</option>
+                <option value="blog">Blog</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+              <label class="db-label">Format</label>
+              <select class="db-select" id="f-format">
+                <option value="single">Single image / text</option>
+                <option value="carousel">Carousel</option>
+                <option value="reel">Reel</option>
+                <option value="story">Story</option>
+                <option value="article">Article (blog)</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label class="db-label">Status</label>
+              <select class="db-select" id="f-status">
+                <option value="idea">Idea</option>
+                <option value="draft">Draft</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="posted">Posted</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="db-label">Pillar</label>
+            <select class="db-select" id="f-pillar"></select>
+          </div>
+          <div>
+            <label class="db-label">Hook / title</label>
+            <input type="text" class="db-input" id="f-title" placeholder="The headline or hook…" />
+          </div>
+          <div>
+            <label class="db-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Caption / copy</span>
+              <button type="button" class="db-btn db-btn-sm" id="f-copy-caption" style="padding:2px 8px;">Copy</button>
+            </label>
+            <textarea class="db-textarea" id="f-caption" rows="4" placeholder="Full post copy + hashtags…"></textarea>
+          </div>
+          <div>
+            <label class="db-label">Notes / angle</label>
+            <textarea class="db-textarea" id="f-notes" rows="2" placeholder="The angle, CTA, assets needed…"></textarea>
+          </div>
+          <div>
+            <label class="db-label">Link (optional)</label>
+            <input type="text" class="db-input" id="f-link" placeholder="https://…" />
+          </div>
+
+          <!-- Asset handoffs (carousel / reel / mdx) -->
+          <div id="f-assets" style="display:none; flex-direction:column; gap:8px; padding:12px; border:1px solid var(--db-border); border-radius:var(--db-radius-lg); background:var(--db-surface);">
+            <span class="db-label" style="margin:0;">Assets</span>
+            <div id="f-assets-body" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;"></div>
+          </div>
+
+          <div style="display:flex; gap:8px; justify-content:space-between; align-items:center;">
+            <button class="db-btn" id="f-delete" style="color:#e06b6b; display:none;">Delete</button>
+            <div style="display:flex; gap:8px; margin-left:auto;">
+              <button class="db-btn" id="f-cancel">Cancel</button>
+              <button class="db-btn db-btn-primary" id="f-save">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;"></div>
+
+  <script type="application/json" id="blog-seed" set:html={JSON.stringify(blogSeed)}></script>
+
+  <style>
+    .cal-chip { background: var(--db-surface); border: 1px solid var(--db-border); color: var(--db-text-secondary); border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .cal-chip:hover { border-color: rgba(255,255,255,.14); color: var(--db-text); }
+    .cal-chip.active { background: var(--db-accent-soft); border-color: var(--db-accent); color: var(--db-accent-hover); }
+    .cal-week-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--db-text-muted); margin: 22px 0 10px; }
+    .cal-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--db-surface); border: 1px solid var(--db-border); border-left-width: 3px; border-radius: var(--db-radius-lg); cursor: pointer; transition: border-color .2s; }
+    .cal-item:hover { border-color: rgba(255,255,255,.14); }
+    .cal-item + .cal-item { margin-top: 8px; }
+    .cal-date { font-size: 11px; color: var(--db-text-muted); width: 46px; flex-shrink: 0; line-height: 1.3; }
+    .cal-chan { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 7px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+    .cal-main { flex: 1; min-width: 0; }
+    .cal-title { font-size: 14px; font-weight: 600; color: var(--db-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cal-sub { font-size: 11px; color: var(--db-text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cal-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .cal-assets { display:flex; gap:5px; color: var(--db-text-muted); font-size: 11px; }
+    .cal-assets span { opacity:.85; }
+    .cal-pillar { font-size: 10px; color: var(--db-text-secondary); }
+    .cal-post-btn { background: var(--db-accent-soft); border: 1px solid transparent; color: var(--db-accent-hover); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 3px 9px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all .2s; }
+    .cal-post-btn:hover { background: var(--db-accent); color: #fff; }
+    .cal-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .st-idea { background: rgba(255,255,255,.05); color: var(--db-text-muted); }
+    .st-draft { background: rgba(214,158,46,.14); color: #d6a93e; }
+    .st-scheduled { background: rgba(59,130,246,.15); color: #5b9bf3; }
+    .st-posted { background: var(--db-accent-soft); color: var(--db-accent-hover); }
+    .cal-empty { color: var(--db-text-muted); font-size: 13px; font-style: italic; padding: 20px 0; }
+    .biz-entry { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--db-text-secondary); }
+    .biz-entry time { color: var(--db-text-muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .biz-entry button { background: none; border: none; color: var(--db-text-muted); cursor: pointer; margin-left: auto; font-size: 14px; line-height: 1; opacity: .5; }
+    .biz-entry button:hover { opacity: 1; color: #e06b6b; }
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--db-surface-solid); border: 1px solid var(--db-border); color: var(--db-text); font-size: 13px; padding: 10px 18px; border-radius: 999px; z-index: 200; box-shadow: var(--db-shadow-sm); }
+    @media (max-width: 600px) { .cal-pillar { display: none; } }
+  </style>
+
+  <script>
+    // ─── Types ───────────────────────────────────────────────────
+    type Channel = 'instagram' | 'linkedin-biz' | 'linkedin-personal' | 'blog';
+    type Status = 'idea' | 'draft' | 'scheduled' | 'posted';
+    type Format = 'single' | 'carousel' | 'reel' | 'story' | 'article';
+    type Slide = Record<string, string>;
+    type Item = {
+      id: string; date: string; channel: Channel; format: Format; pillar: string;
+      title: string; caption: string; notes: string; status: Status; link: string;
+      source: 'manual' | 'ai' | 'blog';
+      slides?: Slide[]; script?: string[]; mdx?: string;
+      carouselKey?: string; reelKey?: string;
+      postedDate?: string;
+    };
+    type BizEntry = { id: string; date: string; text: string };
+    type BlogSeed = { slug: string; title: string; date: string; status: Status };
+
+    // ─── Config ──────────────────────────────────────────────────
+    const CHANNELS: Record<Channel, { label: string; short: string; bg: string; fg: string }> = {
+      'instagram':         { label: 'Instagram',         short: 'Instagram',  bg: 'rgba(214,51,108,.16)', fg: '#e3679d' },
+      'linkedin-biz':      { label: 'LinkedIn · OakFox', short: 'LI · OakFox', bg: 'rgba(10,102,194,.18)', fg: '#5b9bf3' },
+      'linkedin-personal': { label: 'LinkedIn · You',    short: 'LI · You',    bg: 'rgba(59,130,246,.14)', fg: '#7eaef5' },
+      'blog':              { label: 'Blog',              short: 'Blog',        bg: 'var(--db-accent-soft)', fg: 'var(--db-accent-hover)' },
+    };
+    const PILLARS = ['Sustainable web', 'Branding', 'Ecology / BNG', 'Client win', 'Behind the scenes', 'Tip / how-to', 'Industry take', 'Other'];
+    const CADENCE: Record<Channel, number> = { 'instagram': 3, 'linkedin-biz': 2, 'linkedin-personal': 2, 'blog': 1 };
+
+    // Carousel layout vocabulary (mirrors dashboard/carousels.astro LAYOUT_FIELDS).
+    const CAROUSEL_LAYOUTS: Record<string, string[]> = {
+      'cover-cream': ['eyebrow', 'headline'],
+      'cover-forest': ['eyebrow', 'headline'],
+      'cover-numbered': ['bigNumber', 'eyebrow', 'headline'],
+      'body-text': ['step', 'title', 'body'],
+      'body-quote': ['title', 'attribution'],
+      'body-image': ['eyebrow', 'title'],
+      'body-phone': ['eyebrow', 'title'],
+      'body-stat': ['eyebrow', 'stat', 'statLabel'],
+      'cta': ['eyebrow', 'headline', 'body', 'cta'],
+    };
+
+    const CAL_KEY = 'oakfox_content_cal';
+    const LOG_KEY = 'oakfox_biz_log';
+    const CAROUSEL_KEY = 'oakfox_carousels_v1';
+    const CAROUSEL_ACTIVE = 'oakfox_carousels_active';
+    const REEL_KEY = 'oakfox_reels_v1';
+    const REEL_ACTIVE = 'oakfox_reels_active';
+
+    // ─── Storage ─────────────────────────────────────────────────
+    const load = <T,>(k: string): T[] => { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch { return []; } };
+    const loadObj = (k: string): Record<string, any> => { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } };
+    const save = (k: string, v: unknown) => localStorage.setItem(k, JSON.stringify(v));
+    const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    const today = () => new Date().toISOString().slice(0, 10);
+    const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 60) || 'post';
+
+    let items: Item[] = load<Item>(CAL_KEY);
+    let logEntries: BizEntry[] = load<BizEntry>(LOG_KEY);
+    let filter: Channel | 'all' = 'all';
+    let editingId: string | null = null;
+
+    const blogSeed: BlogSeed[] = (() => {
+      try { return JSON.parse(document.getElementById('blog-seed')?.textContent || '[]'); } catch { return []; }
+    })();
+
+    function blogItems(): Item[] {
+      return blogSeed.map((b) => ({
+        id: 'blog:' + b.slug, date: b.date, channel: 'blog' as Channel, format: 'article' as Format, pillar: '',
+        title: b.title, caption: '', notes: '', status: b.status,
+        link: b.status === 'posted' ? '/blog/' + b.slug : '/dashboard/posts', source: 'blog' as const,
+      }));
+    }
+    const allItems = (): Item[] => items.concat(blogItems());
+
+    // ─── Helpers ─────────────────────────────────────────────────
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+    function mondayOf(iso: string): string {
+      const d = new Date(iso + 'T00:00:00');
+      const day = (d.getDay() + 6) % 7;
+      d.setDate(d.getDate() - day);
+      return d.toISOString().slice(0, 10);
+    }
+    const fmtWeek = (iso: string) => 'Week of ' + new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const fmtDay = (iso: string) => new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric' });
+
+    let toastTimer: number | undefined;
+    function toast(msg: string) {
+      const el = document.getElementById('toast')!;
+      el.textContent = msg; el.style.display = 'block';
+      clearTimeout(toastTimer); toastTimer = window.setTimeout(() => { el.style.display = 'none'; }, 2600);
+    }
+    async function copyText(text: string, msg = 'Copied') {
+      try { await navigator.clipboard.writeText(text); toast(msg); }
+      catch { toast('Clipboard blocked — select & copy manually'); }
+    }
+
+    // ─── Asset builders (write into the Carousels / Reels tools) ──
+    function validateSlides(arr: any): Slide[] {
+      if (!Array.isArray(arr)) return [];
+      const out: Slide[] = [];
+      for (const s of arr) {
+        if (!s || typeof s.layout !== 'string' || !CAROUSEL_LAYOUTS[s.layout]) continue;
+        const slide: Slide = { layout: s.layout };
+        for (const f of CAROUSEL_LAYOUTS[s.layout]) if (typeof s[f] === 'string') slide[f] = s[f];
+        out.push(slide);
+      }
+      return out;
+    }
+    function createCarousel(name: string, slides: any): string | null {
+      const clean = validateSlides(slides);
+      if (clean.length < 2) return null;
+      const data = loadObj(CAROUSEL_KEY);
+      const key = 'c' + uid();
+      data[key] = { name: name.slice(0, 60), slides: clean };
+      save(CAROUSEL_KEY, data);
+      return key;
+    }
+    function starterSlides(it: Item): Slide[] {
+      return [
+        { layout: 'cover-forest', eyebrow: it.pillar || 'OakFox', headline: it.title },
+        { layout: 'body-text', title: it.title, body: it.notes || it.caption || '' },
+        { layout: 'cta', eyebrow: 'Ready when you are', headline: "Websites shouldn't cost the earth.", body: 'We build sites that load fast, last long, and leave a lighter footprint.', cta: 'Link in bio' },
+      ];
+    }
+    function createReel(name: string, hook: string): string {
+      const data = loadObj(REEL_KEY);
+      const key = 'r' + uid();
+      data[key] = {
+        name: name.slice(0, 60),
+        background: { src: '', name: '', fit: 'cover', tint: 0, mute: true },
+        duration: 15, loop: true,
+        layers: [
+          { id: 'l1', type: 'logo', src: '/images/site/logolight.png', x: 80, y: 80, w: 220, h: 90, opacity: 1, rotation: 0 },
+          { id: 'l2', type: 'text', text: (hook || 'Your headline').slice(0, 120), x: 90, y: 760, w: 900, h: 400, color: '#F5F0E8', font: "'Playfair Display', serif", weight: 700, size: 96, align: 'center', shadow: 1, opacity: 1, rotation: 0 },
+        ],
+      };
+      save(REEL_KEY, data);
+      return key;
+    }
+    function blogMdx(it: Item): string {
+      if (it.mdx) return it.mdx;
+      const desc = (it.notes || it.caption || '').replace(/\n+/g, ' ').slice(0, 160);
+      return `---\ntitle: "${it.title.replace(/"/g, "'")}"\ndescription: "${desc.replace(/"/g, "'")}"\ndate: ${it.date}\ncategory: "${it.pillar || 'Sustainability'}"\nauthor: "OakFox"\ntags: []\ndraft: false\n---\n\n${it.caption || 'Draft body…'}\n`;
+    }
+
+    // ─── Render: calendar ────────────────────────────────────────
+    function assetGlyphs(it: Item): string {
+      const g: string[] = [];
+      if (it.caption) g.push(`<span title="Has caption">✎</span>`);
+      if (it.carouselKey || (it.slides && it.slides.length)) g.push(`<span title="Carousel">▦</span>`);
+      if (it.reelKey || (it.script && it.script.length)) g.push(`<span title="Reel">▶</span>`);
+      if (it.mdx) g.push(`<span title="Blog draft">↳</span>`);
+      return g.length ? `<span class="cal-assets">${g.join('')}</span>` : '';
+    }
+    function itemRow(it: Item): string {
+      const ch = CHANNELS[it.channel];
+      const fmt = it.format && it.format !== 'single' ? it.format + ' · ' : '';
+      const posted = it.status === 'posted';
+      const dateShown = posted && it.postedDate ? fmtDay(it.postedDate) : fmtDay(it.date);
+      const sub = it.caption ? esc(it.caption.replace(/\n+/g, ' ')) : it.notes ? esc(it.notes) : (it.source === 'blog' ? 'From your blog' : '');
+      const canMark = !posted && it.source !== 'blog';
+      return `<div class="cal-item" data-id="${it.id}" style="border-left-color:${ch.fg};">
+        <div class="cal-date">${posted ? 'Posted<br>' : ''}${dateShown}</div>
+        <span class="cal-chan" style="background:${ch.bg}; color:${ch.fg};">${ch.short}</span>
+        <div class="cal-main">
+          <div class="cal-title">${esc(it.title)}</div>
+          ${fmt || sub ? `<div class="cal-sub">${fmt}${sub}</div>` : ''}
+        </div>
+        <div class="cal-right">
+          ${assetGlyphs(it)}
+          ${it.pillar ? `<span class="cal-pillar">${esc(it.pillar)}</span>` : ''}
+          <span class="cal-badge st-${it.status}">${it.status}</span>
+          ${canMark ? `<button class="cal-post-btn" data-post="${it.id}" title="Mark as posted today">✓ Post</button>` : ''}
+        </div>
+      </div>`;
+    }
+
+    function render() {
+      const list = document.getElementById('cal-list')!;
+      const archive = document.getElementById('cal-archive')!;
+      const archiveSection = document.getElementById('archive-section')!;
+      const pool = allItems().filter((it) => filter === 'all' || it.channel === filter);
+
+      const upcoming = pool.filter((it) => it.status !== 'posted').sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+      const past = pool.filter((it) => it.status === 'posted').sort((a, b) => (a.date > b.date ? -1 : 1));
+
+      if (upcoming.length === 0) {
+        list.innerHTML = `<p class="cal-empty">Nothing planned${filter === 'all' ? '' : ' for this channel'} yet. Add a post or generate content above.</p>`;
+      } else {
+        let html = ''; let curWeek = '';
+        for (const it of upcoming) {
+          const wk = mondayOf(it.date);
+          if (wk !== curWeek) { curWeek = wk; html += `<div class="cal-week-label">${fmtWeek(wk)}</div>`; }
+          html += itemRow(it);
+        }
+        list.innerHTML = html;
+      }
+
+      if (past.length === 0) { archiveSection.style.display = 'none'; }
+      else {
+        archiveSection.style.display = '';
+        document.getElementById('archive-label')!.textContent = `Posted & past · ${past.length}`;
+        archive.innerHTML = past.map(itemRow).join('');
+      }
+      list.querySelectorAll<HTMLElement>('.cal-item').forEach(wireRow);
+      archive.querySelectorAll<HTMLElement>('.cal-item').forEach(wireRow);
+      document.querySelectorAll<HTMLButtonElement>('.cal-post-btn').forEach((b) =>
+        b.addEventListener('click', (e) => { e.stopPropagation(); markPosted(b.dataset.post!); }));
+    }
+
+    function markPosted(id: string) {
+      const it = items.find((x) => x.id === id);
+      if (!it) return;
+      it.status = 'posted'; it.postedDate = today(); save(CAL_KEY, items); render(); toast('Marked posted');
+    }
+
+    function wireRow(el: HTMLElement) {
+      el.addEventListener('click', () => {
+        const id = el.dataset.id!;
+        if (id.startsWith('blog:')) { const it = blogItems().find((b) => b.id === id); if (it) window.location.href = it.link; return; }
+        openModal(id);
+      });
+    }
+
+    // ─── Render: business log ────────────────────────────────────
+    function renderLog() {
+      const box = document.getElementById('biz-list')!;
+      const recent = [...logEntries].sort((a, b) => (a.date > b.date ? -1 : 1)).slice(0, 12);
+      if (recent.length === 0) { box.innerHTML = `<p class="cal-empty" style="padding:6px 0;">No updates logged yet.</p>`; return; }
+      box.innerHTML = recent.map((e) => `<div class="biz-entry"><time>${new Date(e.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</time><span>${esc(e.text)}</span><button data-id="${e.id}" title="Remove">×</button></div>`).join('');
+      box.querySelectorAll<HTMLButtonElement>('button[data-id]').forEach((b) => b.addEventListener('click', () => {
+        logEntries = logEntries.filter((x) => x.id !== b.dataset.id); save(LOG_KEY, logEntries); renderLog();
+      }));
+    }
+
+    // ─── Modal ───────────────────────────────────────────────────
+    const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+    function openModal(id: string | null) {
+      editingId = id;
+      const it = id ? items.find((x) => x.id === id) : null;
+      $('modal-heading').textContent = it ? 'Edit post' : 'Add post';
+      ($('f-date') as HTMLInputElement).value = it?.date || today();
+      ($('f-channel') as HTMLSelectElement).value = it?.channel || (filter !== 'all' && filter !== 'blog' ? filter : 'instagram');
+      ($('f-format') as HTMLSelectElement).value = it?.format || 'single';
+      ($('f-pillar') as HTMLSelectElement).value = it?.pillar || '';
+      ($('f-status') as HTMLSelectElement).value = it?.status || 'idea';
+      ($('f-title') as HTMLInputElement).value = it?.title || '';
+      ($('f-caption') as HTMLTextAreaElement).value = it?.caption || '';
+      ($('f-notes') as HTMLTextAreaElement).value = it?.notes || '';
+      ($('f-link') as HTMLInputElement).value = it?.link || '';
+      $('f-delete').style.display = it ? '' : 'none';
+      renderAssets();
+      $('post-modal').style.display = 'block';
+    }
+    const closeModal = () => { $('post-modal').style.display = 'none'; editingId = null; };
+
+    // Asset buttons inside the modal — only for saved items (need an id to attach to).
+    function renderAssets() {
+      const wrap = $('f-assets'); const body = $('f-assets-body');
+      const it = editingId ? items.find((x) => x.id === editingId) : null;
+      if (!it) { wrap.style.display = 'none'; body.innerHTML = ''; return; }
+      const fmt = ($('f-format') as HTMLSelectElement).value as Format;
+      const btns: { label: string; act: () => void }[] = [];
+
+      if (it.caption) btns.push({ label: 'Copy caption', act: () => copyText(it.caption, 'Caption copied') });
+
+      if (fmt === 'carousel') {
+        if (it.carouselKey) btns.push({ label: 'Open in Carousels →', act: () => { save(CAROUSEL_ACTIVE, it.carouselKey); window.location.href = '/dashboard/carousels'; } });
+        else btns.push({ label: it.slides?.length ? 'Build carousel' : 'Create starter carousel', act: () => {
+          const key = createCarousel(it.title, it.slides?.length ? it.slides : starterSlides(it));
+          if (!key) { toast('Need at least 2 slides'); return; }
+          it.carouselKey = key; save(CAL_KEY, items); toast('Carousel created'); renderAssets(); render();
+        } });
+      }
+      if (fmt === 'reel') {
+        if (it.reelKey) btns.push({ label: 'Open in Reels →', act: () => { save(REEL_ACTIVE, it.reelKey); window.location.href = '/dashboard/reels'; } });
+        else btns.push({ label: 'Create reel shell', act: () => { it.reelKey = createReel(it.title, it.title); save(CAL_KEY, items); toast('Reel shell created'); renderAssets(); render(); } });
+        if (it.script?.length) btns.push({ label: 'Copy script', act: () => copyText(it.script!.join('\n'), 'Script copied') });
+      }
+      if (fmt === 'article' || it.channel === 'blog') {
+        btns.push({ label: `Copy .mdx (${slugify(it.title)}.mdx)`, act: () => copyText(blogMdx(it), 'MDX copied — paste into src/content/blog/') });
+      }
+
+      if (!btns.length) { wrap.style.display = 'none'; body.innerHTML = ''; return; }
+      wrap.style.display = 'flex';
+      body.innerHTML = btns.map((b, i) => `<button type="button" class="db-btn db-btn-sm" data-a="${i}">${esc(b.label)}</button>`).join('');
+      body.querySelectorAll<HTMLButtonElement>('[data-a]').forEach((el) => el.addEventListener('click', () => btns[+el.dataset.a!].act()));
+    }
+
+    function saveModal() {
+      const title = ($('f-title') as HTMLInputElement).value.trim();
+      const date = ($('f-date') as HTMLInputElement).value;
+      if (!title || !date) { ($('f-title') as HTMLInputElement).focus(); return; }
+      const base: Partial<Item> = editingId ? (items.find((x) => x.id === editingId) || {}) : {};
+      const data: Item = {
+        ...base,
+        id: editingId || uid(), date, channel: ($('f-channel') as HTMLSelectElement).value as Channel,
+        format: ($('f-format') as HTMLSelectElement).value as Format, pillar: ($('f-pillar') as HTMLSelectElement).value,
+        status: ($('f-status') as HTMLSelectElement).value as Status, title,
+        caption: ($('f-caption') as HTMLTextAreaElement).value.trim(), notes: ($('f-notes') as HTMLTextAreaElement).value.trim(),
+        link: ($('f-link') as HTMLInputElement).value.trim(), source: (base.source as Item['source']) || 'manual',
+      };
+      if (editingId) items = items.map((x) => (x.id === editingId ? data : x));
+      else items.push(data);
+      save(CAL_KEY, items); closeModal(); render();
+    }
+    function deleteItem() {
+      if (editingId) { items = items.filter((x) => x.id !== editingId); save(CAL_KEY, items); }
+      closeModal(); render();
+    }
+
+    // ─── AI prompt bridge ────────────────────────────────────────
+    function buildPrompt(): string {
+      const t = today();
+      const cad = (Object.keys(CADENCE) as Channel[]).map((c) => `${CHANNELS[c].label}: ${CADENCE[c]}×/week`).join(', ');
+      const recentLog = [...logEntries].sort((a, b) => (a.date > b.date ? -1 : 1)).slice(0, 15).map((e) => `- ${e.date}: ${e.text}`).join('\n') || '- (nothing logged yet)';
+      const planned = allItems().filter((it) => it.date >= t).sort((a, b) => (a.date < b.date ? -1 : 1)).map((it) => `- ${it.date} [${CHANNELS[it.channel].label}] ${it.title} (${it.status})`).join('\n') || '- (nothing planned yet)';
+      const recentPosted = allItems().filter((it) => it.status === 'posted').map((it) => ({ d: it.postedDate || it.date, c: it.channel, t: it.title })).sort((a, b) => (a.d > b.d ? -1 : 1)).slice(0, 12).map((it) => `- ${it.d} [${CHANNELS[it.c].label}] ${it.t}`).join('\n') || '- (none)';
+      const layouts = Object.entries(CAROUSEL_LAYOUTS).map(([k, v]) => `  "${k}": { ${v.map((f) => `"${f}"`).join(', ')} }`).join('\n');
+
+      return `You are the content lead for OakFox — a sustainable branding, web design/development and ecology-consultancy studio in West Lancashire, UK. The founder is a solo designer/developer.
+
+VOICE: measured, plain-spoken, opinionated, British English. No hype, no buzzwords, no greenwashing. Practical and credible.
+
+CHANNELS (what each is for):
+- instagram — visual, approachable: work-in-progress, design detail, behind-the-scenes, local/nature, quick tips. Mostly single images, carousels, and reels.
+- linkedin-biz (OakFox business page) — case studies, services, results, sustainability/industry takes in the brand voice.
+- linkedin-personal (founder's page) — first-person POV, lessons, opinions, the reality of running a studio.
+- blog — long-form SEO articles (use sparingly; at most one per fortnight).
+
+TARGET CADENCE over the next 2 weeks: ${cad}.
+
+RECENTLY IN THE BUSINESS (ground posts in these — be specific):
+${recentLog}
+
+ALREADY PLANNED (do NOT duplicate):
+${planned}
+
+RECENTLY POSTED (avoid repeating angles):
+${recentPosted}
+
+TASK: Propose specific posts for the 2 weeks starting ${t}, hitting the cadence. Vary pillars across: Sustainable web, Branding, Ecology / BNG, Client win, Behind the scenes, Tip / how-to, Industry take.
+
+Return ONLY a JSON array — no prose, no markdown fences. Each element:
+{
+  "date": "YYYY-MM-DD",
+  "channel": "instagram | linkedin-biz | linkedin-personal | blog",
+  "format": "single | carousel | reel | story | article",
+  "pillar": "<one pillar>",
+  "title": "<short hook/headline>",
+  "caption": "<the FULL post copy, ready to publish, including line breaks and hashtags where relevant>",
+  "notes": "<assets needed / CTA / any direction>",
+  "slides": [ ... ],   // ONLY when format = "carousel"
+  "script": [ "<on-screen line 1>", "<line 2>", ... ],   // ONLY when format = "reel" (5–7 short beats)
+  "mdx": "<full blog article incl frontmatter>"   // ONLY when format = "article"
+}
+
+CAROUSEL SLIDES — when format = "carousel", "slides" must be 5–8 objects, each using EXACTLY one of these layouts and only its listed fields (plain text; <em>…</em> allowed in headline/title):
+{
+${layouts}
+}
+Open with a cover-* slide and end with a "cta" slide.
+
+BLOG mdx — when format = "article", "mdx" must be a complete file: frontmatter (title, description, date: ${'${date}'} of that item, category, author: "OakFox", tags array, draft: false) then the article body in Markdown.
+
+Keep captions genuinely usable, not placeholders.`;
+    }
+
+    async function copyPrompt() {
+      const text = buildPrompt();
+      try { await navigator.clipboard.writeText(text); aiMsg('Prompt copied — paste into free Claude.ai or ChatGPT.'); }
+      catch { const ta = $('ai-paste') as HTMLTextAreaElement; ta.value = text; ta.select(); aiMsg('Clipboard blocked — prompt put in the box; copy it manually.'); }
+    }
+
+    function importAI() {
+      const raw = ($('ai-paste') as HTMLTextAreaElement).value.trim();
+      if (!raw) { aiMsg('Paste the AI reply first.'); return; }
+      let cleaned = raw.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();
+      const start = cleaned.indexOf('['); const end = cleaned.lastIndexOf(']');
+      if (start !== -1 && end !== -1) cleaned = cleaned.slice(start, end + 1);
+      let parsed: any;
+      try { parsed = JSON.parse(cleaned); } catch { aiMsg('Could not parse that — make sure it is the JSON array the prompt asked for.'); return; }
+      if (!Array.isArray(parsed)) { aiMsg('Expected a JSON array.'); return; }
+      const valid: Channel[] = ['instagram', 'linkedin-biz', 'linkedin-personal', 'blog'];
+      const fmts: Format[] = ['single', 'carousel', 'reel', 'story', 'article'];
+      let added = 0, carousels = 0, reels = 0, blogs = 0;
+      for (const r of parsed) {
+        if (!r || typeof r.title !== 'string' || !valid.includes(r.channel)) continue;
+        const date = /^\d{4}-\d{2}-\d{2}$/.test(r.date) ? r.date : today();
+        const format: Format = fmts.includes(r.format) ? r.format : 'single';
+        const it: Item = {
+          id: uid(), date, channel: r.channel, format, pillar: typeof r.pillar === 'string' ? r.pillar : '',
+          title: r.title.trim(), caption: typeof r.caption === 'string' ? r.caption : '',
+          notes: typeof r.notes === 'string' ? r.notes : '', status: 'idea', link: '', source: 'ai',
+        };
+        if (format === 'carousel' && Array.isArray(r.slides)) {
+          it.slides = validateSlides(r.slides);
+          const key = createCarousel(it.title, it.slides);
+          if (key) { it.carouselKey = key; carousels++; }
+        }
+        if (format === 'reel' && Array.isArray(r.script)) {
+          it.script = r.script.filter((s: any) => typeof s === 'string').slice(0, 12);
+          it.reelKey = createReel(it.title, it.script[0] || it.title); reels++;
+        }
+        if (format === 'article') {
+          if (typeof r.mdx === 'string' && r.mdx.includes('---')) it.mdx = r.mdx;
+          else it.mdx = blogMdx(it);
+          blogs++;
+        }
+        items.push(it); added++;
+      }
+      save(CAL_KEY, items);
+      ($('ai-paste') as HTMLTextAreaElement).value = '';
+      const extra = [carousels && `${carousels} carousel${carousels === 1 ? '' : 's'}`, reels && `${reels} reel${reels === 1 ? '' : 's'}`, blogs && `${blogs} blog draft${blogs === 1 ? '' : 's'}`].filter(Boolean).join(', ');
+      aiMsg(added ? `Imported ${added} item${added === 1 ? '' : 's'}${extra ? ' · built ' + extra : ''}.` : 'No valid items found in that reply.');
+      render();
+    }
+    let msgTimer: number | undefined;
+    function aiMsg(s: string) { const el = $('ai-msg'); el.textContent = s; clearTimeout(msgTimer); msgTimer = window.setTimeout(() => { el.textContent = ''; }, 7000); }
+
+    // ─── Backup ──────────────────────────────────────────────────
+    function backup() {
+      const blob = new Blob([JSON.stringify({ calendar: items, log: logEntries, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = `oakfox-content-${today()}.json`; a.click(); URL.revokeObjectURL(a.href);
+    }
+
+    // ─── Init ────────────────────────────────────────────────────
+    function init() {
+      const ps = $('f-pillar') as HTMLSelectElement;
+      ps.innerHTML = `<option value="">— pillar —</option>` + PILLARS.map((p) => `<option value="${p}">${p}</option>`).join('');
+
+      $('add-post-btn').addEventListener('click', () => openModal(null));
+      $('f-cancel').addEventListener('click', closeModal);
+      $('f-save').addEventListener('click', saveModal);
+      $('f-delete').addEventListener('click', deleteItem);
+      $('f-format').addEventListener('change', renderAssets);
+      $('f-copy-caption').addEventListener('click', () => copyText(($('f-caption') as HTMLTextAreaElement).value, 'Caption copied'));
+      $('post-modal').addEventListener('click', (e) => { if ((e.target as HTMLElement).classList.contains('db-modal-overlay')) closeModal(); });
+
+      $('copy-prompt-btn').addEventListener('click', copyPrompt);
+      $('import-ai-btn').addEventListener('click', importAI);
+      $('backup-btn').addEventListener('click', backup);
+
+      const bizAdd = () => {
+        const inp = $('biz-input') as HTMLInputElement; const text = inp.value.trim();
+        if (!text) return;
+        logEntries.push({ id: uid(), date: today(), text }); save(LOG_KEY, logEntries); inp.value = ''; renderLog();
+      };
+      $('biz-add-btn').addEventListener('click', bizAdd);
+      $('biz-input').addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter') bizAdd(); });
+
+      document.querySelectorAll<HTMLElement>('.cal-chip').forEach((chip) => chip.addEventListener('click', () => {
+        document.querySelectorAll('.cal-chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active'); filter = (chip.dataset.channel as Channel | 'all'); render();
+      }));
+
+      $('archive-toggle').addEventListener('click', () => {
+        const box = $('cal-archive'); const open = box.style.display !== 'none';
+        box.style.display = open ? 'none' : 'block';
+        $('archive-chevron').style.transform = open ? '' : 'rotate(90deg)';
+      });
+
+      renderLog(); render();
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  </script>
+</DashboardLayout>
