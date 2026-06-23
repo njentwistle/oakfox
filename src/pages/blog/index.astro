@@ -2,8 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
+import { isPublished } from '../../lib/posts';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
+const posts = (await getCollection('blog', isPublished))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const tagCounts = new Map<string, number>();

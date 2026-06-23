@@ -2,12 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Img from '../components/Img.astro';
 import { getCollection } from 'astro:content';
+import { isPublished } from '../lib/posts';
 
 const portfolioItems = (await getCollection('portfolio'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
-const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
+const blogPosts = (await getCollection('blog', isPublished))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 1);
 

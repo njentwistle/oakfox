@@ -1,5 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
+import { isPublished } from '../../lib/posts';
 import { locations } from '../../data/locations';
 import { renderOgPng, type OgImageProps } from '../../utils/og';
 
@@ -124,7 +125,7 @@ const staticPages: PageEntry[] = [
 export const getStaticPaths: GetStaticPaths = async () => {
   const [portfolioItems, blogPosts] = await Promise.all([
     getCollection('portfolio'),
-    getCollection('blog', ({ data }) => !data.draft),
+    getCollection('blog', isPublished),
   ]);
 
   const entries: PageEntry[] = [

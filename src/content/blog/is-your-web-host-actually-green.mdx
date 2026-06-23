@@ -1,0 +1,74 @@
+---
+title: "Is Your Web Host Actually Green? A 30-Second Check"
+description: "How to verify whether your web host really runs on renewable energy — the public registry to check, what 'carbon neutral' claims actually mean, and what to do if your host fails the test."
+date: 2026-06-29
+category: "Development"
+author: "OakFox"
+tags: ["green hosting", "sustainability", "web development", "uk"]
+draft: false
+faq:
+  - q: "How do I check if my web host is green?"
+    a: "Use The Green Web Foundation's public checker at thegreenwebfoundation.org/green-web-check and enter your domain. It cross-references your site's hosting against a registry of providers who have submitted evidence of running on renewable energy. A green result means the host is on that registry; a grey or unknown result means there's no verified evidence on file, which is worth following up on directly."
+  - q: "What does 'carbon neutral hosting' actually mean?"
+    a: "It usually means the provider has bought carbon offsets or renewable energy certificates to balance out emissions on paper, rather than running on renewable power directly. Offsets are a weaker claim than actually sourcing clean electricity. When you're comparing hosts, look for those that buy renewable power through long-term agreements (PPAs) rather than ones that simply offset after the fact."
+  - q: "Are RECs as good as a Power Purchase Agreement?"
+    a: "No. Renewable Energy Certificates (RECs) let a host claim renewable energy without necessarily adding any new clean generation to the grid — they're tradeable and easy to buy in bulk. A Power Purchase Agreement (PPA) commits a provider to buying power from a specific renewable source over years, which tends to fund genuine new capacity. If a host names PPAs, that's stronger evidence than RECs alone."
+  - q: "Does switching to a green host slow my website down?"
+    a: "No. Green hosting is a sourcing decision about electricity, not a different class of hardware. A well-run green host gives you the same performance as a conventional one, and at the entry tier the prices are now broadly comparable. If anything, the bigger speed and carbon wins come from how the site itself is built rather than where it's hosted."
+  - q: "What if my host isn't on the green registry?"
+    a: "Email them and ask two questions: what proportion of their energy is renewable, and how they source it. A confident host will answer with specifics. If you get vague reassurances or silence, that tells you something. You can then either ask them to submit evidence to The Green Web Foundation, or move to a verified green provider — migrations are routine and usually handled for you."
+---
+
+Plenty of hosting companies describe themselves as green. Far fewer can show you the working. The gap between the two is wide enough that "we're carbon neutral" has become close to meaningless as a phrase — it can mean a provider runs its data centres on wind power, or it can mean they bought some offsets last year and put a leaf on the homepage.
+
+The good news is that you don't have to take anyone's word for it. There's a public, independent way to check whether your host actually runs on renewable energy, and it takes about half a minute.
+
+## The 30-second check
+
+The single most useful tool here is The Green Web Foundation's public checker at [thegreenwebfoundation.org/green-web-check](https://www.thegreenwebfoundation.org/green-web-check). Type in your domain — or any domain — and it tells you whether the underlying host is in its registry of verified green providers.
+
+The way it works is straightforward. The Foundation maintains a database of hosting companies that have submitted evidence they run on renewable energy or offset their emissions. When you check a site, it traces the IP back to whoever's hosting it and looks them up. A **green** result means the host is on the registry with evidence on file. A **grey** result means there's no verified evidence — which isn't proof the host is dirty, but it does mean nobody has shown their working.
+
+That distinction matters. "Not on the registry" and "not green" aren't the same thing, but in practice a host that's serious about renewable energy has every reason to be listed. If they're not, it's a fair question to put to them.
+
+## What 'carbon neutral' is actually claiming
+
+Once you've run the check, the next thing worth understanding is what any green claim rests on, because not all of them are equal.
+
+Broadly, a host can back up a renewable claim in one of a few ways, and they're not all as good as each other:
+
+- **Power Purchase Agreements (PPAs)** — long-term contracts to buy electricity from a specific renewable source, like a particular wind or solar farm. These tend to fund genuinely new clean generation, which is the outcome you actually want.
+- **Renewable Energy Certificates (RECs)** — tradeable certificates that let a company claim renewable energy without necessarily causing any new clean power to be built. Cheap, easy to buy in volume, and much weaker as evidence.
+- **Carbon offsets** — paying for emissions reductions elsewhere (tree planting, for instance) to balance out your own. This is the "carbon neutral" route, and it's the furthest removed from running on clean power in the first place.
+
+A host running on PPAs is doing something materially different from one that's bought a stack of RECs or offsets and called it a day. When you're reading a hosting company's sustainability page, the language they use is a tell. Specifics about how they source power are a good sign. Vague mentions of being "100% carbon neutral" with no detail underneath usually mean offsets.
+
+None of this requires you to become an energy market expert. It just means treating "carbon neutral" as the start of a question rather than the end of one.
+
+## When the check comes back grey
+
+So your host isn't on the registry. Now what?
+
+**Ask them directly.** A short email does the job: what proportion of your energy is renewable, and how do you source it? A host that takes this seriously will answer with specifics — named agreements, percentages, maybe a link to their own reporting. A host that doesn't will give you warm, non-committal reassurance, or nothing at all. Both responses are informative.
+
+If the answer's disappointing, you've got two routes. You can ask them to submit evidence to The Green Web Foundation, which costs them nothing and helps everyone. Or you can move. Migrating a website to a new host sounds like a faff but rarely is in practice — it's routine work, and most decent providers will handle the move for you as part of onboarding.
+
+It's also worth saying that the price objection has mostly evaporated. At the entry tier, green hosting now costs roughly the same as conventional hosting. The days of paying a noticeable premium for renewable-powered servers are largely behind us, so "it's more expensive" isn't the obstacle it once was.
+
+If you want a shortlist of providers who'll pass the check, we've put together [our comparison of UK green hosts](/blog/green-web-hosting-uk-compared) covering who runs on what, and how their claims hold up.
+
+## Hosting is only half the picture
+
+Here's the part that often gets missed. Where your site is hosted determines how clean the electricity is, but how your site is built determines how much electricity it needs in the first place. Those are two separate levers, and the second one is frequently the bigger win.
+
+A heavy, bloated page running on renewable energy still pulls more power than a lean one — it's just cleaner power. The most effective approach pulls on both: clean energy *and* a site that doesn't waste it. A static-first build, sensible image handling and restraint with third-party scripts can cut the carbon per page view dramatically — in the region of 10 to 40 times lighter than a typical heavyweight build, depending where you're starting from.
+
+That's the thinking behind our approach to [sustainable web design](/blog/sustainable-web-design-practical-guide): a fast, light site is also a low-carbon one, and the two goals reinforce each other rather than competing.
+
+## Putting it together
+
+The 30-second check is a genuinely useful filter, and everyone should run it on their own site at least once. But treat it as a floor, not a ceiling. A green result tells you the electricity is clean. It doesn't tell you the site is efficient, and it doesn't tell you the underlying claim is a PPA rather than a pile of offsets.
+
+If you'd rather not manage any of this yourself, that's effectively what [managed green hosting](/services/green-web-hosting) is for — verified renewable infrastructure with the build and the upkeep handled, so the check comes back green and the site stays light.
+
+Run the checker on your domain today. If it comes back grey, or you're not sure what to make of the result, [get in touch](/contact) and we'll take a proper look at where your site sits and what it would take to fix it.

@@ -3,6 +3,16 @@ name: Build and push to deploy branch
 on:
   push:
     branches: [main]
+  # Daily rebuild so date-scheduled blog posts go live on their go-live date
+  # without a manual push. The blog readers hide any post whose `date` is in the
+  # future (see src/lib/posts.ts), so a queued post only enters the build — and
+  # therefore the sitemap, RSS and IndexNow ping — once a build runs on/after
+  # that date. 07:00 UTC clears midnight-UTC post dates with margin for GitHub's
+  # scheduler lag.
+  schedule:
+    - cron: '0 7 * * *'
+  # Manual "publish now" button in the Actions tab.
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -49,6 +59,7 @@ jobs:
           cat -A dist/.cpanel.yml
 
       - name: Push dist to deploy branch (linear history, fast-forwardable)
+        id: deploy
         run: |
           REMOTE="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           # Try to clone the existing deploy branch; if it doesn't exist yet, init a fresh orphan.
@@ -75,24 +86,37 @@ jobs:
           git add -A
           if git diff --staged --quiet; then
             echo "No changes to deploy"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git commit -q -m "Deploy ${{ github.sha }}"
           git push origin deploy
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Ping IndexNow for changed pages
-        # Submits only the pages whose source changed in this push (intersected
-        # with the live sitemap, so drafts/future posts are excluded). Static
-        # site = a deploy IS the publish event. Fire-and-forget: the script
-        # never throws, so a failed ping can't fail the deploy.
+      - name: Ping IndexNow for changed pages (push)
+        # On a push, submit only the pages whose source changed in this commit
+        # range (intersected with the live sitemap, so drafts/future posts are
+        # excluded). Static site = a deploy IS the publish event. Fire-and-forget:
+        # the script never throws, so a failed ping can't fail the deploy.
+        if: github.event_name == 'push'
         run: node scripts/indexnow.mjs --changed ${{ github.event.before }} ${{ github.sha }}
 
-      # Optional: auto-trigger cPanel deploy via UAPI.
-      # Uncomment and add CPANEL_TOKEN secret + cPanel host URL to enable.
+      - name: Ping IndexNow for newly-published posts (scheduled)
+        # On the daily cron / manual run there is no source commit range to diff,
+        # so only act when the build actually changed the deploy output — that
+        # only happens on the day a queued post crosses its go-live date. Then
+        # resubmit the full live sitemap so the freshly-revealed URL is picked up.
+        if: github.event_name != 'push' && steps.deploy.outputs.changed == 'true'
+        run: node scripts/indexnow.mjs --all
+
+      # Deploy to cPanel is intentionally MANUAL. Auto-triggering the cPanel git
+      # pull/deploy (UAPI, FTP, and SSH were all tried — see git history) proved
+      # unreliable on this shared host, which kept blocking the calls. So the cron
+      # and pushes only build and push the freshly-built dist to the `deploy`
+      # branch; publishing it live is a manual "Update from Remote" +
+      # "Deploy HEAD Commit" in cPanel's Git Version Control UI.
       #
-      # - name: Trigger cPanel deployment
-      #   run: |
-      #     curl -fsS -X POST \
-      #       -H "Authorization: cpanel oakfoxco:${{ secrets.CPANEL_TOKEN }}" \
-      #       "https://oakfox.co.uk:2083/execute/VersionControlDeployment/create?repository_root=%2Fhome%2Foakfoxco%2Frepositories%2Foakfox"
+      # For a queued post: on its go-live date the daily cron rebuilds and pushes
+      # the now-live post to the deploy branch automatically — you just do the one
+      # manual cPanel deploy to push it to public_html.

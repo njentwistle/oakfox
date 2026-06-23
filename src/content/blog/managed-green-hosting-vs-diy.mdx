@@ -1,0 +1,76 @@
+---
+title: "Managed Green Hosting vs DIY: What Small UK Businesses Actually Need"
+description: "Self-hosting on a green platform looks cheap until you count your own time. When managed green hosting earns its keep for a small UK business — and when DIY is genuinely fine."
+date: 2026-07-20
+category: "Development"
+author: "OakFox"
+tags: ["green hosting", "managed hosting", "small business", "uk"]
+draft: false
+faq:
+  - q: "What does managed green web hosting in the UK actually include?"
+    a: "It usually means the provider owns the hosting account on a certified green platform and handles the operational work: DNS and domain setup, SSL renewal, backups, software updates, uptime monitoring and security patching. You also get a named UK contact to call when something breaks. The green part refers to the upstream infrastructure running on verified renewable energy. The managed part is the wrapper around it."
+  - q: "Is managed hosting worth it if a green platform like Cloudflare Pages is free?"
+    a: "It depends on who's running the site. For a developer comfortable with git and DNS, the free tier is genuinely the better deal. For a non-technical owner, the free bill hides a real time cost: a few hours a year on DNS, build failures and updates, plus the risk of an outage you don't notice. If you'd otherwise pay a developer by the hour for every change, managed hosting is usually cheaper."
+  - q: "Does OakFox own its own data centres?"
+    a: "No, and we're clear about that. We resell on a certified green upstream host that runs on verified renewable energy. We don't operate physical infrastructure. What we add is the management layer — setup, migration, monitoring and UK support — and the value of bundling that with design and development, so one team is accountable for the whole site rather than just the server."
+  - q: "What's the real cost of self-hosting a small business website?"
+    a: "The hosting bill is often near zero on a green platform's free tier. The cost is your time. Budget for a few hours a year on DNS changes, SSL issues, dependency updates, backups and the odd build failure, plus the harder-to-price cost of an outage that goes unnoticed for a day. At a modest internal hourly rate, that time usually adds up to more than a managed plan costs."
+  - q: "Can I move from self-hosted to managed green hosting later?"
+    a: "Yes. If the site is already static, migration is straightforward — we copy the repository, redeploy it through our managed pipeline, repoint DNS and you're live, usually within a day. There's no lock-in in either direction. If you later want to bring it back in-house, the same applies. Starting DIY and switching when it stops being worth your time is a perfectly sensible path."
+---
+
+There's a version of the green hosting pitch that goes: pick a platform running on renewable energy, deploy your site, pay nothing or close to it, done. For a fair number of small UK businesses that's genuinely the right answer, and anyone telling you otherwise is selling something.
+
+But the bill is only one column of the spreadsheet. The other column is your time, and that's the one that quietly fills up after launch. This is the honest comparison between doing green hosting yourself and paying someone to manage it — including the cases where managed is a waste of money.
+
+## What "DIY on a green platform" actually means
+
+The DIY route covers a few different setups, and they're not equally demanding.
+
+- **A static host like Cloudflare Pages or Netlify.** Deploy from a git repository, sit on a CDN running on verified renewable energy, pay nothing on the free tier. Technically excellent, and we use this ourselves for plenty of sites.
+- **A bare VPS on a green host.** More control, more responsibility. You own the operating system, the web server, the firewall and every patch that lands on it.
+- **A green shared-hosting account you administer yourself.** The middle ground, where the host handles the server but you handle the site.
+
+All three are reasonable. None of them are free in the sense that matters, because the running cost isn't money — it's attention.
+
+## The cost nobody puts on the invoice
+
+When a site goes live, the work doesn't stop. It just becomes intermittent and easy to ignore until it isn't. Here's the work that lands on whoever owns the site:
+
+- **Domain and DNS.** Pointing records correctly, then remembering how you did it the next time you need to change something.
+- **SSL certificates.** Mostly automated now, but "mostly" is doing some work in that sentence. Renewals fail, and a lapsed certificate throws a scary browser warning at every visitor.
+- **Updates and patching.** Dependencies, plugins, the server itself. Skip them long enough and you've got a security problem rather than a maintenance task.
+- **Backups.** Easy to set up, easy to forget, and only ever noticed at the exact moment you need one that isn't there.
+- **Uptime.** If your site goes down at 2am on a Saturday, who finds out, and how long does it stay down before anyone does?
+
+That last point is the one people underestimate. The expensive outage isn't the dramatic one — it's the quiet one. A form that stopped sending enquiries three weeks ago, a checkout that's been throwing errors since the last update, a site that's been returning a 500 to half its visitors while you got on with your actual job. You don't pay for that in pounds. You pay for it in the customers who tried to reach you and didn't.
+
+Put a rough number on the time, though, because it makes the decision clearer. A typical small business site costs its owner somewhere between six and ten hours a year once you total up DNS fiddling, failed builds, update prompts and the occasional "why is the site down" panic. At a modest internal cost for that time, you're into a few hundred pounds a year before anything has actually gone wrong.
+
+## What managed green hosting takes off your plate
+
+Managed hosting is the deal where that list above stops being yours. The provider owns the hosting account, configures DNS, manages SSL, runs backups, monitors uptime, applies updates and patches, and gives you one person to call — ideally a UK one, in your timezone, speaking plain English rather than ticket-system boilerplate.
+
+The "green" part means the underlying infrastructure runs on verified renewable energy. The "managed" part means you never have to touch it. For a non-technical owner, that second part is usually what they were actually paying for, even when they thought they were buying hosting.
+
+It's worth being straight about how this works at our end, because the model matters. **OakFox is a reseller.** We don't own data centres and we don't pretend to. We run our managed hosting on a certified green upstream host, and what we add is the layer around it: the setup, the migration, the monitoring, the support, and the fact that one accountable team handles the whole thing. We've written more about this trade-off in [Cloudflare Pages vs managed green hosting](/blog/cloudflare-pages-vs-managed-green-hosting), and if you want to see how the underlying platforms stack up, [our comparison of UK green hosts](/blog/green-web-hosting-uk-compared) lays that out without a sales angle.
+
+The reason we can offer this at all, and the reason it's worth your money rather than ours, is that commodity hosting is a thin business on its own. Anyone can resell a green platform. What's actually useful is bundling the hosting with the design and development of the site itself, so there's no finger-pointing between "the developer" and "the host" when something needs fixing. They're the same people. That's the bit you're paying for.
+
+## When DIY is genuinely the right call
+
+Managed hosting isn't for everyone, and it's worth saying so plainly. Self-hosting on a green platform is the better choice if:
+
+- **You're technical, or someone on the team is.** If you're comfortable with git, DNS and a terminal, the free tier of a static host is hard to beat on price or performance. Paying someone to manage that for you is paying to remove a problem you don't have.
+- **The site isn't commercially critical.** A side project, a personal portfolio, a marketing experiment — if a few hours of downtime costs you nothing real, the maintenance burden is low enough to absorb.
+- **You enjoy it.** Some owners genuinely like having their hands on the infrastructure. That's a perfectly good reason, and the time cost doesn't feel like a cost.
+
+If two or three of those describe you, don't pay for managed hosting. You'll resent the bill and you won't get value from the support, because you'll never call it.
+
+## So which one do you actually need
+
+The deciding question isn't technical. It's this: when the site breaks, whose problem is it, and what does that person's hour cost?
+
+If the answer is "mine, and my hour is better spent on the business," managed green hosting earns its keep — not because the hosting itself is special, but because the management removes a recurring drain on your time and a category of risk you'd otherwise be carrying without noticing. If the answer is "mine, and I'm happy to fix it," keep your money and self-host. Both are respectable. Only one of them is right for you, and it depends entirely on how you'd rather spend the hours.
+
+If you're not sure which camp you're in, that's usually a sign you're closer to the managed end than you think — and it's a five-minute conversation to find out. Have a look at [our managed green hosting](/services/green-web-hosting), or just [get in touch](/contact) and tell us what you're running. We'll tell you honestly whether it's worth paying us, or whether you're better off keeping it yourself.
