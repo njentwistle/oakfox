@@ -1,0 +1,1263 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Posts — OakFox Dashboard</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/DashboardLayout.CYJA_dFP.css">
+<style>.post-row[data-astro-cid-6gxxuhll]{padding:0;overflow:hidden}.post-summary[data-astro-cid-6gxxuhll]{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px}.post-summary[data-astro-cid-6gxxuhll]::-webkit-details-marker{display:none}.post-meta[data-astro-cid-6gxxuhll]{display:flex;flex-direction:column;gap:2px;min-width:0}.post-title[data-astro-cid-6gxxuhll]{font-weight:600;font-size:14px;color:var(--db-text)}.post-slug[data-astro-cid-6gxxuhll]{font-size:11px;color:var(--db-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.post-side[data-astro-cid-6gxxuhll]{display:flex;align-items:center;gap:12px;flex-shrink:0}.post-count[data-astro-cid-6gxxuhll]{font-size:11px;font-weight:600;color:var(--db-accent-hover);background:var(--db-accent-soft);padding:2px 8px;border-radius:999px;white-space:nowrap}.post-date[data-astro-cid-6gxxuhll]{font-size:12px;color:var(--db-text-secondary);white-space:nowrap}.post-chevron[data-astro-cid-6gxxuhll]{width:14px;height:14px;color:var(--db-text-muted);transition:transform .2s}details[data-astro-cid-6gxxuhll][open] .post-chevron[data-astro-cid-6gxxuhll]{transform:rotate(90deg)}.post-body[data-astro-cid-6gxxuhll]{padding:4px 20px 22px;border-top:1px solid var(--db-border)}.post-facts[data-astro-cid-6gxxuhll]{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;color:var(--db-text-secondary);padding:14px 0 4px}.post-facts-k[data-astro-cid-6gxxuhll]{color:var(--db-text-muted);text-transform:uppercase;letter-spacing:.04em;margin-right:4px}.post-facts-file[data-astro-cid-6gxxuhll]{width:100%;color:var(--db-text-muted)}.post-desc[data-astro-cid-6gxxuhll]{font-size:13px;color:var(--db-text-secondary);margin:12px 0 16px;line-height:1.6}.post-content[data-astro-cid-6gxxuhll]{margin-top:18px;padding-top:18px;border-top:1px solid var(--db-border-subtle);font-size:15px}.db-btn-sm[data-astro-cid-6gxxuhll]{margin-bottom:4px}@media(max-width:600px){.post-date[data-astro-cid-6gxxuhll]{display:none}}
+</style></head> <body class="db-root"> <!-- Sidebar (desktop) --> <aside class="db-sidebar"> <img src="/images/site/logolight.png" alt="OakFox" class="db-sidebar-logo"> <!-- Agency switcher --> <div class="db-agency-switcher" id="agency-switcher"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <nav class="db-sidebar-nav"> <a href="/dashboard" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/planner" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/bookings" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/posts" class="db-sidebar-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg> Posts </a><a href="/dashboard/carousels" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <div style="border-top: 1px solid var(--db-border); padding-top: 16px; margin-top: 8px;"> <a href="#" id="logout-btn" class="db-sidebar-link" style="color: var(--db-text-muted); font-size: 12px;"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+Sign out
+</a> <p class="db-sidebar-footer" style="margin-top: 12px;">You're building something real.</p> </div> </aside> <!-- Mobile tab bar --> <nav class="db-tab-bar"> <a href="/dashboard" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/planner" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/bookings" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/posts" class="db-tab-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg> Posts </a><a href="/dashboard/carousels" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <!-- Mobile agency switcher --> <div class="db-mobile-agency" id="agency-switcher-mobile"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <!-- Main content --> <main class="db-main">  <div class="db-fade-in" data-astro-cid-6gxxuhll> <header style="margin-bottom: 28px;" data-astro-cid-6gxxuhll> <h1 class="db-heading" style="font-size: 32px;" data-astro-cid-6gxxuhll>Blog posts</h1> <p style="color: var(--db-text-muted); font-size: 13px; margin-top: 8px; max-width: 60ch;" data-astro-cid-6gxxuhll>
+Read-only view of every post and where it sits in the queue. To edit, delete, or
+        reschedule, change the matching <code class="db-mono" data-astro-cid-6gxxuhll>.mdx</code> file in
+<code class="db-mono" data-astro-cid-6gxxuhll>src/content/blog/</code>, then commit, push, and deploy in cPanel.
+</p> <p style="color: var(--db-text-muted); font-size: 12px; margin-top: 6px;" data-astro-cid-6gxxuhll>
+Snapshot as of last deploy &middot; 23 June 2026 </p> </header> <section style="margin-bottom: 36px;" data-astro-cid-6gxxuhll> <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;" data-astro-cid-6gxxuhll> <h2 class="db-heading" style="font-size: 18px;" data-astro-cid-6gxxuhll>Queued</h2> <span class="db-badge db-badge-in-progress" data-astro-cid-6gxxuhll>6</span> </div> <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 14px;" data-astro-cid-6gxxuhll>Written, scheduled — goes live on its date at the next deploy.</p> <div style="display: flex; flex-direction: column; gap: 12px;" data-astro-cid-6gxxuhll> <details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Is Your Web Host Actually Green? A 30-Second Check</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/is-your-web-host-actually-green</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 6 days </span> <time class="post-date" datetime="2026-06-29T00:00:00.000Z" data-astro-cid-6gxxuhll>29 June 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Development</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> green hosting, sustainability, web development, uk</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/is-your-web-host-actually-green.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>How to verify whether your web host really runs on renewable energy — the public registry to check, what &#39;carbon neutral&#39; claims actually mean, and what to do if your host fails the test.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Plenty of hosting companies describe themselves as green. Far fewer can show you the working. The gap between the two is wide enough that “we’re carbon neutral” has become close to meaningless as a phrase — it can mean a provider runs its data centres on wind power, or it can mean they bought some offsets last year and put a leaf on the homepage.</p>
+<p>The good news is that you don’t have to take anyone’s word for it. There’s a public, independent way to check whether your host actually runs on renewable energy, and it takes about half a minute.</p>
+<h2 id="the-30-second-check">The 30-second check</h2>
+<p>The single most useful tool here is The Green Web Foundation’s public checker at <a href="https://www.thegreenwebfoundation.org/green-web-check">thegreenwebfoundation.org/green-web-check</a>. Type in your domain — or any domain — and it tells you whether the underlying host is in its registry of verified green providers.</p>
+<p>The way it works is straightforward. The Foundation maintains a database of hosting companies that have submitted evidence they run on renewable energy or offset their emissions. When you check a site, it traces the IP back to whoever’s hosting it and looks them up. A <strong>green</strong> result means the host is on the registry with evidence on file. A <strong>grey</strong> result means there’s no verified evidence — which isn’t proof the host is dirty, but it does mean nobody has shown their working.</p>
+<p>That distinction matters. “Not on the registry” and “not green” aren’t the same thing, but in practice a host that’s serious about renewable energy has every reason to be listed. If they’re not, it’s a fair question to put to them.</p>
+<h2 id="what-carbon-neutral-is-actually-claiming">What ‘carbon neutral’ is actually claiming</h2>
+<p>Once you’ve run the check, the next thing worth understanding is what any green claim rests on, because not all of them are equal.</p>
+<p>Broadly, a host can back up a renewable claim in one of a few ways, and they’re not all as good as each other:</p>
+<ul>
+<li><strong>Power Purchase Agreements (PPAs)</strong> — long-term contracts to buy electricity from a specific renewable source, like a particular wind or solar farm. These tend to fund genuinely new clean generation, which is the outcome you actually want.</li>
+<li><strong>Renewable Energy Certificates (RECs)</strong> — tradeable certificates that let a company claim renewable energy without necessarily causing any new clean power to be built. Cheap, easy to buy in volume, and much weaker as evidence.</li>
+<li><strong>Carbon offsets</strong> — paying for emissions reductions elsewhere (tree planting, for instance) to balance out your own. This is the “carbon neutral” route, and it’s the furthest removed from running on clean power in the first place.</li>
+</ul>
+<p>A host running on PPAs is doing something materially different from one that’s bought a stack of RECs or offsets and called it a day. When you’re reading a hosting company’s sustainability page, the language they use is a tell. Specifics about how they source power are a good sign. Vague mentions of being “100% carbon neutral” with no detail underneath usually mean offsets.</p>
+<p>None of this requires you to become an energy market expert. It just means treating “carbon neutral” as the start of a question rather than the end of one.</p>
+<h2 id="when-the-check-comes-back-grey">When the check comes back grey</h2>
+<p>So your host isn’t on the registry. Now what?</p>
+<p><strong>Ask them directly.</strong> A short email does the job: what proportion of your energy is renewable, and how do you source it? A host that takes this seriously will answer with specifics — named agreements, percentages, maybe a link to their own reporting. A host that doesn’t will give you warm, non-committal reassurance, or nothing at all. Both responses are informative.</p>
+<p>If the answer’s disappointing, you’ve got two routes. You can ask them to submit evidence to The Green Web Foundation, which costs them nothing and helps everyone. Or you can move. Migrating a website to a new host sounds like a faff but rarely is in practice — it’s routine work, and most decent providers will handle the move for you as part of onboarding.</p>
+<p>It’s also worth saying that the price objection has mostly evaporated. At the entry tier, green hosting now costs roughly the same as conventional hosting. The days of paying a noticeable premium for renewable-powered servers are largely behind us, so “it’s more expensive” isn’t the obstacle it once was.</p>
+<p>If you want a shortlist of providers who’ll pass the check, we’ve put together <a href="/blog/green-web-hosting-uk-compared">our comparison of UK green hosts</a> covering who runs on what, and how their claims hold up.</p>
+<h2 id="hosting-is-only-half-the-picture">Hosting is only half the picture</h2>
+<p>Here’s the part that often gets missed. Where your site is hosted determines how clean the electricity is, but how your site is built determines how much electricity it needs in the first place. Those are two separate levers, and the second one is frequently the bigger win.</p>
+<p>A heavy, bloated page running on renewable energy still pulls more power than a lean one — it’s just cleaner power. The most effective approach pulls on both: clean energy <em>and</em> a site that doesn’t waste it. A static-first build, sensible image handling and restraint with third-party scripts can cut the carbon per page view dramatically — in the region of 10 to 40 times lighter than a typical heavyweight build, depending where you’re starting from.</p>
+<p>That’s the thinking behind our approach to <a href="/blog/sustainable-web-design-practical-guide">sustainable web design</a>: a fast, light site is also a low-carbon one, and the two goals reinforce each other rather than competing.</p>
+<h2 id="putting-it-together">Putting it together</h2>
+<p>The 30-second check is a genuinely useful filter, and everyone should run it on their own site at least once. But treat it as a floor, not a ceiling. A green result tells you the electricity is clean. It doesn’t tell you the site is efficient, and it doesn’t tell you the underlying claim is a PPA rather than a pile of offsets.</p>
+<p>If you’d rather not manage any of this yourself, that’s effectively what <a href="/services/green-web-hosting">managed green hosting</a> is for — verified renewable infrastructure with the build and the upkeep handled, so the check comes back green and the site stays light.</p>
+<p>Run the checker on your domain today. If it comes back grey, or you’re not sure what to make of the result, <a href="/contact">get in touch</a> and we’ll take a proper look at where your site sits and what it would take to fix it.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>What Makes a Brand Sustainable (Beyond a Green Logo)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/what-makes-a-brand-sustainable</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 13 days </span> <time class="post-date" datetime="2026-07-06T00:00:00.000Z" data-astro-cid-6gxxuhll>6 July 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Branding</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> branding, sustainability, design, strategy</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/what-makes-a-brand-sustainable.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>Sustainable branding is a set of operating decisions, not a colour palette. What it actually means for identity, materials, messaging, and the claims you can credibly make.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>There’s a particular kind of brand that looks sustainable and isn’t. Sage green palette, a leaf worked into the logomark, a tone of voice full of words like “conscious” and “mindful”, and a supply chain nobody has looked at too closely. The design is doing the work the operations should be doing. It’s a costume.</p>
+<p>A genuinely sustainable brand is something quieter and harder. It’s a set of operating decisions — about materials, suppliers, longevity, and the claims you’re willing to stand behind — that happen to be expressed through design, rather than a design style pretending those decisions have been made.</p>
+<h2 id="green-looking-is-not-the-same-as-sustainable">Green-Looking Is Not the Same as Sustainable</h2>
+<p>Most of what gets sold as sustainable branding is aesthetic. The palette goes earthy, the photography gets some plants in it, and the copy adopts the vocabulary. None of that tells you anything about the business underneath.</p>
+<p>This matters more than it used to. Customers have got better at spotting the costume, and regulators have started treating vague environmental language as a liability rather than a freebie. We’ve written separately about <a href="/blog/sustainability-claims-without-greenwashing">making sustainability claims without greenwashing</a>, and the short version is that the visual identity is now the easy part. The hard part is being able to back up what the identity implies.</p>
+<p>So it’s worth drawing a clean line. A sustainable brand is defined by two things: the operating choices the organisation actually makes, and the claims it can credibly stand behind. The design either reflects those honestly or it papers over their absence.</p>
+<h2 id="longevity-is-the-most-sustainable-design-decision">Longevity Is the Most Sustainable Design Decision</h2>
+<p>The single biggest lever in branding isn’t the materials — it’s how long the work lasts before it gets thrown away and redone.</p>
+<p>A brand that chases the current visual trend dates fast. In three or four years it looks tired, the rebuild gets commissioned, and every asset — signage, packaging, print, the website — gets remade and the old stock binned. A rebuild every few years is a quiet, recurring act of waste that nobody counts because it’s spread out.</p>
+<p><strong>Designing for longevity is the antidote.</strong> It means choosing an identity that won’t look embarrassing when the trend turns, building a system flexible enough to absorb growth without a teardown, and resisting the decorative flourishes that age fastest. This is partly a discipline of restraint and partly a bet on the future — and it’s the same instinct we explored in <a href="/blog/future-of-sustainability-in-branding">the future of sustainability in branding</a>. The identity that survives a decade has done more for the planet than any amount of recycled-paper business cards.</p>
+<h2 id="restraint-reduces-real-resource-use">Restraint Reduces Real Resource Use</h2>
+<p>Restraint isn’t only an aesthetic preference. It has measurable consequences once a brand meets the physical world.</p>
+<ul>
+<li><strong>Print and ink.</strong> A four-colour design with heavy ink coverage and a foil finish uses more material, more energy, and more specialist stock than a considered one- or two-colour system. Full-bleed flooding of solid colour across packaging is the kind of decision that looks bold in a mockup and costs across an entire print run.</li>
+<li><strong>Energy, on the web.</strong> A brand expressed through enormous hero videos, custom fonts loaded six weights deep, and decorative animation moves more data and burns more energy every time a page loads. A lean identity renders faster and lighter — the design language and the carbon footprint pull in the same direction.</li>
+<li><strong>Specification, generally.</strong> Every spec choice — stock weight, finish, the number of components in a packaging system — is also a resource choice. Restraint usually reduces both cost and impact at once.</li>
+</ul>
+<p>None of this means a sustainable brand has to look austere. It means the visual richness should come from good typography, proportion, and judgement rather than from throwing material and processing at the problem.</p>
+<h2 id="accessibility-belongs-in-this-conversation">Accessibility Belongs in This Conversation</h2>
+<p><strong>Accessible type and colour aren’t a separate box to tick.</strong> A brand built on thin, low-contrast type that fails on a phone in daylight quietly excludes a chunk of its audience, and tends to get patched and reworked sooner. Sufficient contrast, sensible type sizes, and a system that holds up across devices is both the inclusive choice and the durable one. Designing something a portion of your audience can’t read comfortably is its own kind of waste.</p>
+<h2 id="a-design-system-that-doesnt-need-constant-rebuilds">A Design System That Doesn’t Need Constant Rebuilds</h2>
+<p>The most overlooked sustainable choice is structural. A brand handed over as a folder of fixed artwork breaks the moment the business does anything new — a product line, a sub-brand, a different format — and that breakage triggers another round of design, approvals, and reprinting.</p>
+<p>A proper design system is built to flex. Defined principles, a clear type and colour structure, components that recombine, and rules that let an in-house team extend the brand correctly without commissioning a studio every time. Most of our <a href="/services/branding">branding work</a> is built this way, because a brand that can grow without a teardown is cheaper for the client and lighter on resources. The system, not the logo, is where sustainability actually lives.</p>
+<h2 id="materials-and-suppliers-are-brand-decisions">Materials and Suppliers Are Brand Decisions</h2>
+<p>Branding doesn’t stop at the screen. The stock the cards are printed on, the packaging a product ships in, the printer’s energy and waste practices, the freight involved — these are all expressions of the brand, and all places where the operating choices become real.</p>
+<p>This is where a sustainable branding agency does work an ordinary studio skips. Choosing recycled or responsibly sourced stock, specifying printers who can show their credentials, avoiding laminates and mixed materials that can’t be recycled, and helping a client think about packaging that doesn’t end up as landfill. These choices rarely show up in the portfolio shot, which is exactly why they get neglected.</p>
+<h2 id="aligning-the-visible-identity-with-real-choices">Aligning the Visible Identity With Real Choices</h2>
+<p>Pull this together and the principle is simple. A sustainable brand is one where the visible identity and the operating reality match closely enough that the brand can say what it does and mean it.</p>
+<p>When they’re aligned, the brand can make a specific, defensible claim — about a material, a supplier, a process — and stand behind it. When they’re not, you get the costume: green-looking design writing cheques the operations can’t cash, which is the precise condition that gets brands into trouble. The design’s job is to tell the truth about the business attractively, not to invent a better business than the one that exists.</p>
+<p>For an organisation in West Lancashire or anywhere else, the honest version of this is also the more useful one. Decide what you’re genuinely willing to do — on materials, longevity, suppliers, and the claims you’ll make — and build an identity that reflects exactly that. A modest, true brand outlasts an ambitious, hollow one.</p>
+<p>If you’re weighing up a new identity and want the operating decisions taken as seriously as the design, that’s the kind of work we do — <a href="/contact">get in touch</a> and we’ll talk it through.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>What a Preliminary Ecological Appraisal Costs in the UK (2026)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/cost-of-a-preliminary-ecological-appraisal</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 20 days </span> <time class="post-date" datetime="2026-07-13T00:00:00.000Z" data-astro-cid-6gxxuhll>13 July 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Ecology</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> ecology, pea, consultancy, planning, uk</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/cost-of-a-preliminary-ecological-appraisal.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>A plain-English breakdown of what a Preliminary Ecological Appraisal (PEA) costs in the UK, what drives the price up or down, and what you actually get for the money.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>If you’ve been told you need a Preliminary Ecological Appraisal before your planning application will be validated, your first question is almost certainly going to be about the cost. It’s a fair question, and the honest answer is that it varies more than most people expect.</p>
+<p>This is a plain-English look at what a PEA costs in the UK in 2026, what pushes the price up or down, and what you should actually be getting for the money. No sales pitch, just the numbers as we see them.</p>
+<h2 id="the-short-answer-on-pea-cost">The short answer on PEA cost</h2>
+<p>For a small, straightforward site — a single dwelling plot, a modest extension, a paddock — most PEA quotes land somewhere in the region of £400 to £1,500. For larger or more complicated sites, you can comfortably be looking at several thousand pounds.</p>
+<p>Here’s a rough guide, with the usual caveat that these are typical ranges and not fixed prices:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Site type</th><th>Typical PEA fee (2026)</th></tr></thead><tbody><tr><td>Small, simple site (single plot, garden, paddock)</td><td>£400–£900</td></tr><tr><td>Medium site, some habitat complexity</td><td>£900–£1,800</td></tr><tr><td>Large or complex site, multiple habitats</td><td>£2,000–£5,000+</td></tr></tbody></table>
+<p>Treat that table as a starting point for conversations, not a quote. Two consultants looking at the same field can come back with quite different figures, and both can be perfectly reasonable.</p>
+<h2 id="what-youre-actually-paying-for">What you’re actually paying for</h2>
+<p>A PEA isn’t just a site visit. The work breaks down into three parts:</p>
+<ul>
+<li><strong>A desk study.</strong> The ecologist pulls records from the local environmental records centre, checks designated sites nearby, and looks at historical mapping and aerial imagery to understand what’s likely to be present.</li>
+<li><strong>An Extended Phase 1 Habitat Survey</strong> — increasingly done to the UKHab classification — which is the walkover where they map habitats on the ground and note features that could support protected species.</li>
+<li><strong>A written report</strong> that pulls it together, sets out the constraints, and recommends next steps, usually so a planning officer can sign off the ecology side of your application.</li>
+</ul>
+<p>If you want the full picture of what lands on your desk at the end, we’ve written separately about <a href="/blog/what-a-pea-actually-contains">what a PEA actually contains</a>. The point worth making here is that the report is the deliverable. The site visit is the easy bit; the desk study and the writing are where the time goes, and that’s reflected in the fee.</p>
+<h2 id="what-drives-the-price-up-or-down">What drives the price up or down</h2>
+<p>A handful of factors do most of the work in setting your quote.</p>
+<p><strong>Site size and complexity.</strong> A back garden takes an hour to walk. A 40-hectare mixed parcel with woodland, watercourses, and old farm buildings takes a day or more, plus far longer to write up. Size and habitat variety are the biggest single lever on cost.</p>
+<p><strong>Travel and region.</strong> Ecologists charge for getting to you. A site an hour from the consultant’s base is cheaper to survey than one three hours away, and regional rates differ — work in and around the South East tends to cost more than the same job in, say, rural Lancashire.</p>
+<p><strong>Survey season.</strong> The habitat walkover is most reliable in the optimal botanical window, broadly April to September. Out-of-season surveys are possible, but the ecologist may need to caveat their findings or budget for a return visit, both of which can nudge the price and the timeline.</p>
+<p><strong>Protected-species risk.</strong> If the walkover flags potential for bats, great crested newts, badgers, or other protected species, the report will recommend further surveys. The PEA itself doesn’t get more expensive for finding these things, but it sets off a chain of follow-on work that does.</p>
+<p><strong>Turnaround.</strong> A standard lead time is built into most quotes. Ask for a report next week rather than next month and you may pay a premium, if the consultant can fit it in at all.</p>
+<h2 id="the-cost-that-isnt-in-the-pea-quote">The cost that isn’t in the PEA quote</h2>
+<p>This is the part that catches people out. A PEA frequently recommends further surveys, and those are separate jobs with their own fees and their own seasonal windows.</p>
+<p>Bat emergence surveys, for instance, can only happen between roughly May and September and often need multiple visits. Great crested newt surveys are similarly tied to the spring. If your PEA triggers one of these, the cost and the delay can dwarf the appraisal itself — and you can’t simply pay to skip the season.</p>
+<p>So when you’re budgeting, treat the PEA fee as the entry ticket rather than the full bill. A good consultant will tell you up front how likely follow-on surveys are for your site, which lets you plan around the calendar instead of being ambushed by it.</p>
+<h2 id="why-cheaper-isnt-always-cheaper">Why cheaper isn’t always cheaper</h2>
+<p>It’s tempting to take the lowest quote and move on. Sometimes that’s the right call. But a thin report that a planning officer queries can cost you weeks, and weeks of delay on a development are worth a great deal more than the difference between two survey fees.</p>
+<p>There’s also a wider squeeze on the market worth being aware of. The arrival of mandatory Biodiversity Net Gain has piled work onto a finite number of ecologists, and we’ve written about how <a href="/blog/bng-is-burying-ecological-consultancies">BNG is burying small ecological consultancies</a> — which is part of why good consultants are busy and lead times have lengthened. It’s a seller’s market in places, and that shows up in both price and availability.</p>
+<p>What you want to check, regardless of price, is that the consultant is properly qualified — CIEEM membership is the usual marker — and that the quote covers a genuine desk study and a competent report, not just a flying visit and a template.</p>
+<h2 id="getting-a-sensible-quote">Getting a sensible quote</h2>
+<p>A few practical steps will get you a number you can trust:</p>
+<ul>
+<li>Send a site location and a red-line boundary, even a rough one. It’s the single most useful thing for accurate pricing.</li>
+<li>Say when you need the report. Deadlines change what’s possible and what it costs.</li>
+<li>Ask directly how likely follow-on surveys are, so you can budget for the whole job rather than just the first step.</li>
+<li>Get more than one quote, and compare what’s included, not only the headline figure.</li>
+</ul>
+<p>If you’d like a straight answer on what a PEA would cost for your particular site, that’s the kind of thing <a href="/services/environmental/consultancy">our ecology consultancy</a> does day to day. Send us the location and what you’re planning, and we’ll tell you honestly what’s involved, what it’s likely to cost, and whether further surveys are on the cards — no obligation. You can reach us through the <a href="/contact">contact page</a> whenever you’re ready.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Managed Green Hosting vs DIY: What Small UK Businesses Actually Need</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/managed-green-hosting-vs-diy</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 27 days </span> <time class="post-date" datetime="2026-07-20T00:00:00.000Z" data-astro-cid-6gxxuhll>20 July 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Development</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> green hosting, managed hosting, small business, uk</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/managed-green-hosting-vs-diy.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>Self-hosting on a green platform looks cheap until you count your own time. When managed green hosting earns its keep for a small UK business — and when DIY is genuinely fine.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>There’s a version of the green hosting pitch that goes: pick a platform running on renewable energy, deploy your site, pay nothing or close to it, done. For a fair number of small UK businesses that’s genuinely the right answer, and anyone telling you otherwise is selling something.</p>
+<p>But the bill is only one column of the spreadsheet. The other column is your time, and that’s the one that quietly fills up after launch. This is the honest comparison between doing green hosting yourself and paying someone to manage it — including the cases where managed is a waste of money.</p>
+<h2 id="what-diy-on-a-green-platform-actually-means">What “DIY on a green platform” actually means</h2>
+<p>The DIY route covers a few different setups, and they’re not equally demanding.</p>
+<ul>
+<li><strong>A static host like Cloudflare Pages or Netlify.</strong> Deploy from a git repository, sit on a CDN running on verified renewable energy, pay nothing on the free tier. Technically excellent, and we use this ourselves for plenty of sites.</li>
+<li><strong>A bare VPS on a green host.</strong> More control, more responsibility. You own the operating system, the web server, the firewall and every patch that lands on it.</li>
+<li><strong>A green shared-hosting account you administer yourself.</strong> The middle ground, where the host handles the server but you handle the site.</li>
+</ul>
+<p>All three are reasonable. None of them are free in the sense that matters, because the running cost isn’t money — it’s attention.</p>
+<h2 id="the-cost-nobody-puts-on-the-invoice">The cost nobody puts on the invoice</h2>
+<p>When a site goes live, the work doesn’t stop. It just becomes intermittent and easy to ignore until it isn’t. Here’s the work that lands on whoever owns the site:</p>
+<ul>
+<li><strong>Domain and DNS.</strong> Pointing records correctly, then remembering how you did it the next time you need to change something.</li>
+<li><strong>SSL certificates.</strong> Mostly automated now, but “mostly” is doing some work in that sentence. Renewals fail, and a lapsed certificate throws a scary browser warning at every visitor.</li>
+<li><strong>Updates and patching.</strong> Dependencies, plugins, the server itself. Skip them long enough and you’ve got a security problem rather than a maintenance task.</li>
+<li><strong>Backups.</strong> Easy to set up, easy to forget, and only ever noticed at the exact moment you need one that isn’t there.</li>
+<li><strong>Uptime.</strong> If your site goes down at 2am on a Saturday, who finds out, and how long does it stay down before anyone does?</li>
+</ul>
+<p>That last point is the one people underestimate. The expensive outage isn’t the dramatic one — it’s the quiet one. A form that stopped sending enquiries three weeks ago, a checkout that’s been throwing errors since the last update, a site that’s been returning a 500 to half its visitors while you got on with your actual job. You don’t pay for that in pounds. You pay for it in the customers who tried to reach you and didn’t.</p>
+<p>Put a rough number on the time, though, because it makes the decision clearer. A typical small business site costs its owner somewhere between six and ten hours a year once you total up DNS fiddling, failed builds, update prompts and the occasional “why is the site down” panic. At a modest internal cost for that time, you’re into a few hundred pounds a year before anything has actually gone wrong.</p>
+<h2 id="what-managed-green-hosting-takes-off-your-plate">What managed green hosting takes off your plate</h2>
+<p>Managed hosting is the deal where that list above stops being yours. The provider owns the hosting account, configures DNS, manages SSL, runs backups, monitors uptime, applies updates and patches, and gives you one person to call — ideally a UK one, in your timezone, speaking plain English rather than ticket-system boilerplate.</p>
+<p>The “green” part means the underlying infrastructure runs on verified renewable energy. The “managed” part means you never have to touch it. For a non-technical owner, that second part is usually what they were actually paying for, even when they thought they were buying hosting.</p>
+<p>It’s worth being straight about how this works at our end, because the model matters. <strong>OakFox is a reseller.</strong> We don’t own data centres and we don’t pretend to. We run our managed hosting on a certified green upstream host, and what we add is the layer around it: the setup, the migration, the monitoring, the support, and the fact that one accountable team handles the whole thing. We’ve written more about this trade-off in <a href="/blog/cloudflare-pages-vs-managed-green-hosting">Cloudflare Pages vs managed green hosting</a>, and if you want to see how the underlying platforms stack up, <a href="/blog/green-web-hosting-uk-compared">our comparison of UK green hosts</a> lays that out without a sales angle.</p>
+<p>The reason we can offer this at all, and the reason it’s worth your money rather than ours, is that commodity hosting is a thin business on its own. Anyone can resell a green platform. What’s actually useful is bundling the hosting with the design and development of the site itself, so there’s no finger-pointing between “the developer” and “the host” when something needs fixing. They’re the same people. That’s the bit you’re paying for.</p>
+<h2 id="when-diy-is-genuinely-the-right-call">When DIY is genuinely the right call</h2>
+<p>Managed hosting isn’t for everyone, and it’s worth saying so plainly. Self-hosting on a green platform is the better choice if:</p>
+<ul>
+<li><strong>You’re technical, or someone on the team is.</strong> If you’re comfortable with git, DNS and a terminal, the free tier of a static host is hard to beat on price or performance. Paying someone to manage that for you is paying to remove a problem you don’t have.</li>
+<li><strong>The site isn’t commercially critical.</strong> A side project, a personal portfolio, a marketing experiment — if a few hours of downtime costs you nothing real, the maintenance burden is low enough to absorb.</li>
+<li><strong>You enjoy it.</strong> Some owners genuinely like having their hands on the infrastructure. That’s a perfectly good reason, and the time cost doesn’t feel like a cost.</li>
+</ul>
+<p>If two or three of those describe you, don’t pay for managed hosting. You’ll resent the bill and you won’t get value from the support, because you’ll never call it.</p>
+<h2 id="so-which-one-do-you-actually-need">So which one do you actually need</h2>
+<p>The deciding question isn’t technical. It’s this: when the site breaks, whose problem is it, and what does that person’s hour cost?</p>
+<p>If the answer is “mine, and my hour is better spent on the business,” managed green hosting earns its keep — not because the hosting itself is special, but because the management removes a recurring drain on your time and a category of risk you’d otherwise be carrying without noticing. If the answer is “mine, and I’m happy to fix it,” keep your money and self-host. Both are respectable. Only one of them is right for you, and it depends entirely on how you’d rather spend the hours.</p>
+<p>If you’re not sure which camp you’re in, that’s usually a sign you’re closer to the managed end than you think — and it’s a five-minute conversation to find out. Have a look at <a href="/services/green-web-hosting">our managed green hosting</a>, or just <a href="/contact">get in touch</a> and tell us what you’re running. We’ll tell you honestly whether it’s worth paying us, or whether you’re better off keeping it yourself.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Rebranding Without Greenwashing: A Practical Checklist</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/rebranding-without-greenwashing</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 34 days </span> <time class="post-date" datetime="2026-07-27T00:00:00.000Z" data-astro-cid-6gxxuhll>27 July 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Branding</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> branding, sustainability, marketing, greenwashing</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/rebranding-without-greenwashing.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>A field-tested checklist for refreshing a brand around sustainability without overclaiming — what to verify before you say it, which claims are safe, and where businesses trip themselves up.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Rebrands are where overclaiming creeps in. You’ve got a new look, a renewed sense of purpose, and a designer asking what the brand stands for now — and “we’re more sustainable than we used to be” is a tempting thing to write across the top of it. The trouble is that the visual refresh moves a lot faster than the operational reality, and the gap between the two is precisely what greenwashing is.</p>
+<p>The rules around this have tightened. The CMA’s Green Claims Code and the ASA’s enforcement of the CAP advertising rules mean a vague green claim is no longer low-risk — it’s a compliance exposure. None of that should put you off rebranding around sustainability if it’s genuine. It just means doing it carefully. Here’s the checklist we run through before a single line of green copy goes live.</p>
+<h2 id="substantiate-before-you-state">Substantiate before you state</h2>
+<p>The single most important rule, and the one most rebrands get backwards. Decide what’s true first, then write the brand around it — not the other way round. The CMA’s working standard is that you must be able to substantiate a claim at the moment you make it, so every public-facing line needs something behind it: a certificate, an audit, a measured figure. If you’re writing the claim and then hoping to find the evidence later, you’ve already got it wrong. This is the same discipline we cover in detail on <a href="/blog/sustainability-claims-without-greenwashing">making sustainability claims without greenwashing</a>.</p>
+<h2 id="be-specific-about-scope">Be specific about scope</h2>
+<p>Vague claims are the ones that fail. “Sustainable packaging” invites the question — all of it, or the box but not the liner? A claim like “our outer packaging is made from 80% recycled card” is specific, checkable, and far safer, even though it sounds less sweeping. Work through your claims and pin each one to a defined scope: which product, which material, which part of the process. The narrower and more precise the claim, the harder it is to challenge.</p>
+<h2 id="avoid-absolutes-and-comparatives-you-cant-back">Avoid absolutes and comparatives you can’t back</h2>
+<p>A short list of phrases to handle with real care:</p>
+<ul>
+<li><strong>Absolute claims</strong> — “zero impact”, “100% sustainable”, “completely green”. These are almost impossible to evidence across a full life cycle, which is exactly the standard the Green Claims Code applies. Avoid them unless you genuinely can prove them end to end.</li>
+<li><strong>“Carbon neutral” without scope</strong> — if it rests on offsets, you have to say so, and the offsets have to be credible. Stating it bare is one of the most heavily scrutinised claims going.</li>
+<li><strong>Comparatives</strong> — “greener than before”, “more sustainable than the alternatives”. Fine in principle, but you need the baseline and the data to support the comparison, and it has to be a fair, like-for-like one.</li>
+</ul>
+<p>If a claim can’t survive someone asking “compared to what, and how do you know?”, it shouldn’t be in the rebrand.</p>
+<h2 id="dont-hide-the-trade-offs">Don’t hide the trade-offs</h2>
+<p>Most real sustainability stories have a caveat, and burying it is a fast route to a complaint. If a product is recyclable but only at specialist facilities, say so. If your renewable energy covers the office but not the delivery fleet, don’t let the brand imply otherwise. The Code is explicit that claims mustn’t omit or hide material information. Being upfront about the limits of what you’ve achieved reads as more credible, not less — and it’s the honest position anyway.</p>
+<h2 id="keep-the-evidence-on-file">Keep the evidence on file</h2>
+<p>Pull together a single folder — call it a claims register — that holds the proof for every public claim, with the dates each one applies to: energy certificates, supplier declarations, lifecycle figures, test results. Two reasons. First, if the ASA or CMA, a journalist, or a sharp customer asks how you know, you can answer quickly rather than scrambling. Second, the act of assembling it is its own audit. More than once we’ve watched a business start filling in the register and quietly drop a claim because the evidence simply wasn’t there.</p>
+<h2 id="make-the-whole-identity-match-the-operating-reality">Make the whole identity match the operating reality</h2>
+<p>A rebrand isn’t just a logo. It’s the copy, the photography, the packaging, the social bios, the email footer — and all of it makes claims, including the visual parts. Earthy colours, leaves, and recycled-look paper stock imply environmental credentials just as loudly as words do. The ASA has ruled against imagery that overstated a company’s green credentials even where the text was technically careful. So check the visuals against the same standard as the copy: does the whole identity reflect what the business actually does, or does it dress up an ordinary operation as a green one? If you’re commissioning this work out, build the substantiation in from the start — our notes on <a href="/blog/how-to-brief-a-branding-agency">how to brief a branding agency</a> cover how to fold it into the brief rather than bolting it on at the end.</p>
+<h2 id="dont-imply-more-than-you-do">Don’t imply more than you do</h2>
+<p>The subtlest failure, and the one that catches well-meaning businesses. You can be technically accurate and still mislead by implication — a single recycled product line that makes the entire company look green, or a one-off planting initiative that reads like a core commitment. Step back and ask what impression the rebrand leaves overall, not just whether each individual claim is defensible. The honest test is whether a reasonable customer would come away believing something truer than the facts. If the answer is no, scale the claims back to fit.</p>
+<p>What safe looks like in practice is duller than the hype but a great deal sturdier. On our own site we say the work is hosted on verified renewable energy, checked through The Green Web Foundation — specific, evidenced, and easy to confirm. That’s the shape every claim in a rebrand should take.</p>
+<h2 id="a-quick-last-word">A quick last word</h2>
+<p>A genuine sustainability story is worth telling, and a rebrand is a good moment to tell it — provided the brand never gets ahead of the business. Run your claims through this checklist before you sign anything off, and you’ll end up with an identity you can stand behind when someone asks the hard question. If you’d like a hand getting it right, take a look at <a href="/services/branding">our branding work</a> or <a href="/contact">get in touch</a> and we’ll talk it through.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Biodiversity Net Gain for Small Sites: A Plain-English Guide</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/biodiversity-net-gain-small-sites-guide</span> </span> <span class="post-side" data-astro-cid-6gxxuhll> <span class="post-count" data-astro-cid-6gxxuhll>
+in 41 days </span> <time class="post-date" datetime="2026-08-03T00:00:00.000Z" data-astro-cid-6gxxuhll>3 August 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Ecology</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> ecology, bng, planning, regulation, uk</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/biodiversity-net-gain-small-sites-guide.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>What Biodiversity Net Gain actually requires on a small or minor development in England — the 10% rule, the metric, exemptions, the 30-year commitment, and how to keep the cost and paperwork sane.</p>  <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>If you’re building anything small in England right now — a few houses, a modest commercial unit, an infill plot — Biodiversity Net Gain applies to you, and the rules weren’t really written with you in mind. They were written for major schemes with ecologists on retainer and a planning budget to match.</p>
+<p>This is a plain-English run through what BNG actually asks of a small or minor development, where the real costs sit, and how to keep both the spend and the paperwork sane. None of it is legal advice, and thresholds shift, so treat this as a map rather than the territory.</p>
+<h2 id="what-bng-requires-in-one-paragraph">What BNG requires, in one paragraph</h2>
+<p>Biodiversity Net Gain has been mandatory for major developments in England since February 2024, and for small sites since April. The core requirement is the same whatever your size: your development has to leave biodiversity in a measurably better state, by a minimum of <strong>10%</strong>, and that gain has to be secured and maintained for at least <strong>30 years</strong>. “Measurably” is the operative word — it’s not a judgement call, it’s a calculation.</p>
+<h2 id="how-the-10-is-measured">How the 10% is measured</h2>
+<p>The uplift is worked out using the <strong>Statutory Biodiversity Metric</strong>, a spreadsheet tool that scores habitats by type, condition and area before and after development. Subtract the before from the after, and you need to land at least 10% in the black.</p>
+<p>For smaller schemes there’s a lighter option:</p>
+<ul>
+<li><strong>The Small Sites Metric (SSM)</strong> — a simplified version of the statutory metric, designed to be less demanding to complete on eligible small sites.</li>
+<li>It won’t suit every plot. Sites with protected or priority habitats, or where protected species are involved, usually fall outside it and need the full metric.</li>
+<li>An ecologist can tell you within a site visit or two which one you’re allowed to use, which is worth knowing before you price anything.</li>
+</ul>
+<p>The metric rewards condition, not just area. A scrappy strip of amenity grass scores poorly; the same strip turned into a properly managed wildflower meadow scores well. That’s the lever you’re pulling.</p>
+<h2 id="are-you-a-small-site--and-are-you-exempt">Are you a small site — and are you exempt?</h2>
+<p>“Small site” has a specific planning meaning, and it’s worth getting right because it decides which metric and which process you’re in. The general thresholds are:</p>
+<ul>
+<li><strong>Residential:</strong> 1 to 9 dwellings, on a site under 0.5 hectares.</li>
+<li><strong>Commercial:</strong> floor space under 1,000 square metres, or a site area under 1 hectare.</li>
+</ul>
+<p>Treat those as the usual cut-off rather than gospel. The precise wording can change, and your Local Planning Authority is the one who decides, so confirm your exact case with them before you build a strategy around it.</p>
+<p>Some developments are exempt altogether. Certain householder applications, self-build and custom-build, and various de minimis cases below the relevant threshold can sit outside BNG. The list isn’t fixed and the detail matters, so check the current gov.uk guidance and ask your LPA rather than assuming yours qualifies. An exemption you can’t actually rely on is worse than none, because you’ll find out at validation.</p>
+<h2 id="the-hierarchy-where-the-money-actually-goes">The hierarchy: where the money actually goes</h2>
+<p>There’s an order you’re meant to follow, and conveniently the cheapest options usually come first:</p>
+<ul>
+<li><strong>Avoid and minimise</strong> habitat loss on site. Keep the mature trees, the hedgerow, the pond. Every unit you don’t destroy is a unit you don’t have to replace.</li>
+<li><strong>Enhance on site.</strong> Improve what’s left, or create new habitat within the red line. This is normally the cheapest route to your 10%.</li>
+<li><strong>Buy off-site units</strong> if you can’t get there on site. You’re paying a landowner or habitat bank to deliver the gain elsewhere.</li>
+<li><strong>Statutory credits</strong> from the government, as a genuine last resort. They’re priced to be unattractive on purpose, to push you up the hierarchy.</li>
+</ul>
+<p>The practical takeaway: design biodiversity in early, while the layout is still soft. Retrofitting a few percent of net gain onto a scheme that’s already been laid out for maximum plot count is where small developers end up reaching for expensive off-site units they didn’t need.</p>
+<h2 id="the-30-year-commitment-everyone-underestimates">The 30-year commitment everyone underestimates</h2>
+<p>The bit that catches small developers out isn’t the metric or the 10% — it’s the <strong>30-year management and monitoring obligation</strong> that comes attached to any gain you create. Whatever habitat you promise has to be looked after, monitored and reported on for three decades, secured through a planning condition, a section 106 agreement or a conservation covenant.</p>
+<p>That’s a real, long-tailed liability. The planting is cheap; thirty years of mowing regimes, condition assessments, monitoring reports and the legal mechanism behind them is not. On a one-off small site it can quietly outweigh the build cost of the habitat itself. Sometimes that maths is exactly why an off-site unit — where someone else carries the 30-year burden — turns out to be the sensible choice after all. Run the numbers properly before you assume on-site is cheaper across its whole life.</p>
+<h2 id="why-this-is-harder-than-it-should-be">Why this is harder than it should be</h2>
+<p>It’s worth being honest about the wider picture. The same policy that asks a nine-house developer to commission metric calculations and a 30-year plan has piled work onto a sector that was already stretched, which is part of <a href="/blog/bng-is-burying-ecological-consultancies">why BNG is burying small ecological consultancies</a>. Demand has outrun the supply of people qualified to do the assessments, and small sites — low fee, fiddly, plenty of admin — are the ones that get squeezed.</p>
+<p>That’s the gap we work in. Our <a href="/services/environmental/consultancy">ecology consultancy</a> handles the survey-and-metric side for small and minor schemes, and our <a href="/services/environmental/automation">ecology report automation</a> takes the repetitive paperwork off ecologists’ desks so the assessment itself can be turned around without the usual queue. The aim is a BNG process that doesn’t cost more than the patch of meadow you’re creating.</p>
+<h2 id="keeping-it-sane-a-short-checklist">Keeping it sane: a short checklist</h2>
+<ul>
+<li><strong>Get an ecologist in before the layout is fixed</strong>, not after. Early advice is cheap; redesigns aren’t.</li>
+<li><strong>Confirm your thresholds and exemptions with your LPA in writing.</strong> Don’t rely on a forum post or a half-remembered rule.</li>
+<li><strong>Price the full 30 years</strong>, not just the planting, when you compare on-site against off-site.</li>
+<li><strong>Check SSM eligibility early</strong> — it can meaningfully cut the assessment burden if you qualify.</li>
+<li><strong>Keep your habitat evidence tidy</strong> from day one, because the metric is only as good as the baseline survey behind it.</li>
+</ul>
+<p>BNG on a small site is manageable. It’s mostly a matter of sequencing — doing the ecology thinking before the layout thinking, and pricing the long tail honestly.</p>
+<p>If you’ve got a small or minor scheme and you’re not sure which metric, threshold or route applies to you, <a href="/contact">get in touch</a> and we’ll give you a straight answer before you spend anything.</p> </article> </div> </details> </div> </section><section style="margin-bottom: 36px;" data-astro-cid-6gxxuhll> <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;" data-astro-cid-6gxxuhll> <h2 class="db-heading" style="font-size: 18px;" data-astro-cid-6gxxuhll>Live</h2> <span class="db-badge db-badge-done" data-astro-cid-6gxxuhll>11</span> </div> <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 14px;" data-astro-cid-6gxxuhll>Published and visible on the public site.</p> <div style="display: flex; flex-direction: column; gap: 12px;" data-astro-cid-6gxxuhll> <details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Why Most Small Businesses Shouldn&#39;t Self-Host on Cloudflare Pages (Even Though It&#39;s Free)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/cloudflare-pages-vs-managed-green-hosting</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-05-18T00:00:00.000Z" data-astro-cid-6gxxuhll>18 May 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Development</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> green hosting, small business, infrastructure, managed hosting, cloudflare</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/cloudflare-pages-vs-managed-green-hosting.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>Cloudflare Pages is the cheapest, fastest, greenest static host going. So why do most small businesses get bitten by it? Where the free tier wins, and where managed green hosting earns its keep.</p> <a class="db-btn db-btn-sm" href="/blog/cloudflare-pages-vs-managed-green-hosting" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Cloudflare Pages is brilliant. It’s the host we use for most of our own static builds. It’s verified green, it’s on a global CDN, and the free tier is more generous than most paid plans elsewhere. We recommend it in <a href="/blog/green-web-hosting-uk-compared">our green hosting comparison</a> without much hedging.</p>
+<p>For the right user.</p>
+<p>The right user is a developer, or at least someone who’s comfortable in a terminal, knows what a CNAME record is, and is happy debugging a build pipeline at 9pm on a Sunday.</p>
+<p>That’s not most small business owners. And when an owner who doesn’t fit that profile picks Cloudflare Pages on price alone, it tends to end one of two ways. Either the account gets abandoned because the DNS migration never quite worked. Or the site limps along until something breaks and nobody knows how to fix it. Neither one is the host’s fault. Both are predictable.</p>
+<p>Here’s where the free tier is the right answer, and where it isn’t.</p>
+<h2 id="where-cloudflare-pages-free-tier-wins-outright">Where Cloudflare Pages Free Tier Wins Outright</h2>
+<p>Not burying the lead. Cloudflare Pages on the free tier is the right host for:</p>
+<ul>
+<li>A developer or technical founder who’s comfortable with git, DNS and CI/CD.</li>
+<li>A side project or marketing experiment where uptime isn’t commercially critical and the owner is happy to debug.</li>
+<li>A high-traffic static site where the free tier’s unlimited bandwidth genuinely matters (most paid hosts charge for egress at scale).</li>
+<li>An agency-managed build where the agency owns the hosting account and handles every change for the client.</li>
+</ul>
+<p>In any of those cases, paying for managed hosting is a tax. The free tier is mature, fast, green and well-documented. We use it ourselves for every static site we host on behalf of a client whose contract includes managed hosting. The underlying infrastructure is Cloudflare. The value we add is the layer on top.</p>
+<h2 id="where-the-free-tier-quietly-fails-small-businesses">Where The Free Tier Quietly Fails Small Businesses</h2>
+<p>The failure modes aren’t dramatic. There’s no outage. There’s no bill shock. The site doesn’t get hacked. What happens is small, persistent friction that adds up over a year. We’ve seen this pattern enough times to map it.</p>
+<h3 id="1-the-dns-migration-stalls">1. The DNS Migration Stalls</h3>
+<p>The owner bought their domain through GoDaddy or 123-Reg in 2018. To deploy on Cloudflare Pages they need to point the nameservers at Cloudflare. Cloudflare’s docs are clear. The registrar’s interface isn’t. Forty minutes in, the owner has changed something but isn’t sure what, the old email has stopped working, and nobody is sure if the change has propagated yet. They pay a developer £80 to fix it. From then on they’re uneasy about touching DNS at all.</p>
+<h3 id="2-the-first-build-failure">2. The First Build Failure</h3>
+<p>The site deploys fine for six months. Then a dependency updates, the build breaks, and the dashboard shows a stack trace mentioning <code>Node 18</code> and <code>vite</code>. The owner has no idea what either of those things is. The site is still live (Cloudflare keeps serving the last successful build), but the team’s new About copy is stuck in a pull request and nobody can deploy it.</p>
+<h3 id="3-content-edits-need-a-developer">3. Content Edits Need a Developer</h3>
+<p>Small marketing sites built on Astro or Eleventy are fantastic for performance and sustainability. They aren’t fantastic for non-technical content edits. Updating a phone number means a git commit. A new team-member photo means resizing an image, optimising it, and pushing it through the pipeline. The owner ends up texting their developer every fortnight for changes that would have taken five minutes in WordPress.</p>
+<h3 id="4-the-email-tangle">4. The Email Tangle</h3>
+<p>Cloudflare Pages doesn’t host email. Most small businesses run email through Google Workspace or Microsoft 365 and need specific MX, SPF, DKIM and DMARC records configured alongside the site. Get one record wrong and either the website or the email breaks. We’ve done emergency call-outs for “the website is down” that turned out to be email DNS edited months earlier.</p>
+<h3 id="5-theres-nobody-to-call">5. There’s Nobody to Call</h3>
+<p>This is the one that catches people out. Cloudflare’s free tier has community support only. No phone number, no live chat, no SLA. For technical users who can read docs and post on a forum, that’s fine. For an owner who needs to be told, in plain English, that their site is up and they should refresh the page, it’s a dead end.</p>
+<h2 id="the-real-cost-of-free">The Real Cost of “Free”</h2>
+<p>Let’s put numbers on it. A typical small business marketing site on self-hosted Cloudflare Pages, over twelve months, tends to eat:</p>
+<ul>
+<li>2 hours of developer time for the initial DNS and email migration (£80 to £160).</li>
+<li>3 to 4 hours of developer time across the year for content edits the owner can’t do themselves (£120 to £320).</li>
+<li>1 to 2 hours of developer time debugging the inevitable build failure or dependency update (£40 to £160).</li>
+<li>30 minutes of the owner’s own time per support friction event. Six events a year is three hours of owner time at a notional £40/hour (£120).</li>
+</ul>
+<p>That’s somewhere between <strong>£360 and £760 a year</strong>. On a “free” host.</p>
+<p>For comparison, our <a href="/services/green-web-hosting">managed green hosting</a> is £144 a year on the entry tier. Same Cloudflare-grade green infrastructure underneath. DNS, email DNS, SSL, content edits, build pipeline, monitoring and a human to email when something’s wrong are all included.</p>
+<p>The free tier is cheaper than managed hosting <em>only</em> if your time is worth nothing and you never break anything. If either of those isn’t true, you’re paying more for “free”.</p>
+<h2 id="what-managed-green-hosting-actually-covers">What Managed Green Hosting Actually Covers</h2>
+<p>The term “managed hosting” gets used loosely, so it’s worth being specific about what’s in ours.</p>
+<p>At OakFox, <a href="/services/green-web-hosting">managed green hosting</a> includes:</p>
+<ul>
+<li>Verified renewable infrastructure (Cloudflare Pages, Krystal or Kualo, depending on what the site needs). All three are on <a href="https://www.thegreenwebfoundation.org/green-web-check/">The Green Web Foundation registry</a>.</li>
+<li>Owned hosting account. We hold it, manage credentials and handle billing internally. The client never sees the dashboard unless they want to.</li>
+<li>DNS and email DNS, including MX, SPF, DKIM and DMARC for Google Workspace or Microsoft 365.</li>
+<li>SSL certificate management with automatic renewal. No expiry surprises.</li>
+<li>Build pipeline maintenance. When Node updates or a dependency breaks, we fix it before it becomes a deploy failure.</li>
+<li>Content edits. Small text and image changes turned around within 24 hours on the standard plan.</li>
+<li>Monitoring and uptime alerts. We know if the site’s down before the owner does.</li>
+<li>Backups. Git-based for static sites, daily for WordPress sites, retained for 30 days.</li>
+<li>Real UK support by email and phone, answered by the person who built the site, not a ticket queue.</li>
+</ul>
+<p>This isn’t a unique offer. Several UK green hosts wrap a similar service around their infrastructure. We built ours because the off-the-shelf options either skip the green credentials (most managed WordPress hosts), skip the support layer (Cloudflare’s own offering), or charge agency-tier prices for what is, at small business scale, a fairly simple service.</p>
+<h2 id="so-when-should-you-self-host">So When Should You Self-Host?</h2>
+<p>The honest version. If you or someone on your team is technical, self-hosting on Cloudflare Pages free tier is the right call. The infrastructure is excellent, the price is unbeatable and the sustainability credentials are real. You don’t need us, and we wouldn’t pretend you do.</p>
+<p>If your team isn’t technical, if your stomach drops a little when someone mentions DNS, then “free” isn’t the right axis to be looking at. The right axis is: how much developer time will I burn this year, and how much will it cost when something breaks? On that one, managed wins almost every time.</p>
+<h2 id="a-note-on-sustainability">A Note On Sustainability</h2>
+<p>The reason any of this matters beyond the commercial side is that the alternative for non-technical owners is usually a £2.99/month shared host running WordPress on a coal-powered server in a basement. That’s the path of least resistance, and it’s also the worst possible outcome on every axis. Slow, insecure, high-carbon and (once you count the support hours) not actually cheap.</p>
+<p>Managed green hosting sits in the gap between “free but you handle it” and “cheap but it’s grey and slow”. For most small UK businesses, that gap is where the right answer lives.</p>
+<p>If you’re weighing up where to host your next site, our <a href="/blog/green-web-hosting-uk-compared">green hosting comparison</a> lays out the providers without any sales pressure. If you’d rather skip the comparison and have us handle the lot, send us a few lines via <a href="/contact">the contact form</a>. We reply within 24 hours, and the first month of managed hosting is on us if you’re migrating off a non-green host.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Building CubTrack: Designing a Calm Baby Tracking App for UK Parents</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/building-cubtrack-baby-tracking-app</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-29T00:00:00.000Z" data-astro-cid-6gxxuhll>29 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Product</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> app development, android, product, ux, case study</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/building-cubtrack-baby-tracking-app.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>How we built CubTrack, a baby tracking app for Android — the brand decisions, UX choices for one-handed use at 3am, the Android stack, and what we learned shipping a freemium product end-to-end.</p> <a class="db-btn db-btn-sm" href="/blog/building-cubtrack-baby-tracking-app" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>CubTrack is a baby tracking app we designed, built, and launched ourselves. Brand identity, UX, Android app, marketing site, freemium pricing, store listing — every layer. It’s now live on the Google Play Store, with iOS in development.</p>
+<p>This post is the inside view. Why we built another tracker when the category is already crowded. The decisions that shaped the app. What we got right, what we’d revisit, and what’s worth knowing if you’re commissioning or building a mobile product yourself.</p>
+<h2 id="why-another-baby-tracking-app">Why Another Baby Tracking App</h2>
+<p>The “baby tracking app” search results in the UK are dominated by two kinds of product. The first is the bloated, gamified app — feature-stacked, ad-supported, and visually exhausting. The second is the legacy app that hasn’t seen a UI refresh since iOS 9, with three-star reviews and abandoned roadmaps. Neither is what tired parents need at 3am.</p>
+<p>The unmet brief was specific: a calm, modern app that logs feeds, naps, nappies, and milestones quickly, syncs across caregivers in real time, and never gets in the way. The category was crowded but the gap was real.</p>
+<p>We also had a strategic reason to build it. OakFox does brand, web, and consultancy work for clients — but shipping our own product gives us a place to test technical and design decisions end-to-end, without compromise. CubTrack is the studio’s first long-form product project, and the work has fed back into how we now approach client mobile briefs.</p>
+<h2 id="the-problem-in-one-sentence">The Problem in One Sentence</h2>
+<p>A first-time parent or shared caregiver group needs to log small events dozens of times a day — feeds, sleeps, nappies, medications, temperatures — and have everyone in the household see the same picture without phoning each other or scrolling a group chat.</p>
+<p>Existing solutions:</p>
+<ul>
+<li><strong>Memory.</strong> Fails by week two.</li>
+<li><strong>Group chat.</strong> No structure, no patterns, no exportable history.</li>
+<li><strong>Spreadsheets.</strong> Work, but only for the parent who set them up.</li>
+<li><strong>Existing apps.</strong> Either too noisy, too dated, or paywalled past the point of useful.</li>
+</ul>
+<p>CubTrack’s job is to be the answer that obviously fits the question, especially for parents with shared caregivers — partners, grandparents, nannies, childminders — who need the same view of the day.</p>
+<h2 id="brand-first-not-last">Brand First, Not Last</h2>
+<p>We designed the brand before writing a single line of app code. That order matters. A brand sets the constraints that everything downstream — colour, type, density, tone — has to respect. Build the app first and the brand becomes a reskin job that never quite fits.</p>
+<p>The brand brief was one word: <strong>calm</strong>. Every subsequent decision had to be defensible against it.</p>
+<ul>
+<li><strong>Soft Sage</strong> as the primary colour — calming, gender-neutral, away from the pink/blue trap most baby apps fall into.</li>
+<li><strong>Warm Cream</strong> as the dominant background — softer than white, easier on tired eyes, especially under low-light conditions.</li>
+<li><strong>Forest Green</strong> for emphasis and headings — adds authority without shouting.</li>
+<li><strong>Charcoal</strong>, not pure black, for body text — reduces eye strain during night feeds.</li>
+</ul>
+<p>These look like small choices in isolation. Together they’re the difference between an app that lowers cognitive load and one that adds to it.</p>
+<div class="not-prose flex justify-center my-8"><img src="/images/cubtrack/app-sleep.png" alt="CubTrack sleep tracking screen" class="rounded-2xl max-w-xs w-full shadow-lg"/></div>
+<h2 id="designing-for-3am">Designing for 3am</h2>
+<p>The hardest UX constraint in a baby tracking app is the operator’s state. The user is often half asleep, holding a baby, with one hand free, in low light. Every screen had to assume that.</p>
+<p>What this meant in practice:</p>
+<ul>
+<li><strong>Single-tap logging on the home screen.</strong> No drilling into a category and then a subcategory to record a nappy change. The most common actions are surfaced first, ranked by usage frequency.</li>
+<li><strong>Larger touch targets than typical Material Design defaults</strong> — at least 56dp, often more — because shaky-handed taps misfire constantly.</li>
+<li><strong>High contrast type, low density screens.</strong> Empty space is functional. Cramming screens with information is a default that feels efficient at design time and brutal at 3am.</li>
+<li><strong>No dark patterns around upgrade prompts.</strong> The free tier has to be genuinely usable on its own. Pro features unlock convenience, not core function.</li>
+<li><strong>Reversible logging.</strong> Mistaps happen. Every log can be undone or edited from the timeline without a deep menu dive.</li>
+</ul>
+<p>These aren’t novel principles — they’re standard mobile UX best practice — but the discipline required to <em>consistently apply</em> them across 30+ screens is where most consumer apps fall apart. The rule we set: if an interaction needs more than one decision from a sleep-deprived user, it’s not done yet.</p>
+<h2 id="the-android-decision">The Android Decision</h2>
+<p>We launched on Android first. Three reasons:</p>
+<ol>
+<li><strong>UK market share.</strong> Android holds roughly 50–55% of the UK smartphone market, depending on the quarter and the source. Launching iOS-first leaves half the country waiting.</li>
+<li><strong>Faster review and iteration.</strong> Google Play’s review cycle is typically hours, not days. For an early-stage product where we expected to ship updates weekly, that mattered.</li>
+<li><strong>Lower indie publishing friction.</strong> The Play Console developer onboarding is more forgiving for small studios than Apple’s Developer Program, especially around testing tracks and staged rollouts.</li>
+</ol>
+<p>iOS is now in active development and will follow within the next major release window. The codebase decisions we made up front — clean separation of UI from business logic, platform-agnostic data models — were shaped by knowing iOS was coming.</p>
+<h2 id="real-time-sync-across-caregivers">Real-Time Sync Across Caregivers</h2>
+<p>The single feature that drives the most retention in our usage data is the <strong>shared timeline</strong>. Two parents, a grandparent, and a childminder can all be looking at the same baby’s day and see logs as they happen.</p>
+<p>This is harder to build than it sounds. The naïve approach — sync on app open — produces the experience users actually have with most existing trackers: open the app, see stale data, log a feed, hope your partner sees it before they get home. We instead invested in proper real-time sync from day one. The result is the kind of “it just works” experience that parents only notice when it doesn’t.</p>
+<p>Lesson for product owners: sync is not a feature to retrofit. If multi-user, multi-device is in scope at all, build for it from the first sprint.</p>
+<h2 id="marketing-site-and-store-listing">Marketing Site and Store Listing</h2>
+<p>The marketing site at <a href="https://cubtrack.co.uk">cubtrack.co.uk</a> was built alongside the app, not after. Same brand system, same tone of voice, same colour palette. Visitors arriving from a Play Store listing should feel they’re still in the same world.</p>
+<p>A few decisions that paid off:</p>
+<ul>
+<li><strong>One screenshot per scroll-section,</strong> not a grid of nine. The Play Store listing already has the gallery; the marketing site has space to slow down.</li>
+<li><strong>Pricing on the homepage,</strong> not buried. Free and £4.79/month for Pro, stated clearly. Hidden pricing trains users to expect dark patterns later.</li>
+<li><strong>A direct Play Store CTA above the fold</strong> — no email-capture wall, no “join our waitlist” — because the app is shipping, not pre-launch.</li>
+</ul>
+<p>Store listing optimisation is a separate craft. We focused on three things: a clear primary screenshot showing the home dashboard, a short feature graphic that reads at thumbnail size, and a description that opens with the use case (<em>“Track every feed, nap, nappy and more — without losing your mind”</em>) rather than a feature list.</p>
+<h2 id="pricing-as-a-product-decision">Pricing as a Product Decision</h2>
+<p>Freemium is the only model that works for a daily-use family app where the alternative is a free Google Sheet. The decisions:</p>
+<ul>
+<li><strong>Free tier covers everything an individual parent realistically needs.</strong> Feeds, naps, nappies, growth, milestones — all unlocked.</li>
+<li><strong>Pro (£4.79/month) unlocks shared caregivers, unlimited custom trackers, PDF exports, and cloud backup.</strong> The features that matter most to households with multiple people involved.</li>
+<li><strong>No ads.</strong> Ever. An app that opens forty times a day at 3am should not be running display ads. The opportunity cost of ad revenue is paid back in trust.</li>
+</ul>
+<p>Whether £4.79 is the right number is something we’ll keep testing. The point is to set it deliberately, monitor conversion, and adjust — not to anchor to whatever competitors are charging.</p>
+<h2 id="whats-next">What’s Next</h2>
+<p>The current roadmap covers three things:</p>
+<ol>
+<li><strong>iOS launch</strong> — in active development, with the same brand and feature parity from day one.</li>
+<li><strong>Pro features</strong> — expressed milk stash management, expanded custom trackers, deeper export options for parents managing GP appointments.</li>
+<li><strong>A small B2B layer</strong> for childminders and nurseries who already use CubTrack informally with parents.</li>
+</ol>
+<p>We’re also using CubTrack as a working laboratory for the studio. Decisions that prove out in our own product — design system architecture, sync infrastructure, store listing approach — feed back into how we approach client briefs around mobile, web apps, and product launches.</p>
+<h2 id="try-cubtrack-or-build-your-own">Try CubTrack, Or Build Your Own</h2>
+<p>If you’ve got a baby or toddler in the house, CubTrack is free to try on Google Play:</p>
+<p><a href="https://play.google.com/store/apps/details?id=com.cubtrack.app"><strong>Download CubTrack on Google Play</strong></a> — or read more at <a href="https://cubtrack.co.uk">cubtrack.co.uk</a>.</p>
+<p>If you’re a founder or product team thinking about building a mobile app — for the UK market or further afield — and you want a partner who can take you from brand through to store listing in one engagement, <a href="/contact">send us a few lines</a>. We reply within 24 hours.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>What a Preliminary Ecological Appraisal Actually Contains — and Why Most Take Six Weeks Longer Than They Should</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/what-a-pea-actually-contains</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-27T00:00:00.000Z" data-astro-cid-6gxxuhll>27 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Ecology</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> ecology, pea, preliminary-ecological-appraisal, consultancies, planning</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/what-a-pea-actually-contains.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>A clear walk-through of what goes into a Preliminary Ecological Appraisal (PEA), the parts that genuinely require an ecologist&#39;s judgement, and the parts quietly eating most of the budget on every job.</p> <a class="db-btn db-btn-sm" href="/blog/what-a-pea-actually-contains" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>If you have ever commissioned a Preliminary Ecological Appraisal — the standard first ecology report on almost any UK planning application — you will know the rhythm. You ask for it in March. The site visit happens within a fortnight. Then it goes quiet for six weeks. Eventually a forty-page PDF arrives, the planners ask one question, and a revised version comes back ten days later.</p>
+<p>The fieldwork on a typical PEA takes half a day. The writing takes the rest of the project. That ratio is the entire story of why these reports cost what they do.</p>
+<p>This post is a plain walk-through of what is actually in a PEA, what part of it genuinely needs an experienced ecologist, and why so much of the elapsed time is spent on tasks that — honestly — should not be the bottleneck.</p>
+<h2 id="what-a-pea-is-for">What a PEA Is For</h2>
+<p>A Preliminary Ecological Appraisal sits at the front end of the planning process. It is meant to answer two questions for a Local Planning Authority. First: what habitats and protected species could reasonably be present on this site? Second: what further survey work, mitigation, or design changes does the project need to satisfy planning policy and the law?</p>
+<p>It is following the CIEEM Guidelines for Preliminary Ecological Appraisal — the industry-standard methodology — and it is almost always the document that determines whether a planning application sails through or stalls for a season.</p>
+<p>The brief is straightforward. The execution is not.</p>
+<h2 id="whats-actually-in-the-document">What’s Actually in the Document</h2>
+<p>A standard PEA, regardless of who writes it, contains the same broad sections. The proportions shift with the site, but the structure is near-identical job to job.</p>
+<p><strong>Site context and proposal description.</strong> A short summary of the location, the existing land use, and what is being proposed. Usually pulled from planning documents, an OS map, and a developer brief.</p>
+<p><strong>Desk study.</strong> A review of statutory and non-statutory designated sites within a defined search radius — typically 2 km for local sites, 10 km for European sites, with bat-relevant searches sometimes wider. Records from the local Biological Records Centre, MAGIC, the relevant Wildlife Trust, and historical aerial imagery. This is the bit that produces the long table of designations and the inevitable paragraph about the SSSI four miles away.</p>
+<p><strong>Habitat survey results.</strong> A UK Hab or Phase 1 walkover, with target notes, a habitat plan, and descriptions of each habitat parcel. This is the field component, and it’s the section where genuine ecological judgement does the work.</p>
+<p><strong>Protected species assessment.</strong> For each relevant species group — bats, great crested newts, badgers, reptiles, breeding birds, hedgehogs, dormice, water voles, otters, and any locally relevant species — an evaluation of likelihood of presence and a recommendation on whether further survey is required. Most of this is structured prose: “Suitable habitat is present in the form of X. Further survey is recommended in the form of Y, between dates Z.”</p>
+<p><strong>Invasive species check.</strong> A quick note on any Schedule 9 species observed.</p>
+<p><strong>Constraints and recommendations.</strong> The bit the planners actually read first. A summary of what surveys are needed, what mitigation should be designed in, and what the consultant recommends as next steps.</p>
+<p><strong>Appendices.</strong> Photo plates, the habitat plan, the desk study results table, sometimes a target note schedule.</p>
+<p>A reasonable PEA for a small to medium site lands somewhere between thirty-five and seventy pages.</p>
+<h2 id="where-the-time-actually-goes">Where the Time Actually Goes</h2>
+<p>This is where the gap between perception and reality opens up.</p>
+<p>A small ecological consultancy quoting on a PEA is typically pricing in something like a half-day site visit, half a day of desk study, two to three days of report writing, and a half-day of QA and admin. Four to five working days, spread across three to six weeks of elapsed time because the ecologist is juggling six other projects in survey season.</p>
+<p>Of those four to five days, only the half-day of fieldwork and parts of the protected species assessment require senior ecological judgement. Everything else is structured, repetitive, and — critically — almost identical job to job.</p>
+<p>The desk study is a mechanical exercise. The same data sources, the same search radii, the same boilerplate around how the data was obtained and what its limitations are. The habitat descriptions follow standard CIEEM-aligned language. The protected species sections are largely a structured walk-through of a checklist where each species group has a near-fixed paragraph that gets adjusted based on what was observed on site. The constraints summary pulls from the species assessments. The appendices are formatting.</p>
+<p>A senior ecologist writing all of this from scratch on a Tuesday afternoon is, in effect, a £350-a-day specialist doing £80-a-day work. And then doing the same work, in slightly different words, for the next site three weeks later.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>The bottleneck is not skill. It is throughput.</p>
+<p>Small consultancies — the ones doing the most careful site work — are the most exposed to this. A two-person practice cannot afford to dedicate someone to standardising templates, building structured input forms, or systemising the desk study. They are too busy doing the next job. So every PEA gets typed out from a slightly-newer version of the last one, with the same language being polished from scratch every time.</p>
+<p>The downstream cost is real. Clients wait six weeks for what should — based on the actual cognitive load — be a two-week deliverable. Survey-season windows close while reports sit in queues. Planning timelines slip. The ecologist with the field experience worth paying for spends most of their week formatting tables.</p>
+<p>This is the same pattern we wrote about with <a href="/blog/bng-is-burying-ecological-consultancies">BNG</a> — the writing around the work has quietly become more burdensome than the work itself.</p>
+<h2 id="what-a-faster-pea-looks-like">What a Faster PEA Looks Like</h2>
+<p>It is worth saying clearly: a faster PEA is not a worse PEA. It is the same report, with the parts that don’t need a senior ecologist not done by a senior ecologist.</p>
+<p>The shape of the fix has three parts.</p>
+<p><strong>Structured input at the point of fieldwork.</strong> Habitat parcels, target notes, photos, GPS coordinates, and species observations captured on a phone or tablet on site, in the format the report needs them. Not as scribbled field notes that get retyped two days later.</p>
+<p><strong>A single source of truth for desk study.</strong> The 2 km and 10 km searches, the MAGIC layers, the local records, the aerial history — pulled once, structured properly, and reused across the document rather than rephrased in each section.</p>
+<p><strong>Templated narrative that adapts to the survey data.</strong> Standard CIEEM-aligned language for each habitat type and each protected species group, parameterised by what was actually observed. The senior ecologist reviews and refines the output. They do not type the boilerplate from scratch.</p>
+<p>That is roughly the difference between a four-day report and a one-day report. Same content, same standards, same field judgement. Less retyping.</p>
+<h2 id="the-bit-that-matters">The Bit That Matters</h2>
+<p>None of this is about replacing ecologists. The judgement of whether a feature is suitable for roosting bats, whether a watercourse is reasonably likely to support water vole, whether an apparent badger sett is active — that is the work, and it stays with the ecologist.</p>
+<p>But the structured production of a forty-page document around that judgement is no longer where senior consultancy time is well spent. The practices that figure this out first will be the ones still taking on PEAs in five years. The ones that don’t will quietly cap their capacity at whatever their current admin overhead allows.</p>
+<p>We’re building tools in this space and would be glad to hear from anyone running a small consultancy who recognises this. It’s the sort of thing we like thinking about.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>How to Write Sustainability Claims That Aren&#39;t Greenwashing</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/sustainability-claims-without-greenwashing</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-18T00:00:00.000Z" data-astro-cid-6gxxuhll>18 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Marketing</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> sustainability, greenwashing, marketing, copywriting, regulation</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/sustainability-claims-without-greenwashing.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>A practical guide to writing sustainability claims that hold up to scrutiny — under UK CMA guidance, EU Green Claims Directive, and basic customer trust. With real examples of what to say, what not to say, and why.</p> <a class="db-btn db-btn-sm" href="/blog/sustainability-claims-without-greenwashing" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Writing honest sustainability copy is harder than it sounds. The temptation is to stretch the claim — it reads better, it moves more stock, and until recently it was low-risk. That era is ending fast. UK regulators are actively investigating greenwashing, EU rules are tightening, and customers are sharper than they were five years ago. This guide covers what you can and cannot say, with real language we use on <a href="/services/copywriting">copywriting projects</a> at OakFox.</p>
+<h2 id="the-regulatory-backdrop-uk-and-eu">The Regulatory Backdrop (UK and EU)</h2>
+<p>Two frameworks matter in 2026:</p>
+<h3 id="uk--cma-green-claims-code">UK — CMA Green Claims Code</h3>
+<p>The <a href="https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims">Competition and Markets Authority’s Green Claims Code</a> is the UK’s rulebook. It sets six principles:</p>
+<ol>
+<li>Claims must be <strong>truthful and accurate</strong></li>
+<li>Claims must be <strong>clear and unambiguous</strong></li>
+<li>Claims must not <strong>omit or hide important information</strong></li>
+<li><strong>Comparisons</strong> must be fair and meaningful</li>
+<li>Claims must consider the <strong>full life cycle</strong> of the product</li>
+<li>Claims must be <strong>substantiated</strong></li>
+</ol>
+<p>The CMA has been opening enforcement cases since 2022. ASOS, Boohoo, Asda, and Unilever have all been subject to investigations. Fines and undertakings are real outcomes.</p>
+<h3 id="eu--green-claims-directive">EU — Green Claims Directive</h3>
+<p>The <a href="https://environment.ec.europa.eu/topics/circular-economy/green-claims_en">EU Green Claims Directive</a> takes effect from 2026. If you trade in the EU, environmental claims must be:</p>
+<ul>
+<li><strong>Pre-verified</strong> by an accredited body before publication</li>
+<li><strong>Evidenced with specific scientific data</strong></li>
+<li><strong>Not relying on generic offsets</strong></li>
+</ul>
+<p>“Climate neutral”, “eco-friendly”, and “green” as standalone words are on the list of prohibited vague claims.</p>
+<p>If you trade in both markets — most UK brands do — assume the stricter EU rules.</p>
+<h2 id="what-you-cannot-say-without-substantiation">What You Cannot Say (Without Substantiation)</h2>
+<p>Even with good intentions, certain language is now effectively prohibited or extremely risky:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Avoid</th><th>Why</th></tr></thead><tbody><tr><td>”Eco-friendly”</td><td>Meaningless without specificity. CMA flagged example.</td></tr><tr><td>”Natural”</td><td>Legally ambiguous. Arsenic is natural.</td></tr><tr><td>”Green” as a standalone descriptor</td><td>Too vague under EU Green Claims Directive.</td></tr><tr><td>”Carbon neutral” / “Net zero”</td><td>Allowed only if the methodology is published and verified.</td></tr><tr><td>”Planet-positive” / “Climate-positive”</td><td>Scientifically unsubstantiable at the product level.</td></tr><tr><td>”100% recyclable”</td><td>Only if collection exists at scale in your customer’s area.</td></tr><tr><td>”Sustainable” without context</td><td>Requires specific, measurable backing.</td></tr><tr><td>”Plant-based” applied to plastics</td><td>Misleading if less than 30% bio-content.</td></tr><tr><td>Green/leaf/globe imagery dominating product ID</td><td>Can be misleading even if copy is accurate.</td></tr></tbody></table>
+<h2 id="what-you-can-say-with-substantiation">What You Can Say (With Substantiation)</h2>
+<p>The good news: specific, evidenced, narrow claims are strong. Customers respond to them. Here is the pattern:</p>
+<h3 id="pattern-1--specific-input-claim">Pattern 1 — Specific input claim</h3>
+<p><strong>Weak</strong>: “Made from sustainable cotton.”</p>
+<p><strong>Strong</strong>: “Woven from GOTS-certified organic cotton, grown and milled in Turkey.”</p>
+<p>You have named the certification, the material, the process, and the geography. Everything is checkable. Customers who care can verify. Customers who do not, trust you more because the specifics signal honesty.</p>
+<h3 id="pattern-2--specific-outcome-claim">Pattern 2 — Specific outcome claim</h3>
+<p><strong>Weak</strong>: “Our packaging is eco-friendly.”</p>
+<p><strong>Strong</strong>: “Our packaging is 100% FSC-certified cardboard with water-based inks. It is recyclable through standard UK kerbside collection.”</p>
+<p>Two certifications cited, one input component named, and the collection route specified — so the recyclability claim does not collapse when a customer tries to recycle it.</p>
+<h3 id="pattern-3--honest-partial-claim">Pattern 3 — Honest partial claim</h3>
+<p><strong>Weak</strong>: “Sustainable supply chain.”</p>
+<p><strong>Strong</strong>: “Our wool comes from farms within 60 miles of the mill. The dyes are Oeko-Tex 100 certified. We do not yet know the footprint of our shipping labels — we are working on it.”</p>
+<p>Naming the part you know about and the part you do not is the single biggest credibility move available. Customers trust brands that admit limits far more than brands that claim perfection.</p>
+<h3 id="pattern-4--comparison-claim">Pattern 4 — Comparison claim</h3>
+<p><strong>Weak</strong>: “Our product is better for the environment.”</p>
+<p><strong>Strong</strong>: “Compared to our 2022 product, this one uses 34% less virgin plastic by weight. Measured against the same SKU.”</p>
+<p>Specify the baseline, specify the metric, specify the like-for-like condition. Claims without a baseline are unfalsifiable and therefore regulatorily risky.</p>
+<h3 id="pattern-5--process-claim">Pattern 5 — Process claim</h3>
+<p><strong>Weak</strong>: “We care about the planet.”</p>
+<p><strong>Strong</strong>: “We donate 1% of revenue to [named charity], independently verified in our annual report (link).”</p>
+<p>Care is not a claim. Money and verified action is a claim.</p>
+<h2 id="the-language-we-use-at-oakfox">The Language We Use at OakFox</h2>
+<p>For our own site, the sustainability language is deliberately cautious:</p>
+<blockquote>
+<p>Deployed to verified renewable-powered hosting on The Green Web Foundation’s registry.</p>
+</blockquote>
+<p>Not “green hosting”. Specific provider, specific verification, specific independent registry. A customer can check the claim in thirty seconds. (For a worked example of which UK hosts pass that test, see our <a href="/blog/green-web-hosting-uk-compared/">green web hosting UK comparison</a> — or browse our <a href="/services/green-web-hosting">managed green web hosting</a> plans if you want someone to handle the move.)</p>
+<blockquote>
+<p>Static-first architecture minimising energy per visit through smaller page weights and fewer requests.</p>
+</blockquote>
+<p>Not “we care about carbon footprint”. Specific technical decision, specific mechanism, specific measurable outcome.</p>
+<blockquote>
+<p>We do not claim ISO-accredited auditor status. For enterprise carbon accounting or CSRD reporting we refer to specialists.</p>
+</blockquote>
+<p>Naming the limit is more credible than pretending the limit does not exist.</p>
+<p>This is the pattern to replicate: every claim should be checkable, specific, and modest about what it does not cover.</p>
+<h2 id="a-simple-test">A Simple Test</h2>
+<p>Before publishing any sustainability claim, run it through these four questions:</p>
+<ol>
+<li><strong>If a regulator asked me to substantiate this in writing within 14 days, could I?</strong></li>
+<li><strong>If a journalist investigated this claim, is there anything in my supply chain that would embarrass me?</strong></li>
+<li><strong>If a customer read this claim, then read our full sourcing page, would they feel the two are consistent?</strong></li>
+<li><strong>If I am comparing my product to an earlier version or a competitor, is the comparison like-for-like?</strong></li>
+</ol>
+<p>If any answer is “no” or “not sure”, either gather the evidence first or rewrite the claim more narrowly.</p>
+<h2 id="the-commercial-case">The Commercial Case</h2>
+<p>Being careful about sustainability claims is often framed as a marketing compromise. It is the opposite. Specific claims convert better than vague ones because:</p>
+<ul>
+<li><strong>Trust compounds</strong>. A customer who believes your smaller claim is more likely to believe your next claim.</li>
+<li><strong>Specificity is memorable</strong>. “34% less virgin plastic” sticks; “better for the environment” does not.</li>
+<li><strong>Regulatory investigations destroy brands</strong>. The downside of a CMA case is far larger than the upside of a slightly better conversion rate.</li>
+<li><strong>Customers tell the difference</strong>. Sharp audiences increasingly recognise greenwashing and punish it with disloyalty, bad reviews, and public criticism.</li>
+</ul>
+<p>The brands that have come out of the last five years strongest — Patagonia, Allbirds, Ecover, Mother of Pearl — are the ones who erred on the side of specificity. The ones quietly rebranding are the ones who did not.</p>
+<h2 id="common-mistakes-i-see-every-month">Common Mistakes I See Every Month</h2>
+<ul>
+<li><strong>Claiming something the supply chain partner has done</strong>. If your cardboard supplier is FSC certified, that does not mean your product is. The claim has to describe a change in your business, not one you inherited.</li>
+<li><strong>Using “net zero” loosely</strong>. Net zero has a specific scientific definition (<a href="https://sciencebasedtargets.org/">SBTi methodology</a>). Most “net zero” claims would not survive a technical review.</li>
+<li><strong>Mixing aspirations with achievements in the same sentence</strong>. “We use organic cotton and are working toward biodegradable packaging” — the reader assumes both are current.</li>
+<li><strong>Relying on offsets</strong>. Carbon offsets have fallen significantly in regulatory favour. A sustainability strategy that leans on offsets is a strategy with a short shelf life.</li>
+<li><strong>Putting sustainability on the homepage when it is not in the product</strong>. If the first thing a customer reads is sustainability copy, the product better deliver. If it does not, the homepage becomes the weakness, not the strength.</li>
+</ul>
+<h2 id="if-in-doubt">If In Doubt</h2>
+<p>If in doubt about a claim, do one of three things:</p>
+<ol>
+<li><strong>Rewrite narrower.</strong> Name the specific mechanism and omit the broader claim.</li>
+<li><strong>Gather evidence first.</strong> Ship the data, then ship the copy.</li>
+<li><strong>Drop it.</strong> Not every page needs a sustainability line. A product page that does not claim anything is more trustworthy than one that overclaims.</li>
+</ol>
+<hr/>
+<p>We write copy for sustainability-driven brands as part of our <a href="/services/copywriting">copywriting service</a> — and the first thing we do on every project is audit existing claims for defensibility. If you have sustainability copy on your site or products and want a second read, <a href="/contact">send us a few lines</a>. We reply within 24 hours.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Why BNG is Burying Small Ecological Consultancies in Paperwork</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/bng-is-burying-ecological-consultancies</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-14T00:00:00.000Z" data-astro-cid-6gxxuhll>14 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Ecology</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> ecology, bng, regulation, consultancies, sustainability</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/bng-is-burying-ecological-consultancies.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>Biodiversity Net Gain is a good policy with a quiet side effect: it&#39;s crushing the small ecological consultancies doing most of the careful work. Here&#39;s what&#39;s happening, and why it matters.</p> <a class="db-btn db-btn-sm" href="/blog/bng-is-burying-ecological-consultancies" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Biodiversity Net Gain has been mandatory for major developments in England since February 2024, and for smaller sites since April. On paper, it’s a good piece of policy — every planning application now has to leave biodiversity measurably better off than it found it, with a minimum 10% uplift secured for 30 years. You can’t argue with the intent.</p>
+<p>The side effect nobody really talks about is what it’s doing to the small ecological consultancies who were already the engine room of this work.</p>
+<h2 id="the-shape-of-the-problem">The Shape of the Problem</h2>
+<p>A single BNG assessment on a modest site now generates a spectacular amount of paperwork. There’s the baseline habitat survey, the Statutory Biodiversity Metric calculation, a condition assessment for every parcel, a post-development design scenario, a habitat management and monitoring plan that has to stretch across three decades, an S106 or conservation covenant draft, evidence submissions, planning authority queries, and a monitoring schedule that triggers every few years for the next thirty.</p>
+<p>For a greenfield site of a few hectares, the documentation pack can reach 80 to 120 pages. For an ecologist running a practice of two or three people, that is three to five days of work per project. On top of the fieldwork. On top of the other projects. On top of the planning consultations that come back three weeks later asking for a row of the metric to be redone because the developer changed the footprint by four square metres.</p>
+<h2 id="why-it-hits-small-firms-hardest">Why It Hits Small Firms Hardest</h2>
+<p>Large consultancies have enough volume to build internal templates, spread metric specialists across projects, and hand junior staff the report-assembly work. They’ve absorbed BNG into their cost base.</p>
+<p>The small independents — the ones typically doing the most careful, most site-specific work — do not have those advantages. A two-person practice cannot dedicate one person to administrative scaffolding without halving its survey capacity. What we see repeatedly is experienced ecologists spending forty to fifty per cent of their billable week writing, formatting, and cross-referencing documents that ninety per cent duplicate the structure of the last one.</p>
+<p>The people with the deepest field knowledge end up doing the least fieldwork. That is the quiet crisis.</p>
+<h2 id="the-knock-on-effects">The Knock-On Effects</h2>
+<p>Three things follow from this, and none of them are what the policy intended.</p>
+<p><strong>Survey quality gets squeezed.</strong> When admin eats the week, fieldwork gets compressed into fewer visits, shorter windows, and — in the worst cases — seasonal passes that really ought to span a full year. The ecology itself gets shortchanged by the paperwork that was meant to protect it.</p>
+<p><strong>Smaller practices drop out of BNG work.</strong> Some are refusing to take on net gain projects altogether because the margins do not survive the overhead. That hands the market to larger firms, which is not bad in itself, but it removes a tier of specialist, relationship-led practice that planning authorities actually rely on.</p>
+<p><strong>Planning consultations slow down.</strong> Overworked consultants take longer to turn around revisions. Local planning authorities take longer to validate submissions with formatting issues. Developers wait longer for determinations. The policy designed to speed biodiversity recovery is, in practice, making the planning system slower.</p>
+<h2 id="what-can-be-done">What Can Be Done</h2>
+<p>There are three honest levers.</p>
+<p><strong>The first is template discipline.</strong> Most of a BNG report is boilerplate that could be written once and reused. A huge amount of what practices produce today is retyped from scratch because their template library is a handful of Word documents scattered across the team’s laptops. Investing a week in proper template infrastructure — including a single source of truth for the metric, standardised condition assessment language, and a shared style for the management and monitoring plan — pays for itself in the first month.</p>
+<p><strong>The second is input capture at the point of survey.</strong> A surveyor returning from site with a mix of scribbled notes, GPS tracks, and photos still has to transcribe all of it into the metric and into the report. The gap between “data collected” and “data in report” is where most of the lost time lives. Tools that let surveyors structure their observations while they are on site, rather than five days later at a desk, compress that gap significantly.</p>
+<p><strong>The third is genuinely automating the writing.</strong> The metric, the baseline description, the condition narrative, the management plan structure — these are repetitive, rule-based outputs that do not require a senior ecologist to type them word by word. Clinical judgement should stay with the ecologist. The writing around it does not have to.</p>
+<h2 id="the-bit-that-matters">The Bit That Matters</h2>
+<p>None of this is about replacing ecologists. The sector cannot afford to lose the experience that is currently being ground down by admin — it needs to protect it.</p>
+<p>BNG is only going to get more demanding. The metric will evolve, habitat condition assessments will get more granular, the monitoring requirements will lengthen. The practices that invest in reducing their per-project overhead now are the ones that will still be taking on this work in five years. The practices that do not will quietly exit the space, and that will be a genuine loss.</p>
+<p>If you run a small ecological consultancy and this rings true — we would be interested to hear how the admin burden is actually landing for you. It is the sort of thing we like thinking about.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Sustainable Web Design: A Practical Guide for UK Businesses</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/sustainable-web-design-practical-guide</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-09T00:00:00.000Z" data-astro-cid-6gxxuhll>9 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Web Design</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> web design, sustainability, performance, accessibility, green hosting</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/sustainable-web-design-practical-guide.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>What sustainable web design actually means, how much energy your website uses, and the specific changes that cut emissions — with real numbers, not marketing lines.</p> <a class="db-btn db-btn-sm" href="/blog/sustainable-web-design-practical-guide" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Most articles on “sustainable web design” are marketing dressed up as advice. This one tries not to be. If you run or commission websites in the UK and want to know what actually reduces their environmental impact — without the platitudes — this is the practical version.</p>
+<h2 id="what-sustainable-web-design-actually-means">What Sustainable Web Design Actually Means</h2>
+<p>The internet is responsible for roughly 3.7% of global carbon emissions — comparable to the aviation industry. Every page view draws energy from data centres, network infrastructure, and the device in the user’s hand. Sustainable web design reduces that draw without compromising the experience.</p>
+<p>It is not the same as “eco-friendly design” — there is no moss on your homepage, no green leaf logo. It is an engineering discipline:</p>
+<ul>
+<li><strong>Less data transferred per visit</strong> (smaller images, leaner code, fewer requests)</li>
+<li><strong>Less compute required to render</strong> (static HTML where possible, minimal JavaScript)</li>
+<li><strong>Infrastructure running on renewable energy</strong> (verified green hosting)</li>
+<li><strong>Longevity</strong> (sites that do not need rebuilding in two years when the framework falls out of fashion)</li>
+</ul>
+<p>Get those four right and you have done 90% of the work.</p>
+<h2 id="measure-before-you-change-anything">Measure Before You Change Anything</h2>
+<p>Before cutting kilobytes, find out where you actually stand. The tools:</p>
+<ul>
+<li><strong><a href="https://www.websitecarbon.com/">Website Carbon Calculator</a></strong> — estimates grams of CO2 per page view. A good starting benchmark.</li>
+<li><strong><a href="https://ecograder.com/">Ecograder</a></strong> — scores pages on green design principles and lists specific issues.</li>
+<li><strong><a href="https://pagespeed.web.dev/">Google PageSpeed Insights</a></strong> — measures Core Web Vitals, which correlate strongly with energy efficiency.</li>
+<li><strong><a href="https://www.thegreenwebfoundation.org/green-web-check/">The Green Web Foundation</a></strong> — checks whether your host runs on renewable power.</li>
+</ul>
+<p>A typical UK marketing site we inherit comes in at 2–4g CO2 per page view on a grid-powered host. Sites we rebuild land between 0.1g and 0.3g on a green host — a 10× to 40× improvement. That is the magnitude of the opportunity.</p>
+<h2 id="the-highest-leverage-changes">The Highest-Leverage Changes</h2>
+<p>Not all changes move the needle equally. In order of impact for a typical UK marketing site:</p>
+<h3 id="1-switch-to-a-verified-green-host">1. Switch to a verified green host</h3>
+<p>This is the single highest-leverage change. Moving from a generic grid-powered host to one on The Green Web Foundation’s verified list can cut emissions per visit by 60–80% with no code change at all. We maintain a working comparison of the <a href="/blog/green-web-hosting-uk-compared/">green web hosting UK</a> providers we actually use, with current prices and honest caveats. Reliable options used by OakFox-built sites:</p>
+<ul>
+<li><strong>Cloudflare Pages</strong> — verified green, free tier, excellent performance</li>
+<li><strong>Netlify</strong> — 100% renewable energy for infrastructure</li>
+<li><strong>Vercel</strong> — runs on matched renewable power</li>
+<li><strong>Krystal</strong> (UK-based) — verified green hosting with UK data centres</li>
+</ul>
+<p>Cost is usually neutral or lower than legacy hosting. There is no reason not to move. If you would rather not manage hosting yourself, our <a href="/services/green-web-hosting">managed green web hosting</a> service handles the migration, setup, and ongoing maintenance on verified renewable-powered UK infrastructure.</p>
+<h3 id="2-optimise-images-properly">2. Optimise images properly</h3>
+<p>Images are almost always the largest portion of page weight. The wins:</p>
+<ul>
+<li><strong>Use modern formats</strong> — AVIF where supported, WebP as fallback, JPEG last. AVIF is typically 50% smaller than JPEG at the same perceptual quality.</li>
+<li><strong>Size images to purpose</strong> — stop serving 4000px-wide hero images that will be displayed at 1200px.</li>
+<li><strong>Use responsive <code>srcset</code></strong> — serve smaller images to smaller screens.</li>
+<li><strong>Lazy-load below the fold</strong> — native <code>loading=&quot;lazy&quot;</code> on <code>&lt;img&gt;</code> is free.</li>
+<li><strong>Drop unnecessary images</strong> — ask “does this image add information, or is it decoration?” Decoration is often a waste.</li>
+</ul>
+<p>A typical marketing site with eight to fifteen images can cut its total weight by 60% without changing a single pixel of final displayed resolution.</p>
+<h3 id="3-reduce-javascript">3. Reduce JavaScript</h3>
+<p>JavaScript is the most energy-expensive part of a typical website. Every kilobyte shipped takes bandwidth to download, CPU to parse, memory to hold, and battery to execute — multiplied across every visitor’s device.</p>
+<p>Practical cuts:</p>
+<ul>
+<li><strong>Static rendering</strong> — use Astro, 11ty, Hugo, or similar to pre-render HTML. Most marketing pages do not need SPA frameworks.</li>
+<li><strong>Remove unused libraries</strong> — audit the site with Chrome DevTools “Coverage” panel. Libraries unused on most pages are candidates for deletion.</li>
+<li><strong>Defer what is not critical</strong> — analytics, chat widgets, and embedded third-party code should load after the main content renders, not before.</li>
+<li><strong>No tag managers if they are not earning their weight</strong> — GTM alone ships 50–80KB before it loads anything useful.</li>
+</ul>
+<h3 id="4-clean-semantic-html-and-restrained-css">4. Clean, semantic HTML and restrained CSS</h3>
+<p>Less code is less to download, parse, and render. Tailwind CSS (which we use extensively) is deceptive on this axis — the raw source is large but the compiled production CSS typically comes out at 5–15KB gzipped because unused classes are purged. Verify the production bundle.</p>
+<h3 id="5-efficient-fonts">5. Efficient fonts</h3>
+<p>Web fonts are usually the second-largest source of page weight after images. Cuts:</p>
+<ul>
+<li><strong>Subset to the characters you actually need</strong> — Latin Extended is rarely necessary for an English-language site</li>
+<li><strong>Use <code>font-display: swap</code></strong> — shows system font first, swaps to custom font when loaded</li>
+<li><strong>Preconnect to your font host</strong> — cuts DNS and TLS overhead</li>
+<li><strong>Consider variable fonts</strong> — a single variable font file often replaces three or four static weight files</li>
+</ul>
+<h2 id="accessibility-is-part-of-sustainability">Accessibility Is Part of Sustainability</h2>
+<p>Accessible websites are faster, leaner, more durable, and work for more people. WCAG 2.2 AA is not a separate discipline from sustainable web design — it is the same discipline.</p>
+<p>Specifics that compound both accessibility and energy efficiency:</p>
+<ul>
+<li><strong>Semantic HTML</strong> — <code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>. Screen readers use them. So do search engines. And they replace JavaScript-heavy custom components.</li>
+<li><strong>Keyboard navigation from the start</strong> — every interactive element reachable and operable without a mouse.</li>
+<li><strong>Colour contrast ratios of 4.5:1 (text) and 3:1 (UI)</strong> — verified with tools, not eyeballed.</li>
+<li><strong>Alt text written with intent</strong> — not a machine-generated placeholder.</li>
+<li><strong>Focus states visible</strong> — never <code>outline: none</code> without a replacement.</li>
+</ul>
+<p>We target WCAG 2.2 AA as a minimum on every OakFox project. Accessibility overlays (AccessiBe, UserWay) are not a substitute — they ship more JavaScript, frequently break sites, and have been the subject of growing litigation.</p>
+<h2 id="design-for-longevity">Design for Longevity</h2>
+<p>The most sustainable website is the one you do not have to rebuild. Choices that extend useful life:</p>
+<ul>
+<li><strong>Avoid frameworks of the month</strong> — the framework decision sets your maintenance floor for the next five years. Pick stable, well-funded options.</li>
+<li><strong>Design systems over one-off pages</strong> — tokens, components, and patterns extend a site’s useful life far longer than bespoke designs.</li>
+<li><strong>Separate content from structure</strong> — content in a CMS or Markdown files, not hardcoded in layouts. Lets you refresh copy without touching code.</li>
+<li><strong>Write documentation assuming you will not be around</strong> — future maintainers need to understand what you built and why.</li>
+</ul>
+<p>Every rebuild is a carbon cost. Every year you extend a site’s useful life reduces that cost.</p>
+<h2 id="what-sustainable-web-design-is-not">What Sustainable Web Design Is Not</h2>
+<p>A few things sustainable web design is <em>not</em>, because the term gets abused:</p>
+<ul>
+<li><strong>It is not dark mode alone.</strong> Dark mode saves meaningful energy on OLED screens but has zero effect on LCDs or the server side. Useful, but marginal.</li>
+<li><strong>It is not a Wix site with a green leaf in the logo.</strong> Low-code platforms often ship enormous page weights and lock you into infrastructure with no green credentials.</li>
+<li><strong>It is not a carbon offset.</strong> Offsets are a credibility hazard, not a solution. Reduce first, offset only the residue, and be transparent about both.</li>
+<li><strong>It is not a one-off audit.</strong> Sites gain weight over time. Sustainability is a maintenance discipline, not a launch achievement.</li>
+</ul>
+<h2 id="practical-next-steps">Practical Next Steps</h2>
+<p>If you have an existing website and want to make it more sustainable:</p>
+<ol>
+<li><strong>Benchmark it</strong> — run Website Carbon Calculator, Ecograder, and PageSpeed on your top five pages.</li>
+<li><strong>Move to a green host</strong> — biggest single lift, usually one weekend of work.</li>
+<li><strong>Audit images</strong> — formats, sizing, lazy-loading. A good afternoon’s work for most small sites.</li>
+<li><strong>Remove unused JavaScript</strong> — kill the tag manager if it is not earning its keep.</li>
+<li><strong>Add WCAG 2.2 AA as a standing requirement</strong> — every new feature, every review.</li>
+</ol>
+<p>If you are commissioning a new site, the brief should include:</p>
+<ul>
+<li>Verified green hosting as a deliverable</li>
+<li>A performance budget (page weight, Largest Contentful Paint target)</li>
+<li>WCAG 2.2 AA conformance as a non-negotiable</li>
+<li>A design system handed over as part of the project</li>
+<li>Documentation written for maintenance, not marketing</li>
+</ul>
+<h2 id="oakfoxs-approach">OakFox’s Approach</h2>
+<p>We build every site to these standards by default. Our Astro-based stack delivers sub-0.3g CO2 per page view on verified green hosting, with 95+ Lighthouse performance scores and WCAG 2.2 AA compliance from the first commit.</p>
+<p>If you want to discuss a <a href="/services/web-design">sustainable web design</a> or <a href="/services/development">web development</a> project, <a href="/contact">send us a few lines</a>. We reply within 24 hours.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Best Green Web Hosting UK: 6 Providers Compared (2026)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/green-web-hosting-uk-compared</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-04-02T00:00:00.000Z" data-astro-cid-6gxxuhll>2 April 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Development</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> green hosting, web development, sustainability, infrastructure, uk</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 8</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/green-web-hosting-uk-compared.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>The best green web hosting providers for the UK in 2026, compared. Six verified renewable-powered hosts — prices, UK data centre locations, performance, and what &#39;carbon neutral&#39; really means.</p> <a class="db-btn db-btn-sm" href="/blog/green-web-hosting-uk-compared" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>If you build, commission, or maintain websites in the UK and care about their carbon footprint, your hosting choice is the single biggest lever you have. This is a working comparison of the green hosting providers we actually use at OakFox, their UK availability, performance, pricing, and the honest caveats behind each one. Updated June 2026.</p>
+<h2 id="the-short-answer-best-green-web-hosting-uk-by-use-case">The Short Answer: Best Green Web Hosting UK by Use Case</h2>
+<p>If you only want the recommendation, here it is — the rest of this guide is the reasoning and the caveats.</p>
+<ul>
+<li><strong>Best for a static / marketing site</strong> → <strong>Cloudflare Pages</strong> — free, fastest, renewable-matched, 30+ UK edge locations.</li>
+<li><strong>Best for a Next.js / React app</strong> → <strong>Vercel</strong>, pinned to its London region.</li>
+<li><strong>Best UK-hosted with data residency</strong> → <strong>Krystal</strong> (Manchester &amp; London, B Corp) or <strong>Kualo</strong> (London, solar-powered).</li>
+<li><strong>Best for budget WordPress</strong> → <strong>Krystal’s shared tier</strong> or <strong>GreenGeeks</strong>.</li>
+</ul>
+<p>Every provider below is independently listed on <a href="https://www.thegreenwebfoundation.org/green-web-check/">The Green Web Foundation</a> — the 30-second check that separates verified renewable hosting from “eco-friendly” marketing.</p>
+<h2 id="what-counts-as-green-hosting">What Counts as “Green” Hosting?</h2>
+<p>The term gets abused. Genuine green hosting means one of three things, ideally two:</p>
+<ol>
+<li><strong>Renewable-powered data centres</strong> — running on matched or directly-contracted renewable energy (solar, wind, hydro). Verified by a third party.</li>
+<li><strong>Carbon-matched operations</strong> — not just the servers but cooling, offices, networking, procurement.</li>
+<li><strong>Listed on <a href="https://www.thegreenwebfoundation.org/green-web-check/">The Green Web Foundation</a></strong> — an independent, auditable registry. This is the check we run before recommending any host.</li>
+</ol>
+<p>“Carbon neutral” on its own is usually a tell. It often means “we buy offsets for diesel backup power” rather than “we do not burn diesel in the first place”. Dig into the methodology before trusting the marketing.</p>
+<h2 id="the-providers-we-use">The Providers We Use</h2>
+<p>At a glance — all six are verified on The Green Web Foundation registry:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Provider</th><th>Type</th><th>UK data centre</th><th>From</th><th>Best for</th></tr></thead><tbody><tr><td><strong>Cloudflare Pages</strong></td><td>Static / Jamstack CDN</td><td>30+ edges (LHR, MAN, EDI)</td><td>Free</td><td>Static marketing sites (our default)</td></tr><tr><td><strong>Netlify</strong></td><td>Static / Jamstack CDN</td><td>London, Manchester edges</td><td>Free</td><td>Agencies running multiple small sites</td></tr><tr><td><strong>Vercel</strong></td><td>Next.js / React platform</td><td>London (LHR) region</td><td>Free hobby</td><td>Next.js apps, React SSR</td></tr><tr><td><strong>Krystal</strong></td><td>Traditional / cPanel (UK)</td><td>Manchester, London</td><td>£5/mo</td><td>WordPress, UK data residency</td></tr><tr><td><strong>Kualo</strong></td><td>Traditional / cPanel (UK)</td><td>London (solar)</td><td>£2.99/mo</td><td>UK small-business WordPress</td></tr><tr><td><strong>GreenGeeks</strong></td><td>Traditional WordPress</td><td>None (Amsterdam closest)</td><td>~$11/mo</td><td>Budget WordPress, location-agnostic</td></tr></tbody></table>
+<p>The detail, performance notes, and the caveat behind each one:</p>
+<h3 id="cloudflare-pages">Cloudflare Pages</h3>
+<ul>
+<li><strong>Green credentials</strong>: Cloudflare publishes <a href="https://www.cloudflare.com/impact/">annual impact reports</a>. 100% renewable-matched energy across their network since 2021. Listed on The Green Web Foundation.</li>
+<li><strong>Performance</strong>: Global CDN, edge delivery, sub-100ms time-to-first-byte for static content. Excellent.</li>
+<li><strong>UK presence</strong>: 30+ edge locations in the UK (LHR, MAN, EDI).</li>
+<li><strong>Pricing</strong>: Free tier for most sites. Pro from $20/month if you need advanced features.</li>
+<li><strong>Good for</strong>: Static Astro, Next.js, Eleventy, or React sites. Our default for marketing sites.</li>
+<li><strong>Caveat</strong>: Free tier has a soft 500 builds/month cap. Above that you pay. Site owners hitting the cap usually have more fundamental architecture issues to address.</li>
+</ul>
+<h3 id="netlify">Netlify</h3>
+<ul>
+<li><strong>Green credentials</strong>: 100% renewable energy for infrastructure, published annually. Listed on The Green Web Foundation.</li>
+<li><strong>Performance</strong>: Global CDN, similar tier to Cloudflare Pages. Slightly slower cold starts on serverless functions.</li>
+<li><strong>UK presence</strong>: CDN edges in London and Manchester.</li>
+<li><strong>Pricing</strong>: Free tier is generous. Pro from $19/month.</li>
+<li><strong>Good for</strong>: Teams used to the Netlify DX, form handling built-in, good for agencies managing multiple small sites.</li>
+<li><strong>Caveat</strong>: Bandwidth pricing at scale has got expensive. Above ~100GB/month, Cloudflare works out cheaper for similar performance.</li>
+</ul>
+<h3 id="vercel">Vercel</h3>
+<ul>
+<li><strong>Green credentials</strong>: Matched renewable energy across all regions. Detailed sustainability disclosures in their yearly report. Listed on The Green Web Foundation.</li>
+<li><strong>Performance</strong>: Best-in-class for Next.js. Excellent for React-heavy applications.</li>
+<li><strong>UK presence</strong>: London region (LHR) available; can be pinned as the primary deployment region.</li>
+<li><strong>Pricing</strong>: Generous free hobby tier. Pro from $20/user/month.</li>
+<li><strong>Good for</strong>: Next.js apps, React SSR, API-heavy applications with edge functions.</li>
+<li><strong>Caveat</strong>: Pricing at scale is opaque and can surprise you. Function invocation costs add up. For pure static sites, Cloudflare Pages is cheaper at almost every scale.</li>
+</ul>
+<h3 id="krystal-uk">Krystal (UK)</h3>
+<ul>
+<li><strong>Green credentials</strong>: <a href="https://www.krystal.uk/why-krystal">B Corp certified</a>. 100% renewable energy across their UK data centres. Listed on The Green Web Foundation. Plants a tree for every new hosting account.</li>
+<li><strong>Performance</strong>: UK-centric; fast within the UK, adequate internationally. No global CDN unless paired with Cloudflare in front.</li>
+<li><strong>UK presence</strong>: Data centres in Manchester and London. Data stays in UK jurisdiction by default.</li>
+<li><strong>Pricing</strong>: Shared hosting from £5/month. Managed WordPress from £8/month.</li>
+<li><strong>Good for</strong>: UK-only audiences, WordPress sites needing traditional cPanel hosting, clients who explicitly want UK data residency.</li>
+<li><strong>Caveat</strong>: Not designed for static Jamstack architecture. If your site is Astro or Next.js, the modern stack providers above give better DX.</li>
+</ul>
+<h3 id="greengeeks">GreenGeeks</h3>
+<ul>
+<li><strong>Green credentials</strong>: Purchases 300% matching wind credits through Bonneville Environmental Foundation. Listed on The Green Web Foundation.</li>
+<li><strong>Performance</strong>: Adequate. Lower tier than Cloudflare or Vercel.</li>
+<li><strong>UK presence</strong>: No native UK data centre — Amsterdam is the closest for EU customers.</li>
+<li><strong>Pricing</strong>: From $2.95/month on promotional pricing, real price around $11/month.</li>
+<li><strong>Good for</strong>: Budget-sensitive WordPress sites where full-stack Jamstack is overkill.</li>
+<li><strong>Caveat</strong>: The 300% matching is unusual and worth reading carefully. Matched credits are different from direct renewable contracting — it is genuine but one step further abstracted than Cloudflare or Krystal.</li>
+</ul>
+<h3 id="kualo-uk">Kualo (UK)</h3>
+<ul>
+<li><strong>Green credentials</strong>: 100% solar-powered UK data centre. Listed on The Green Web Foundation. B Corp certified.</li>
+<li><strong>Performance</strong>: UK-centric. Good within the UK, slower internationally.</li>
+<li><strong>UK presence</strong>: London data centre.</li>
+<li><strong>Pricing</strong>: Shared hosting from £2.99/month.</li>
+<li><strong>Good for</strong>: UK small business sites on traditional hosting, WordPress, client handover scenarios where cPanel is required.</li>
+<li><strong>Caveat</strong>: Small operation compared to the giants. Support is responsive but limited hours.</li>
+</ul>
+<h2 id="what-we-recommend">What We Recommend</h2>
+<p>For most new OakFox projects:</p>
+<ul>
+<li><strong>Static marketing site (Astro, Eleventy)</strong> → Cloudflare Pages. Free, fastest, greenest, best DX.</li>
+<li><strong>Next.js application</strong> → Vercel pinned to the London region. Best-in-class for that stack.</li>
+<li><strong>WordPress with UK data residency</strong> → Krystal or Kualo. Both verified-green, both UK-hosted.</li>
+<li><strong>Budget WordPress where data location does not matter</strong> → GreenGeeks or Krystal shared tier.</li>
+</ul>
+<p>If a client has specific data residency requirements (NHS, public sector, or clients bound by procurement rules), Krystal or Kualo are the answer. Otherwise Cloudflare Pages beats almost every alternative on performance per watt per pound.</p>
+<p>Not interested in choosing a host, configuring DNS, and managing backups yourself? Our <a href="/services/green-web-hosting">managed green web hosting</a> service runs on verified renewable-powered UK infrastructure with the boring bits handled — free migration from your current host, real UK support, plans from £12 a month. If you are weighing a free static host against a managed plan, we break down exactly where “free” starts costing you in <a href="/blog/cloudflare-pages-vs-managed-green-hosting">Cloudflare Pages vs managed green hosting</a>.</p>
+<h2 id="what-to-watch-out-for">What to Watch Out For</h2>
+<ul>
+<li><strong>“Green” badges without disclosure</strong>. If a host claims green credentials but does not publish an annual sustainability report, treat the claim as marketing. Genuine providers publish detail.</li>
+<li><strong>Offsets as the sole mechanism</strong>. Offsets are a last-resort mitigation, not a substitute for reduction. Providers who lean heavily on “carbon neutral” language usually mean “we buy offsets”.</li>
+<li><strong>Unlimited bandwidth on £2/month plans</strong>. Uneconomic hosting is usually shared on overloaded servers. Performance suffers, meaning your pages load slowly, meaning users wait longer, meaning more energy consumed. A £8/month plan that actually performs is greener than a £2/month plan that does not.</li>
+<li><strong>“Premium” tiers that are basically the same product</strong>. Some providers charge a premium for “green” hosting when their infrastructure is already green at the base tier. Do not pay twice.</li>
+</ul>
+<h2 id="checking-your-current-host">Checking Your Current Host</h2>
+<p>If you already have a website and want to know where it stands:</p>
+<ol>
+<li>Run it through <a href="https://www.thegreenwebfoundation.org/green-web-check/">The Green Web Foundation’s checker</a></li>
+<li>Compare its Lighthouse performance score to our targets (95+ for sustainable sites)</li>
+<li>Measure its page weight with Chrome DevTools — aim for under 1MB for marketing pages</li>
+<li>Check your CO2 per page view at <a href="https://www.websitecarbon.com/">websitecarbon.com</a></li>
+</ol>
+<p>A poorly-hosted, bloated WordPress site can be 10–40× worse than a well-built static site on green hosting. Pair the hosting switch with <a href="/blog/sustainable-web-design-practical-guide">sustainable web design</a> and the gap is worth closing.</p>
+<h2 id="when-to-migrate">When to Migrate</h2>
+<p>A migration from grey hosting to green hosting is usually a one-weekend job for a static site, two to three days for a WordPress site, and a proper scoped project for a complex application. The sustainability case is unambiguous. The commercial case is strong — green-hosted sites tend to be faster, cheaper at scale, and have better uptime than the bargain-basement legacy hosts.</p>
+<p>If you are planning a <a href="/services/web-design">sustainable website build</a>, <a href="/services/green-web-hosting">a hosting migration</a>, or both, we include verified green hosting as a deliverable on every project we take on. Send us a few lines via <a href="/contact">the contact form</a> — we reply within 24 hours.</p>
+<hr/>
+<p><em>This guide is refreshed roughly every six months — last reviewed June 2026. If a provider we have listed changes credentials materially, we will update this page and note the change below.</em></p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>The Future of Sustainability in Branding and Marketing</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/future-of-sustainability-in-branding</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-03-26T00:00:00.000Z" data-astro-cid-6gxxuhll>26 March 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Sustainability</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> sustainability, branding, marketing, strategy</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/future-of-sustainability-in-branding.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>Sustainability isn&#39;t a trend — it&#39;s becoming the baseline. Here&#39;s how branding and marketing are shifting, and what it means for businesses that want to stay relevant.</p> <a class="db-btn db-btn-sm" href="/blog/future-of-sustainability-in-branding" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>For years, sustainability in branding meant slapping a green leaf on your packaging and calling it a day. That era is over. Consumers are sharper, regulations are tighter, and the businesses that treat sustainability as a checkbox are being left behind by those weaving it into every decision they make.</p>
+<p>At OakFox, sustainability has been at the core of everything we do since day one. But even we’ve had to evolve our thinking. Here’s where we see things heading.</p>
+<h2 id="greenwashing-is-a-liability-not-a-strategy">Greenwashing is a Liability, Not a Strategy</h2>
+<p>The days of vague claims like “eco-friendly” or “natural” are numbered. The UK’s Competition and Markets Authority has been cracking down on misleading green claims, and the EU’s Green Claims Directive is raising the bar further. If you can’t back it up, don’t say it.</p>
+<p>This is actually good news for honest brands. The businesses that have been doing the work — sourcing responsibly, reducing waste, building transparent supply chains — are now the ones with a genuine competitive advantage. The marketing writes itself when the substance is real.</p>
+<h2 id="brand-identity-has-to-reflect-real-values">Brand Identity Has to Reflect Real Values</h2>
+<p>We’re seeing a shift in what clients ask for. Five years ago, a brand refresh was about looking modern. Now it’s about looking honest. Colour palettes, material choices, typography, photography — every element is being scrutinised for authenticity.</p>
+<p>When we worked with <a href="/portfolio/aigean">Aigéan</a>, the branding wasn’t just about making the restaurant look good. It was about connecting them with local fishermen, reducing their supply chain miles, and building an identity rooted in the community they actually serve. The brand looked better <em>because</em> the business was better.</p>
+<p>That’s the direction everything is moving. Identity and operations are becoming inseparable.</p>
+<h2 id="digital-has-a-carbon-footprint-too">Digital Has a Carbon Footprint Too</h2>
+<p>Most businesses think about sustainability in terms of physical products — packaging, shipping, energy. But your website has a carbon footprint. Every image loaded, every tracking script fired, every bloated framework shipped to a user’s browser costs energy.</p>
+<p>We build with this in mind. Static-first architecture, optimised assets, minimal JavaScript, clean code. A faster site isn’t just better for users — it’s better for the planet. It’s a small thing, but small things compound.</p>
+<h2 id="content-marketing-is-moving-from-volume-to-value">Content Marketing is Moving from Volume to Value</h2>
+<p>The SEO playbook of churning out thin content to rank for keywords is dying. Search engines are getting smarter, and audiences are getting more selective. The brands that win attention in 2026 and beyond are the ones publishing fewer, better pieces that genuinely help their audience.</p>
+<p>For sustainability-focused brands, this is an opportunity. You have real stories to tell — about your sourcing, your processes, your impact. That’s content that resonates because it’s true, not because it’s optimised.</p>
+<h2 id="what-this-means-for-your-brand">What This Means for Your Brand</h2>
+<p>If you’re a business owner thinking about your brand, here’s the honest version:</p>
+<ul>
+<li><strong>Start with substance.</strong> No amount of design polish will cover up a lack of genuine commitment. Fix the operations first, then let the brand reflect reality.</li>
+<li><strong>Be specific.</strong> “We’re sustainable” means nothing. “We reduced packaging waste by 40% by switching to compostable mailers from a supplier 12 miles away” means everything.</li>
+<li><strong>Think long-term.</strong> Trends come and go. A brand built on real values doesn’t need to be redesigned every two years.</li>
+<li><strong>Audit your digital presence.</strong> Your website, your emails, your social — they all have environmental costs. Optimise them like you would any other part of your supply chain.</li>
+</ul>
+<h2 id="the-brands-that-last-are-the-ones-that-mean-it">The Brands That Last Are the Ones That Mean It</h2>
+<p>Sustainability isn’t a marketing angle. It’s a way of operating. The brands that understand this — that weave it into their supply chain, their hiring, their design choices, their digital footprint — are the ones that will still be relevant in ten years.</p>
+<p>The rest will still be looking for the next trend to jump on.</p>
+<p>If you’re thinking about how sustainability fits into your brand strategy, <a href="/contact">get in touch</a>. It’s what we do.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Choosing a Brand Name: A Practical Process (With Real Examples)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/choosing-a-brand-name</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-03-20T00:00:00.000Z" data-astro-cid-6gxxuhll>20 March 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Branding</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> branding, naming, brand identity, business launch</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>FAQ</span> 5</span> <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/choosing-a-brand-name.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>How to choose a brand name that works commercially and legally. The process we use at OakFox — with a checklist, worked examples, and the mistakes to avoid.</p> <a class="db-btn db-btn-sm" href="/blog/choosing-a-brand-name" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Naming is the single hardest decision in a new brand. It is the one thing almost impossible to change cleanly once momentum builds, and the one thing everyone in the room has an opinion on. This is the process we use at OakFox — refined over 15 years of <a href="/services/branding">brand identity projects</a> — to turn naming from a fraught democratic exercise into a structured decision.</p>
+<h2 id="the-process-at-a-glance">The Process at a Glance</h2>
+<p>If you want the shape of it before the detail, this is the six-stage process — roughly a day and a half of work, then a decision:</p>
+<ol>
+<li><strong>Define the constraints</strong> (1 hour) — audience, positioning, tone, an avoid-list.</li>
+<li><strong>Generate a longlist</strong> (4–6 hours) — 80–120 candidates, no judging yet.</li>
+<li><strong>Cull to a shortlist</strong> (2–3 hours) — down to 15–20.</li>
+<li><strong>Legal &amp; commercial checks</strong> (half a day) — trademark, domain, social, international meaning.</li>
+<li><strong>Stress-test the survivors</strong> (1 hour each) — the radio test, the ten-year test.</li>
+<li><strong>Choose and commit</strong> — within a week, no longer.</li>
+</ol>
+<h2 id="what-a-good-brand-name-has-to-do">What a Good Brand Name Has to Do</h2>
+<p>A brand name is not a poem. It is a working asset that has to:</p>
+<ol>
+<li><strong>Be memorable</strong> — pronounceable, spellable, and reducible to a single clear idea.</li>
+<li><strong>Be legally available</strong> — trademarkable in your jurisdiction, with a useable <code>.com</code> or relevant domain.</li>
+<li><strong>Survive internationalisation</strong> — not mean something unfortunate in a language you expect customers to speak.</li>
+<li><strong>Fit the positioning</strong> — a luxury wine merchant needs a different name from a low-cost coffee chain.</li>
+<li><strong>Age well</strong> — not be so on-trend that it dates in three years.</li>
+<li><strong>Be flexible</strong> — leave room for the brand to evolve without rebrand paralysis.</li>
+</ol>
+<p>The best names rarely excel at all six. Most nail three or four and hold their own on the rest.</p>
+<h2 id="the-process">The Process</h2>
+<h3 id="stage-1--define-the-constraints-1-hour">Stage 1 — Define the constraints (1 hour)</h3>
+<p>Before generating a single candidate, write down:</p>
+<ul>
+<li><strong>What the brand is and does</strong> — one paragraph, same as you would put in a <a href="/blog/how-to-brief-a-branding-agency">branding brief</a>.</li>
+<li><strong>Who it is for</strong> — primary audience, language, cultural context.</li>
+<li><strong>Positioning</strong> — premium, accessible, disruptive, heritage, etc.</li>
+<li><strong>Tonal boundaries</strong> — should it be warm or cold? Serious or playful? Traditional or modern?</li>
+<li><strong>Phonetic preferences</strong> — hard consonants (commanding, memorable: Nike, Kodak) or soft consonants (warmer, more approachable: Aesop, Warby Parker)? Short (2 syllables, punchy) or longer (more substantive)?</li>
+<li><strong>Avoid list</strong> — sectors, competitors, archetypes you do not want to echo.</li>
+</ul>
+<p>Writing this down forces clarity and gives you a filter to judge candidates against. If you skip it, you will debate naming for weeks in circles.</p>
+<h3 id="stage-2--generate-a-longlist-46-hours">Stage 2 — Generate a longlist (4–6 hours)</h3>
+<p>Aim for 80–120 candidate names. You need volume to find the good ones. Use multiple naming strategies in parallel. The six that matter, and the trade-off each carries:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Strategy</th><th>What it is</th><th>Trademark strength</th><th>Marketing cost</th><th>Example</th></tr></thead><tbody><tr><td><strong>Descriptive</strong></td><td>Says what the business does</td><td>Weak</td><td>Low</td><td>The Body Shop</td></tr><tr><td><strong>Evocative</strong></td><td>Suggests an idea or feeling</td><td>Strong</td><td>Medium</td><td>Patagonia, Tesla</td></tr><tr><td><strong>Invented</strong></td><td>A made-up word</td><td>Strongest</td><td>Highest</td><td>Kodak, Google</td></tr><tr><td><strong>Founder-based</strong></td><td>A person’s name</td><td>Medium</td><td>Low–medium</td><td>Jo Malone</td></tr><tr><td><strong>Compound</strong></td><td>Two words fused</td><td>Good</td><td>Medium</td><td>Facebook, OakFox</td></tr><tr><td><strong>Metaphorical</strong></td><td>Borrowed from nature or myth</td><td>Strong</td><td>Medium</td><td>Nike, Apple</td></tr></tbody></table>
+<p>In detail:</p>
+<ul>
+<li><strong>Descriptive</strong> — directly describes what the business does (BookingCom, General Motors, The Body Shop). Easy to understand, hard to trademark, limited flexibility.</li>
+<li><strong>Evocative</strong> — suggests an idea or feeling without being literal (Patagonia, Tesla, Amazon). Stronger trademarks, more memorable, need more marketing to explain.</li>
+<li><strong>Invented</strong> — made-up words (Kodak, Xerox, Google). Best trademarks, highest marketing cost, biggest upside.</li>
+<li><strong>Founder-based</strong> — uses a person’s name (Jo Malone, Aesop Rock, Warren James). Works for certain sectors, harder to sell the business later.</li>
+<li><strong>Compound</strong> — two existing words fused (Facebook, SnapChat, OakFox). Middle ground — memorable, reasonably trademarkable.</li>
+<li><strong>Metaphorical</strong> — borrowed from nature, mythology, or culture (Nike after the Greek goddess, Apple for simplicity). Works well when the metaphor is apt.</li>
+</ul>
+<p>Do not judge at this stage. Get to 80. A good exercise: ban editing for the first hour and just write.</p>
+<h3 id="stage-3--cull-to-a-shortlist-23-hours">Stage 3 — Cull to a shortlist (2–3 hours)</h3>
+<p>Now judge. Against your Stage 1 constraints, remove anything that:</p>
+<ul>
+<li>Is actively bad when read aloud three times</li>
+<li>Requires explanation every time it is said</li>
+<li>Echoes a competitor too closely</li>
+<li>Has a cringe-inducing connotation</li>
+<li>Is obviously hard to spell or pronounce</li>
+</ul>
+<p>You want to land on 15–20 candidates.</p>
+<h3 id="stage-4--legal-and-commercial-checks-half-a-day">Stage 4 — Legal and commercial checks (half a day)</h3>
+<p>For each shortlisted candidate:</p>
+<ul>
+<li><strong>UK IPO trademark search</strong> — <a href="https://www.gov.uk/search-for-trademark">ipo.gov.uk/tmcase</a>. Free. Check classes relevant to your business.</li>
+<li><strong>EUIPO search</strong> if you expect to trade in the EU — <a href="https://euipo.europa.eu/eSearch/">euipo.europa.eu/eSearch/</a>.</li>
+<li><strong>Companies House search</strong> — <a href="https://find-and-update.company-information.service.gov.uk/">gov.uk/get-information-about-a-company</a>. Not a deal-breaker if someone shares a name in an unrelated sector, but worth knowing.</li>
+<li><strong>Google the name</strong> — existing businesses, news stories, anything awkward on the first page.</li>
+<li><strong>Domain availability</strong> — <code>.com</code> ideal, <code>.co.uk</code> acceptable for UK-first brands, <code>.shop</code> / <code>.studio</code> / <code>.design</code> niche.</li>
+<li><strong>Social handle availability</strong> — check Instagram, LinkedIn, and the platforms your sector uses. Use <a href="https://www.namecheckr.com/">namecheckr.com</a> as a quick starter.</li>
+<li><strong>International meaning check</strong> — drop candidates into Google Translate across five or six languages. An uncomfortable number of startup names mean something inappropriate in German, Portuguese, or Swedish.</li>
+</ul>
+<p>This stage typically kills half your shortlist. That is the point.</p>
+<h3 id="stage-5--stress-test-the-survivors-1-hour-per-candidate">Stage 5 — Stress test the survivors (1 hour per candidate)</h3>
+<p>For the 5–7 candidates that pass legal and commercial checks, stress-test each:</p>
+<ul>
+<li><strong>The radio test</strong> — can a friend understand it over a bad phone line and spell it correctly?</li>
+<li><strong>The ten-year test</strong> — will this name still feel right in 2036?</li>
+<li><strong>The positioning test</strong> — if you described your brand as the name out of context, what would a stranger guess the business sells? Is it close to what you actually do?</li>
+<li><strong>The logo test</strong> — sketch a logotype in three different weights. Does it hold together visually? Short punchy names win here; long ones struggle.</li>
+<li><strong>The “what’s it called?” test</strong> — after a customer tells a friend about you, what will they remember of the name? First syllable? Shape of the word? Misremembered variant?</li>
+</ul>
+<h3 id="stage-6--choose-and-commit">Stage 6 — Choose, and commit</h3>
+<p>The final step is the hardest: pick one and commit. Do not let the decision drag past a week. Ambiguity compounds — every day you do not commit is a day you cannot build the website, register the company, order signage, or brief a designer.</p>
+<p>If two candidates are genuinely tied, pick the one that is shorter, easier to trademark, and less likely to be confused with a competitor. That is almost always the right call.</p>
+<h2 id="worked-examples">Worked Examples</h2>
+<h3 id="aigéan">Aigéan</h3>
+<p>When we named <a href="/portfolio/aigean">Aigéan</a>, the Irish seafood restaurant, the client wanted something that communicated Irish provenance without being a cliché. “Aigéan” is the Irish word for “ocean” — pronounced roughly “AG-awn”. Chosen because:</p>
+<ul>
+<li>Direct connection to the business (seafood, ocean)</li>
+<li>Distinctive in a Dublin market full of English-language names</li>
+<li>Trademarkable as a non-obvious word in food services</li>
+<li>Short, two syllables, holds together in a logotype</li>
+<li>Unpronounceable on first sight but becomes a gentle education for diners — part of the brand story</li>
+</ul>
+<p>Tradeoffs accepted: customers will mispronounce it the first time. The team now treat every pronunciation correction as an opening to talk about the menu.</p>
+<h3 id="roll">Roll</h3>
+<p>For <a href="/portfolio/roll">Roll</a>, the Lake District bakery and coffee shop, we went the opposite direction:</p>
+<ul>
+<li>A single-syllable word</li>
+<li>Directly evocative of the product (bread rolls, coffee rolls, roll of ground coffee)</li>
+<li>Simple logotype potential</li>
+<li>Trademarkable in hospitality with specific application</li>
+<li>Internationally universal — the word reads similarly across English-speaking markets</li>
+</ul>
+<p>Tradeoffs accepted: “Roll” on its own is undifferentiated in search. We specified “Roll Bakery” in the extended word mark and anchored search listings to the town name (“Roll, Bowness”) for local discovery.</p>
+<h3 id="cubtrack">CubTrack</h3>
+<p>For <a href="/portfolio/cubtrack">CubTrack</a>, the baby and toddler app, the name had to do immediate functional work:</p>
+<ul>
+<li>“Cub” — universally understood reference to young mammals, warm connotation</li>
+<li>“Track” — direct signal of the app’s function (tracking feeding, sleep, development)</li>
+<li>Compound word — strong trademark potential in the app store category</li>
+<li>Short, easy to search, obvious domain fit</li>
+<li>Works across iOS and Android store listings at first glance</li>
+</ul>
+<p>Tradeoffs accepted: some parents find “cub” overly cute. We addressed this in the brand voice — spare, helpful, practical — so the product feel balances the name.</p>
+<h2 id="common-mistakes">Common Mistakes</h2>
+<ul>
+<li><strong>Naming by committee</strong>. Five people will never agree on a single name. Two people who trust each other can.</li>
+<li><strong>Falling in love with the first idea you liked</strong>. The first name that feels right is usually the one you are emotionally attached to, not the best candidate. Kill it deliberately and see what survives.</li>
+<li><strong>Picking a name you cannot buy the <code>.com</code> for</strong>. Exceptions exist (Warby Parker is <code>warbyparker.com</code>, Canva is <code>canva.com</code> — both exact match) but in 2026 the cost of failing to secure a strong domain compounds. If the exact <code>.com</code> is taken by a parked page, it is almost always worth paying the four-figure asking price for a viable brand.</li>
+<li><strong>Trademarking after launching</strong>. Launch with a name, spend six months building equity, then discover the trademark is unavailable — it happens, and the rebrand costs far more than the £170 UK IPO application you should have filed at the start.</li>
+<li><strong>Ignoring pronunciation</strong>. “Aigéan” is intentional ambiguity. A badly-chosen unpronounceable name is just a barrier to recommendation.</li>
+<li><strong>Choosing a name that boxes you in</strong>. A name that is too literal constrains future pivots. If “Corner Coffee” decides to sell tea, the brand is broken.</li>
+</ul>
+<h2 id="the-oakfox-story-briefly">The OakFox Story (Briefly)</h2>
+<p>Since people ask: OakFox is a compound — oak for stability, longevity, slow growth; fox for adaptability, cunning, local knowledge. We picked it because the work we do sits at the intersection of those two ideas. Sustainable branding is the same bet — things that last because they are adaptable, rather than rigid.</p>
+<p>That paragraph took about three weeks to arrive at. Naming is hard. But with process, it is not guesswork.</p>
+<hr/>
+<p>If you are choosing a name for a new business and want a second read before you commit, <a href="/contact">send us a few lines</a>. We offer an hour of naming review as a free initial call — whether or not we end up doing the rest of the <a href="/services/branding">branding project</a>.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>How to Brief a Branding Agency (Without Wasting Anyone&#39;s Time)</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/how-to-brief-a-branding-agency</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-03-12T00:00:00.000Z" data-astro-cid-6gxxuhll>12 March 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> Branding</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> branding, brand identity, working with agencies, procurement</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/how-to-brief-a-branding-agency.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>A practical guide to writing a brief that gets you a better proposal, a better quote, and a better project. With the questions to answer, the mistakes to avoid, and a template you can actually use.</p> <a class="db-btn db-btn-sm" href="/blog/how-to-brief-a-branding-agency" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>Bad briefs produce bad proposals. Agencies guess, quotes balloon, scope creeps, and by the time the project starts nobody is clear what they are actually building. The fix is simple and free — spend an hour writing a brief that gives the agency enough to reply properly.</p>
+<p>This is how we write them, what we look for in the ones we receive, and what to skip.</p>
+<h2 id="what-a-brief-is-actually-for">What a Brief Is Actually For</h2>
+<p>A branding brief is not a specification document. You are not telling the agency what to make. You are telling them <em>who you are</em>, <em>what you need to achieve</em>, and <em>what the constraints are</em> — so they can come back with a considered proposal and an accurate quote.</p>
+<p>A good brief gets you:</p>
+<ul>
+<li>A more accurate fixed-price quote (fewer unknowns = fewer contingency buffers)</li>
+<li>Agencies that are genuinely suited to the work self-selecting in, and the rest self-selecting out</li>
+<li>A faster kick-off — the agency has already done 60% of the discovery before day one</li>
+<li>A reference document you can both return to when scope disputes come up</li>
+</ul>
+<h2 id="the-eight-things-every-branding-brief-should-cover">The Eight Things Every Branding Brief Should Cover</h2>
+<h3 id="1-who-you-are-in-one-paragraph">1. Who you are, in one paragraph</h3>
+<p>Not your “about us” page. A plain-language description of the business.</p>
+<blockquote>
+<p>Aigéan is a seafood restaurant in Sandymount, Dublin, launching in autumn 2026 by chef [X]. It will serve Irish-caught, Michelin-quality seafood at fair prices, sourced from named boats and landed within 24 hours. The dining room seats 40.</p>
+</blockquote>
+<p>That is enough. You are orienting the reader.</p>
+<h3 id="2-why-you-are-doing-this-now">2. Why you are doing this now</h3>
+<p>What has changed? A launch? A merger? A reposition? Coming up to the ten-year mark and the brand no longer fits? Regulatory pressure? A new market?</p>
+<p>The agency’s approach should change significantly depending on why. A launch brand is greenfield. A reposition is political — there are internal stakeholders, legacy decisions, and things that are emotionally hard to change. Different skill.</p>
+<h3 id="3-who-the-brand-is-for">3. Who the brand is for</h3>
+<p>Be specific. “Everyone” or “professionals” is not an audience. “32–55 year old parents in urban West Lancashire who care about where their food comes from and have a household income above £60k” is an audience.</p>
+<p>If you have existing customer research — interviews, segmentation data, NPS responses — include summaries. Even informal observations (“our best customers tend to be X”) are useful.</p>
+<h3 id="4-what-success-looks-like">4. What success looks like</h3>
+<p>Not a number necessarily — though numbers help. The outcome you are actually trying to move:</p>
+<ul>
+<li>Higher average transaction value?</li>
+<li>Better margin on the same revenue?</li>
+<li>Justifying a 30% price increase?</li>
+<li>Making the business investable / saleable?</li>
+<li>Being taken seriously by retailers you have been rejected by?</li>
+<li>Attracting a different kind of customer?</li>
+</ul>
+<p>Be honest about this. A rebrand to “make us look more modern” is a vanity exercise; a rebrand to “justify a price position that puts us alongside Daylesford rather than Waitrose” is a commercial one. Different amounts of work.</p>
+<h3 id="5-the-competitive-landscape">5. The competitive landscape</h3>
+<p>Three to six competitors or adjacent brands, with a short note on each about what works and what does not. Not exhaustive — a sample.</p>
+<p>Also include brands you admire from outside your sector. This is more useful than it sounds. If a restaurant says they admire the visual restraint of Aesop, the graphic discipline of The Financial Times, and the tone of Ben’s Cookies, you have already narrowed the design direction enormously.</p>
+<h3 id="6-the-scope-you-think-you-need">6. The scope you think you need</h3>
+<p>Do not write a specification — write your best guess. The agency will adjust.</p>
+<blockquote>
+<p>We think we need:</p>
+<ul>
+<li>A new wordmark and logo system</li>
+<li>A visual identity (colour, typography, photographic direction)</li>
+<li>Guidelines our team and future collaborators can use</li>
+<li>Initial application: menus, signage, website, social templates</li>
+</ul>
+</blockquote>
+<p>If you do not know, say “we do not know — please recommend.” That is a legitimate brief.</p>
+<h3 id="7-budget-and-timeline">7. Budget and timeline</h3>
+<p>The single most common brief mistake: refusing to share budget. The agency cannot tell you what is possible without knowing what you can spend. Sharing a budget range — even a rough one — filters in agencies that work at your scale and filters out the ones that do not.</p>
+<p>If your budget is £8k–£15k, say so. Agencies that cannot do quality work at that level will pass politely. The ones that can will propose accordingly.</p>
+<p>For timelines, share:</p>
+<ul>
+<li><strong>When you ideally want to launch the new brand</strong> — with any fixed dates (events, funding, product launches, property leases)</li>
+<li><strong>Which dates are immovable and which are flexible</strong></li>
+<li><strong>Who the key decision-makers are, and when they are available</strong></li>
+</ul>
+<h3 id="8-who-decides">8. Who decides</h3>
+<p>List the people who will approve work, by name and role. How many rounds of reviews do you typically need? Are there stakeholders who need sign-off but are not hands-on (an investor, a co-founder, a spouse who always gets a vote)?</p>
+<p>This is not a bureaucratic question. A three-person studio with one clear decision-maker can run a project in half the time of a six-person team where every review involves five people with veto power. Agencies price accordingly — and should.</p>
+<h2 id="what-to-leave-out">What to Leave Out</h2>
+<ul>
+<li><strong>Preferred design directions</strong> (“we want minimalist”). You are hiring the agency because they are better at this than you. If you have dictated the answer before they start, you have wasted the brief.</li>
+<li><strong>Long mood boards</strong>. One or two reference brands is useful context. Twenty reference brands is a sign you have not decided what you want.</li>
+<li><strong>Specifications of colours or typefaces</strong>. The agency will propose these.</li>
+<li><strong>Excessive constraints on methodology</strong>. “We want to start with a workshop” is a scope instruction, not a brief.</li>
+<li><strong>Detailed organisational history</strong>. One paragraph max. The agency will read your website.</li>
+</ul>
+<h2 id="the-common-mistakes">The Common Mistakes</h2>
+<ul>
+<li><strong>Writing the brief after you have already picked a supplier</strong>. You will get a smooth process but a worse outcome than a proper competitive brief to three studios.</li>
+<li><strong>Sharing only with agencies you found via Google</strong>. The best agencies for specific work are often recommended, not discovered. Ask founders in your sector who they used.</li>
+<li><strong>Asking for “free pitches” of actual design work</strong>. No reputable agency will do speculative design work. What you should ask for is a <em>proposal</em>: their read on the brief, their team, their process, their price, their timeline.</li>
+<li><strong>Not giving a response deadline</strong>. A brief with no deadline is a brief that will get a reply whenever. Set one. Two to three weeks is reasonable for a proposal.</li>
+<li><strong>Forgetting to say what happens next</strong>. Will you shortlist three? Interview two? What is the decision process? Agencies will spend more effort on the proposal if they know how it will be evaluated.</li>
+</ul>
+<h2 id="the-template">The Template</h2>
+<p>Copy, adapt, send:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>Branding Brief: [Business Name]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. About us (one paragraph)</span></span>
+<span class="line"><span>2. Why we are doing this now</span></span>
+<span class="line"><span>3. Who our customers are (and are not)</span></span>
+<span class="line"><span>4. What success looks like in 12 months</span></span>
+<span class="line"><span>5. Three to six competitors, with a note on each</span></span>
+<span class="line"><span>6. Brands we admire (in or out of sector)</span></span>
+<span class="line"><span>7. What we think we need (scope guess)</span></span>
+<span class="line"><span>8. Budget range — £[low]–£[high]</span></span>
+<span class="line"><span>9. Timeline — ideal launch date, any fixed dates</span></span>
+<span class="line"><span>10. Decision makers and approval process</span></span>
+<span class="line"><span>11. Deadline for your proposal</span></span>
+<span class="line"><span>12. How we will decide</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[Contact details]</span></span></code></pre>
+<p>An hour with this template beats a month of misaligned back-and-forth.</p>
+<h2 id="one-final-thing">One Final Thing</h2>
+<p>If the agency comes back asking clarifying questions before they quote, that is a good sign. It means they read the brief, noticed what was missing, and want to quote accurately. The agencies that come back instantly with a high-confidence number and no questions are usually the ones you should not hire.</p>
+<hr/>
+<p>If you are writing a brief for a <a href="/services/branding">brand identity project</a> and want a second read before sending it out, <a href="/contact">get in touch</a>. We are happy to give a quick honest read even if we are not going to be the ones quoting.</p> </article> </div> </details><details class="db-card post-row" data-astro-cid-6gxxuhll> <summary class="post-summary" data-astro-cid-6gxxuhll> <span class="post-meta" data-astro-cid-6gxxuhll> <span class="post-title" data-astro-cid-6gxxuhll>Welcome to the New OakFox</span> <span class="post-slug db-mono" data-astro-cid-6gxxuhll>/blog/welcome-to-the-new-oakfox</span> </span> <span class="post-side" data-astro-cid-6gxxuhll>  <time class="post-date" datetime="2026-03-04T00:00:00.000Z" data-astro-cid-6gxxuhll>4 March 2026</time> <svg class="post-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-6gxxuhll><path d="M9 18l6-6-6-6" data-astro-cid-6gxxuhll></path></svg> </span> </summary> <div class="post-body" data-astro-cid-6gxxuhll> <div class="post-facts" data-astro-cid-6gxxuhll> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Category</span> News</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Author</span> OakFox</span> <span class="db-mono" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>Tags</span> news, development, astro</span>  <span class="db-mono post-facts-file" data-astro-cid-6gxxuhll><span class="post-facts-k" data-astro-cid-6gxxuhll>File</span> src/content/blog/welcome-to-the-new-oakfox.mdx</span> </div> <p class="post-desc" data-astro-cid-6gxxuhll>We&#39;ve rebuilt our website from the ground up using modern web technology. Here&#39;s why we made the switch and what it means for our clients.</p> <a class="db-btn db-btn-sm" href="/blog/welcome-to-the-new-oakfox" target="_blank" rel="noopener" data-astro-cid-6gxxuhll>
+Open live post &rarr;
+</a> <article class="prose prose-invert max-w-none post-content
+                      prose-headings:font-bold prose-headings:tracking-tight
+                      prose-a:text-[color:var(--db-accent-hover)] prose-a:underline-offset-4" data-astro-cid-6gxxuhll> <p>We’re thrilled to launch our completely rebuilt website. Built with Astro and Tailwind CSS, our new site is faster, more accessible, and better reflects who we are as a modern digital agency.</p>
+<h2 id="why-the-change">Why the Change?</h2>
+<p>As a web and digital agency, our own site should be a showcase of what’s possible. We wanted something that:</p>
+<ul>
+<li><strong>Loads instantly</strong> — no heavy WordPress overhead</li>
+<li><strong>Scores perfectly</strong> on Lighthouse audits</li>
+<li><strong>Is easy to maintain</strong> — adding new portfolio pieces and blog posts is as simple as writing a markdown file</li>
+</ul>
+<h2 id="whats-next">What’s Next</h2>
+<p>We’ll be adding more portfolio pieces and sharing insights on branding, sustainability, and web development. Watch this space.</p> </article> </div> </details> </div> </section><section style="margin-bottom: 36px;" data-astro-cid-6gxxuhll> <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;" data-astro-cid-6gxxuhll> <h2 class="db-heading" style="font-size: 18px;" data-astro-cid-6gxxuhll>Drafts</h2> <span class="db-badge db-badge-not-started" data-astro-cid-6gxxuhll>0</span> </div> <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 14px;" data-astro-cid-6gxxuhll>Marked draft:true — hidden everywhere until you flip the flag.</p> <p style="color: var(--db-text-muted); font-size: 13px; font-style: italic;" data-astro-cid-6gxxuhll>None.</p> </section> </div>  </main> <!-- Auth gate --> <script>
+      (function() {
+        var s = sessionStorage.getItem('oakfox_auth');
+        if (!s) { window.location.replace('/dashboard/login'); return; }
+        try {
+          var p = JSON.parse(s);
+          if (!p.authed || p.expires < Date.now()) {
+            sessionStorage.removeItem('oakfox_auth');
+            window.location.replace('/dashboard/login');
+          }
+        } catch(e) {
+          sessionStorage.removeItem('oakfox_auth');
+          window.location.replace('/dashboard/login');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          // Logout handler
+          var btn = document.getElementById('logout-btn');
+          if (btn) {
+            btn.addEventListener('click', function(e) {
+              e.preventDefault();
+              sessionStorage.removeItem('oakfox_auth');
+              window.location.replace('/dashboard/login');
+            });
+          }
+
+          // Agency switcher — sync both desktop and mobile
+          var activeAgency = localStorage.getItem('oakfox_agency') || 'OakFox';
+          var allAgencyBtns = document.querySelectorAll('.db-agency-btn');
+          allAgencyBtns.forEach(function(b) {
+            if (b.getAttribute('data-agency') === activeAgency) {
+              b.classList.add('active');
+            } else {
+              b.classList.remove('active');
+            }
+            b.addEventListener('click', function() {
+              allAgencyBtns.forEach(function(x) { x.classList.remove('active'); });
+              var agency = b.getAttribute('data-agency');
+              // Highlight all buttons with this agency (desktop + mobile)
+              allAgencyBtns.forEach(function(x) {
+                if (x.getAttribute('data-agency') === agency) x.classList.add('active');
+              });
+              localStorage.setItem('oakfox_agency', agency);
+              window.dispatchEvent(new CustomEvent('agencychange', { detail: { agency: agency } }));
+            });
+          });
+        });
+      })();
+    </script> </body> </html>
