@@ -1,6 +1,6 @@
 # OakFox
 
-> Sustainable design, development, marketing and consultancy studio based in West Lancashire, UK. Founded by Nathan James Entwistle, OakFox helps independent businesses and international brands grow through considered brand identity, accessible web development, and environmental consultancy that is woven into every decision — from supply chain advice to the code we ship.
+> Sustainable design studio based in West Lancashire, UK. Founded by Nathan James Entwistle, OakFox helps independent businesses and international brands grow through considered brand identity, accessible web development, marketing, and green web hosting — with sustainability woven into every decision and proven, not just claimed (verified green hosting, original ecological research). Dedicated ecology reporting and automation is our sister venture, EcoScribe (https://ecoscribe.co.uk).
 
 ## About
 
@@ -25,8 +25,8 @@
 - **[Development](https://oakfox.co.uk/services/development)** — fast, static-first web builds on verified renewable-powered hosting.
 - **[Copywriting](https://oakfox.co.uk/services/copywriting)** — website copy, campaign copy, brand voice.
 - **[Marketing](https://oakfox.co.uk/services/marketing)** — strategy, content, email, organic social, SEO — no greenwashing.
-- **[Environmental Consultancy](https://oakfox.co.uk/services/environmental/consultancy)** — practical sustainability consultancy, supply chain, packaging, operations.
-- **[Environmental Automation](https://oakfox.co.uk/services/environmental/automation)** — intelligent automation for ecologists, regenerative farmers, and environmental consultancies (PEA, BNG, SFI).
+- **[Green Web Hosting](https://oakfox.co.uk/services/green-web-hosting)** — managed, renewable-powered UK hosting with free migration.
+- **[Environmental](https://oakfox.co.uk/services/environmental)** — sustainability built into every project (verified green hosting, original ecological research). Dedicated ecology reporting & automation (PEA, BNG, SFI) is our venture EcoScribe — https://ecoscribe.co.uk.
 
 ## Pages
 
@@ -50,7 +50,7 @@
 
 ## Selected work
 
-- [Aigéan](https://oakfox.co.uk/portfolio/aigean): Strategic branding, marketing, and environmental consultancy for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin.
+- [Aigéan](https://oakfox.co.uk/portfolio/aigean): Strategic branding, marketing, and sustainability work for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin.
 - [CubTrack](https://oakfox.co.uk/portfolio/cubtrack): Full product design, development, and marketing for a baby and toddler tracking app.
 - [Jennifer Lane](https://oakfox.co.uk/portfolio/jennifer-lane): Website refresh for the award-winning author and green witch, timed to coincide with a book launch.
 - [Roll](https://oakfox.co.uk/portfolio/roll): Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District.
@@ -59,7 +59,7 @@
 
 - [The Future of Sustainability in Branding and Marketing](https://oakfox.co.uk/blog/future-of-sustainability-in-branding): Why sustainability is becoming the baseline, not a trend.
 - [Welcome to the New OakFox](https://oakfox.co.uk/blog/welcome-to-the-new-oakfox): Why we rebuilt our site from the ground up on modern web tech.
-- [BNG Is Burying Ecological Consultancies](https://oakfox.co.uk/blog/bng-is-burying-ecological-consultancies): Why the Biodiversity Net Gain regime is eating ecologist hours.
+- [Sustainable Web Design — A Practical Guide](https://oakfox.co.uk/blog/sustainable-web-design-practical-guide): How to design and build low-carbon, accessible websites.
 
 ## Optional deep reference
 
@@ -67,6 +67,6 @@ For full service details, pricing ranges, timelines, sector coverage, and techno
 
 ## Working with OakFox
 
-OakFox takes on a small number of projects each quarter to ensure every client gets considered attention. Typical engagements include brand identities, full website design and build, ongoing marketing, and sustainability consulting. Every project is shaped by a simple belief: brands that respect the planet perform better, last longer, and matter more.
+OakFox takes on a small number of projects each quarter to ensure every client gets considered attention. Typical engagements include brand identities, full website design and build, ongoing marketing, and managed green web hosting. Every project is shaped by a simple belief: brands that respect the planet perform better, last longer, and matter more.
 
 To start a project, use the contact form at https://oakfox.co.uk/contact.

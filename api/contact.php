@@ -33,7 +33,7 @@ $message = $message !== ''
     : '(No message — quick enquiry. Suggest replying to arrange a call.)';
 
 if (is_array($services)) {
-    $allowed = ['Branding', 'Web Design', 'Development', 'Hosting', 'Copywriting', 'Marketing', 'Environmental', 'Not sure yet'];
+    $allowed = ['Branding', 'Web Design', 'Development', 'Hosting', 'Copywriting', 'Marketing', 'Not sure yet'];
     $services = array_filter($services, fn($s) => in_array($s, $allowed));
     $serviceList = implode(', ', $services);
 } else {
