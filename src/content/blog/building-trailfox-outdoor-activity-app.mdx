@@ -1,0 +1,117 @@
+---
+title: "Building TrailFox: Designing an Outdoor Activity App for Families"
+description: "How we designed, built, and launched TrailFox — our second in-house app. The energy-and-place mechanic, designing for use outdoors in bright sunlight, shipping iOS and Android together, privacy-first handling of children's data, and why we chose one-time packs over subscriptions."
+date: 2026-06-30
+category: "Product"
+author: "OakFox"
+tags: ["app development", "ios", "android", "product", "ux", "case study"]
+draft: false
+faq:
+  - q: "What is TrailFox?"
+    a: "TrailFox is a cross-platform iOS and Android app that suggests outdoor activities for children based on how much energy everyone has and where you are — garden, park, woods, or street — and includes a shared family nature journal. It was designed and built end-to-end by OakFox."
+  - q: "Does TrailFox use subscriptions?"
+    a: "No. TrailFox is free to use with hundreds of activities included. Optional themed activity packs are one-time purchases — there are no subscriptions and no ads, ever."
+  - q: "How does TrailFox handle children's data?"
+    a: "The data model is deliberately small. Accounts and content sync through Google Firebase and purchases run through RevenueCat and the app stores — there is no advertising, no third-party analytics, and nothing sold on. Accounts and journals can be deleted in full from inside the app."
+---
+
+TrailFox is an outdoor activity app for families that we designed, built, and launched ourselves. Brand identity, UX, a cross-platform app on iOS and Android, the activity content system, store listings — every layer. It's live now on both the App Store and Google Play.
+
+It's also OakFox's **second** in-house product. The first, [CubTrack](/portfolio/cubtrack), is a baby and toddler tracking app we shipped end-to-end and [wrote about here](/blog/building-cubtrack-baby-tracking-app). Building a second product is a different exercise to building a first one — you arrive with a working playbook, and the interesting decisions are the ones where you choose to break from it. This post is the inside view: what TrailFox is, the calls that shaped it, and what two in-house apps have taught the studio.
+
+## Why We Built It
+
+The problem is one most parents will recognise. You already know the kids should be outside more. The hard part is never the principle — it's the moment. You've got twenty minutes, a tired toddler, and a back garden, and your brain has gone blank. The activity ideas you find online are written for perfect weather, two free hours, and a craft cupboard nobody actually owns.
+
+What was missing was something that meets you where you are: small, doable ideas matched to the energy in the room and the space outside the door. Not a content library you have to dig through — a suggestion that fits *this* moment.
+
+There was a strategic reason too, the same one behind CubTrack. OakFox does brand, web, and development work for clients, but shipping our own products gives us somewhere to test design and technical decisions end-to-end, without compromise. Each in-house app is a working laboratory, and what proves out feeds straight back into how we approach client briefs.
+
+## The Problem in One Sentence
+
+A parent or carer has a short window of time, a specific outdoor space, and a child with a specific amount of energy — and needs one good activity that fits all three, right now, without scrolling.
+
+That sentence drove the whole product. Everything else is in service of it.
+
+## Brand First, Not Last
+
+As with CubTrack, we designed the brand before writing a line of app code. Build the app first and the brand becomes a reskin that never quite fits.
+
+TrailFox is built around curiosity and the outdoors without tipping into twee — the trap most kids' products fall into. A fox, alert and at home in woods and gardens alike, anchors the mark, paired with a map pin and oak leaves to tie together *where you are* and *what you find*.
+
+- **Forest (#2B5A17)** — the primary colour. Grounded and natural; logo, headings, key actions.
+- **Warm Cream (#F7F6F1)** — the dominant background. Softer than white and, crucially, easier to read outdoors in bright light.
+- **Pine (#2B564F)** — a deep teal-green for activity cards and moments of focus.
+- **Clay (#D4A373)** — a warm terracotta for primary buttons, adding energy against the greens.
+- **Amber (#FFD6A5)** — a soft accent for the higher-energy options and playful highlights.
+
+That cream background is a good example of a brand decision doing real functional work. CubTrack chose warm cream over white to ease tired eyes during night feeds. TrailFox chose it for the opposite environment — a phone held at arm's length in direct sunlight, where pure white blows out and high-contrast cream stays legible. Same instinct, different 3am.
+
+<div class="not-prose grid grid-cols-2 sm:grid-cols-3 gap-4 my-10">
+  <img src="/images/trailfox/screen-1.webp" alt="TrailFox — pick your energy and place to get an activity" loading="lazy" class="rounded-2xl w-full shadow-lg" />
+  <img src="/images/trailfox/screen-2.webp" alt="TrailFox — a suggested outdoor activity" loading="lazy" class="rounded-2xl w-full shadow-lg" />
+  <img src="/images/trailfox/screen-3.webp" alt="TrailFox — the family nature journal" loading="lazy" class="rounded-2xl w-full shadow-lg" />
+</div>
+
+## The Mechanic: Energy and Place
+
+The heart of TrailFox is a deliberately tiny interaction. You tell it two things — how much energy everyone has (calm or bouncy) and where you are (garden, park, woods, street) — and it suggests an activity that fits. Don't fancy it? Try a different one.
+
+Getting to *two inputs* was the hard part. Early thinking wanted more: age, weather, time available, equipment to hand. Every one of those would have improved the match on paper and killed the product in practice. The whole value proposition is "blank brain, twenty minutes, give me something" — and a six-field form is the opposite of that. We pushed the richer context somewhere it doesn't cost the user a decision in the moment (see *Your Spot*, below) and kept the front door to two taps.
+
+**Lesson for product owners:** the temptation to add inputs that "improve the result" is constant, and usually wrong. Every field you add is a tax on the exact moment the product exists to rescue. Match quality and friction are in tension; pick the side your core use case lives on.
+
+## Designing for the Actual Moment
+
+Like CubTrack, TrailFox is operated by someone whose state you have to design around — but the state is different. Outdoors, one-handed, often in bright sun, frequently with a child already pulling at the other arm.
+
+- **Two taps to an activity** from the home screen. The core loop is never more than a couple of decisions deep.
+- **High-contrast type on cream** so the screen survives direct sunlight, not just a design-studio monitor.
+- **Short, real-life instructions** — written for gardens, parks, streets, and trails as they actually are, not for ideal conditions.
+- **Large, forgiving touch targets**, because a phone gets tapped one-handed while the other hand holds a toddler.
+
+These aren't novel principles. The discipline is applying them consistently when it would be easier not to.
+
+## Shipping iOS and Android Together
+
+Here's the biggest break from the CubTrack playbook. CubTrack launched Android-first and brought iOS along later — a sensible call for an indie product chasing UK market share and fast iteration. TrailFox shipped **both platforms at once.**
+
+Why the change? Three reasons:
+
+1. **The codebase was built cross-platform from the first sprint.** The discipline we learned keeping CubTrack's UI cleanly separated from its business logic meant a single codebase could serve both stores without a second build effort.
+2. **The audience isn't platform-skewed.** A baby tracker has a household decision-maker; an activity app for kids gets passed between two parents and a grandparent who are as likely to be on iPhone as Android. Launching one platform would have stranded half of any given family.
+3. **We'd already paid the learning tax once.** Apple's Developer Program onboarding, store-listing craft, review timelines — the friction that made us launch CubTrack on Android first was a known quantity the second time.
+
+**Lesson:** "launch on one platform first" is good advice for your first product and not a permanent law. The right call depends on your audience shape and how much cross-platform groundwork you've already laid.
+
+## Privacy by Design
+
+TrailFox is used by adults alongside their children, so the data model was kept deliberately small. Accounts and content sync through Google Firebase, purchases run through RevenueCat and the app stores, and that is the full extent of it — no advertising, no third-party analytics, nothing sold on. Accounts and journals can be deleted in full from inside the app.
+
+This isn't a compliance checkbox; it's a product position. An app aimed at families and children that quietly harvested data would be indefensible against our own no-greenwashing principles. The smallest data model that makes the product work is the right one.
+
+## One-Time Packs, Not Subscriptions
+
+The other deliberate break from CubTrack. CubTrack runs a freemium subscription — the right model for a daily-use utility where Pro features (shared caregivers, exports, backup) earn their keep month after month.
+
+TrailFox is used differently. It's an occasional, joyful "what shall we do?" app, not a forty-times-a-day logger. A monthly subscription against that usage pattern is a slow leak of goodwill — you resent paying for something you open on weekends. So the model is: hundreds of activities free, and themed packs (Minibeast, Night, Mud, Beach, the four seasons, Wild Skills for older kids) as **one-time purchases.** No subscriptions, ever. No ads.
+
+**Lesson:** don't inherit a monetisation model from your last product. Match the pricing to how the thing is actually used. Subscription suits habitual utility; one-time purchase suits occasional delight.
+
+## Your Spot
+
+The richer context we kept out of the front door lives here. *Your Spot* lets you tell TrailFox about your outdoor space once — size, water, trees, mess tolerance — so suggestions always suit where you actually are, without re-asking every time. Paired with per-child **Explorer profiles**, the app gets more personal the more you use it, while the moment-to-moment interaction stays at two taps. That split — heavy context stored quietly, light interaction up front — is the single design idea I'd carry into the next product.
+
+## What Two Products Taught Us
+
+Building TrailFox after CubTrack made the value of an in-house product line concrete. The first product teaches you the craft. The second teaches you which parts of the first were *the product* and which were just *that product's context* — what to keep (brand-first, design-for-the-real-moment, privacy as a position) and what to re-decide from scratch (platform strategy, pricing model).
+
+All of it feeds back into client work. When a founder comes to us wanting to go from brand to store listing in a single engagement, we're not theorising — we've now done it twice, on two very different products, and shipped both.
+
+## Try TrailFox, Or Build Your Own
+
+If you've got kids and a spare half-hour outdoors, TrailFox is free to try:
+
+[**Download TrailFox on the App Store**](https://apps.apple.com/app/trailfox/id6781825150) · [**Get it on Google Play**](https://play.google.com/store/apps/details?id=com.oakfox.trailfox)
+
+And if you're a founder or product team thinking about a mobile app — and you want a partner who can take you from brand through to launch on both stores in one engagement — [send us a few lines](/contact). We reply within 24 hours.

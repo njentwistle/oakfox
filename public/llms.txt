@@ -51,7 +51,8 @@
 ## Selected work
 
 - [Aigéan](https://oakfox.co.uk/portfolio/aigean): Strategic branding, marketing, and sustainability work for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin.
-- [CubTrack](https://oakfox.co.uk/portfolio/cubtrack): Full product design, development, and marketing for a baby and toddler tracking app.
+- [CubTrack](https://oakfox.co.uk/portfolio/cubtrack): Full product design, development, and marketing for a baby and toddler tracking app — OakFox's first in-house product.
+- [TrailFox](https://oakfox.co.uk/portfolio/trailfox): Brand, UX, and a cross-platform iOS + Android outdoor activity app for families — OakFox's second in-house product.
 - [Jennifer Lane](https://oakfox.co.uk/portfolio/jennifer-lane): Website refresh for the award-winning author and green witch, timed to coincide with a book launch.
 - [Roll](https://oakfox.co.uk/portfolio/roll): Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District.
 
