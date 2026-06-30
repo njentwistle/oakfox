@@ -17,8 +17,29 @@ const services = [
   { name: 'Environmental', description: 'Consultancy and automation for sustainable business.', href: '/services/environmental' },
   { name: 'Web Design', description: 'Considered sites, accessible from the start.', href: '/services/web-design' },
   { name: 'Development', description: 'Fast, green, modern builds.', href: '/services/development' },
-  { name: 'Copywriting', description: 'Words that earn attention.', href: '/services/copywriting' },
+  { name: 'Copywriting', description: 'Words that mean something.', href: '/services/copywriting' },
   { name: 'Marketing', description: 'Strategy that respects the audience.', href: '/services/marketing' },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Incredible bespoke marketing agency! Nath and his team always exceed my expectations… the outcomes of the work they have done have delivered great returns and a noticeable impact on traffic volumes and brand awareness. Would give them 6 stars if I could!",
+    name: 'Simon Mawson',
+    org: 'Aigéan',
+  },
+  {
+    quote:
+      "They completely blew past our expectations. The design is beautifully polished, the development is seamless, and their communication throughout the project was first-class. Highly recommend them if you want a premium digital presence.",
+    name: 'Wesley Boyce',
+    org: 'Brand identity & website',
+  },
+  {
+    quote:
+      "I absolutely love the look and feel of my new author website — isn't it so beautiful? They are so easy to work with and accommodating. I can recommend OakFox 100%.",
+    name: 'Jennifer Lane',
+    org: 'Jennifer Lane Writes',
+  },
 ];
 
 const homeSchema = {
@@ -65,24 +86,30 @@ const homeSchema = {
       </h1>
 
       <div class="mt-12 md:mt-16 grid md:grid-cols-12 gap-8 items-end">
-        <p data-hero-paragraph class="md:col-span-5 text-[15px] text-ink/60 leading-relaxed">
+        <p data-hero-paragraph class="md:col-span-6 text-[15px] text-ink/60 leading-relaxed">
           Design, development, marketing and environmental consultancy —
           from a small studio with 15+ years of experience across local
           independents and international brands.
         </p>
 
-        <div class="md:col-span-3 md:col-start-10 flex items-center justify-end">
+        <div class="md:col-span-5 md:col-start-8 flex flex-wrap items-center gap-x-6 gap-y-4 md:justify-end">
           <a
             href="/contact"
             data-magnetic
-            class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group"
+            class="inline-flex items-center gap-3 bg-forest text-cream text-[15px] font-medium pl-6 pr-2 py-2 rounded-full hover:bg-forest-dark transition-all duration-300 group"
           >
             Start a project
-            <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
+            <span class="w-9 h-9 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-x-0.5">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </span>
+          </a>
+          <a
+            href="/book"
+            class="inline-flex items-center gap-2 text-[14px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
+          >
+            Book a free call
           </a>
         </div>
       </div>
@@ -166,11 +193,23 @@ const homeSchema = {
             Good design and good ethics aren't at&nbsp;odds.
           </h2>
           <p class="mt-6 text-[15px] text-ink/60 leading-relaxed">
-            Every project we take on is shaped by a simple belief: brands that
-            respect the planet perform better, last longer, and matter more.
-            We weave sustainability into every decision — from supply chain
-            consultancy to the code we ship.
+            Most studios say they're sustainable. We can prove it. Our hosting is
+            independently verified by the Green Web Foundation — auditable in
+            thirty seconds via their public registry — and our work is informed
+            by our own original research into UK woodlands and biodiversity. So
+            sustainability arrives as evidence, not as a tagline.
           </p>
+          <a
+            href="https://www.thegreenwebfoundation.org/green-web-check/?url=oakfox.co.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-line inline-flex items-center gap-2 mt-6 text-[13px] font-medium text-forest"
+          >
+            Verify our green hosting
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
         </div>
 
         <div class="reveal md:col-span-6 md:col-start-7">
@@ -193,18 +232,21 @@ const homeSchema = {
       </div>
 
       <!-- Stats -->
-      <div data-scene="stats" class="reveal mt-20 md:mt-28 grid grid-cols-3 gap-6 md:gap-12 border-t border-stone pt-10">
-        <div>
-          <div class="headline text-2xl md:text-3xl" data-count-to="15" data-count-suffix="+">15+</div>
-          <div class="label text-gray mt-2">Years experience</div>
-        </div>
-        <div>
-          <div class="headline text-2xl md:text-3xl" data-count-to="120" data-count-suffix="+">120+</div>
-          <div class="label text-gray mt-2">Projects delivered</div>
-        </div>
-        <div>
-          <div class="headline text-2xl md:text-3xl">Est. 2025</div>
-          <div class="label text-gray mt-2">West Lancashire, UK</div>
+      <div data-scene="stats" class="reveal mt-20 md:mt-28 border-t border-stone pt-10">
+        <p class="label text-gray mb-8">The studio is new. The experience isn't.</p>
+        <div class="grid grid-cols-3 gap-6 md:gap-12">
+          <div>
+            <div class="headline text-2xl md:text-3xl" data-count-to="15" data-count-suffix="+">15+</div>
+            <div class="label text-gray mt-2">Years in practice</div>
+          </div>
+          <div>
+            <div class="headline text-2xl md:text-3xl" data-count-to="120" data-count-suffix="+">120+</div>
+            <div class="label text-gray mt-2">Projects delivered</div>
+          </div>
+          <div>
+            <div class="headline text-2xl md:text-3xl">2025</div>
+            <div class="label text-gray mt-2">OakFox founded</div>
+          </div>
         </div>
       </div>
 
@@ -218,6 +260,26 @@ const homeSchema = {
         <a href="/locations/manchester" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Manchester</a>
         <a href="/locations/lancashire" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Lancashire</a>
         <a href="/locations" class="text-[13px] font-medium text-forest hover:underline underline-offset-4 ml-auto">All UK locations →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TESTIMONIALS ========== -->
+  <section class="py-20 md:py-32 border-t border-stone">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <p class="label text-gray mb-12 md:mb-16 reveal">What clients say</p>
+      <div class="grid md:grid-cols-3 gap-10 md:gap-12 reveal-stagger">
+        {testimonials.map((t) => (
+          <figure class="reveal border-t border-stone pt-6">
+            <blockquote class="text-[15px] text-ink/75 leading-relaxed">
+              “{t.quote}”
+            </blockquote>
+            <figcaption class="mt-6">
+              <span class="block text-[14px] font-medium text-ink">{t.name}</span>
+              <span class="block label text-gray mt-1">{t.org}</span>
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   </section>

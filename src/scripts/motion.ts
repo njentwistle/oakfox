@@ -458,6 +458,61 @@ function journalScene(): void {
   }
 }
 
+/**
+ * Horizontal work gallery (prototype / new design language).
+ *
+ * Pins `[data-scene="hwork"]` and converts vertical scroll into a horizontal
+ * translate of `[data-h-track]`. Each `[data-h-card]` blurs, shrinks and dims
+ * the further its centre sits from the viewport centre, so the focused card
+ * snaps sharp while neighbours recede. Bails to a native horizontal scroll on
+ * touch / reduced-motion. Runs inside the page gsap.context so it reverts on
+ * navigation like every other scene.
+ */
+function hWorkScene(): void {
+  const section = document.querySelector<HTMLElement>('[data-scene="hwork"]');
+  if (!section) return;
+  const track = section.querySelector<HTMLElement>('[data-h-track]');
+  if (!track) return;
+  const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-h-card]'));
+  if (!cards.length) return;
+
+  const setFocus = (): void => {
+    const mid = window.innerWidth / 2;
+    cards.forEach((card) => {
+      const r = card.getBoundingClientRect();
+      const centre = r.left + r.width / 2;
+      const dist = Math.abs(centre - mid);
+      const norm = Math.min(1, dist / (window.innerWidth * 0.42));
+      card.style.setProperty('--b', (norm * 7).toFixed(2) + 'px');
+      card.style.setProperty('--s', (1 - norm * 0.14).toFixed(3));
+      card.style.setProperty('--o', (1 - norm * 0.52).toFixed(3));
+    });
+  };
+
+  if (prefersReduced() || !desktop()) {
+    section.classList.add('hwork--static');
+    setFocus();
+    return;
+  }
+
+  const amount = (): number => Math.max(0, track.scrollWidth - window.innerWidth);
+  const tween = gsap.to(track, { x: () => -amount(), ease: 'none' });
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: () => '+=' + amount(),
+    pin: true,
+    scrub: 1,
+    animation: tween,
+    invalidateOnRefresh: true,
+    onUpdate: setFocus,
+    onRefresh: setFocus,
+  });
+
+  setFocus();
+}
+
 function ctaScene(): void {
   const root = document.querySelector<HTMLElement>('[data-scene="cta"]');
   if (!root) return;
@@ -545,6 +600,7 @@ function runScenes(): void {
     approachScene();
     statsScene();
     journalScene();
+    hWorkScene();
     ctaScene();
   });
 

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs sed -n '1,25p')",
+      "Bash(xargs -I{} sh -c 'echo \"FILE: {}\"; sed -n \"1,20p\" {}')",
+      "Bash(awk '/^---$/{c++; next} c>=2' src/content/blog/is-your-web-host-actually-green.mdx)",
+      "Bash(awk '/^---$/{c++; next} c>=2' \"/Users/nathan.sharrocks/Desktop/WorkingFolder/oakfox/src/content/blog/cost-of-a-preliminary-ecological-appraisal.mdx\")",
+      "Bash(awk 'f{print} /^---$/{c++; if\\(c==2\\) f=1}' src/content/blog/managed-green-hosting-vs-diy.mdx)",
+      "Bash(awk '/^---$/{c++; next} c>=2' src/content/blog/what-makes-a-brand-sustainable.mdx)",
+      "Bash(awk 'BEGIN{p=0;c=0} /^---$/{c++; if\\(c==2\\){p=1; next}} p==1{print}' src/content/blog/biodiversity-net-gain-small-sites-guide.mdx)",
+      "Bash(awk '/^---$/{c++; next} c>=2' /Users/nathan.sharrocks/Desktop/WorkingFolder/oakfox/src/content/blog/rebranding-without-greenwashing.mdx)",
+      "Bash(gh secret *)",
+      "Bash(python3 -c \"import yaml,sys; yaml.safe_load\\(open\\('.github/workflows/deploy.yml'\\)\\); print\\('deploy.yml: valid YAML'\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const s=fs.readFileSync\\('.github/workflows/deploy.yml','utf8'\\);const lines=s.split\\('\\\\n'\\);let ok=true;lines.forEach\\(\\(l,i\\)=>{if\\(l.match\\(/\\\\t/\\)\\){console.log\\('TAB at line',i+1\\);ok=false}}\\);console.log\\(ok?'No tabs; indentation looks clean':'Tabs found'\\);console.log\\('Lines:',lines.length\\)\")",
+      "WebFetch(domain:apps.apple.com)",
+      "WebFetch(domain:play.google.com)",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=6781825150&country=gb\" -o tf.json)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=6781825150&country=us\" -o tfus.json)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/605.1.15\" \"https://apps.apple.com/us/app/trailfox/id6781825150\" -o tfpage.html)",
+      "Bash(curl -s https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/b4/66/86/b466862e-c95a-e7b5-76ec-025978224d08/shot_01.png/__TRACKED_VAR__ -o screen-1.png)",
+      "Bash(curl -s https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b6/1d/9e/b61d9e8a-6ee0-9c07-103b-d924c114a3cb/shot_02.png/__TRACKED_VAR__ -o screen-2.png)",
+      "Bash(curl -s https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8c/c5/43/8cc5438b-f65a-6c9f-10f1-5f2e41e60cf3/shot_03.png/__TRACKED_VAR__ -o screen-3.png)",
+      "Bash(curl -s https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/11/a5/77/11a577d9-ee93-ae7e-4e9d-02e733d97d85/shot_04.png/__TRACKED_VAR__ -o screen-4.png)",
+      "Bash(curl -s https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/79/1a/21/791a2150-d2ec-17af-8603-e897b952763d/shot_05.png/__TRACKED_VAR__ -o screen-5.png)",
+      "Bash(python3 -c \"import PIL; from PIL import Image; print\\('PIL', PIL.__version__\\); print\\('s1', Image.open\\('screen-1.png'\\).size\\); print\\('icon', Image.open\\('icon.png'\\).size\\)\")"
+    ]
+  }
+}

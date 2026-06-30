@@ -12,10 +12,10 @@ $email = trim($_POST['email'] ?? '');
 $services = $_POST['services'] ?? [];
 $message = trim($_POST['message'] ?? '');
 
-// Validate
-if (empty($name) || empty($email) || empty($message)) {
+// Validate — message is optional so low-friction "get in touch" enquiries work.
+if (empty($name) || empty($email)) {
     http_response_code(400);
-    echo json_encode(['error' => 'Please fill in all required fields.']);
+    echo json_encode(['error' => 'Please add your name and email.']);
     exit;
 }
 
@@ -28,10 +28,12 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // Sanitise
 $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+$message = $message !== ''
+    ? htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
+    : '(No message — quick enquiry. Suggest replying to arrange a call.)';
 
 if (is_array($services)) {
-    $allowed = ['Branding', 'Design', 'Development', 'Hosting', 'Marketing', 'Consultancy', 'Everything', 'Not Sure!'];
+    $allowed = ['Branding', 'Web Design', 'Development', 'Hosting', 'Copywriting', 'Marketing', 'Environmental', 'Not sure yet'];
     $services = array_filter($services, fn($s) => in_array($s, $allowed));
     $serviceList = implode(', ', $services);
 } else {

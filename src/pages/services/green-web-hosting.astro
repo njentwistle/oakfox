@@ -4,17 +4,6 @@ import LocationSignpost from '../../components/LocationSignpost.astro';
 
 const pageUrl = 'https://oakfox.co.uk/services/green-web-hosting';
 
-const serviceSchema = {
-  '@type': 'Service',
-  '@id': `${pageUrl}#service`,
-  name: 'Green Web Hosting',
-  description: 'Managed green web hosting for UK businesses — renewable-powered infrastructure, hands-on support, free migrations. OakFox handles setup, monitoring, and maintenance on top of verified green hosting.',
-  provider: { '@id': 'https://oakfox.co.uk/#organization' },
-  areaServed: ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland'],
-  serviceType: 'Web hosting',
-  url: pageUrl,
-};
-
 const breadcrumbs = {
   '@type': 'BreadcrumbList',
   itemListElement: [
@@ -82,6 +71,34 @@ const plans = [
   },
 ];
 
+// Machine-readable pricing so answer engines and rich results can surface
+// "managed green web hosting UK from £9/month" with structured Offer data.
+const serviceSchema = {
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Managed Green Web Hosting',
+  description: 'Managed green web hosting for UK businesses — renewable-powered infrastructure, hands-on support, free migrations. OakFox handles setup, monitoring, and maintenance on top of verified green hosting.',
+  provider: { '@id': 'https://oakfox.co.uk/#organization' },
+  areaServed: ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland'],
+  serviceType: 'Web hosting',
+  url: pageUrl,
+  offers: plans.map((p) => ({
+    '@type': 'Offer',
+    name: `${p.name} — Managed Green Web Hosting`,
+    description: p.summary,
+    price: p.price.replace(/[^0-9.]/g, ''),
+    priceCurrency: 'GBP',
+    url: `${pageUrl}#plans`,
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: p.price.replace(/[^0-9.]/g, ''),
+      priceCurrency: 'GBP',
+      referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
+      valueAddedTaxIncluded: false,
+    },
+  })),
+};
+
 const offerings = [
   {
     label: 'Infrastructure',
@@ -127,6 +144,10 @@ const forWho = [
 ];
 
 const faqs = [
+  {
+    q: 'What is managed green web hosting?',
+    a: 'Managed green web hosting is website hosting that runs on verified renewable energy and is fully looked after for you. With OakFox, your site sits in a UK data centre on infrastructure listed in The Green Web Foundation\'s verified directory, and we handle setup, DNS, SSL, daily backups, security updates, and monitoring — so you never log into a control panel. Plans start at £9 a month and include free migration from your current host.',
+  },
   {
     q: 'Is green web hosting actually greener, or is it marketing?',
     a: 'Both exist. Genuinely green hosting runs on verified renewable energy — solar, wind, hydro — and can be independently checked against The Green Web Foundation\'s public directory. Hosts that simply purchase carbon offsets to claim "neutrality" are not the same thing. OakFox only resells hosts on the verified green directory.',

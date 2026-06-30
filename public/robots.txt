@@ -1,5 +1,6 @@
 # OakFox — sustainable design studio, West Lancashire
 # https://oakfox.co.uk
+# LLM-readable site summary: https://oakfox.co.uk/llms.txt
 
 User-agent: *
 Allow: /
