@@ -140,7 +140,7 @@ function heroScene(): void {
   }
 
   if (words.length) {
-    gsap.set(words, { yPercent: 110 });
+    gsap.set(words, { yPercent: 128 });
     gsap.to(words, {
       yPercent: 0,
       duration: 0.9,

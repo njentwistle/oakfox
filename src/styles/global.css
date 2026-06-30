@@ -189,6 +189,17 @@
 .headline .split-word em > span {
   font-style: italic;
 }
+/* Italic display glyphs overhang the tight reveal mask: the descender on
+   "grow" drops below the line-box and the italic lean pushes the first letter
+   left, so overflow:hidden slices them. Pad the mask to make room (padding is
+   inside the clip box), and cancel it with margin so spacing/baseline are
+   unchanged. The deeper hidden offset in motion.ts keeps the padded mask from
+   letting the word peek before it reveals. */
+.headline em .split-word,
+.headline .split-word em {
+  padding: 0 0 0.16em 0.1em;
+  margin: 0 0 -0.16em -0.1em;
+}
 
 /* ---------- Page transition curtain ---------- */
 body.is-loading {
