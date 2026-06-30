@@ -22,7 +22,7 @@ const services = [
   { label: 'Development', href: '/services/development', keyword: `web developer ${location.name}` },
   { label: 'Marketing', href: '/services/marketing', keyword: `marketing agency ${location.name}` },
   { label: 'Copywriting', href: '/services/copywriting', keyword: `copywriter ${location.name}` },
-  { label: 'Environmental', href: '/services/environmental', keyword: `sustainability consultant ${location.name}` },
+  { label: 'Green Web Hosting', href: '/services/green-web-hosting', keyword: `green web hosting ${location.name}` },
 ];
 
 const webPage = {
@@ -30,7 +30,7 @@ const webPage = {
   '@id': `${pageUrl}#webpage`,
   url: pageUrl,
   name: `Design Studio Serving ${location.name} — OakFox`,
-  description: `Branding, web design, development, marketing, and environmental consultancy for businesses in ${location.name}, ${location.region}.`,
+  description: `Branding, web design, development, marketing, copywriting, and green web hosting for businesses in ${location.name}, ${location.region}.`,
   inLanguage: 'en-GB',
   isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
   about: { '@id': 'https://oakfox.co.uk/#organization' },
@@ -52,11 +52,11 @@ const place = {
 const serviceArea = {
   '@type': 'Service',
   '@id': `${pageUrl}#service`,
-  name: `OakFox — Design, Development & Consultancy Services in ${location.name}`,
+  name: `OakFox — Design, Development & Marketing Services in ${location.name}`,
   provider: { '@id': 'https://oakfox.co.uk/#organization' },
-  serviceType: 'Branding, web design, web development, marketing, and environmental consultancy',
+  serviceType: 'Branding, web design, web development, marketing, copywriting, and green web hosting',
   areaServed: { '@id': `${pageUrl}#place` },
-  description: `OakFox provides sustainable branding, web design, development, marketing, and environmental consultancy for businesses in ${location.name} and the surrounding ${location.region} area.`,
+  description: `OakFox provides sustainable branding, web design, development, marketing, copywriting, and green web hosting for businesses in ${location.name} and the surrounding ${location.region} area.`,
   url: pageUrl,
 };
 
@@ -72,7 +72,7 @@ const breadcrumbs = {
 const faqs = [
   {
     q: `Do you work with businesses in ${location.name}?`,
-    a: `Yes. ${location.name} is ${location.distance} — we work with local clients on brand identity, website design, development, marketing, copywriting, and environmental consultancy. ${location.description.split('.').slice(0, 2).join('.')}.`,
+    a: `Yes. ${location.name} is ${location.distance} — we work with local clients on brand identity, website design, development, marketing, copywriting, and green web hosting. ${location.description.split('.').slice(0, 2).join('.')}.`,
   },
   {
     q: `How does working with a ${location.name} design studio compare to a London or Manchester agency?`,

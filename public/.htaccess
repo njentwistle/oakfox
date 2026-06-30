@@ -18,6 +18,16 @@ RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]+$
 RewriteCond %{REQUEST_URI} !/$
 RewriteRule ^(.*)$ /$1/ [R=301,L]
 
+# --- Ecology arm moved to EcoScribe (ecoscribe.co.uk) — keep permanently ---
+# /services/environmental (index) stays as a bridge page; only the moved
+# automation/consultancy subpages and the 4 ecology posts redirect.
+RedirectMatch 301 ^/services/environmental/automation/?$        https://ecoscribe.co.uk/automation/
+RedirectMatch 301 ^/services/environmental/consultancy/?$       https://ecoscribe.co.uk/consultancy/
+RedirectMatch 301 ^/blog/what-a-pea-actually-contains/?$        https://ecoscribe.co.uk/blog/what-a-pea-actually-contains/
+RedirectMatch 301 ^/blog/cost-of-a-preliminary-ecological-appraisal/?$  https://ecoscribe.co.uk/blog/cost-of-a-preliminary-ecological-appraisal/
+RedirectMatch 301 ^/blog/biodiversity-net-gain-small-sites-guide/?$     https://ecoscribe.co.uk/blog/biodiversity-net-gain-small-sites-guide/
+RedirectMatch 301 ^/blog/bng-is-burying-ecological-consultancies/?$     https://ecoscribe.co.uk/blog/bng-is-burying-ecological-consultancies/
+
 # --- Legacy WordPress URLs (old oakfox.co.uk) → current equivalents ---
 RedirectMatch 301 ^/my-work/branding/aigean/?$ /portfolio/aigean/
 RedirectMatch 301 ^/my-work/branding/?$ /services/branding/

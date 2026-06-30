@@ -95,23 +95,9 @@ const staticPages: PageEntry[] = [
   {
     slug: 'services/environmental',
     eyebrow: 'Service · Environmental',
-    title: 'Our environmental practice.',
-    subtitle: 'Consultancy and automation for sustainable business.',
+    title: 'Sustainability, by proof — not by claim.',
+    subtitle: 'Verified green hosting and original ecological research, built into every project.',
     badge: 'Environmental',
-  },
-  {
-    slug: 'services/environmental/consultancy',
-    eyebrow: 'Environmental · Consultancy',
-    title: 'Practical changes. Measurable impact. No greenwash.',
-    subtitle: 'Operations, supply chain, packaging — with real suppliers and real costs.',
-    badge: 'Consultancy',
-  },
-  {
-    slug: 'services/environmental/automation',
-    eyebrow: 'Environmental · Automation',
-    title: 'Less admin. More time for the work that matters.',
-    subtitle: 'Report generation and compliance workflows for ecologists and consultancies.',
-    badge: 'Automation',
   },
   {
     slug: 'locations',

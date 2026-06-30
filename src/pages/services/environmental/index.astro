@@ -1,18 +1,18 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import LocationSignpost from '../../../components/LocationSignpost.astro';
 
 const pageUrl = 'https://oakfox.co.uk/services/environmental';
 
-const serviceSchema = {
-  '@type': 'Service',
-  '@id': `${pageUrl}#service`,
-  name: 'Environmental Practice',
-  description: 'OakFox\'s environmental practice: practical consultancy on operations, supply chain, and packaging, plus intelligent automation for environmental consultancies, ecologists, and regenerative farmers.',
-  provider: { '@id': 'https://oakfox.co.uk/#organization' },
-  areaServed: ['United Kingdom', 'Ireland', 'Europe'],
-  serviceType: 'Environmental consultancy and automation',
+const webPage = {
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
   url: pageUrl,
+  name: 'Environmental & Sustainability — OakFox',
+  description:
+    'Sustainability is woven into every OakFox project — verified green hosting and original ecological research. Dedicated ecology reporting and automation (PEA, BNG, SFI) is handled by our venture, EcoScribe.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
+  about: { '@id': 'https://oakfox.co.uk/#organization' },
 };
 
 const breadcrumbs = {
@@ -23,129 +23,117 @@ const breadcrumbs = {
     { '@type': 'ListItem', position: 3, name: 'Environmental', item: pageUrl },
   ],
 };
-
-const children = [
-  {
-    label: 'Consultancy',
-    title: 'Practical environmental consultancy',
-    description:
-      'Audits of how your business actually runs — operations, supply chain, packaging, cleaning, consumables. Specific, costed recommendations. Real suppliers, real prices. Then we stay close enough to help you implement.',
-    href: '/services/environmental/consultancy',
-    cta: 'See the consultancy service',
-  },
-  {
-    label: 'Automation',
-    title: 'Intelligent automation for environmental work',
-    description:
-      'Reports that write themselves. Grant applications drafted from the data you already collect. Compliance evidence organised before anyone asks. Built for ecologists, environmental consultancies, regenerative farmers, and conservation teams.',
-    href: '/services/environmental/automation',
-    cta: 'See the automation service',
-  },
-];
-
-const beliefs = [
-  {
-    title: 'Changes that stick beat pledges that do not',
-    body: 'A supplier switched is worth more than a strategy drafted. We focus on the specific, practical moves that actually happen — and we stay involved until they do.',
-  },
-  {
-    title: 'The best environmental work is the least glamorous',
-    body: 'Cleaning products. Packaging. Consumables. Evidence paperwork. This is where the real footprint hides — and where the real wins are. We like the unglamorous bits.',
-  },
-  {
-    title: 'We measure what we build',
-    body: 'Our own operations, our infrastructure, our hosting — credentialed and checked. You will not hire us for environmental work and find we are running on coal-powered servers.',
-  },
-];
 ---
 
 <BaseLayout
-  title="Environmental Practice"
-  description="OakFox's environmental practice: practical consultancy on supply chain, packaging, and operations — plus intelligent automation for environmental consultancies, ecologists, and regenerative farmers."
-  schema={[serviceSchema, breadcrumbs]}
+  title="Environmental & Sustainability"
+  description="Sustainability is woven into every OakFox project — verified green hosting and original ecological research. Dedicated ecology reporting and automation is handled by our venture, EcoScribe."
+  schema={[webPage, breadcrumbs]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
     <div class="hero-glow" style="top: 45%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-      <p class="label text-forest mb-8">Service · Environmental</p>
+      <p class="label text-forest mb-8">Environmental</p>
       <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
-        Our environmental practice.
-        Two ways we <em class="text-forest">help</em>.
+        Sustainability, <em class="text-forest">by proof</em> — not by claim.
       </h1>
-      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
+      <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8">
         <p class="md:col-span-7 text-[15px] md:text-base text-ink/65 leading-relaxed">
-          Environmental work sits at the heart of what OakFox does. We help
-          independent businesses make real, measured changes to how they
-          operate — and we build the tools that let the sector's specialists
-          spend more time on the work that matters, not the paperwork that
-          surrounds it.
+          The environment isn't a service line at OakFox — it's a constraint on every
+          decision. Our hosting is independently verified by the Green Web Foundation,
+          and our work is informed by our own original research into UK woodlands and
+          biodiversity. Sustainability arrives as evidence, not as a tagline.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="py-20 md:py-28 border-t border-stone">
-    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
-      <p class="label text-gray mb-10 md:mb-14">Two services</p>
-      <div class="grid md:grid-cols-2 gap-10 md:gap-16">
-        {children.map((c) => (
-          <a href={c.href} class="reveal group block border-t border-stone pt-8 hover:border-forest transition-colors duration-500">
-            <p class="label text-forest mb-4">{c.label}</p>
-            <h2 class="headline text-2xl md:text-3xl mb-5 group-hover:text-forest transition-colors duration-500">
-              {c.title}
-            </h2>
-            <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed mb-8">
-              {c.description}
-            </p>
-            <span class="inline-flex items-center gap-3 text-[13px] font-medium text-forest">
-              {c.cta}
-              <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
+  <!-- HOW SUSTAINABILITY SHOWS UP IN THE STUDIO WORK -->
   <section class="py-20 md:py-28 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">What we believe</p>
+          <p class="label text-gray mb-6">In the work</p>
           <h2 class="headline text-2xl md:text-3xl">
-            The <em class="text-forest">quiet</em> version.
+            Built into the <em class="text-forest">brand and the build</em>.
           </h2>
         </div>
         <div class="md:col-span-7 md:col-start-6 grid gap-8">
-          {beliefs.map((b) => (
-            <div class="reveal border-t border-stone pt-6">
-              <h3 class="text-base md:text-lg font-medium text-ink mb-2">{b.title}</h3>
-              <p class="text-[14px] text-ink/60 leading-relaxed">{b.body}</p>
-            </div>
-          ))}
+          <div class="border-t border-stone pt-6">
+            <h3 class="text-base md:text-lg font-medium text-ink mb-2">Verified green hosting</h3>
+            <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">
+              Sites run on renewable-powered UK infrastructure, independently verified by the
+              Green Web Foundation and auditable in thirty seconds. See
+              <a href="/services/green-web-hosting" class="text-forest underline underline-offset-4">green web hosting</a>.
+            </p>
+          </div>
+          <div class="border-t border-stone pt-6">
+            <h3 class="text-base md:text-lg font-medium text-ink mb-2">Low-carbon, accessible builds</h3>
+            <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">
+              Static-first architecture measured against real performance and carbon budgets —
+              part of every <a href="/services/development" class="text-forest underline underline-offset-4">development</a> engagement.
+            </p>
+          </div>
+          <div class="border-t border-stone pt-6">
+            <h3 class="text-base md:text-lg font-medium text-ink mb-2">Honest, anti-greenwashing brand work</h3>
+            <p class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">
+              We'll tell you when a sustainability claim outstrips what a business actually does.
+              Credibility beats a better press release — see <a href="/services/branding" class="text-forest underline underline-offset-4">branding</a>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <LocationSignpost service="Environmental work" keyword="environmental consultancy" />
+  <!-- ECOSCRIBE BRIDGE -->
+  <section class="py-20 md:py-28 border-t border-stone bg-forest/[0.03]">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 items-center">
+        <div class="md:col-span-7">
+          <p class="label text-forest mb-6">Our environmental venture</p>
+          <h2 class="headline text-2xl md:text-3xl mb-6">
+            Ecology reporting &amp; automation is now <em class="text-forest">EcoScribe</em>.
+          </h2>
+          <p class="text-[15px] text-ink/70 leading-relaxed max-w-xl">
+            Our work automating Preliminary Ecological Appraisals (PEA), Biodiversity Net Gain
+            (BNG) assessments, and SFI applications for ecologists and environmental consultancies
+            has grown into its own venture — <strong>EcoScribe</strong>. If you're an ecological
+            consultancy, landowner, or developer looking to take the paperwork off your plate,
+            that's where to go.
+          </p>
+        </div>
+        <div class="md:col-span-4 md:col-start-9 flex md:justify-end">
+          <a
+            href="https://ecoscribe.co.uk"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-3 bg-forest text-cream text-[14px] font-medium pl-6 pr-2 py-2 rounded-full hover:bg-forest-dark transition-all duration-300 group"
+          >
+            Visit EcoScribe
+            <span class="w-9 h-9 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-x-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- CTA -->
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
       <div class="reveal max-w-2xl">
-        <p class="label text-gray mb-6">Not sure which fits?</p>
+        <p class="label text-gray mb-6">Working with OakFox</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
-          Start with a <em class="text-forest">conversation</em>.
+          Build a brand that can <em class="text-forest">prove it</em>.
         </h2>
         <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
-          Send a few lines about your business and what you are trying to improve.
-          We will reply within 24 hours and point you toward the right starting
-          point — consultancy, automation, or something else entirely.
+          For branding, web, marketing, or green hosting with sustainability built in,
+          send a few lines. We reply within 24 hours.
         </p>
         <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
           <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group">
