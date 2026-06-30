@@ -69,6 +69,21 @@ Match the URL shapes to whatever NEWSITE actually uses; the left side above is f
 
 ---
 
+## 3b. Ranking protection — cross-domain canonical (interim), then 301 (cutover)
+
+The risk during the overlap window (EcoScribe live, OakFox not yet cut over) is **duplicate content**: the 4 ecology posts exist on both domains, so Google could split or suppress OakFox's existing rankings.
+
+**Implemented now (in the EcoScribe repo):** each migrated post carries `canonical: "https://oakfox.co.uk/blog/<slug>"` in its frontmatter (`content.config.ts` → `BaseLayout` `canonical` prop). So while both copies are live, EcoScribe's posts point Google at the OakFox originals — OakFox keeps its rankings and the copies aren't treated as competitors. Non-migrated EcoScribe pages self-canonical normally. Verified in the build: `dist/blog/*/index.html` → `rel=canonical` = oakfox.co.uk.
+
+**At cutover (do these together, same deploy window):**
+1. EcoScribe: **remove** the `canonical:` line from the 4 posts (they now self-canonical to ecoscribe.co.uk). Rebuild + redeploy.
+2. OakFox: delete the 4 posts + 3 env pages and **add the 301s** from §3.
+3. Submit both sitemaps to GSC/Bing; request (re)indexing of the new EcoScribe URLs.
+
+This sequence means OakFox holds its rankings right up to cutover, then the 301s transfer the equity — no window where the content is duplicated *and* unprotected, and no window where it 404s.
+
+Realistic expectation: a 2–4 week dip on these queries during re-indexing, then recovery on ecoscribe.co.uk. The 2 future-dated posts (cost-of-PEA, BNG-small-sites) aren't live on either domain yet, so they carry no ranking to lose.
+
 ## 4. OakFox cleanup checklist (Phase 1, step 6)
 
 These reference the ecology arm and must be reworded, not just deleted:
