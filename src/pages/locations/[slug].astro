@@ -47,6 +47,11 @@ const place = {
     postalCode: location.postcode,
     addressCountry: 'GB',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: location.geo.lat,
+    longitude: location.geo.lng,
+  },
 };
 
 const serviceArea = {

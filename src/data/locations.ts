@@ -4,6 +4,8 @@ export interface Location {
   region: string;
   postcode: string;
   distance: string;
+  /** Town-centre coordinates — drives the Place geo in the location schema. */
+  geo: { lat: number; lng: number };
   description: string;
   strengths: string[];
   sectors: string[];
@@ -17,6 +19,7 @@ export const locations: Location[] = [
     region: 'West Lancashire',
     postcode: 'L39',
     distance: '10 minutes south of the studio',
+    geo: { lat: 53.5686, lng: -2.8869 },
     description:
       "Ormskirk is our closest town — a ten-minute drive from the studio. A market town with a strong independent retail scene along Burscough Street and Moor Street, a university population, a long Wednesday/Saturday market tradition, and a growing cluster of independent hospitality. We have worked with businesses in Ormskirk on brand identity, website design, and marketing since launching.",
     strengths: [
@@ -39,6 +42,7 @@ export const locations: Location[] = [
     region: 'West Lancashire',
     postcode: 'L40',
     distance: '0 minutes — our base',
+    geo: { lat: 53.6041979, lng: -2.8431106 },
     description:
       "Burscough is where OakFox is based — Martland Mill sits on the edge of the village, a few minutes from Burscough Bridge and five from Ormskirk. A village that has grown carefully around the canal, with independent food producers, maker studios, and some of the best village hospitality in West Lancashire. Local clients and collaborators are common — studio visits take minutes.",
     strengths: [
@@ -61,6 +65,7 @@ export const locations: Location[] = [
     region: 'Merseyside / West Lancashire border',
     postcode: 'PR8 / PR9',
     distance: '25 minutes west of the studio',
+    geo: { lat: 53.6458, lng: -3.0104 },
     description:
       "Southport is the closest coastal town — a twenty-five-minute drive from Burscough. A Victorian seaside resort reinventing itself around independent hospitality, cultural institutions, and an arts festival calendar. We work with hospitality venues, retailers, cultural organisations, and small producers along Lord Street and the broader Southport business community.",
     strengths: [
@@ -83,6 +88,7 @@ export const locations: Location[] = [
     region: 'Central Lancashire',
     postcode: 'PR1 / PR2',
     distance: '35 minutes north of the studio',
+    geo: { lat: 53.7632, lng: -2.7031 },
     description:
       "Preston is Lancashire's administrative city — a thirty-five-minute drive from Burscough. Home to the University of Central Lancashire, professional service firms, manufacturing businesses, a growing creative sector around the Guild Hall area, and Lancashire County Council. We work with Preston businesses on brand identity, website design, marketing, and sustainability consulting.",
     strengths: [
@@ -105,6 +111,7 @@ export const locations: Location[] = [
     region: 'Greater Manchester',
     postcode: 'M1 / M2 / M4',
     distance: '45 minutes east of the studio',
+    geo: { lat: 53.4808, lng: -2.2426 },
     description:
       "Manchester is the north-west's commercial and creative centre — a forty-five-minute drive from Burscough, or just over an hour by train. We work with Manchester clients across Ancoats, the Northern Quarter, Media City, and the wider city centre on brand identity, website design and build, copywriting, and marketing. For startup and scale-up clients, our static-first web development and design system work is a particularly good fit.",
     strengths: [
@@ -127,6 +134,7 @@ export const locations: Location[] = [
     region: 'North West England',
     postcode: 'BB, FY, L, LA, PR',
     distance: 'Our county',
+    geo: { lat: 53.8000, lng: -2.6000 },
     description:
       "Lancashire is our home county — from the Ribble Valley and Clitheroe in the north, the West Coast running through Southport and Blackpool, and the central corridor from Preston south to the West Lancashire plain. We work with independent businesses, established brands, regenerative farmers, and ecological consultancies across the county. Environmental consultancy and automation work is particularly active in the rural Lancashire hinterland.",
     strengths: [

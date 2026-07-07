@@ -93,6 +93,19 @@ const localBusiness = {
   priceRange: '££',
   address: postalAddress,
   areaServed: 'United Kingdom',
+  // Exact studio pin from the OakFox Google Business Profile listing.
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 53.6041979,
+    longitude: -2.8431106,
+  },
+  // Matches the Google Business Profile hours (Mon–Fri 08:00–16:30).
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '16:30',
+  },
   sameAs: [
     'https://share.google/3ktdz3XLvsqlNCqeE',
     'https://www.instagram.com/oak.fox/',
