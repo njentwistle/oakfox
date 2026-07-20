@@ -1,6 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
+import JournalLinks from '../../components/JournalLinks.astro';
+
+const journalPosts = [
+  {
+    href: '/blog/sustainable-web-design-practical-guide/',
+    title: 'Sustainable web design — a practical guide',
+    note: 'The techniques we use on every build: page-weight budgets, system fonts, efficient images, static-first architecture, and how to measure a page’s carbon cost.',
+  },
+  {
+    href: '/blog/is-your-web-host-actually-green/',
+    title: 'Is your web host actually green?',
+    note: 'How to check a hosting provider’s renewable claims in about 30 seconds — and the difference between offsetting and genuinely green infrastructure.',
+  },
+];
 
 const pageUrl = 'https://oakfox.co.uk/services/web-design';
 
@@ -238,6 +252,11 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <JournalLinks
+    intro="How we actually build low-carbon, fast, accessible sites — the practical detail behind the service."
+    posts={journalPosts}
+  />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

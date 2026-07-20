@@ -10,6 +10,8 @@ export interface Location {
   strengths: string[];
   sectors: string[];
   nearby: string[];
+  /** Portfolio case studies from the sectors that lead this location's economy. */
+  relatedWork?: { slug: string; title: string; note: string }[];
 }
 
 export const locations: Location[] = [
@@ -81,6 +83,18 @@ export const locations: Location[] = [
       'Leisure and tourism businesses',
     ],
     nearby: ['Birkdale', 'Ainsdale', 'Formby', 'Churchtown', 'Banks'],
+    relatedWork: [
+      {
+        slug: 'roll',
+        title: 'Roll — artisan bakery & coffee shop',
+        note: 'A complete brand identity for an independent bakery: visual system, in-store experience, packaging, and sustainability consultancy. The same craft-hospitality branding that suits Lord Street.',
+      },
+      {
+        slug: 'aigean',
+        title: 'Aigéan — coastal seafood restaurant',
+        note: 'Brand identity and environmental consultancy for a Michelin-quality seafood restaurant, launched alongside a Michelin-starred chef joining the kitchen. Coastal dining, branded properly.',
+      },
+    ],
   },
   {
     slug: 'preston',

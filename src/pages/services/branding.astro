@@ -1,6 +1,25 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
+import JournalLinks from '../../components/JournalLinks.astro';
+
+const journalPosts = [
+  {
+    href: '/blog/choosing-a-brand-name/',
+    title: 'Choosing a brand name — the process behind the shortlist',
+    note: 'How we take a business from a blank page to a defensible name: research, candidate generation, availability checks, and a shortlist with reasoning.',
+  },
+  {
+    href: '/blog/how-to-brief-a-branding-agency/',
+    title: 'How to brief a branding agency',
+    note: 'What a useful brief contains, what to leave out, and the questions a good agency should ask you back — worth reading before you approach anyone, including us.',
+  },
+  {
+    href: '/blog/what-makes-a-brand-sustainable/',
+    title: 'What makes a brand sustainable?',
+    note: 'Beyond the green logo — the operational, supply-chain, and messaging decisions that separate a genuinely sustainable brand from a greenwashed one.',
+  },
+];
 
 const pageUrl = 'https://oakfox.co.uk/services/branding';
 
@@ -212,6 +231,11 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <JournalLinks
+    intro="Longer-form thinking on naming, briefing, and what sustainable branding actually involves — from the studio journal."
+    posts={journalPosts}
+  />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>
