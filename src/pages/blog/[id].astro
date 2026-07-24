@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import { getCollection, render } from 'astro:content';
 import { isPublished } from '../../lib/posts';
 
@@ -155,6 +156,8 @@ if (post.data.howto) {
       )}
     </div>
   </article>
+
+  <AuditCta />
 
   {related.length > 0 && (
     <section class="py-16 md:py-20 border-t border-stone">

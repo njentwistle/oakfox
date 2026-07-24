@@ -216,6 +216,7 @@ const breadcrumbs = {
       copywriting: 'Copywriting',
       copy: 'Copywriting',
       marketing: 'Marketing',
+      'carbon-audit': 'Development',
     };
 
     const hostingPlanCopy: Record<string, { message: string }> = {
@@ -260,6 +261,16 @@ const breadcrumbs = {
         if (message && !message.value) {
           message.value = hostingPlanCopy[plan].message;
         }
+      }
+
+      // Arriving from the free carbon audit: prefill the audited site + grade.
+      const auditedSite = params.get('audit');
+      if (auditedSite && message && !message.value) {
+        const grade = params.get('grade');
+        message.value =
+          `Hi — I ran ${auditedSite} through your free website carbon audit` +
+          (grade ? ` and it scored ${grade}` : '') +
+          `. I'd like the free improvement plan.\n\nAnything specific you'd like us to know about the site: `;
       }
     }
 

@@ -100,6 +100,13 @@ const staticPages: PageEntry[] = [
     badge: 'Environmental',
   },
   {
+    slug: 'website-carbon-audit',
+    eyebrow: 'Free tool',
+    title: 'How green is your website?',
+    subtitle: 'Instant carbon audit — CO₂ per visit, page weight, green hosting check, A+ to F grade.',
+    badge: 'Carbon Audit',
+  },
+  {
     slug: 'locations',
     eyebrow: 'Locations',
     title: 'Working across Lancashire. Delivering across the UK.',

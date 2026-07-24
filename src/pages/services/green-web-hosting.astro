@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
 
 const pageUrl = 'https://oakfox.co.uk/services/green-web-hosting';
@@ -377,6 +378,7 @@ const faqSchema = {
           </h2>
           <p class="mt-6 text-[14px] text-ink/55 leading-relaxed">
             Reading up first? Our <a href="/blog/green-web-hosting-uk-compared" class="text-forest hover:underline underline-offset-4">green web hosting comparison</a> covers the main UK providers in depth.
+            Not sure how green your current site is? Run the free <a href="/website-carbon-audit" class="text-forest hover:underline underline-offset-4">website carbon audit</a> first.
           </p>
         </div>
         <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
@@ -390,6 +392,8 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

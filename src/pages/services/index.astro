@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
 
 const pageUrl = 'https://oakfox.co.uk/services';
@@ -144,6 +145,8 @@ const projectServices = [
   </section>
 
   <LocationSignpost service="Services" keyword="design and consultancy" />
+
+  <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

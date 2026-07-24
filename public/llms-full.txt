@@ -104,6 +104,10 @@ We decline work in sectors we cannot support in good faith — typically fossil 
 - **No greenwashing** — claims must be defensible; we push back on language like "eco-friendly" or "planet-positive" without substantiation
 - **Original research** — sustainability advice is grounded in OakFox's own research into UK woodlands, biodiversity, and ecosystem health
 
+## Free Tools
+
+- **Website Carbon Audit** — free website sustainability checker at https://oakfox.co.uk/website-carbon-audit. Enter any URL for an instant audit: CO₂e per page view estimated with the Sustainable Web Design Model, page weight, a green hosting check against The Green Web Foundation's verified directory, and an A+ to F digital carbon rating. Free, no signup, no email gate. Measured by OakFox's own crawler; carbon estimated with co2.js (The Green Web Foundation's open-source implementation of the Sustainable Web Design Model); hosting checked against The Green Web Foundation's verified directory.
+
 ## Selected Case Studies
 
 - **Aigéan** — Strategic branding, marketing, and sustainability work for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin. https://oakfox.co.uk/portfolio/aigean

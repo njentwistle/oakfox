@@ -26,6 +26,9 @@ export default defineConfig({
         } else if (path.startsWith('/services')) {
           item.priority = 0.9;
           item.changefreq = 'monthly';
+        } else if (path.startsWith('/website-carbon-audit')) {
+          item.priority = 0.9;
+          item.changefreq = 'monthly';
         } else if (path.startsWith('/locations')) {
           item.priority = 0.8;
           item.changefreq = 'monthly';

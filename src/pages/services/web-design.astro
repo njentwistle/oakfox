@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
 import JournalLinks from '../../components/JournalLinks.astro';
 
@@ -257,6 +258,8 @@ const faqSchema = {
     intro="How we actually build low-carbon, fast, accessible sites — the practical detail behind the service."
     posts={journalPosts}
   />
+
+  <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

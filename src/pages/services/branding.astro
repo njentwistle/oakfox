@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import LocationSignpost from '../../components/LocationSignpost.astro';
 import JournalLinks from '../../components/JournalLinks.astro';
 
@@ -236,6 +237,8 @@ const faqSchema = {
     intro="Longer-form thinking on naming, briefing, and what sustainable branding actually involves — from the studio journal."
     posts={journalPosts}
   />
+
+  <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
     <div class="hero-glow" style="top: 50%;"></div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AuditCta from '../components/AuditCta.astro';
 import Img from '../components/Img.astro';
 import { getCollection } from 'astro:content';
 import { isPublished } from '../lib/posts';
@@ -263,6 +264,8 @@ const homeSchema = {
       </div>
     </div>
   </section>
+
+  <AuditCta />
 
   <!-- ========== TESTIMONIALS ========== -->
   <section class="py-20 md:py-32 border-t border-stone">
