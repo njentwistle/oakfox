@@ -121,6 +121,10 @@ const faqs = [
     a: 'Check your domain against The Green Web Foundation\'s verified directory — which is exactly what this audit does. Verified green hosts have provided evidence that their infrastructure runs on renewable energy. Be wary of hosts that only claim "carbon neutrality" through offsets; that is not the same thing as running on renewables.',
   },
   {
+    q: 'Why can\'t the audit reach my website?',
+    a: 'Some security firewalls and website security plugins block every automated visitor, including our crawler. When that happens the audit automatically retries the measurement through Google Lighthouse, which almost every site allows. If both routes are blocked, send us the URL and we\'ll run the audit by hand — an over-aggressive firewall is worth knowing about anyway.',
+  },
+  {
     q: 'How is this different from the Website Carbon Calculator?',
     a: 'Same underlying science, independent measurement. We run our own crawler against your page, estimate emissions with co2.js — the open-source implementation of the Sustainable Web Design Model maintained by The Green Web Foundation — and check your hosting against the same foundation\'s verified directory, all in one pass. Then we add a plain-English verdict and practical next steps. And because OakFox is a working design and development studio, the advice comes from people who fix these problems for a living.',
   },
@@ -254,6 +258,11 @@ const journalPosts = [
               Showing a saved result from the last hour.
               <button type="button" id="fresh-btn" class="text-forest underline underline-offset-4 hover:text-forest-dark transition-colors duration-300">Re-run a fresh audit</button>
               — handy if you've just made changes.
+            </p>
+            <p id="lighthouse-note" class="mt-4 text-[12px] text-ink/45 leading-relaxed hidden">
+              This site's firewall blocks direct checks, so page weight was
+              measured by Google Lighthouse instead — the same carbon model is
+              applied to Google's numbers.
             </p>
 
             <!-- CTA: needs work -->
@@ -656,6 +665,26 @@ const journalPosts = [
     }
   }
 
+  // Optional Google API key for the PageSpeed fallback. Keyless works using
+  // each visitor's own per-IP quota; a key (restricted to the PageSpeed API +
+  // this site's referrer) makes it fully reliable.
+  const PSI_API_KEY = '';
+
+  async function fetchLighthouseBytes(url: URL): Promise<{ bytes: number } | null> {
+    try {
+      const endpoint =
+        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url.href)}` +
+        `&category=performance${PSI_API_KEY ? `&key=${PSI_API_KEY}` : ''}`;
+      const res = await fetchWithTimeout(endpoint, 70000);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const bytes = data?.lighthouseResult?.audits?.['total-byte-weight']?.numericValue;
+      return typeof bytes === 'number' && bytes > 0 ? { bytes: Math.round(bytes) } : null;
+    } catch {
+      return null;
+    }
+  }
+
   function fetchWithTimeout(resource: string, timeoutMs: number): Promise<Response> {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -725,6 +754,22 @@ const journalPosts = [
       carbonError = 'failed';
     }
 
+    // Firewalls that block our server by IP almost never block Google —
+    // fall back to Lighthouse via the PageSpeed Insights API, called from
+    // the visitor's own browser.
+    let viaLighthouse = false;
+    if (carbonError === 'blocked') {
+      clearInterval(rotate);
+      status.textContent =
+        'Their firewall blocks direct checks — asking Google Lighthouse instead. This can take up to a minute…';
+      const psi = await fetchLighthouseBytes(url);
+      if (psi) {
+        carbon = { ok: true, bytes: psi.bytes, cached: false };
+        carbonError = null;
+        viaLighthouse = true;
+      }
+    }
+
     const green = await greenPromise;
     clearInterval(rotate);
     submit.disabled = false;
@@ -735,7 +780,7 @@ const journalPosts = [
         carbonError === 'rate-limit'
           ? 'That\'s a lot of audits in one minute — give it a moment and try again.'
           : carbonError === 'blocked'
-            ? `That site's firewall is blocking automated checks — some security plugins do this to every bot. `
+            ? `That site's firewall blocks automated checks, and Google's Lighthouse fallback was busy too. Try again in a few minutes — or `
             : `We couldn't audit that address. Check the URL is public and loading, then try again — or `;
       status.innerHTML = '';
       status.append(message);
@@ -764,6 +809,7 @@ const journalPosts = [
     // ---- Populate the card ----
     lastAuditedUrl = url;
     el<HTMLElement>('cache-note').classList.toggle('hidden', carbon.cached !== true);
+    el<HTMLElement>('lighthouse-note').classList.toggle('hidden', !viaLighthouse);
     el<HTMLSpanElement>('result-url').textContent = url.hostname;
     el<HTMLSpanElement>('grade-letter').textContent = grade;
     el<HTMLDivElement>('grade-badge').style.backgroundColor = GRADE_COLORS[grade] ?? GRADE_COLORS.F;
