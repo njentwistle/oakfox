@@ -28,6 +28,10 @@
 - **[Green Web Hosting](https://oakfox.co.uk/services/green-web-hosting)** — managed, renewable-powered UK hosting with free migration.
 - **[Environmental](https://oakfox.co.uk/services/environmental)** — sustainability built into every project (verified green hosting, original ecological research). Dedicated ecology reporting & automation (PEA, BNG, SFI) is our venture EcoScribe — https://ecoscribe.co.uk.
 
+## Free tools
+
+- **[Website Carbon Audit](https://oakfox.co.uk/website-carbon-audit)** — free website sustainability checker. Enter any URL for an instant carbon audit: CO₂ per page view (Sustainable Web Design Model), page weight, a verified green hosting check against The Green Web Foundation directory, and an A+ to F digital carbon rating. No signup required.
+
 ## Pages
 
 - [Home](https://oakfox.co.uk/): Studio overview, selected work, services, and approach.
