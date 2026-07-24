@@ -73,8 +73,10 @@ if ($hits >= RATE_LIMIT_PER_MINUTE) {
 }
 @file_put_contents($bucketFile, (string) ($hits + 1));
 
+// ?fresh=1 bypasses the cache read (the new result still overwrites it) so
+// before/after re-tests work. The per-IP rate limit above bounds abuse.
 $cacheFile = $workDir . '/result-' . md5($targetUrl);
-if (is_file($cacheFile) && (time() - filemtime($cacheFile)) < CACHE_TTL_SECONDS) {
+if (!isset($_GET['fresh']) && is_file($cacheFile) && (time() - filemtime($cacheFile)) < CACHE_TTL_SECONDS) {
     $cached = json_decode((string) file_get_contents($cacheFile), true);
     if (is_array($cached)) {
         $cached['cached'] = true;
