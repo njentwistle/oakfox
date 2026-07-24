@@ -709,7 +709,7 @@ const journalPosts = [
     ).then((r) => (r.ok ? r.json() : null)).catch(() => null);
 
     let carbon: any = null;
-    let carbonError: 'rate-limit' | 'failed' | null = null;
+    let carbonError: 'rate-limit' | 'failed' | 'blocked' | null = null;
     try {
       const response = await fetchWithTimeout(
         `/api/carbon-audit.php?url=${encodeURIComponent(url.href)}${fresh ? '&fresh=1' : ''}`,
@@ -719,7 +719,7 @@ const journalPosts = [
       else {
         const payload = await response.json().catch(() => null);
         if (payload?.ok) carbon = payload;
-        else carbonError = 'failed';
+        else carbonError = payload?.error === 'blocked' ? 'blocked' : 'failed';
       }
     } catch {
       carbonError = 'failed';
@@ -734,7 +734,9 @@ const journalPosts = [
       let message =
         carbonError === 'rate-limit'
           ? 'That\'s a lot of audits in one minute — give it a moment and try again.'
-          : `We couldn't audit that address. Check the URL is public and loading, then try again — or `;
+          : carbonError === 'blocked'
+            ? `That site's firewall is blocking automated checks — some security plugins do this to every bot. `
+            : `We couldn't audit that address. Check the URL is public and loading, then try again — or `;
       status.innerHTML = '';
       status.append(message);
       if (carbonError !== 'rate-limit') {

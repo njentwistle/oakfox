@@ -24,10 +24,16 @@ const MAX_BODY_BYTES = 20971520;     // 20 MB per resource guard
 const TIME_BUDGET_SECONDS = 28;      // overall crawl deadline
 const CACHE_TTL_SECONDS = 3600;
 const RATE_LIMIT_PER_MINUTE = 10;
-// Chrome-like UA (with our token appended) so CDNs — Google Fonts especially —
-// serve the same subset woff2 payloads a real browser downloads, not legacy
-// TTF fallbacks.
-const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 OakFoxCarbonAudit/1.0 (+https://oakfox.co.uk/website-carbon-audit)';
+// User-agent ladder. Chrome-like first so CDNs — Google Fonts especially —
+// serve the subset woff2 payloads a real browser gets. But some WAFs block
+// clients whose TLS fingerprint doesn't match the browser they claim to be
+// (426/403 with an empty body) while letting honest bots straight through,
+// so on a 4xx we retry as exactly what we are.
+const UA_BROWSER = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+const UA_BOT = 'OakFoxCarbonAudit/1.0 (+https://oakfox.co.uk/website-carbon-audit)';
+const UA_BASIC = 'curl/8.7.1';
+
+$GLOBALS['auditUserAgent'] = UA_BROWSER;
 
 $startedAt = microtime(true);
 
@@ -130,13 +136,20 @@ function url_is_allowed(string $url): bool
 // --------------------------------------------------------------- fetchers --
 function base_curl(string $url): CurlHandle
 {
+    // Google Fonts always gets the browser UA (subset woff2 + unicode-range
+    // CSS); everything else uses whichever profile the main fetch settled on.
+    $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
+    $ua = (str_ends_with($host, 'fonts.googleapis.com') || str_ends_with($host, 'fonts.gstatic.com'))
+        ? UA_BROWSER
+        : ($GLOBALS['auditUserAgent'] ?? UA_BROWSER);
+
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => false, // redirects handled manually so every hop is re-validated
         CURLOPT_CONNECTTIMEOUT => 8,
         CURLOPT_TIMEOUT => 20,
-        CURLOPT_USERAGENT => USER_AGENT,
+        CURLOPT_USERAGENT => $ua,
         // Advertise gzip but do NOT auto-decompress, so strlen(body) = wire bytes.
         CURLOPT_HTTPHEADER => ['Accept-Encoding: gzip', 'Accept: */*'],
         CURLOPT_SSL_VERIFYPEER => true,
@@ -148,8 +161,30 @@ function base_curl(string $url): CurlHandle
     return $ch;
 }
 
-/** Fetch a document, re-validating each redirect hop. Returns null on failure. */
+/**
+ * Fetch a document, trying each user-agent profile in turn. HTTP-level
+ * rejections (403/426/etc.) move down the ladder; transport failures (DNS,
+ * timeout) stop immediately since a different UA cannot fix those.
+ */
 function fetch_document(string $url, int $maxRedirects = 5): ?array
+{
+    $GLOBALS['lastFetchStatus'] = 0;
+    foreach ([UA_BROWSER, UA_BOT, UA_BASIC] as $ua) {
+        $GLOBALS['auditUserAgent'] = $ua;
+        $result = fetch_document_once($url, $maxRedirects);
+        if ($result !== null) {
+            return $result; // keep the winning UA for asset fetches
+        }
+        if ($GLOBALS['lastFetchStatus'] === 0) {
+            break; // transport error — no point retrying other profiles
+        }
+    }
+    $GLOBALS['auditUserAgent'] = UA_BROWSER;
+    return null;
+}
+
+/** One fetch attempt with the current UA, re-validating each redirect hop. */
+function fetch_document_once(string $url, int $maxRedirects = 5): ?array
 {
     for ($hop = 0; $hop <= $maxRedirects; $hop++) {
         if (!url_is_allowed($url)) {
@@ -177,6 +212,7 @@ function fetch_document(string $url, int $maxRedirects = 5): ?array
             continue;
         }
         if ($body === false || $status < 200 || $status >= 400) {
+            $GLOBALS['lastFetchStatus'] = $status;
             return null;
         }
         $bytes = strlen($body);
@@ -227,8 +263,18 @@ function resolve_url(string $ref, string $base): ?string
 
 // ------------------------------------------------------- main page fetch ---
 $page = fetch_document($targetUrl);
-if ($page === null || !str_contains($page['contentType'], 'html')) {
+if ($page === null) {
+    $status = (int) ($GLOBALS['lastFetchStatus'] ?? 0);
+    if (in_array($status, [401, 403, 405, 406, 409, 412, 418, 426, 429, 503], true)) {
+        fail(422, 'blocked', 'That site\'s security firewall blocked our automated check.');
+    }
     fail(422, 'fetch-failed', 'We could not fetch that page. Check the URL is public and loading.');
+}
+// Some servers omit the content-type header — sniff the body before rejecting.
+$isHtml = str_contains($page['contentType'], 'html')
+    || ($page['contentType'] === '' && preg_match('~<!doctype\s+html|<html[\s>]~i', substr($page['body'], 0, 1024)));
+if (!$isHtml) {
+    fail(422, 'fetch-failed', 'That address returned something other than a web page — try the site\'s homepage URL.');
 }
 
 // ------------------------------------------------------ asset discovery ----
