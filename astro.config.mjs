@@ -14,7 +14,10 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('/dashboard') && !page.includes('/og/'),
+      filter: (page) =>
+        !page.includes('/dashboard') &&
+        !page.includes('/og/') &&
+        !page.includes('/blog/tags/'),
       changefreq: 'weekly',
       lastmod: new Date(),
       serialize(item) {
