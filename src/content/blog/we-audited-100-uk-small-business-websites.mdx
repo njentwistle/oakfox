@@ -1,0 +1,112 @@
+---
+title: "We Audited 100 UK Small Business Websites for Carbon. Here's What We Found."
+description: "Original data: we ran our carbon audit crawler over 100 real UK small-business homepages across 18 sectors. Median weight 1.8 MB, 44% rated E or F, and images account for 60% of every byte transferred."
+date: 2026-07-29
+category: "Sustainability"
+author: "OakFox"
+tags: ["sustainability", "performance", "uk", "small business", "web design"]
+draft: false
+faq:
+  - q: "How heavy is the average UK small business website?"
+    a: "In our July 2026 study of 100 UK small-business homepages, the median first-view page weight was 1.8 MB across a median of 46 requests. The mean was 3.0 MB, dragged upward by a heavy tail — almost a quarter of homepages transferred more than 4 MB, and the heaviest was 22.6 MB."
+  - q: "How much CO2 does a small business website emit per visit?"
+    a: "Using the Sustainable Web Design Model (co2.js v4), the median homepage in our sample emitted an estimated 0.24 g of CO2e per page view — a D rating on the digital carbon scale. The lightest site we measured emitted 0.003 g per view and the heaviest 2.8 g, a difference of roughly nine hundred times for pages doing broadly the same job."
+  - q: "What makes small business websites so heavy?"
+    a: "Images, overwhelmingly. They accounted for 60% of all bytes transferred across our sample, and 44 of the 99 sites we audited shipped over 1 MB of imagery on the homepage alone — usually full-resolution photos scaled down in the browser. Web fonts were the quiet second offender: 43 sites loaded over 200 KB of font files, often for text that would look nearly identical in a system font."
+  - q: "Are UK small businesses on green hosting?"
+    a: "Nominally, 63% of the sites we checked passed The Green Web Foundation's verified green hosting check. But over half of those passes were the site's CDN — Cloudflare or Google Cloud — being detected rather than a deliberate hosting choice. Only about one site in four combined green infrastructure with a genuinely efficient page (a B rating or better)."
+  - q: "Does any of this actually matter for a small business?"
+    a: "Per site, the absolute carbon numbers are small — the median site at a thousand visits a month emits about 3 kg of CO2e a year from data transfer. The reason to care is that the same bytes that cost carbon cost seconds: a 4 MB homepage on a phone on a patchy connection loses visitors a 1 MB one keeps. Multiply the pattern across 5.5 million UK small businesses and both the waste and the fix are significant."
+---
+
+Most writing about sustainable web design quotes the same handful of global statistics. We wanted to know what the picture actually looks like for the businesses we work with — the plumbers, cafés, solicitors and salons that make up most of the UK web.
+
+So we measured it. In July 2026 we ran the same crawler that powers our [free website carbon audit](/website-carbon-audit) over 100 real UK small-business homepages and put every one through the Sustainable Web Design Model. This is what came back.
+
+## How we did it
+
+We built the sample the way a customer would: searching for local businesses — "plumber Preston", "florist York", "dentist Exeter" — and taking the independent firms that appeared, skipping directories, aggregators and national chains. That gave us 100 businesses across 18 sectors and 16 towns and cities, from Exeter to Edinburgh: trades, hospitality, professional services, health, retail.
+
+For each site we audited the homepage exactly as our public tool does. The crawler fetches the page, discovers every asset an initial visit would load — respecting lazy-loading, picking one image per srcset as a browser would, counting only the font subsets a real visitor downloads — and totals the transfer. Emissions estimates use [co2.js](https://www.thegreenwebfoundation.org/co2-js/) v4 (the Sustainable Web Design Model), and hosting is checked against The Green Web Foundation's verified directory. If anything, our method is conservative: we cap the number of assets we weigh, and we don't execute JavaScript, so anything a script loads afterwards isn't counted.
+
+99 of the 100 sites audited successfully; one was unreachable. We're not naming individual businesses — the point is the pattern, not the finger-pointing.
+
+## The headline numbers
+
+| Measure | Result |
+| --- | --- |
+| Median homepage weight | **1.8 MB** (46 requests) |
+| Mean homepage weight | 3.0 MB |
+| Median emissions per view | **0.24 g CO2e** — a D rating |
+| Sites rated E or F | **44%** |
+| Sites rated A or A+ | 18% |
+| Heaviest homepage | 22.6 MB (2.8 g CO2e per view) |
+| Lightest homepage | 19 KB (0.003 g CO2e per view) |
+
+The distribution is the story. Thirteen sites came in under half a megabyte — proof that a normal local-business site can be genuinely light. But 44% of homepages transferred more than 2 MB, 23% more than 4 MB, and eight sites more than 8 MB. The heaviest page we measured emits roughly nine hundred times more CO2e per view than the lightest, and they are both, functionally, a homepage for a local firm.
+
+## Where the weight comes from
+
+Across every byte we transferred in the study:
+
+| Asset type | Share of all bytes |
+| --- | --- |
+| Images | **60.5%** |
+| Video and audio | 15.7% |
+| JavaScript | 10.2% |
+| Web fonts | 9.6% |
+| CSS | 2.4% |
+| HTML | 1.6% |
+
+Images dominate everything else combined. 44 of the 99 sites shipped more than 1 MB of imagery on the homepage — almost always full-resolution photographs placed straight from a camera or stock library and scaled down in the browser. The video share is concentrated in a handful of autoplaying hero videos, which are spectacular emitters: most of the 8 MB-plus club had one.
+
+The quiet surprise was fonts. 43 sites loaded over 200 KB of web fonts — several loaded more font data than HTML, CSS and JavaScript combined. That's usually three or four weights of a display face doing a job a system font would do imperceptibly differently.
+
+This is genuinely good news, because images are the easiest fix in web performance: modern formats (WebP/AVIF), correct dimensions, and lazy-loading below the fold routinely cut total page weight by half or more without changing how the site looks.
+
+## The sector league table
+
+Medians per sector, for sectors where we audited five or more sites:
+
+| Sector | Sites | Median weight | Median g CO2e/view |
+| --- | --- | --- | --- |
+| Landscaping | 9 | 4.6 MB | 0.57 |
+| Estate agency | 7 | 2.9 MB | 0.42 |
+| Cafés | 5 | 2.2 MB | 0.34 |
+| Joinery | 7 | 2.1 MB | 0.26 |
+| Electrical | 7 | 2.0 MB | 0.29 |
+| Dental | 7 | 1.8 MB | 0.23 |
+| Veterinary | 7 | 1.6 MB | 0.19 |
+| Building | 8 | 1.5 MB | 0.19 |
+| Physiotherapy | 5 | 1.4 MB | 0.18 |
+| Plumbing & heating | 5 | 1.2 MB | 0.14 |
+| Accountancy | 6 | 1.0 MB | 0.14 |
+| Hair & beauty | 6 | 1.0 MB | 0.12 |
+| Legal | 6 | 0.8 MB | 0.10 |
+| Garages & MOT | 8 | **0.7 MB** | **0.09** |
+
+The pattern is intuitive: the more visual the trade, the heavier the site. Landscapers lead the table for exactly the reason you'd guess — galleries of full-resolution project photos. The two florists in our sample (too few for the table) had a median of 7.1 MB, the heaviest of any sector.
+
+And at the bottom: garages. The humble MOT centre, with its dated-looking, no-nonsense site, is quietly running the most carbon-efficient web presence in British small business. There's a lesson in that — restraint outperforms polish, and plenty of those garage sites would also win on load time against the prettier competition.
+
+## The green hosting mirage
+
+On paper, the hosting picture looks encouraging: 63% of sites passed the verified green hosting check. Look closer and it softens. More than half of those passes were the site's CDN — Cloudflare or Google Cloud — being detected in front of whatever actually hosts the site. Verified green infrastructure either way, but it's an accident of using a popular CDN, not a decision anyone made.
+
+The number we think matters more: just **26 of 99 sites** — about one in four — combined green infrastructure with an efficient page (a B rating or better). Green hosting under a 6 MB homepage is a bit like putting solar panels on a house with the windows open in January. The order of operations should be: lighten the page first, then make sure what's left is served on renewables. (Here's [how to check your host](/blog/is-your-web-host-actually-green) in thirty seconds.)
+
+## Honest scale, honest stakes
+
+We're a sustainability-minded studio, so let's be straight about magnitude: these are small numbers per site. The median site in our sample, at a thousand visits a month, emits about 3 kg of CO2e a year from data transfer — a couple of hundred kettle boils. The heaviest would be over 30 kg. Nobody should greenwash a homepage diet into planet-saving heroism.
+
+The stakes compound in two directions, though. There are around 5.5 million small businesses in the UK; the gap between the median site and the achievable-today lightweight version, multiplied across even a fraction of them, is real tonnage. And every one of those wasted megabytes is also wasted seconds on a phone on a patchy connection — which is where your customers actually are. The lightest sites in our study aren't ascetic; they're just built with care. That care shows up in speed, in search rankings, and in the electricity bill of the entire chain between your server and your customer's hand.
+
+## See where you stand
+
+The whole study ran on the same free tool anyone can use. Put your own site through the [website carbon audit](/website-carbon-audit) — it takes about ten seconds and gives you a weight, a per-view CO2e estimate, a hosting check and an A+ to F grade against the same bands we used here.
+
+If your result stings, the fix list is short and boring in the best way: resize and compress your images, lose the autoplay video, subset or drop the web fonts, and [check your hosting](/blog/green-web-hosting-uk-compared). Most sites in our sample could halve their footprint in a focused afternoon. If you'd rather someone did the afternoon for you, [that's what we do](/services/web-design).
+
+---
+
+*Methodology in brief: 100 UK small-business homepages sampled via search across 18 sectors and 16 UK towns and cities in July 2026, excluding directories and national chains; 99 audited successfully. First-view transfer measured by the OakFox carbon audit crawler (declared assets, lazy-loading respected, no JavaScript execution — a conservative measure). Emissions estimated with co2.js v4 using the Sustainable Web Design Model; ratings follow the published SWD bands; hosting verified against The Green Web Foundation directory. Aggregate dataset available on request.*
