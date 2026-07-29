@@ -65,6 +65,28 @@ if (post.data.faq && post.data.faq.length > 0) {
     })),
   });
 }
+if (post.data.dataset) {
+  const d = post.data.dataset;
+  pageSchemas.push({
+    '@type': 'Dataset',
+    '@id': `${articleUrl}#dataset`,
+    name: d.name,
+    description: d.description,
+    url: articleUrl,
+    license: d.license,
+    isAccessibleForFree: true,
+    creator: { '@id': 'https://oakfox.co.uk/#organization' },
+    datePublished: post.data.date.toISOString(),
+    temporalCoverage: d.temporalCoverage,
+    ...(d.spatialCoverage ? { spatialCoverage: d.spatialCoverage } : {}),
+    keywords: d.keywords.join(', '),
+    distribution: d.distribution.map((dist) => ({
+      '@type': 'DataDownload',
+      contentUrl: dist.contentUrl,
+      encodingFormat: dist.encodingFormat,
+    })),
+  });
+}
 if (post.data.howto) {
   pageSchemas.push({
     '@type': 'HowTo',

@@ -44,6 +44,26 @@ const blog = defineCollection({
         })
       )
       .optional(),
+    // Optional research dataset attached to the post — emits schema.org
+    // Dataset JSON-LD so it can surface in Google Dataset Search.
+    dataset: z
+      .object({
+        name: z.string(),
+        description: z.string(),
+        license: z.string(),
+        temporalCoverage: z.string(),
+        spatialCoverage: z.string().optional(),
+        keywords: z.array(z.string()).default([]),
+        distribution: z
+          .array(
+            z.object({
+              contentUrl: z.string(),
+              encodingFormat: z.string(),
+            })
+          )
+          .min(1),
+      })
+      .optional(),
     howto: z
       .object({
         name: z.string(),

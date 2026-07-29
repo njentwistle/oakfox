@@ -6,6 +6,18 @@ category: "Sustainability"
 author: "OakFox"
 tags: ["sustainability", "performance", "uk", "small business", "web design"]
 draft: false
+dataset:
+  name: "UK Small Business Website Carbon Study, July 2026"
+  description: "Anonymised per-site measurements from a carbon audit of 99 UK small-business homepages across 18 sectors: total transfer bytes, request counts, per-asset-type byte breakdowns (HTML, CSS, JavaScript, images, fonts, media), verified green hosting status, and estimated CO2e per page view with SWD v4 rating. Collected July 2026 with the OakFox carbon audit crawler and co2.js."
+  license: "https://creativecommons.org/licenses/by/4.0/"
+  temporalCoverage: "2026-07"
+  spatialCoverage: "United Kingdom"
+  keywords: ["website carbon", "page weight", "sustainable web design", "UK small business", "co2.js", "digital sustainability"]
+  distribution:
+    - contentUrl: "https://oakfox.co.uk/data/oakfox-uk-sme-carbon-study-2026-07.csv"
+      encodingFormat: "text/csv"
+    - contentUrl: "https://oakfox.co.uk/data/oakfox-uk-sme-carbon-study-2026-07-aggregates.json"
+      encodingFormat: "application/json"
 faq:
   - q: "How heavy is the average UK small business website?"
     a: "In our July 2026 study of 100 UK small-business homepages, the median first-view page weight was 1.8 MB across a median of 46 requests. The mean was 3.0 MB, dragged upward by a heavy tail — almost a quarter of homepages transferred more than 4 MB, and the heaviest was 22.6 MB."
@@ -109,4 +121,4 @@ If your result stings, the fix list is short and boring in the best way: resize 
 
 ---
 
-*Methodology in brief: 100 UK small-business homepages sampled via search across 18 sectors and 16 UK towns and cities in July 2026, excluding directories and national chains; 99 audited successfully. First-view transfer measured by the OakFox carbon audit crawler (declared assets, lazy-loading respected, no JavaScript execution — a conservative measure). Emissions estimated with co2.js v4 using the Sustainable Web Design Model; ratings follow the published SWD bands; hosting verified against The Green Web Foundation directory. Aggregate dataset available on request.*
+*Methodology in brief: 100 UK small-business homepages sampled via search across 18 sectors and 16 UK towns and cities in July 2026, excluding directories and national chains; 99 audited successfully. First-view transfer measured by the OakFox carbon audit crawler (declared assets, lazy-loading respected, no JavaScript execution — a conservative measure). Emissions estimated with co2.js v4 using the Sustainable Web Design Model; ratings follow the published SWD bands; hosting verified against The Green Web Foundation directory. The anonymised dataset is free to download and reuse under CC BY 4.0 — cite this page: [per-site CSV](/data/oakfox-uk-sme-carbon-study-2026-07.csv) · [aggregates JSON](/data/oakfox-uk-sme-carbon-study-2026-07-aggregates.json).*
