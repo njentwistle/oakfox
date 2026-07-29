@@ -1,0 +1,224 @@
+{
+  "n": 99,
+  "weight": {
+    "minKB": 19,
+    "medKB": 1790,
+    "meanKB": 3043,
+    "maxKB": 22568
+  },
+  "co2": {
+    "medG": 0.238,
+    "meanG": 0.409,
+    "minG": 0.003,
+    "maxG": 2.797
+  },
+  "ratings": {
+    "B": 16,
+    "A+": 8,
+    "F": 35,
+    "E": 9,
+    "A": 10,
+    "C": 10,
+    "D": 11
+  },
+  "buckets": {
+    "<0.5MB": 13,
+    "0.5–1MB": 19,
+    "1–2MB": 23,
+    "2–4MB": 21,
+    "4–8MB": 15,
+    ">8MB": 8
+  },
+  "requests": {
+    "med": 46,
+    "max": 73
+  },
+  "green": {
+    "green": 62,
+    "notGreen": 36,
+    "unknown": 1
+  },
+  "assetShares": {
+    "html": 1.6,
+    "css": 2.4,
+    "js": 10.2,
+    "images": 60.5,
+    "fonts": 9.6,
+    "media": 15.7,
+    "other": 0
+  },
+  "sectorStats": [
+    {
+      "sector": "florist",
+      "n": 2,
+      "medKB": 7104,
+      "medG": 0.88,
+      "green": 2
+    },
+    {
+      "sector": "bakery",
+      "n": 1,
+      "medKB": 4690,
+      "medG": 0.581,
+      "green": 1
+    },
+    {
+      "sector": "landscaping",
+      "n": 9,
+      "medKB": 4618,
+      "medG": 0.572,
+      "green": 5
+    },
+    {
+      "sector": "restaurant",
+      "n": 2,
+      "medKB": 4472,
+      "medG": 0.679,
+      "green": 0
+    },
+    {
+      "sector": "estate-agency",
+      "n": 7,
+      "medKB": 2907,
+      "medG": 0.424,
+      "green": 4
+    },
+    {
+      "sector": "cafe",
+      "n": 5,
+      "medKB": 2233,
+      "medG": 0.339,
+      "green": 2
+    },
+    {
+      "sector": "joinery",
+      "n": 7,
+      "medKB": 2114,
+      "medG": 0.262,
+      "green": 2
+    },
+    {
+      "sector": "retail",
+      "n": 1,
+      "medKB": 2097,
+      "medG": 0.318,
+      "green": 0
+    },
+    {
+      "sector": "electrical",
+      "n": 7,
+      "medKB": 2049,
+      "medG": 0.292,
+      "green": 6
+    },
+    {
+      "sector": "dental",
+      "n": 7,
+      "medKB": 1821,
+      "medG": 0.226,
+      "green": 3
+    },
+    {
+      "sector": "veterinary",
+      "n": 7,
+      "medKB": 1556,
+      "medG": 0.193,
+      "green": 5
+    },
+    {
+      "sector": "building",
+      "n": 8,
+      "medKB": 1494,
+      "medG": 0.185,
+      "green": 6
+    },
+    {
+      "sector": "physiotherapy",
+      "n": 5,
+      "medKB": 1433,
+      "medG": 0.178,
+      "green": 3
+    },
+    {
+      "sector": "plumbing-heating",
+      "n": 5,
+      "medKB": 1155,
+      "medG": 0.143,
+      "green": 5
+    },
+    {
+      "sector": "accountancy",
+      "n": 6,
+      "medKB": 987,
+      "medG": 0.141,
+      "green": 3
+    },
+    {
+      "sector": "hair-beauty",
+      "n": 6,
+      "medKB": 966,
+      "medG": 0.12,
+      "green": 4
+    },
+    {
+      "sector": "legal",
+      "n": 6,
+      "medKB": 772,
+      "medG": 0.096,
+      "green": 4
+    },
+    {
+      "sector": "automotive",
+      "n": 8,
+      "medKB": 744,
+      "medG": 0.092,
+      "green": 7
+    }
+  ],
+  "lightest": [
+    {
+      "sector": "legal",
+      "kb": 19,
+      "g": 0.003,
+      "rating": "A+"
+    },
+    {
+      "sector": "legal",
+      "kb": 29,
+      "g": 0.004,
+      "rating": "A+"
+    },
+    {
+      "sector": "accountancy",
+      "kb": 55,
+      "g": 0.008,
+      "rating": "A+"
+    }
+  ],
+  "heaviest": [
+    {
+      "sector": "physiotherapy",
+      "kb": 13103,
+      "g": 1.989,
+      "rating": "F"
+    },
+    {
+      "sector": "accountancy",
+      "kb": 14503,
+      "g": 1.797,
+      "rating": "F"
+    },
+    {
+      "sector": "plumbing-heating",
+      "kb": 22568,
+      "g": 2.797,
+      "rating": "F"
+    }
+  ],
+  "aPlusOrA": 18,
+  "eOrF": 44,
+  "imagesOver1MB": 44,
+  "jsOver500KB": 12,
+  "fontsOver200KB": 43,
+  "greenAndAB": 26
+}
