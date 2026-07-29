@@ -42,6 +42,7 @@ RedirectMatch 301 ^/whats-new-for-2025-a-design-jump-forward/?$ /blog/
 
 # --- Foreign legacy URLs (listings-era, no equivalent) → 410 Gone ---
 RedirectMatch gone ^/listing/
+RedirectMatch gone ^/website-referral/?$
 RedirectMatch gone ^/categories/?$
 RedirectMatch gone ^/registry/?$
 RedirectMatch gone ^/legal/?$
