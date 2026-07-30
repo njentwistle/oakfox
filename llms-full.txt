@@ -110,11 +110,11 @@ We decline work in sectors we cannot support in good faith — typically fossil 
 
 ## Selected Case Studies
 
-- **Aigéan** — Strategic branding, marketing, and sustainability work for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin. https://oakfox.co.uk/portfolio/aigean
 - **CubTrack** — Full product design, development, and marketing for a baby and toddler tracking app used by thousands of families. OakFox's first in-house product. https://oakfox.co.uk/portfolio/cubtrack
 - **TrailFox** — Brand, UX, and a cross-platform iOS + Android app designed and built in-house: an outdoor activity app that suggests the right activity for kids based on energy and place, with a shared family nature journal. OakFox's second in-house product. https://oakfox.co.uk/portfolio/trailfox
 - **Jennifer Lane** — Website refresh for the award-winning author and green witch, timed to coincide with a book launch. https://oakfox.co.uk/portfolio/jennifer-lane
-- **Roll** — Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District. https://oakfox.co.uk/portfolio/roll
+- **Website Carbon Audit tool** — a free public sustainability checker designed and built in-house: OakFox's own crawler plus co2.js, giving any site an instant CO₂e estimate, page weight, hosting check, and A+ to F rating. https://oakfox.co.uk/portfolio/website-carbon-audit-tool
+- **UK Small Business Website Carbon Study** — original research: 100 UK small-business homepages audited for carbon across 18 sectors, published with an open CC BY 4.0 dataset. https://oakfox.co.uk/portfolio/uk-sme-carbon-study
 
 ## Journal / Writing
 
