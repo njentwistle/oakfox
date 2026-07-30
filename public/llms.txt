@@ -54,11 +54,11 @@
 
 ## Selected work
 
-- [Aigéan](https://oakfox.co.uk/portfolio/aigean): Strategic branding, marketing, and sustainability work for a Michelin-quality Irish seafood restaurant in Sandymount, Dublin.
+- [Website Carbon Audit tool](https://oakfox.co.uk/portfolio/website-carbon-audit-tool): A free public website sustainability checker, designed and built in-house — crawler, co2.js carbon model, green hosting check, and A+ to F rating.
 - [CubTrack](https://oakfox.co.uk/portfolio/cubtrack): Full product design, development, and marketing for a baby and toddler tracking app — OakFox's first in-house product.
 - [TrailFox](https://oakfox.co.uk/portfolio/trailfox): Brand, UX, and a cross-platform iOS + Android outdoor activity app for families — OakFox's second in-house product.
 - [Jennifer Lane](https://oakfox.co.uk/portfolio/jennifer-lane): Website refresh for the award-winning author and green witch, timed to coincide with a book launch.
-- [Roll](https://oakfox.co.uk/portfolio/roll): Brand identity, in-store experience, and wholesale support for an artisan bakery and coffee shop in Bowness, Lake District.
+- [UK Small Business Website Carbon Study](https://oakfox.co.uk/portfolio/uk-sme-carbon-study): Original research — 100 UK small-business homepages audited for carbon, published with an open CC BY 4.0 dataset.
 
 ## Journal
 

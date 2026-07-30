@@ -9,6 +9,9 @@ const portfolio = defineCollection({
     category: z.enum(['branding', 'design', 'development', 'marketing', 'consultancy']),
     thumbnail: z.string(),
     date: z.coerce.date(),
+    // Lower = earlier on the portfolio grid and homepage. Entries without an
+    // order sort after ordered ones, newest first.
+    order: z.number().optional(),
     featured: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     client: z.string().optional(),

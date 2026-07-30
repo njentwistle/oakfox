@@ -6,7 +6,11 @@ import { getCollection } from 'astro:content';
 import { isPublished } from '../lib/posts';
 
 const portfolioItems = (await getCollection('portfolio'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .sort(
+    (a, b) =>
+      (a.data.order ?? Infinity) - (b.data.order ?? Infinity) ||
+      b.data.date.valueOf() - a.data.date.valueOf()
+  )
   .slice(0, 3);
 
 const blogPosts = (await getCollection('blog', isPublished))
@@ -23,12 +27,6 @@ const services = [
 ];
 
 const testimonials = [
-  {
-    quote:
-      "Incredible bespoke marketing agency! Nath and his team always exceed my expectations… the outcomes of the work they have done have delivered great returns and a noticeable impact on traffic volumes and brand awareness. Would give them 6 stars if I could!",
-    name: 'Simon Mawson',
-    org: 'Aigéan',
-  },
   {
     quote:
       "They completely blew past our expectations. The design is beautifully polished, the development is seamless, and their communication throughout the project was first-class. Highly recommend them if you want a premium digital presence.",
@@ -271,7 +269,7 @@ const homeSchema = {
   <section class="py-20 md:py-32 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <p class="label text-gray mb-12 md:mb-16 reveal">What clients say</p>
-      <div class="grid md:grid-cols-3 gap-10 md:gap-12 reveal-stagger">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-12 reveal-stagger max-w-4xl">
         {testimonials.map((t) => (
           <figure class="reveal border-t border-stone pt-6">
             <blockquote class="text-[15px] text-ink/75 leading-relaxed">

@@ -1,0 +1,42 @@
+---
+title: "Website Carbon Audit"
+description: "A free public sustainability checker, designed and built in-house — enter any URL and get an instant CO₂ estimate, page weight, green hosting check, and an A+ to F rating."
+category: "development"
+thumbnail: "/images/carbon-audit-tool/hero.png"
+date: 2026-07-24
+featured: true
+tags: ["development", "product", "sustainability", "tooling"]
+client: "OakFox (in-house tool)"
+outcomes:
+  - "A free, no-signup audit tool — URL in, instant CO₂e per view, page weight, hosting check, and A+ to F grade out"
+  - "Custom crawler built from scratch — measures a first visit the way a real browser would, down to lazy-loading and font subsets"
+  - "Now powers OakFox's original research, including our 100-site UK small business carbon study"
+---
+
+We talk a lot about sustainable web design, so we built the receipt. The [Website Carbon Audit](/website-carbon-audit) is a free tool on this site: paste in any URL and about ten seconds later you have your homepage's data transfer, an estimated CO₂e per page view, a verified green hosting check, and a grade from A+ to F.
+
+## The Problem
+
+We wanted to put a carbon checker in front of every client conversation — something that turns "your website has a footprint" from an abstract claim into a number with your domain next to it. The existing public calculators either went key-gated, measured less than a real visit does, or wrapped the result in enough vagueness that the number was hard to trust.
+
+So we built our own, and made it free, with no signup and no email gate.
+
+## How It Works
+
+The heart of the tool is a crawler we wrote from scratch. Given a URL, it fetches the page and works out what one first-time visit would actually cost:
+
+- **Discovers every asset an initial view loads** — stylesheets, scripts, images, fonts, media
+- **Behaves like a browser, not a scraper** — it respects lazy-loading, picks one image per `srcset` the way a real device would, and only counts the font subsets a visitor actually downloads
+- **Stays conservative by design** — it caps the number of assets it weighs and doesn't execute JavaScript, so if anything the true figure is higher than ours
+
+Emissions are estimated with [co2.js](https://www.thegreenwebfoundation.org/co2-js/) v4 — The Green Web Foundation's open-source implementation of the Sustainable Web Design Model — and hosting is checked live against the Foundation's verified green hosting directory. The A+ to F grade bands mirror the published percentiles of pages tested worldwide, so a B genuinely means "lighter than most of the web".
+
+## Design Decisions
+
+The audit had to feel like OakFox: calm, honest, and fast. The result reads as a single card — grade, carbon, weight, hosting — with the workings shown underneath rather than hidden. No dark patterns, no "enter your email to see your score". If the tool is going to argue that restraint wins on the web, it has to practise it.
+
+## What It's Done Since
+
+The same crawler now runs our research. In July 2026 we pointed it at 100 real UK small-business homepages and published the results — and the full dataset — as the [UK Small Business Carbon Study](/portfolio/uk-sme-carbon-study).
+
+[Try the audit on your own site](/website-carbon-audit)

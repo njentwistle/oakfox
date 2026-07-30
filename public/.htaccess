@@ -29,7 +29,7 @@ RedirectMatch 301 ^/blog/biodiversity-net-gain-small-sites-guide/?$     https://
 RedirectMatch 301 ^/blog/bng-is-burying-ecological-consultancies/?$     https://ecoscribe.co.uk/blog/bng-is-burying-ecological-consultancies/
 
 # --- Legacy WordPress URLs (old oakfox.co.uk) → current equivalents ---
-RedirectMatch 301 ^/my-work/branding/aigean/?$ /portfolio/aigean/
+RedirectMatch 301 ^/my-work/branding/aigean/?$ /portfolio/
 RedirectMatch 301 ^/my-work/branding/?$ /services/branding/
 RedirectMatch 301 ^/my-work/design/?$ /portfolio/
 RedirectMatch 301 ^/my-work/development/?$ /portfolio/
@@ -39,6 +39,10 @@ RedirectMatch 301 ^/about-us/?$ /about/
 RedirectMatch 301 ^/contact-me/?$ /contact/
 RedirectMatch 301 ^/contact-us/?$ /contact/
 RedirectMatch 301 ^/whats-new-for-2025-a-design-jump-forward/?$ /blog/
+
+# --- Retired portfolio entries → 410 Gone ---
+RedirectMatch gone ^/portfolio/aigean/?$
+RedirectMatch gone ^/portfolio/roll/?$
 
 # --- Foreign legacy URLs (listings-era, no equivalent) → 410 Gone ---
 RedirectMatch gone ^/listing/

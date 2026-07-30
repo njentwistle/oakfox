@@ -40,7 +40,7 @@ const staticPages: PageEntry[] = [
     slug: 'portfolio',
     eyebrow: 'Selected work',
     title: 'Branding, web, and marketing case studies.',
-    subtitle: 'Independent hospitality, consumer, and sustainability-focused brands.',
+    subtitle: 'Shipped apps, client work, free tools, and original research.',
     badge: 'Portfolio',
   },
   {

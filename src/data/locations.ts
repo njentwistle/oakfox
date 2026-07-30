@@ -85,14 +85,14 @@ export const locations: Location[] = [
     nearby: ['Birkdale', 'Ainsdale', 'Formby', 'Churchtown', 'Banks'],
     relatedWork: [
       {
-        slug: 'roll',
-        title: 'Roll — artisan bakery & coffee shop',
-        note: 'A complete brand identity for an independent bakery: visual system, in-store experience, packaging, and sustainability consultancy. The same craft-hospitality branding that suits Lord Street.',
+        slug: 'trailfox',
+        title: 'TrailFox — outdoor family adventure app',
+        note: 'Brand, UX, and a cross-platform iOS + Android app designed and built in-house — helping families turn beaches, parks, and woodland into small adventures. Made for exactly the kind of coast and green space Southport has.',
       },
       {
-        slug: 'aigean',
-        title: 'Aigéan — coastal seafood restaurant',
-        note: 'Brand identity and environmental consultancy for a Michelin-quality seafood restaurant, launched alongside a Michelin-starred chef joining the kitchen. Coastal dining, branded properly.',
+        slug: 'uk-sme-carbon-study',
+        title: 'UK small business carbon study',
+        note: 'We audited 100 real UK small-business websites — cafés, salons, trades, and shops like those along Lord Street — and published the data. Original research into what local business websites actually cost to run.',
       },
     ],
   },

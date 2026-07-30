@@ -4,7 +4,11 @@ import Img from '../../components/Img.astro';
 import { getCollection } from 'astro:content';
 
 const allWork = (await getCollection('portfolio'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort(
+    (a, b) =>
+      (a.data.order ?? Infinity) - (b.data.order ?? Infinity) ||
+      b.data.date.valueOf() - a.data.date.valueOf()
+  );
 
 const categories = ['all', ...new Set(allWork.map((item) => item.data.category))];
 
@@ -16,7 +20,7 @@ const collectionSchema = {
   url: pageUrl,
   name: 'OakFox Portfolio — Selected Branding, Web Design & Development Work',
   description:
-    'Selected case studies from OakFox — brand identity, web design, development, and marketing for independent hospitality, consumer, professional, and sustainability-focused businesses.',
+    'Selected case studies from OakFox — in-house apps designed, built, and shipped end-to-end, client web design and development, free sustainability tools, and original research.',
   inLanguage: 'en-GB',
   isPartOf: { '@id': 'https://oakfox.co.uk/#website' },
   hasPart: allWork.map((item) => ({
@@ -39,7 +43,7 @@ const breadcrumbs = {
 
 <BaseLayout
   title="Portfolio — Branding, Web Design & Development Case Studies"
-  description="Selected case studies from OakFox — brand identity, sustainable web design, and development for independent businesses across the UK, Ireland, and Europe."
+  description="Selected case studies from OakFox — shipped iOS and Android apps, sustainable web design and development for UK independents, free tools, and original research."
   schema={[collectionSchema, breadcrumbs]}
 >
   <section class="pt-32 pb-8">
@@ -47,8 +51,9 @@ const breadcrumbs = {
       <p class="text-forest font-medium text-sm uppercase tracking-widest mb-4">Our Work</p>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">Portfolio</h1>
       <p class="mt-6 text-lg text-gray max-w-2xl">
-        From independent artisan coffee shops and bakeries to internationally-trading
-        wine merchants, we've created brands for a huge variety of businesses.
+        Apps we've designed, built, and shipped ourselves, websites for real
+        clients, free tools, and original research published in the open.
+        Everything here is live — you can try most of it right now.
       </p>
     </div>
   </section>
