@@ -82,6 +82,7 @@ const breadcrumbs = {
       </div>
 
       <form id="contact-form" class="space-y-8">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="contact-hp" />
         <div class="grid md:grid-cols-2 gap-6">
           <div>
             <label for="name" class="block text-sm font-medium mb-2">Your name</label>
@@ -172,6 +173,8 @@ const breadcrumbs = {
   </section>
 
   <style>
+    .contact-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
     .service-pill {
       cursor: pointer;
       display: inline-block;
@@ -281,6 +284,8 @@ const breadcrumbs = {
       const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
       if (!status || !submitBtn) return;
 
+      const formLoadedAt = Date.now();
+
       applyQueryParamsToForm();
 
       form.addEventListener('submit', async (e) => {
@@ -291,6 +296,7 @@ const breadcrumbs = {
         submitBtn.textContent = 'Sending...';
 
         const formData = new FormData(form);
+        formData.set('elapsed_ms', String(Date.now() - formLoadedAt));
         const adKeys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
         for (const key of adKeys) {
           const val = sessionStorage.getItem('oakfox_' + key);
