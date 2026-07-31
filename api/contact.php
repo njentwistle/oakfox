@@ -11,6 +11,15 @@ $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $services = $_POST['services'] ?? [];
 $message = trim($_POST['message'] ?? '');
+$honeypot = trim($_POST['website'] ?? '');
+$elapsedMs = (int) ($_POST['elapsed_ms'] ?? 0);
+
+// Bots fill the hidden field or submit faster than any human can. Silent
+// success in both cases so they don't learn to adapt.
+if ($honeypot !== '' || $elapsedMs < 2500) {
+    echo json_encode(['success' => true]);
+    exit;
+}
 
 // Validate — message is optional so low-friction "get in touch" enquiries work.
 if (empty($name) || empty($email)) {
@@ -24,6 +33,38 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['error' => 'Please enter a valid email address.']);
     exit;
 }
+
+if (strlen($name) > 120 || strlen($message) > 5000) {
+    http_response_code(400);
+    echo json_encode(['error' => 'One of the fields is too long.']);
+    exit;
+}
+
+// Per-IP rate limit: 3 sends per rolling hour (same file-bucket pattern as
+// carbon-audit.php).
+$workDir = sys_get_temp_dir() . '/oakfox-contact';
+if (!is_dir($workDir)) {
+    @mkdir($workDir, 0700, true);
+}
+foreach (glob($workDir . '/rate-*') ?: [] as $oldBucket) {
+    if (time() - (int) @filemtime($oldBucket) > 7200) {
+        @unlink($oldBucket);
+    }
+}
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$bucketFile = $workDir . '/rate-' . md5($ip) . '-' . date('YmdH');
+$hits = (int) @file_get_contents($bucketFile);
+if ($hits >= 3) {
+    http_response_code(429);
+    echo json_encode(['error' => 'Too many messages from this connection — please email nathan@oakfox.co.uk directly.']);
+    exit;
+}
+@file_put_contents($bucketFile, (string) ($hits + 1));
+
+// Links in the name or message are the classic spam signature. The enquiry is
+// still delivered (flagged), but attacker content is never relayed back out
+// via the confirmation email.
+$looksSpammy = (bool) preg_match('~https?://|www\.~i', $name . ' ' . $message);
 
 // Sanitise
 $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
@@ -41,7 +82,7 @@ if (is_array($services)) {
 }
 
 $to = 'nathan@oakfox.co.uk';
-$subject = "New enquiry from {$name}";
+$subject = ($looksSpammy ? '[Possible spam] ' : '') . "New enquiry from {$name}";
 $date = date('j M Y, g:ia');
 
 $utmSource   = htmlspecialchars(trim($_POST['utm_source'] ?? ''), ENT_QUOTES, 'UTF-8');
@@ -85,9 +126,11 @@ if (!$sent) {
     error_log('[contact] admin notification failed for ' . $email);
 }
 
-// ── Confirmation to client ──
-$clientSubject = "Thanks for getting in touch — OakFox";
-$clientBody = <<<EOT
+// ── Confirmation to client — skipped for flagged submissions so the form
+// can't be used to relay spam content to arbitrary addresses ──
+if (!$looksSpammy) {
+    $clientSubject = "Thanks for getting in touch — OakFox";
+    $clientBody = <<<EOT
 Hi {$name},
 
 Thanks for reaching out to OakFox. We've received your enquiry and will be in touch shortly.
@@ -104,13 +147,14 @@ Nathan
 OakFox — oakfox.co.uk
 EOT;
 
-$clientHeaders = "From: OakFox <{$envelopeSender}>\r\n";
-$clientHeaders .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
-$clientHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $clientHeaders = "From: OakFox <{$envelopeSender}>\r\n";
+    $clientHeaders .= "Reply-To: OakFox <nathan@oakfox.co.uk>\r\n";
+    $clientHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-$clientSent = mail($email, $clientSubject, $clientBody, $clientHeaders, '-f' . $envelopeSender);
-if (!$clientSent) {
-    error_log('[contact] client confirmation failed for ' . $email);
+    $clientSent = mail($email, $clientSubject, $clientBody, $clientHeaders, '-f' . $envelopeSender);
+    if (!$clientSent) {
+        error_log('[contact] client confirmation failed for ' . $email);
+    }
 }
 
 if ($sent) {
