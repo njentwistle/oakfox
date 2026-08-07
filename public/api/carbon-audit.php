@@ -277,6 +277,41 @@ if (!$isHtml) {
     fail(422, 'fetch-failed', 'That address returned something other than a web page — try the site\'s homepage URL.');
 }
 
+// Some WAFs (Cloudflare, Imunify360, Incapsula, Sucuri…) answer automated
+// clients with a small 200-status checkpoint page instead of the real site.
+// Grading that stub yields a confident, wrong A+ — worse than any error — so
+// recognise the signatures and report 'blocked', which the client rescues
+// via its Lighthouse fallback.
+function looks_like_challenge_page(string $body): bool
+{
+    $title = '';
+    if (preg_match('~<title[^>]*>(.*?)</title>~is', $body, $m)) {
+        $title = strtolower(trim(html_entity_decode($m[1], ENT_QUOTES)));
+    }
+    foreach ([
+        'just a moment', 'one moment, please', 'attention required', 'access denied',
+        'checking your browser', 'security check', 'bot verification',
+        'verify you are human', 'ddos protection', 'captcha',
+    ] as $needle) {
+        if ($title !== '' && str_contains($title, $needle)) {
+            return true;
+        }
+    }
+    foreach ([
+        '__cf_chl_', 'cf_chl_opt', 'challenge-platform', '_Incapsula_Resource',
+        'sucuri_cloudproxy', 'imunify360', 'px-captcha', 'AwsWafIntegration',
+    ] as $marker) {
+        if (str_contains($body, $marker)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+if (looks_like_challenge_page($page['body'])) {
+    fail(422, 'blocked', 'That site\'s security firewall served our crawler a checkpoint page instead of the real site.');
+}
+
 // ------------------------------------------------------ asset discovery ----
 libxml_use_internal_errors(true);
 $dom = new DOMDocument();
@@ -569,6 +604,20 @@ foreach ($assetBatch as $asset) {
     $requests++;
     $totalBytes += $asset['bytes'];
     $breakdown[classify($asset['url'], $asset['contentType'])] += $asset['bytes'];
+}
+
+// A one-request, near-empty result is a stub we failed to recognise above —
+// an unfamiliar checkpoint page, a parked domain, an empty shell. A real
+// homepage this light still carries readable text; if there is next to none,
+// refuse rather than grade the wrong page. (Same 'blocked' code so the
+// client's Lighthouse fallback still produces an honest measurement.)
+if ($requests === 1 && $totalBytes < 20480) {
+    $visible = trim(preg_replace('~\s+~', ' ', strip_tags(
+        preg_replace('~<(script|style|noscript|template)\b.*?</\1\s*>~is', ' ', $page['body'])
+    )));
+    if (mb_strlen($visible) < 400) {
+        fail(422, 'blocked', 'That page returned almost nothing we could measure — likely a security checkpoint standing in for the real site.');
+    }
 }
 
 // ------------------------------------------------------------- response ----
