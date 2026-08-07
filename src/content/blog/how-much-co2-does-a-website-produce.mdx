@@ -1,0 +1,55 @@
+---
+title: "How Much CO₂ Does a Website Produce? What 100 UK Audits Say Is Normal"
+description: "The average UK small-business homepage emits about 0.24 g of CO₂e per view — around 29 kg a year at modest traffic. Real figures from our 100-site audit: what's normal, what's good, and what changes the number."
+date: 2026-09-08
+category: "Sustainability"
+author: "OakFox"
+tags: ["sustainability", "performance", "measurement", "uk", "small business"]
+draft: false
+faq:
+  - q: "How much CO2 does an average website produce per year?"
+    a: "It depends on page weight and traffic. The median UK small-business homepage in our July 2026 audit emitted about 0.24 g of CO₂e per view — at 10,000 views a month that's roughly 29 kg a year, about the same as driving 65 miles in a petrol car. The heaviest site we measured emitted 2.8 g per view, which at the same traffic would be over 330 kg a year. Same traffic, ten times the footprint — the difference is entirely the page."
+  - q: "What is a good carbon footprint for a website?"
+    a: "Under 0.08 g of CO₂e per page view puts you in the top 10% of pages tested worldwide (an A rating on the Sustainable Web Design scale); under 0.04 g is A+, the top 5%. The global median is around 0.36 g. For context, 18 of the 99 UK small-business sites in our study achieved an A or A+ — it's very attainable for an ordinary business site."
+  - q: "How is website carbon calculated?"
+    a: "Most tools, ours included, use the Sustainable Web Design Model: measure how much data one page view transfers, then convert those bytes to energy across data centres, networks, and end-user devices, and apply grid carbon intensity to get grams of CO₂e per view. It's a modelled estimate rather than a meter reading — accurate enough to compare sites fairly and to track whether changes work."
+  - q: "What makes a website's carbon footprint high?"
+    a: "Data transfer, overwhelmingly. In our 100-site audit, images accounted for 60% of every byte transferred — usually photography uploaded at camera size and never compressed. Video, JavaScript widgets, and web fonts make up most of the rest. Fossil-fuelled hosting raises emissions per byte; heavy pages raise the bytes. The heaviest homepage we measured was 22.6 MB; the lightest was 19 KB."
+---
+
+The honest answer to "how much CO₂ does a website produce?" is *it depends on two numbers* — how heavy each page view is, and how many views you get. But "it depends" is a cop-out without data, so here are the actual figures from [our July 2026 audit of 100 UK small-business homepages](/blog/we-audited-100-uk-small-business-websites), measured with the same Sustainable Web Design Model used by most carbon tools.
+
+## Per page view: the honest range
+
+- **The median UK small-business homepage: 0.24 g of CO₂e per view** — a D on the A+ to F scale, transferring 1.8 MB of data.
+- **The global median page is around 0.36 g** (an E). Half the web does better, half worse.
+- **A well-built page: under 0.08 g** (an A) — and under 0.04 g is A+ territory, the top 5% worldwide. Eighteen of our 99 sites managed it, so this is not an elite standard.
+- **The extremes in one national sample:** 0.003 g to 2.8 g per view. The heaviest homepage emitted nearly a thousand times more than the lightest, per visit, for the same job — being a small business's front door.
+
+## Per year: multiply by your traffic
+
+Grams per view only mean something once traffic is applied. Using the study's median (0.24 g):
+
+| Monthly views | CO₂e per year (median page) | CO₂e per year (heavy page, 1 g/view) |
+|---|---|---|
+| 1,000 | ~3 kg | ~12 kg |
+| 10,000 | ~29 kg | ~120 kg |
+| 100,000 | ~290 kg | ~1.2 tonnes |
+
+For scale: 29 kg is roughly 65 miles in a petrol car; 1.2 tonnes is in the territory of a transatlantic flight seat. A single popular page on a heavy site can quietly out-emit a business's entire paper use — and unlike most footprint lines, this one is invisible until someone measures it.
+
+Two things follow from the table. First, most small-business websites are a minor line in the company footprint — worth fixing, not worth panicking over. Second, the *ratio* is the scandal: the heavy column is the same business reaching the same customers, just with an unconsidered web page. This is the cheapest emissions reduction most companies will ever find, because [the fix also makes the site faster](/blog/sustainable-web-design-practical-guide).
+
+## What actually drives the number
+
+From the study's byte-by-byte breakdown of everything those 100 pages transferred:
+
+- **Images: 60.5% of all bytes.** Not video, not JavaScript — photography, uploaded at camera size. 44 of 99 sites shipped over 1 MB of images on the homepage alone.
+- **Video and media: 16%** — mostly autoplaying backgrounds nobody asked for.
+- **JavaScript: 10%** — the villain of most performance writing turns out to be a supporting actor on small-business sites.
+- **Fonts: 10%** — a quiet one; 43 sites shipped over 200 KB of web fonts, most of which never render a visible character.
+- **Hosting** doesn't change the bytes but changes the emissions per byte: verified renewable infrastructure meaningfully cuts the per-view figure — though [not by enough to rescue a heavy page](/blog/carbon-neutral-vs-green-web-hosting).
+
+## Measure yours in thirty seconds
+
+[Run your homepage through our free carbon audit](/website-carbon-audit) — no signup, no email gate. You'll get your page's transfer weight, grams per view, an A+ to F rating against the same scale used above, and a verified green-hosting check. If the grade disappoints, remember the shape of the data: it's almost certainly the images, it's fixable in about a day, and the same work moves your Core Web Vitals — which is the rare sustainability fix that pays for itself twice. And once you've measured, [date the result and re-test after any redesign](/blog/website-carbon-rating-measurement-not-badge) — a carbon figure describes the page on the day it was measured, nothing more.

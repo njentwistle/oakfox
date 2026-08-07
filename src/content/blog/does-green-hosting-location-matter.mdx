@@ -1,0 +1,50 @@
+---
+title: "Green Hosting in London, Cornwall, or Anywhere: Does Location Matter?"
+description: "People search for green hosting by city — London, Cornwall, Cumbria. Sensible instinct, slightly wrong question. Where location genuinely matters for a UK site, where it doesn't, and what to choose instead."
+date: 2026-09-22
+category: "Development"
+author: "OakFox"
+tags: ["green hosting", "web development", "infrastructure", "uk"]
+draft: false
+faq:
+  - q: "Is there green web hosting in London?"
+    a: "Yes. Kualo runs a solar-powered London data centre, Krystal has London and Manchester data centres on 100% renewable energy, and the major green platforms (Cloudflare, Netlify, Vercel) all have London edge presence. Both UK hosts are verified in The Green Web Foundation's directory — which is the check that matters more than the postcode."
+  - q: "Does server location affect my website's carbon footprint?"
+    a: "Less than you'd think, and less than verification does. A renewable-matched host is decoupled from its local grid's average carbon intensity, so a verified green data centre is a good choice wherever it sits. Distance does add network transfer energy, so UK hosting (or a CDN with UK edges) for a UK audience is mildly better as well as faster — but an unverified 'local' host is not greener than a verified distant one."
+  - q: "Does server location affect SEO for UK websites?"
+    a: "Only marginally, through speed. Google targets by domain, hreflang, and Search Console settings rather than server IP, so hosting abroad won't stop you ranking in the UK. What does matter is latency: closer servers and UK CDN edges mean faster responses, which feeds Core Web Vitals. Host wherever is verified and fast for your audience — for UK businesses that usually means UK data centres or a CDN."
+  - q: "Do I need UK data residency for my website?"
+    a: "Most small businesses don't, but some contracts do — public sector work, NHS-adjacent suppliers, and clients whose procurement rules specify UK jurisdiction for data. If that's you, choose a verified green host with actual UK data centres, such as Krystal (Manchester, London) or Kualo (London), rather than a global platform whose 'UK presence' is edge caching."
+---
+
+A pattern in how people actually search for green hosting: they add a place. *Green hosting London. Cornwall green hosting. Green website hosting Cumbria.* The instinct is sensible — hosting feels physical, and buying local feels green. But for websites the geography works differently, and the location-first version of the question can lead you to a worse answer than the one you meant to ask.
+
+## Where location genuinely matters
+
+**Latency.** Every mile between your server and your visitor adds milliseconds, and UK visitors are best served from UK metal or UK CDN edges. This is a speed argument that doubles as a mild carbon one — shorter network paths mean less transmission energy — and speed is the part your customers actually feel.
+
+**Data residency.** Some organisations are contractually bound to keep data in UK jurisdiction — public sector suppliers especially. If that's your situation, you need a host with real UK data centres, not a global platform that caches at a London edge: on the verified-green list that means [Krystal (Manchester and London) or Kualo (London, solar-powered)](/blog/green-web-hosting-uk-compared).
+
+**Support hours and jurisdiction.** A UK host answers in your working day and operates under UK law. Small thing until it isn't.
+
+## Where location matters less than people think
+
+**The greenness itself.** A verified renewable host is largely decoupled from its local grid — that's what the renewable matching or direct power contracts mean. A solar-powered London data centre isn't greener than a hydro-matched one elsewhere because of the postcode; both are green because of the energy contracts, which is why [The Green Web Foundation's directory](https://www.thegreenwebfoundation.org/green-web-check/) verifies evidence rather than locations. Check the listing, not the map.
+
+**"Local" as a green signal.** There is no meaningful sense in which hosting in Cornwall makes a Cornish business's website greener than verified hosting in Manchester. The bytes travel the same national infrastructure either way. If local matters to you as a *business* value — supporting a UK company, UK support — that's legitimate; it's just a different (and perfectly good) reason.
+
+**SEO.** Google doesn't rank UK sites by server postcode. Speed matters; geography barely does. Host somewhere verified and fast, and spend the saved worry [on your page weight instead](/blog/how-much-co2-does-a-website-produce) — it's a far bigger lever than location.
+
+## The distributed wrinkle: CDNs
+
+Modern hosting blurs the map anyway. A site on Cloudflare, Netlify, or Vercel is served from dozens of edge locations — London, Manchester, Edinburgh — regardless of where the origin sits. For a static marketing site this gives you the latency benefits of "local" hosting everywhere at once, on renewable-matched infrastructure. It's why our own stack pairs static builds with UK-verified infrastructure, and why the honest answer to "where should my site be hosted?" is often *everywhere near your visitors, greenly*.
+
+## What to actually choose
+
+For a UK small business, the decision tree is short:
+
+1. **Contractual UK data residency?** Krystal or Kualo — verified green, real UK data centres.
+2. **Static or marketing site?** A green CDN platform, or [a managed green plan](/services/green-web-hosting) if you'd rather never think about DNS, backups, or migrations — ours run on verified UK infrastructure from £9 a month.
+3. **Whatever you pick:** confirm the listing in the Green Web Foundation directory, and [check your own domain after migrating](/website-carbon-audit) — the audit verifies the hosting *and* tells you whether the page riding on it deserves it.
+
+Location is a fine tiebreaker. Verification is the qualifier. Ask them in that order and every version of the "green hosting near me" search gets the answer it was really looking for.
