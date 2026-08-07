@@ -1,0 +1,53 @@
+---
+title: "A Website Carbon Rating Is a Measurement, Not a Badge"
+description: "A UK consultancy's site tested A in winter and F by summer — and nobody lied. Why carbon ratings drift, why cached results linger, and how often to re-test your own site."
+date: 2026-08-18
+category: "Sustainability"
+author: "OakFox"
+tags: ["sustainability", "performance", "measurement", "web design"]
+draft: false
+faq:
+  - q: "How often should I test my website's carbon footprint?"
+    a: "Re-test after any redesign, any new page section, and any batch of new imagery — those are the moments ratings change. Between changes, a quarterly check is plenty. The point isn't the ritual; it's that a rating describes the page on the day it was measured, so it needs refreshing whenever the page meaningfully changes."
+  - q: "Why do different website carbon calculators give different results?"
+    a: "Three honest reasons: they may have tested on different dates (and pages change), many tools cache results — sometimes for months — so one may be showing an old measurement, and crawlers measure slightly differently (what they load, from where, and with what viewport). Look for the test date on any result, and when comparing tools, make sure both actually tested the same page on the same day."
+  - q: "Do website carbon ratings expire?"
+    a: "Effectively, yes. The rating was true of the page that existed on the test date. Sites accumulate weight — new photography, new widgets, a rebuild on a heavier platform — and the rating doesn't follow along. Treat it like an MOT: a pass tells you about the day of the test, and it needs renewing."
+  - q: "What changes a website's carbon rating?"
+    a: "Anything that changes data transfer. The common one is imagery: a redesign or a new gallery can multiply a page's weight several times over. New scripts, embedded video, extra font families, and platform migrations all move the number too. Hosting changes matter as well — moving to or from verified green hosting shifts the estimate per byte."
+---
+
+Last winter, a UK sustainability consultancy ran its website through a popular carbon checker and got an A — cleaner than most of the web, at roughly 0.08 g of CO₂e per view. A result worth being quietly pleased about.
+
+This summer we measured the same homepage: over half a gram per view. An F.
+
+Nobody lied. Nothing was broken. Both measurements were correct on the day they were taken — and the distance between them is the most useful thing we've learned about website carbon this year.
+
+## Ratings measure a day, not a business
+
+What happened in between was completely ordinary: a redesign. The winter version of the page carried a handful of modest images. The summer version carries a full set of large photographs — the archived copies show the entire image set changed — and the page grew to roughly seven times its old weight. The design got better-looking. The footprint went with it.
+
+That's not a story about one consultancy; it's how websites work. Pages accumulate: new photography, a testimonial slider, an embedded video, one more font weight. Each addition is invisible on its own, none of them announces its kilobytes, and a rating earned by the old page says nothing about the new one. The rating didn't age — the page changed underneath it.
+
+## Results linger longer than pages do
+
+The second half of the story: that winter A is still on display. Most free carbon checkers — ours included — cache results rather than re-crawling on every request, because crawling is the expensive part and caching is what makes free tools possible. Ours keeps a result for an hour. Some tools keep them much longer; the checker in this story was still showing its winter test as the months-old summer answer.
+
+So a practical habit: **find the test date before you trust a result.** Most tools print it somewhere on the page. If the date is older than your site's last change, the result isn't wrong — it's answering a question about a page that no longer exists. Re-run it fresh and see where you actually stand.
+
+## Our own tool had a wrong-answer mode too
+
+While we were verifying all this, we found a failure of our own, which seems only fair to publish. Some website firewalls answer automated visitors with a small "checking your browser" page instead of the real site. Our crawler was fetching that stub, dutifully weighing its few kilobytes, and coming back with a confident A+ — the best possible grade, for a page no human being has ever seen.
+
+[The audit tool](/website-carbon-audit) now recognises those checkpoint pages and refuses to grade them; when direct measurement is blocked, it falls back to Google Lighthouse, run from your own browser, which firewalls treat as a normal visitor. We'd rather return no answer than a wrong one — and if you rely on any measurement tool, it's worth asking whether it makes the same choice.
+
+## Treat it like an MOT
+
+The habit that follows from all of this is small:
+
+- **Re-test after every redesign** — and after anything that adds imagery: a new gallery, a campaign page, a rebrand. These are the moments ratings actually move.
+- **Quarterly otherwise.** Drift is gradual; a calendar reminder is enough.
+- **Date what you publish.** If you display a carbon badge or quote a rating on your site, put the test date next to it. An undated badge is exactly how a winter A ends up decorating a summer F.
+- **Keep the report.** A dated series of measurements shows trend, which is worth more than any single grade — it's the difference between "we tested well once" and "we keep it light".
+
+None of this is a reason to distrust carbon ratings. Measured fresh, they're the most useful single number in web sustainability — our [practical guide](/blog/sustainable-web-design-practical-guide) is built around moving that number. It's just a reason to hold them the way this field holds every other measurement: as a reading, taken on a date, of a thing that changes.
