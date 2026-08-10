@@ -105,19 +105,19 @@ const offerings = [
     label: 'Infrastructure',
     title: 'Renewable-powered UK hosting',
     description:
-      'Sites run on verified renewable-powered UK infrastructure — UK data centres, no offsetting smoke and mirrors. The lowest-carbon hosting layer available without running our own kit.',
+      'Sites run on verified renewable-powered UK infrastructure in UK data centres, no offsetting smoke and mirrors. The lowest-carbon hosting layer available without running our own kit.',
   },
   {
     label: 'Management',
     title: 'You do not touch a cPanel',
     description:
-      'We handle the setup, DNS, SSL, backups, security updates, and monitoring. When something goes wrong — and one day it will — you email us, not a queue ticket on a global support desk. UK office hours, real reply.',
+      'We handle the setup, DNS, SSL, backups, security updates, and monitoring. When something goes wrong, and one day it will, you email us, not a queue ticket on a global support desk. UK office hours, real reply.',
   },
   {
     label: 'Migration',
     title: 'Free move from your current host',
     description:
-      'Migrating from SiteGround, GoDaddy, Bluehost, Krystal, or anywhere else? We handle it end to end — files, databases, email, DNS — with zero downtime. No charge for the move on any plan.',
+      'Migrating from SiteGround, GoDaddy, Bluehost, Krystal, or anywhere else? We handle it end to end (files, databases, email, DNS) with zero downtime. No charge for the move on any plan.',
   },
 ];
 
@@ -128,11 +128,11 @@ const whyGreen = [
   },
   {
     title: 'Green hosting is verifiable',
-    body: 'We host with providers on The Green Web Foundation\'s verified directory — not just companies that buy offsets and call it neutral. You can independently check whether a site is hosted green at thegreenwebfoundation.org.',
+    body: 'We host with providers on The Green Web Foundation\'s verified directory, not just companies that buy offsets and call it neutral. You can independently check whether a site is hosted green at thegreenwebfoundation.org.',
   },
   {
     title: 'It is no slower, and no more expensive',
-    body: 'Modern renewable-powered UK hosting performs identically to fossil-fuel-backed grid hosting on speed, uptime, and cost. The trade-off is essentially zero — which makes the case for switching very straightforward.',
+    body: 'Modern renewable-powered UK hosting performs identically to fossil-fuel-backed grid hosting on speed, uptime, and cost. The trade-off is essentially zero, which makes the case for switching very straightforward.',
   },
 ];
 
@@ -147,19 +147,19 @@ const forWho = [
 const faqs = [
   {
     q: 'What is managed green web hosting?',
-    a: 'Managed green web hosting is website hosting that runs on verified renewable energy and is fully looked after for you. With OakFox, your site sits in a UK data centre on infrastructure listed in The Green Web Foundation\'s verified directory, and we handle setup, DNS, SSL, daily backups, security updates, and monitoring — so you never log into a control panel. Plans start at £9 a month and include free migration from your current host.',
+    a: 'Managed green web hosting is website hosting that runs on verified renewable energy and is fully looked after for you. With OakFox, your site sits in a UK data centre on infrastructure listed in The Green Web Foundation\'s verified directory, and we handle setup, DNS, SSL, daily backups, security updates, and monitoring, so you never log into a control panel. Plans start at £9 a month and include free migration from your current host.',
   },
   {
     q: 'Is green web hosting actually greener, or is it marketing?',
-    a: 'Both exist. Genuinely green hosting runs on verified renewable energy — solar, wind, hydro — and can be independently checked against The Green Web Foundation\'s public directory. Hosts that simply purchase carbon offsets to claim "neutrality" are not the same thing. OakFox only resells hosts on the verified green directory.',
+    a: 'Both exist. Genuinely green hosting runs on verified renewable energy (solar, wind, hydro) and can be independently checked against The Green Web Foundation\'s public directory. Hosts that simply purchase carbon offsets to claim "neutrality" are not the same thing. OakFox only resells hosts on the verified green directory.',
   },
   {
     q: 'Where are your servers located?',
-    a: 'All hosting plans run in UK data centres — relevant for GDPR, for performance to UK visitors, and for the carbon intensity of the underlying grid.',
+    a: 'All hosting plans run in UK data centres, which matters for GDPR, for performance to UK visitors, and for the carbon intensity of the underlying grid.',
   },
   {
     q: 'Will moving to green hosting hurt my SEO or speed?',
-    a: 'No. Modern green hosting performs identically to standard hosting on every metric — uptime, response time, Core Web Vitals, Lighthouse score. If anything, a move from a slow shared host to managed green hosting often improves performance.',
+    a: 'No. Modern green hosting performs identically to standard hosting on every metric: uptime, response time, Core Web Vitals, Lighthouse score. If anything, a move from a slow shared host to managed green hosting often improves performance.',
   },
   {
     q: 'Do you handle the migration from my current host?',
@@ -171,11 +171,11 @@ const faqs = [
   },
   {
     q: 'Do you offer green web hosting in London / Manchester / Liverpool / elsewhere in the UK?',
-    a: 'Yes — every plan is available UK-wide. Hosting is location-independent at the point of purchase, though we serve clients across the UK including London, Manchester, Liverpool, Birmingham, Leeds, Edinburgh, and our home patch of West Lancashire / Ormskirk.',
+    a: 'Yes, every plan is available UK-wide. Hosting is location-independent at the point of purchase, though we serve clients across the UK including London, Manchester, Liverpool, Birmingham, Leeds, Edinburgh, and our home patch of West Lancashire / Ormskirk.',
   },
   {
     q: 'What happens if I want to leave?',
-    a: 'You own your data. We hand over a complete export — files, databases, DNS records — and assist with migration to your new host. No lock-in, no exit fees, no awkward conversations.',
+    a: 'You own your data. We hand over a complete export (files, databases, DNS records) and assist with migration to your new host. No lock-in, no exit fees, no awkward conversations.',
   },
   {
     q: 'How does this compare to Krystal, Kualo, or GreenGeeks directly?',
@@ -200,17 +200,14 @@ const faqSchema = {
   schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
-    <div class="hero-glow" style="top: 45%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-      <p class="label text-forest mb-8">Service · Green Web Hosting</p>
       <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
         Managed <em class="text-forest">green</em> hosting.
         UK <em class="text-forest">support</em>.
       </h1>
       <div class="mt-10 md:mt-14 grid md:grid-cols-12 gap-8 items-end">
-        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
-          Renewable-powered hosting in UK data centres, with the boring bits —
-          setup, DNS, SSL, backups, monitoring — handled by OakFox. Free
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed max-w-[65ch]">
+          Renewable-powered hosting in UK data centres, with the boring bits (setup, DNS, SSL, backups, monitoring) handled by OakFox. Free
           migration from your current host, plans from £9 a month, and a real
           person to email when something needs fixing.
         </p>
@@ -230,13 +227,13 @@ const faqSchema = {
 
   <section class="py-20 md:py-28 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
-      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <h2 class="headline text-xl md:text-2xl mb-10 md:mb-14">What's included</h2>
       <div class="grid md:grid-cols-3 gap-8 md:gap-12">
         {offerings.map((o) => (
           <div class="reveal">
             <p class="label text-forest mb-4">{o.label}</p>
             <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+            <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">{o.description}</p>
           </div>
         ))}
       </div>
@@ -247,12 +244,11 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16 mb-12 md:mb-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Plans</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Three plans. <em class="text-forest">No&nbsp;upsells.</em>
+            Three plans. No&nbsp;upsells.
           </h2>
         </div>
-        <p class="md:col-span-7 md:col-start-6 text-[15px] text-ink/65 leading-relaxed">
+        <p class="md:col-span-7 md:col-start-6 text-[15px] text-ink/65 leading-relaxed max-w-[65ch]">
           Every plan includes free migration, free SSL, daily backups, and real
           UK support. The difference is how many sites you need to host and how
           quickly you need us to respond when something is wrong.
@@ -268,12 +264,12 @@ const faqSchema = {
             </div>
             <div class="mb-6">
               <span class="text-4xl md:text-5xl font-semibold text-ink">{p.price}</span>
-              <span class="text-[14px] text-ink/55 ml-1">{p.cadence}</span>
+              <span class="text-[14px] text-ink/65 ml-1">{p.cadence}</span>
             </div>
-            <p class="text-[14px] text-ink/65 leading-relaxed mb-8">{p.summary}</p>
+            <p class="text-[14px] text-ink/65 leading-relaxed mb-8 max-w-[65ch]">{p.summary}</p>
             <ul class="space-y-3 mb-10 flex-1">
               {p.features.map((f) => (
-                <li class="flex items-start gap-3 text-[14px] text-ink/75 leading-relaxed">
+                <li class="flex items-start gap-3 text-[14px] text-ink/75 leading-relaxed max-w-[65ch]">
                   <svg class="w-4 h-4 mt-1 text-forest flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -288,9 +284,9 @@ const faqSchema = {
         ))}
       </div>
 
-      <p class="mt-10 text-[13px] text-ink/50 leading-relaxed max-w-2xl">
+      <p class="mt-10 text-[13px] text-ink/65 leading-relaxed max-w-2xl">
         Prices exclude VAT. Annual billing available with two months free.
-        Need something larger — a busy e-commerce store, a high-traffic
+        Need something larger, like a busy e-commerce store, a high-traffic
         publication, or dedicated infrastructure? <a href="/contact" class="text-forest hover:underline underline-offset-4">Get in touch</a> for a custom quote.
       </p>
     </div>
@@ -300,16 +296,15 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Why green</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Hosting is the easiest <em class="text-forest">sustainability win</em> your website has.
+            Hosting is the easiest sustainability win your website has.
           </h2>
         </div>
         <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
           {whyGreen.map((w) => (
             <li class="reveal border-b border-stone py-6">
               <h3 class="text-base md:text-lg font-medium text-ink mb-3">{w.title}</h3>
-              <p class="text-[14px] text-ink/60 leading-relaxed">{w.body}</p>
+              <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">{w.body}</p>
             </li>
           ))}
         </ol>
@@ -321,14 +316,13 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Who it's for</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Good fits <em class="text-forest">look&nbsp;like…</em>
+            Good fits look&nbsp;like…
           </h2>
         </div>
         <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
           {forWho.map((line) => (
-            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed">
+            <li class="reveal border-b border-stone py-5 text-[15px] md:text-base text-ink/75 leading-relaxed max-w-[65ch]">
               {line}
             </li>
           ))}
@@ -341,14 +335,13 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 items-center">
         <div class="md:col-span-7">
-          <p class="label text-forest mb-6">Bundle</p>
           <h2 class="headline text-2xl md:text-3xl mb-6">
-            Hosting + a site that <em class="text-forest">earns&nbsp;it</em>.
+            Hosting + a site that earns&nbsp;it.
           </h2>
           <p class="text-[15px] text-ink/70 leading-relaxed max-w-xl">
             Green hosting is a strong start. A static-first, accessible,
             performant build is the rest of the story. We design and develop
-            websites built to match the infrastructure underneath them — and
+            websites built to match the infrastructure underneath them, and
             bundle the first 12 months of hosting in.
           </p>
         </div>
@@ -372,11 +365,10 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Frequently asked</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Green hosting <em class="text-forest">questions</em> we hear a lot.
+            Green hosting questions we hear a lot.
           </h2>
-          <p class="mt-6 text-[14px] text-ink/55 leading-relaxed">
+          <p class="mt-6 text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">
             Reading up first? Our <a href="/blog/green-web-hosting-uk-compared" class="text-forest hover:underline underline-offset-4">green web hosting comparison</a> covers the main UK providers in depth.
             Not sure how green your current site is? Run the free <a href="/website-carbon-audit" class="text-forest hover:underline underline-offset-4">website carbon audit</a> first.
           </p>
@@ -385,7 +377,7 @@ const faqSchema = {
           {faqs.map((f) => (
             <div class="reveal border-b border-stone py-6">
               <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
-              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed max-w-[65ch]">{f.a}</dd>
             </div>
           ))}
         </dl>
@@ -396,17 +388,15 @@ const faqSchema = {
   <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
-    <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
       <div class="reveal max-w-2xl">
-        <p class="label text-gray mb-6">Next step</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
           Ready to <em class="text-forest">move</em>?
         </h2>
-        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+        <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-lg">
           Tell us where your site is hosted right now and which plan fits.
           We reply within 24 hours with a migration window and a single
-          invoice — no setup fees, no surprise add-ons.
+          invoice. No setup fees, no surprise add-ons.
         </p>
         <a href="/contact?service=green-web-hosting" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
           Start the migration

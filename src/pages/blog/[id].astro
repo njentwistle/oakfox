@@ -164,7 +164,6 @@ if (post.data.howto) {
 
       {post.data.faq && post.data.faq.length > 0 && (
         <section class="mt-16 pt-12 border-t border-stone">
-          <p class="label text-gray mb-6">Frequently asked</p>
           <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-8">Common questions</h2>
           <dl class="border-t border-stone">
             {post.data.faq.map((f) => (
@@ -197,8 +196,8 @@ if (post.data.howto) {
               <h3 class="text-base md:text-lg font-semibold mt-3 group-hover:text-forest transition-colors duration-300">
                 {r.data.title}
               </h3>
-              <p class="text-[13px] text-ink/60 mt-2 line-clamp-3">{r.data.description}</p>
-              <time datetime={r.data.date.toISOString()} class="mt-4 block text-[11px] text-ink/40">
+              <p class="text-[13px] text-ink/65 mt-2 line-clamp-3">{r.data.description}</p>
+              <time datetime={r.data.date.toISOString()} class="mt-4 block text-[11px] text-ink/65">
                 {r.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
               </time>
             </a>
@@ -210,11 +209,9 @@ if (post.data.howto) {
 
   <!-- CTA -->
   <section class="py-20 md:py-28 border-t border-stone relative overflow-hidden">
-    <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-3xl mx-auto px-6 relative z-10">
-      <p class="label text-gray mb-6">Working on something similar?</p>
       <h2 class="headline text-2xl md:text-3xl lg:text-4xl">
-        Tell us about your <em class="text-forest">project</em>.
+        Tell us about your project.
       </h2>
       <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-xl">
         We work with independent businesses and established brands across the UK,

@@ -11,7 +11,12 @@ const portfolioItems = (await getCollection('portfolio'))
       (a.data.order ?? Infinity) - (b.data.order ?? Infinity) ||
       b.data.date.valueOf() - a.data.date.valueOf()
   )
-  .slice(0, 3);
+  .slice(0, 4);
+
+// The first pinned project carries the hero, so the work section below picks
+// up from the second — otherwise the same thumbnail appears twice on the page.
+const heroWork = portfolioItems[0];
+const workItems = portfolioItems.slice(1);
 
 const blogPosts = (await getCollection('blog', isPublished))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -67,58 +72,67 @@ const homeSchema = {
   schema={homeSchema}
 >
   <!-- ========== HERO ========== -->
-  <section data-scene="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden">
-    <div class="hero-glow"></div>
-
-    <div class="max-w-[1400px] mx-auto w-full px-6 md:px-10 relative z-10 pt-32 pb-20 md:pt-40 md:pb-28">
-      <p class="label text-forest mb-10 md:mb-14">
-        Sustainable design studio · West Lancashire
-      </p>
-
-      <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
-        <span class="block">
-          <span class="split-word"><span>We</span></span> <span class="split-word"><span>build</span></span> <span class="split-word"><span>brands</span></span> <span class="split-word"><span>that</span></span> <em class="text-forest"><span class="split-word"><span>grow</span></span></em>
-        </span>
-        <span class="block">
-          <span class="split-word"><span>without</span></span> <span class="split-word"><span>costing</span></span> <span class="split-word"><span>the</span></span> <em class="text-forest"><span class="split-word"><span>earth</span></span></em><span class="split-word"><span>.</span></span>
-        </span>
-      </h1>
-
-      <div class="mt-12 md:mt-16 grid md:grid-cols-12 gap-8 items-end">
-        <p data-hero-paragraph class="md:col-span-6 text-[15px] text-ink/60 leading-relaxed">
-          Design, development, marketing and environmental consultancy —
-          from a small studio with 15+ years of experience across local
-          independents and international brands.
-        </p>
-
-        <div class="md:col-span-5 md:col-start-8 flex flex-wrap items-center gap-x-6 gap-y-4 md:justify-end">
-          <a
-            href="/contact"
-            data-magnetic
-            class="inline-flex items-center gap-3 bg-forest text-cream text-[15px] font-medium pl-6 pr-2 py-2 rounded-full hover:bg-forest-dark transition-all duration-300 group"
-          >
-            Start a project
-            <span class="w-9 h-9 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-x-0.5">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+  <section data-scene="hero" class="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden">
+    <div class="max-w-[1400px] mx-auto w-full px-6 md:px-10 relative z-10 pt-24 pb-16 md:pt-24 md:pb-24">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-center">
+        <div class="md:col-span-7">
+          <h1 class="headline text-ink" style="font-size: clamp(1.9rem, 4.4vw, 3.5rem);">
+            <span class="block">
+              <span class="split-word"><span>We</span></span> <span class="split-word"><span>build</span></span> <span class="split-word"><span>brands</span></span> <span class="split-word"><span>that</span></span> <em class="text-forest"><span class="split-word"><span>grow</span></span></em>
             </span>
-          </a>
-          <a
-            href="/book"
-            class="inline-flex items-center gap-2 text-[14px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
-          >
-            Book a free call
-          </a>
-        </div>
-      </div>
-    </div>
+            <span class="block">
+              <span class="split-word"><span>without</span></span> <span class="split-word"><span>costing</span></span> <span class="split-word"><span>the</span></span> <em class="text-forest"><span class="split-word"><span>earth</span></span></em><span class="split-word"><span>.</span></span>
+            </span>
+          </h1>
 
-    <!-- Scroll hint -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-      <svg class="w-4 h-4 text-ink/30 nudge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+          <p data-hero-paragraph class="mt-8 md:mt-10 text-[15px] text-ink/65 leading-relaxed max-w-[52ch]">
+            Sustainable design, development, marketing and environmental
+            consultancy from a West Lancashire studio with 15+ years of practice.
+          </p>
+
+          <div class="mt-8 md:mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a
+              href="/contact"
+              data-magnetic
+              class="inline-flex items-center gap-3 bg-forest text-cream text-[15px] font-medium pl-6 pr-2 py-2 rounded-full hover:bg-forest-dark transition-all duration-300 group"
+            >
+              Start a project
+              <span class="w-9 h-9 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-x-0.5">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+            <a
+              href="/book"
+              class="inline-flex items-center gap-2 text-[14px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
+            >
+              Book a free call
+            </a>
+          </div>
+        </div>
+
+        {heroWork && (
+          <div class="md:col-span-5">
+            <a href={`/portfolio/${heroWork.id}`} class="group block">
+              <div class="img-wrap bg-stone/30 overflow-hidden">
+                <Img
+                  src={heroWork.data.thumbnail}
+                  alt={heroWork.data.title}
+                  loading="eager"
+                  class="w-full h-auto"
+                />
+              </div>
+              <div class="mt-4 flex items-baseline justify-between gap-4">
+                <span class="text-[14px] font-medium text-ink group-hover:text-forest transition-colors duration-300">
+                  {heroWork.data.title}
+                </span>
+                <span class="label text-gray shrink-0">{heroWork.data.category}</span>
+              </div>
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   </section>
 
@@ -126,39 +140,38 @@ const homeSchema = {
   <section data-scene="work" class="py-20 md:py-32">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="reveal flex items-baseline justify-between mb-12 md:mb-16">
-        <p class="label text-gray">Selected work</p>
-        <a href="/portfolio" class="link-line text-[13px] font-medium text-ink/60 hover:text-forest transition-colors">
+        <h2 class="headline text-xl md:text-2xl">Selected work</h2>
+        <a href="/portfolio" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors">
           View all
         </a>
       </div>
 
-      {portfolioItems.length > 0 ? (
+      {workItems.length > 0 ? (
         <div class="space-y-16 md:space-y-24 reveal-stagger">
-          {/* Featured first item — large */}
-          {portfolioItems[0] && (
-            <a href={`/portfolio/${portfolioItems[0].id}`} class="reveal group block">
+          {/* Featured item — large */}
+          {workItems[0] && (
+            <a href={`/portfolio/${workItems[0].id}`} class="reveal group block">
               <div class="img-wrap bg-stone/30 min-h-48 max-h-[500px] overflow-hidden">
                 <Img
-                  src={portfolioItems[0].data.thumbnail}
-                  alt={portfolioItems[0].data.title}
-                  loading="eager"
+                  src={workItems[0].data.thumbnail}
+                  alt={workItems[0].data.title}
                   class="w-full h-auto"
                 />
               </div>
               <div class="mt-5 flex items-baseline justify-between gap-4">
                 <div>
-                  <h3 class="headline text-xl md:text-2xl">{portfolioItems[0].data.title}</h3>
-                  <p class="text-[13px] text-ink/50 mt-1">{portfolioItems[0].data.description}</p>
+                  <h3 class="headline text-xl md:text-2xl">{workItems[0].data.title}</h3>
+                  <p class="text-[13px] text-ink/65 mt-1">{workItems[0].data.description}</p>
                 </div>
-                <span class="label text-gray shrink-0">{portfolioItems[0].data.category}</span>
+                <span class="label text-gray shrink-0">{workItems[0].data.category}</span>
               </div>
             </a>
           )}
 
           {/* Remaining items — two-up grid */}
-          {portfolioItems.length > 1 && (
+          {workItems.length > 1 && (
             <div class="grid md:grid-cols-2 gap-8 md:gap-12">
-              {portfolioItems.slice(1).map((item) => (
+              {workItems.slice(1).map((item) => (
                 <a href={`/portfolio/${item.id}`} class="reveal group block">
                   <div class="img-wrap bg-stone/30 min-h-40 max-h-80 overflow-hidden">
                     <Img
@@ -177,7 +190,7 @@ const homeSchema = {
           )}
         </div>
       ) : (
-        <p class="text-ink/50 text-center py-12">Work coming soon.</p>
+        <p class="text-ink/65 text-center py-12">Work coming soon.</p>
       )}
     </div>
   </section>
@@ -187,14 +200,13 @@ const homeSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-12 md:gap-16">
         <div class="reveal md:col-span-5">
-          <p class="label text-gray mb-6">Our approach</p>
           <h2 class="headline text-2xl md:text-3xl">
             Good design and good ethics aren't at&nbsp;odds.
           </h2>
-          <p class="mt-6 text-[15px] text-ink/60 leading-relaxed">
+          <p class="mt-6 text-[15px] text-ink/65 leading-relaxed">
             Most studios say they're sustainable. We can prove it. Our hosting is
-            independently verified by the Green Web Foundation — auditable in
-            thirty seconds via their public registry — and our work is informed
+            independently verified by the Green Web Foundation, auditable in
+            thirty seconds via their public registry, and our work is informed
             by our own original research into UK woodlands and biodiversity. So
             sustainability arrives as evidence, not as a tagline.
           </p>
@@ -212,7 +224,7 @@ const homeSchema = {
         </div>
 
         <div class="reveal md:col-span-6 md:col-start-7">
-          <p class="label text-gray mb-6">Services</p>
+          <h2 class="headline text-lg md:text-xl mb-6">Services</h2>
           <ul class="border-t border-stone">
             {services.map((service) => (
               <li class="border-b border-stone">
@@ -220,7 +232,7 @@ const homeSchema = {
                   <span class="text-[15px] md:text-base font-medium text-ink group-hover:text-forest transition-colors duration-300">
                     {service.name}
                   </span>
-                  <span class="text-[13px] text-ink/40 hidden sm:block">
+                  <span class="text-[13px] text-ink/65 hidden sm:block">
                     {service.description}
                   </span>
                 </a>
@@ -232,7 +244,7 @@ const homeSchema = {
 
       <!-- Stats -->
       <div data-scene="stats" class="reveal mt-20 md:mt-28 border-t border-stone pt-10">
-        <p class="label text-gray mb-8">The studio is new. The experience isn't.</p>
+        <p class="text-[15px] text-ink/65 mb-8">The studio is new. The experience isn't.</p>
         <div class="grid grid-cols-3 gap-6 md:gap-12">
           <div>
             <div class="headline text-2xl md:text-3xl" data-count-to="15" data-count-suffix="+">15+</div>
@@ -268,7 +280,7 @@ const homeSchema = {
   <!-- ========== TESTIMONIALS ========== -->
   <section class="py-20 md:py-32 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
-      <p class="label text-gray mb-12 md:mb-16 reveal">What clients say</p>
+      <h2 class="headline text-xl md:text-2xl mb-12 md:mb-16 reveal">What clients say</h2>
       <div class="grid md:grid-cols-2 gap-10 md:gap-12 reveal-stagger max-w-4xl">
         {testimonials.map((t) => (
           <figure class="reveal border-t border-stone pt-6">
@@ -291,7 +303,7 @@ const homeSchema = {
       <div class="max-w-[1400px] mx-auto px-6 md:px-10">
         <div class="reveal flex items-center justify-between gap-6">
           <div class="flex items-baseline gap-6 md:gap-10 min-w-0">
-            <p class="label text-gray shrink-0">Latest</p>
+            <h2 class="label text-gray shrink-0">Latest</h2>
             <a href={`/blog/${blogPosts[0].id}`} class="group flex items-baseline gap-4 min-w-0">
               <h3 class="text-[15px] md:text-base font-medium text-ink group-hover:text-forest transition-colors truncate">
                 {blogPosts[0].data.title}
@@ -301,7 +313,7 @@ const homeSchema = {
               </time>
             </a>
           </div>
-          <a href="/blog" class="link-line text-[13px] font-medium text-ink/60 hover:text-forest transition-colors shrink-0">
+          <a href="/blog" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors shrink-0">
             All posts
           </a>
         </div>
@@ -311,10 +323,8 @@ const homeSchema = {
 
   <!-- ========== CTA ========== -->
   <section data-scene="cta" class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
-    <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
       <div class="max-w-2xl">
-        <p class="label text-gray mb-6">Ready when you are</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
           Let's build something<br/>that <em class="text-forest">lasts</em>.
         </h2>
@@ -335,7 +345,7 @@ const homeSchema = {
             href="/contact"
             class="inline-flex items-center gap-3 text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
           >
-            Send a message
+            Start a project
           </a>
         </div>
       </div>

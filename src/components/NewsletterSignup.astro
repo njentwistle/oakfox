@@ -9,11 +9,10 @@ const isFooter = variant === 'footer';
 <div class={isFooter ? 'newsletter-footer' : 'newsletter-section'}>
   {!isFooter && (
     <>
-      <p class="label text-forest mb-4">Studio Notes</p>
       <h2 class="headline text-ink text-2xl md:text-3xl mb-4">
-        A short letter. <em class="text-forest">No noise.</em>
+        A short letter. No noise.
       </h2>
-      <p class="text-[15px] text-ink/60 leading-relaxed mb-8 max-w-lg">
+      <p class="text-[15px] text-ink/65 leading-relaxed mb-8 max-w-lg">
         Occasional notes on sustainable design, new work from the studio, and
         things we're learning. No sales, no weekly blasts — and one click to leave.
       </p>
@@ -22,7 +21,7 @@ const isFooter = variant === 'footer';
 
   {isFooter && (
     <>
-      <p class="label text-cream/40 mb-4">Studio Notes</p>
+      <p class="label text-cream/55 mb-4">Studio Notes</p>
       <p class="text-[13px] text-cream/60 leading-relaxed mb-4 max-w-xs">
         Short, occasional letter on sustainable design.
       </p>
@@ -121,7 +120,8 @@ const isFooter = variant === 'footer';
     color: var(--color-cream);
   }
   .newsletter-input-footer::placeholder {
-    color: rgba(245, 240, 232, 0.35);
+    /* 0.35 gave 2.9:1 on the ink footer; 0.55 clears AA at 5.4:1 */
+    color: rgba(245, 240, 232, 0.55);
   }
   .newsletter-input-footer:focus {
     border-color: rgba(245, 240, 232, 0.55);

@@ -39,11 +39,11 @@ const webApplication = {
 // tested worldwide.
 const gradeBands = [
   { grade: 'A+', limit: '0.040 g', meaning: 'The top 5% of pages tested worldwide. Genuinely exceptional.' },
-  { grade: 'A', limit: '0.079 g', meaning: 'Top 10% — a lean, well-built page.' },
-  { grade: 'B', limit: '0.145 g', meaning: 'Top 20% — lighter than most of the web.' },
-  { grade: 'C', limit: '0.209 g', meaning: 'Top 30% — middling, usually with easy wins available.' },
-  { grade: 'D', limit: '0.278 g', meaning: 'Top 40% — heavier than it needs to be.' },
-  { grade: 'E', limit: '0.359 g', meaning: 'Around the median — half the web does better.' },
+  { grade: 'A', limit: '0.079 g', meaning: 'Top 10%. A lean, well-built page.' },
+  { grade: 'B', limit: '0.145 g', meaning: 'Top 20%. Lighter than most of the web.' },
+  { grade: 'C', limit: '0.209 g', meaning: 'Top 30%. Middling, usually with easy wins available.' },
+  { grade: 'D', limit: '0.278 g', meaning: 'Top 40%. Heavier than it needs to be.' },
+  { grade: 'E', limit: '0.359 g', meaning: 'Around the median. Half the web does better.' },
   { grade: 'F', limit: 'over 0.359 g', meaning: 'Heavier than the median page. There is real work to do.' },
 ];
 
@@ -52,19 +52,19 @@ const checks = [
     label: 'Transfer',
     title: 'Page weight',
     description:
-      'Every byte your page ships has to be stored, transmitted, and rendered — and each step draws electricity. We measure how much data one visit to your homepage actually transfers, the single biggest factor in its footprint.',
+      'Every byte your page ships has to be stored, transmitted, and rendered, and each step draws electricity. We measure how much data one visit to your homepage actually transfers, the single biggest factor in its footprint.',
   },
   {
     label: 'Carbon',
     title: 'CO₂ per visit',
     description:
-      'Using the Sustainable Web Design Model — the peer-reviewed standard behind most digital carbon tools — that transfer converts into an estimate of grams of CO₂e emitted per page view, and an A+ to F rating.',
+      'Using the Sustainable Web Design Model, the peer-reviewed standard behind most digital carbon tools, that transfer converts into an estimate of grams of CO₂e emitted per page view, and an A+ to F rating.',
   },
   {
     label: 'Hosting',
     title: 'Green hosting check',
     description:
-      'We check your domain against The Green Web Foundation\'s verified directory to see whether your site runs on renewable-powered infrastructure — or whether the greenest fix available is simply moving host.',
+      'We check your domain against The Green Web Foundation\'s verified directory to see whether your site runs on renewable-powered infrastructure, or whether the greenest fix available is simply moving host.',
   },
 ];
 
@@ -76,17 +76,17 @@ const improvements = [
   },
   {
     title: 'Ship less JavaScript',
-    body: 'Trackers, chat widgets, embedded fonts, and framework bloat all cost carbon on every single visit. Static-first builds strip most of it out — this page you are reading ships almost none.',
+    body: 'Trackers, chat widgets, embedded fonts, and framework bloat all cost carbon on every single visit. Static-first builds strip most of it out; this page you are reading ships almost none.',
     link: { href: '/services/development', label: 'Static-first development' },
   },
   {
     title: 'Move to verified green hosting',
-    body: 'The same site on renewable-powered infrastructure emits meaningfully less per visit — and it is usually the easiest change on this list. We migrate sites free on every hosting plan.',
+    body: 'The same site on renewable-powered infrastructure emits meaningfully less per visit, and it is usually the easiest change on this list. We migrate sites free on every hosting plan.',
     link: { href: '/services/green-web-hosting', label: 'Managed green hosting from £9/month' },
   },
   {
     title: 'Design pages that say more with less',
-    body: 'Auto-playing video backgrounds, carousels nobody swipes, five font families. A considered design brief is a sustainability decision — leaner pages convert better too.',
+    body: 'Auto-playing video backgrounds, carousels nobody swipes, five font families. A considered design brief is a sustainability decision. Leaner pages convert better too.',
     link: { href: '/services/web-design', label: 'Considered web design' },
   },
 ];
@@ -98,15 +98,15 @@ const faqs = [
   },
   {
     q: 'How accurate is the carbon estimate?',
-    a: 'It is a modelled estimate, not a meter reading — no carbon tool can measure your exact emissions. The Sustainable Web Design Model is the most widely used methodology in the field: it combines data transfer with published figures for data centre, network, and device energy, and global grid carbon intensity. It is accurate enough to compare sites fairly and to track whether changes you make are working.',
+    a: 'It is a modelled estimate, not a meter reading. No carbon tool can measure your exact emissions. The Sustainable Web Design Model is the most widely used methodology in the field: it combines data transfer with published figures for data centre, network, and device energy, and global grid carbon intensity. It is accurate enough to compare sites fairly and to track whether changes you make are working.',
   },
   {
     q: 'What is a good website carbon grade?',
-    a: 'A or A+ means your page is in the top 10% of pages tested worldwide — under roughly 0.08 grams of CO₂e per visit. The median web page emits around 0.36 grams per visit, which rates an E. Anything at C or below usually has straightforward fixes available: oversized images, unused JavaScript, or fossil-fuelled hosting.',
+    a: 'A or A+ means your page is in the top 10% of pages tested worldwide, under roughly 0.08 grams of CO₂e per visit. The median web page emits around 0.36 grams per visit, which rates an E. Anything at C or below usually has straightforward fixes available: oversized images, unused JavaScript, or fossil-fuelled hosting.',
   },
   {
     q: 'Is this audit really free?',
-    a: 'Yes — completely. No signup, no email gate, no trial. Run as many URLs as you like. OakFox is a sustainable web studio; if your grade is poor we would obviously love to help fix it, but the tool itself asks nothing of you.',
+    a: 'Yes, completely. No signup, no email gate, no trial. Run as many URLs as you like. OakFox is a sustainable web studio; if your grade is poor we would obviously love to help fix it, but the tool itself asks nothing of you.',
   },
   {
     q: 'How do I reduce my website\'s carbon footprint?',
@@ -114,19 +114,19 @@ const faqs = [
   },
   {
     q: 'Does a greener website load faster and rank better?',
-    a: 'Almost always. The same things that cut carbon — smaller pages, less JavaScript, efficient images — are exactly what makes a site fast, and speed feeds directly into Core Web Vitals, which Google uses as a ranking signal. Lower bounce rates and better conversion follow. Green performance and commercial performance are the same work.',
+    a: 'Almost always. The same things that cut carbon (smaller pages, less JavaScript, efficient images) are exactly what makes a site fast, and speed feeds directly into Core Web Vitals, which Google uses as a ranking signal. Lower bounce rates and better conversion follow. Green performance and commercial performance are the same work.',
   },
   {
     q: 'How do I know if my web hosting is green?',
-    a: 'Check your domain against The Green Web Foundation\'s verified directory — which is exactly what this audit does. Verified green hosts have provided evidence that their infrastructure runs on renewable energy. Be wary of hosts that only claim "carbon neutrality" through offsets; that is not the same thing as running on renewables.',
+    a: 'Check your domain against The Green Web Foundation\'s verified directory, which is exactly what this audit does. Verified green hosts have provided evidence that their infrastructure runs on renewable energy. Be wary of hosts that only claim "carbon neutrality" through offsets; that is not the same thing as running on renewables.',
   },
   {
     q: 'Why can\'t the audit reach my website?',
-    a: 'Some security firewalls and website security plugins block every automated visitor, including our crawler. When that happens the audit automatically retries the measurement through Google Lighthouse, which almost every site allows. If both routes are blocked, send us the URL and we\'ll run the audit by hand — an over-aggressive firewall is worth knowing about anyway.',
+    a: 'Some security firewalls and website security plugins block every automated visitor, including our crawler. When that happens the audit automatically retries the measurement through Google Lighthouse, which almost every site allows. If both routes are blocked, send us the URL and we\'ll run the audit by hand. An over-aggressive firewall is worth knowing about anyway.',
   },
   {
     q: 'How is this different from the Website Carbon Calculator?',
-    a: 'Same underlying science, independent measurement. We run our own crawler against your page, estimate emissions with co2.js — the open-source implementation of the Sustainable Web Design Model maintained by The Green Web Foundation — and check your hosting against the same foundation\'s verified directory, all in one pass. Then we add a plain-English verdict and practical next steps. And because OakFox is a working design and development studio, the advice comes from people who fix these problems for a living.',
+    a: 'Same underlying science, independent measurement. We run our own crawler against your page, estimate emissions with co2.js, the open-source implementation of the Sustainable Web Design Model maintained by The Green Web Foundation, and check your hosting against the same foundation\'s verified directory, all in one pass. Then we add a plain-English verdict and practical next steps. And because OakFox is a working design and development studio, the advice comes from people who fix these problems for a living.',
   },
 ];
 
@@ -143,8 +143,8 @@ const faqSchema = {
 const journalPosts = [
   {
     href: '/blog/sustainable-web-design-practical-guide',
-    title: 'Sustainable Web Design — A Practical Guide',
-    note: 'How to design and build low-carbon, accessible websites — the long version of the advice on this page.',
+    title: 'Sustainable Web Design: A Practical Guide',
+    note: 'How to design and build low-carbon, accessible websites. The long version of the advice on this page.',
   },
   {
     href: '/blog/is-your-web-host-actually-green',
@@ -154,7 +154,7 @@ const journalPosts = [
   {
     href: '/blog/green-web-hosting-uk-compared',
     title: 'Green Web Hosting in the UK, Compared',
-    note: 'The main UK green hosts side by side — if your audit flagged your hosting, start here.',
+    note: 'The main UK green hosts side by side. If your audit flagged your hosting, start here.',
   },
 ];
 ---
@@ -166,15 +166,13 @@ const journalPosts = [
 >
   <!-- ============ Hero + tool ============ -->
   <section class="relative pt-32 pb-16 md:pb-20 overflow-hidden">
-    <div class="hero-glow" style="top: 40%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-      <p class="label text-forest mb-8">Free tool · Website Carbon Audit</p>
       <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
         How <em class="text-forest">green</em> is your website?
       </h1>
       <div class="mt-8 md:mt-10 grid md:grid-cols-12 gap-8">
-        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed">
-          Enter your URL and get an instant environmental audit — CO₂ per
+        <p class="md:col-span-6 text-[15px] md:text-base text-ink/65 leading-relaxed max-w-[65ch]">
+          Enter your URL and get an instant environmental audit, covering CO₂ per
           visit, page weight, a verified green hosting check, and an A+ to F
           grade. Free, no signup, no email gate, no catch.
         </p>
@@ -206,7 +204,7 @@ const journalPosts = [
             </svg>
           </button>
         </form>
-        <p id="audit-status" class="mt-5 text-[14px] text-ink/60 leading-relaxed min-h-[1.5rem]" role="status" aria-live="polite"></p>
+        <p id="audit-status" class="mt-5 text-[14px] text-ink/65 leading-relaxed min-h-[1.5rem]" role="status" aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -252,16 +250,16 @@ const journalPosts = [
                 <dd id="stat-hosting" class="text-xl md:text-2xl font-semibold text-ink">–</dd>
               </div>
             </dl>
-            <p id="stat-hosting-detail" class="mt-3 text-[13px] text-ink/55 leading-relaxed"></p>
+            <p id="stat-hosting-detail" class="mt-3 text-[13px] text-ink/65 leading-relaxed"></p>
             <p id="equiv-line" class="mt-5 text-[14px] text-ink/65 leading-relaxed border-l-2 border-forest/40 pl-4"></p>
-            <p id="cache-note" class="mt-4 text-[12px] text-ink/45 leading-relaxed hidden">
+            <p id="cache-note" class="mt-4 text-[12px] text-ink/65 leading-relaxed hidden">
               Showing a saved result from the last hour.
               <button type="button" id="fresh-btn" class="text-forest underline underline-offset-4 hover:text-forest-dark transition-colors duration-300">Re-run a fresh audit</button>
-              — handy if you've just made changes.
+              Handy if you've just made changes.
             </p>
-            <p id="lighthouse-note" class="mt-4 text-[12px] text-ink/45 leading-relaxed hidden">
+            <p id="lighthouse-note" class="mt-4 text-[12px] text-ink/65 leading-relaxed hidden">
               This site's firewall blocks direct checks, so page weight was
-              measured by Google Lighthouse instead — the same carbon model is
+              measured by Google Lighthouse instead. The same carbon model is
               applied to Google's numbers.
             </p>
 
@@ -283,12 +281,12 @@ const journalPosts = [
                   href="/services/green-web-hosting"
                   class="hidden items-center gap-2 border border-forest/30 text-forest hover:bg-forest hover:text-cream transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
                 >
-                  Switch to green hosting — free migration
+                  Switch to green hosting, free migration
                 </a>
               </div>
-              <p class="mt-4 text-[13px] text-ink/50 leading-relaxed max-w-xl">
+              <p class="mt-4 text-[13px] text-ink/65 leading-relaxed max-w-xl">
                 Tell us your URL and we will reply within 24 hours with the three
-                changes that would move your grade the most — no charge, no
+                changes that would move your grade the most. No charge, no
                 obligation, and you are free to make them yourself.
               </p>
             </div>
@@ -297,7 +295,7 @@ const journalPosts = [
             <div id="cta-celebrate" class="mt-10 hidden">
               <p class="text-[15px] text-ink/75 leading-relaxed max-w-xl">
                 🎉 Genuinely brilliant. A low-carbon page on verified green
-                hosting puts this site in rare company — most of the web never
+                hosting puts this site in rare company. Most of the web never
                 gets close. Whoever built and hosts it deserves a biscuit.
               </p>
               <div class="mt-6 flex flex-wrap items-center gap-4">
@@ -320,8 +318,8 @@ const journalPosts = [
         </div>
       </div>
 
-      <p class="mt-6 text-[12px] text-ink/45 leading-relaxed max-w-3xl">
-        Page weight is measured by OakFox's own crawler — your page plus the
+      <p class="mt-6 text-[12px] text-ink/65 leading-relaxed max-w-3xl">
+        Page weight is measured by OakFox's own crawler: your page plus the
         assets an initial view loads (lazy-loaded media excluded); real-browser
         weight can be slightly higher where scripts inject extra content. Carbon is estimated with
         <a href="https://www.thegreenwebfoundation.org/co2-js/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-forest">co2.js</a>
@@ -341,7 +339,7 @@ const journalPosts = [
           <div class="reveal">
             <p class="label text-forest mb-4">{c.label}</p>
             <h2 class="headline text-xl md:text-2xl mb-4">{c.title}</h2>
-            <p class="text-[14px] text-ink/60 leading-relaxed">{c.description}</p>
+            <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">{c.description}</p>
           </div>
         ))}
       </div>
@@ -353,13 +351,11 @@ const journalPosts = [
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">The grades</p>
           <h2 class="headline text-2xl md:text-3xl">
-            What an A+ actually <em class="text-forest">means</em>.
+            What an A+ actually means.
           </h2>
-          <p class="mt-6 text-[14px] text-ink/60 leading-relaxed">
-            Grades follow the Sustainable Web Design digital carbon ratings —
-            grams of CO₂e per visit, banded against every page tested
+          <p class="mt-6 text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">
+            Grades follow the Sustainable Web Design digital carbon ratings: grams of CO₂e per visit, banded against every page tested
             worldwide. The median page emits roughly 0.36&nbsp;g per visit,
             which rates an&nbsp;E.
           </p>
@@ -369,8 +365,8 @@ const journalPosts = [
             {gradeBands.map((band) => (
               <div class="reveal border-b border-stone py-4 grid grid-cols-[3rem_7rem_1fr] md:grid-cols-[3.5rem_9rem_1fr] gap-4 items-baseline">
                 <dt class="headline text-xl md:text-2xl text-forest">{band.grade}</dt>
-                <dd class="text-[13px] font-mono text-ink/60">{band.grade === 'F' ? band.limit : `≤ ${band.limit}`}</dd>
-                <dd class="text-[14px] text-ink/65 leading-relaxed">{band.meaning}</dd>
+                <dd class="text-[13px] font-mono text-ink/65">{band.grade === 'F' ? band.limit : `≤ ${band.limit}`}</dd>
+                <dd class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">{band.meaning}</dd>
               </div>
             ))}
           </dl>
@@ -384,33 +380,31 @@ const journalPosts = [
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Why it matters</p>
           <h2 class="headline text-2xl md:text-3xl">
-            A lighter site is a <em class="text-forest">better business</em>, not just a greener one.
+            A lighter site is a better business, not just a greener one.
           </h2>
         </div>
         <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
           <li class="reveal border-b border-stone py-6">
             <h3 class="text-base md:text-lg font-medium text-ink mb-3">The internet runs on electricity</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed">
+            <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">
               Data centres and transmission networks account for around 1–2% of
               global electricity use, and every page view draws on both. Your
-              website's carbon footprint is real, recurring, and — unlike most
-              emissions — fixable in an afternoon.
+              website's carbon footprint is real, recurring, and, unlike most
+              emissions, fixable in an afternoon.
             </p>
           </li>
           <li class="reveal border-b border-stone py-6">
             <h3 class="text-base md:text-lg font-medium text-ink mb-3">Carbon and conversion are the same metric</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed">
-              The changes that cut CO₂ — smaller images, less JavaScript, faster
-              hosting — are the changes that cut load time. Faster pages bounce
+            <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">
+              The changes that cut CO₂ (smaller images, less JavaScript, faster hosting) are the changes that cut load time. Faster pages bounce
               less, convert more, and score better on the Core Web Vitals that
               feed Google's rankings. There is no trade-off to weigh here.
             </p>
           </li>
           <li class="reveal border-b border-stone py-6">
-            <h3 class="text-base md:text-lg font-medium text-ink mb-3">Claims are cheap — evidence isn't</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed">
+            <h3 class="text-base md:text-lg font-medium text-ink mb-3">Claims are cheap. Evidence isn't</h3>
+            <p class="text-[14px] text-ink/65 leading-relaxed max-w-[65ch]">
               If sustainability is part of your brand, your website is the first
               place anyone can check the claim. A verifiable grade and green
               hosting you can prove beat a leaf icon in the footer every time.
@@ -426,12 +420,11 @@ const journalPosts = [
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16 mb-12 md:mb-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Improving your grade</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Four fixes, in order of <em class="text-forest">impact</em>.
+            Four fixes, in order of impact.
           </h2>
         </div>
-        <p class="md:col-span-7 md:col-start-6 text-[15px] text-ink/65 leading-relaxed">
+        <p class="md:col-span-7 md:col-start-6 text-[15px] text-ink/65 leading-relaxed max-w-[65ch]">
           Most sites don't need a rebuild to move two grades. They need someone
           to do the unglamorous work below. Do it yourself with our
           <a href="/blog/sustainable-web-design-practical-guide" class="text-forest hover:underline underline-offset-4">practical guide</a>,
@@ -443,7 +436,7 @@ const journalPosts = [
           <div class="reveal border-t border-stone pt-6">
             <p class="label text-forest mb-3">0{i + 1}</p>
             <h3 class="headline text-lg md:text-xl mb-3">{item.title}</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed mb-4">{item.body}</p>
+            <p class="text-[14px] text-ink/65 leading-relaxed mb-4 max-w-[65ch]">{item.body}</p>
             <a href={item.link.href} class="text-[13px] font-medium text-forest hover:underline underline-offset-4">
               {item.link.label} →
             </a>
@@ -454,7 +447,7 @@ const journalPosts = [
   </section>
 
   <JournalLinks
-    intro="The thinking behind the tool — what makes a website heavy, what genuinely green hosting looks like, and how to fix both."
+    intro="The thinking behind the tool: what makes a website heavy, what genuinely green hosting looks like, and how to fix both."
     posts={journalPosts}
   />
 
@@ -463,16 +456,15 @@ const journalPosts = [
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Frequently asked</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Website carbon <em class="text-forest">questions</em>, answered.
+            Website carbon questions, answered.
           </h2>
         </div>
         <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
           {faqs.map((f) => (
             <div class="reveal border-b border-stone py-6">
               <dt class="text-base md:text-lg font-medium text-ink mb-3">{f.q}</dt>
-              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed">{f.a}</dd>
+              <dd class="text-[14px] md:text-[15px] text-ink/65 leading-relaxed max-w-[65ch]">{f.a}</dd>
             </div>
           ))}
         </dl>
@@ -482,16 +474,14 @@ const journalPosts = [
 
   <!-- ============ Final CTA ============ -->
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
-    <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
       <div class="reveal max-w-2xl">
-        <p class="label text-gray mb-6">Next step</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
           Didn't like your <em class="text-forest">grade</em>?
         </h2>
-        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+        <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-lg">
           Send us your URL and we will reply within 24 hours with the three
-          changes that would move it most — free, specific to your site, and
+          changes that would move it most. Free, specific to your site, and
           yours to act on with or without us.
         </p>
         <a href="/contact?service=carbon-audit" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
@@ -607,7 +597,7 @@ const journalPosts = [
   const VERDICTS: Record<string, { title: string; copy: string }> = {
     great: {
       title: 'Genuinely brilliant.',
-      copy: 'This page is lighter than at least 90% of the web and runs on verified green hosting. That combination is rare — enjoy the confetti.',
+      copy: 'This page is lighter than at least 90% of the web and runs on verified green hosting. That combination is rare. Enjoy the confetti.',
     },
     leanUnknown: {
       title: 'Impressively lean.',
@@ -615,15 +605,15 @@ const journalPosts = [
     },
     almostHosting: {
       title: 'So close to the full house.',
-      copy: 'The page itself is impressively lean — the only thing standing between this site and bragging rights is the hosting underneath it. Moving to a verified green host is usually a one-day job, and we do migrations free.',
+      copy: 'The page itself is impressively lean. The only thing standing between this site and bragging rights is the hosting underneath it. Moving to a verified green host is usually a one-day job, and we do migrations free.',
     },
     decent: {
-      title: 'Decent — with easy wins left.',
-      copy: 'This page is lighter than most of the web, but it is not lean yet. Sites in this band usually get to an A with image compression and a hard look at their scripts — often without touching the design.',
+      title: 'Decent, with easy wins left.',
+      copy: 'This page is lighter than most of the web, but it is not lean yet. Sites in this band usually get to an A with image compression and a hard look at their scripts, often without touching the design.',
     },
     heavy: {
       title: 'Heavier than it needs to be.',
-      copy: 'Every visit to this page emits more carbon than most of the web — and the same weight is slowing it down for visitors and search engines. The good news: grades this low usually have the most to gain from a few focused fixes.',
+      copy: 'Every visit to this page emits more carbon than most of the web, and the same weight is slowing it down for visitors and search engines. The good news: grades this low usually have the most to gain from a few focused fixes.',
     },
   };
 
@@ -632,7 +622,7 @@ const journalPosts = [
     'Weighing every byte…',
     'Checking your host\'s energy supply…',
     'Crunching the carbon numbers…',
-    'Nearly there — first-time audits take a little longer…',
+    'Nearly there. First-time audits take a little longer…',
   ];
 
   function gradeFromGrams(grams: number): string {
@@ -754,14 +744,14 @@ const journalPosts = [
       carbonError = 'failed';
     }
 
-    // Firewalls that block our server by IP almost never block Google —
+    // Firewalls that block our server by IP almost never block Google,
     // fall back to Lighthouse via the PageSpeed Insights API, called from
     // the visitor's own browser.
     let viaLighthouse = false;
     if (carbonError === 'blocked') {
       clearInterval(rotate);
       status.textContent =
-        'Their firewall blocks direct checks — asking Google Lighthouse instead. This can take up to a minute…';
+        'Their firewall blocks direct checks. Asking Google Lighthouse instead. This can take up to a minute…';
       const psi = await fetchLighthouseBytes(url);
       if (psi) {
         carbon = { ok: true, bytes: psi.bytes, cached: false };
@@ -778,10 +768,10 @@ const journalPosts = [
     if (!carbon || typeof carbon.bytes !== 'number') {
       let message =
         carbonError === 'rate-limit'
-          ? 'That\'s a lot of audits in one minute — give it a moment and try again.'
+          ? 'That\'s a lot of audits in one minute. Give it a moment and try again.'
           : carbonError === 'blocked'
-            ? `That site's firewall blocks automated checks, and Google's Lighthouse fallback was busy too. Try again in a few minutes — or `
-            : `We couldn't audit that address. Check the URL is public and loading, then try again — or `;
+            ? `That site's firewall blocks automated checks, and Google's Lighthouse fallback was busy too. Try again in a few minutes, or `
+            : `We couldn't audit that address. Check the URL is public and loading, then try again, or `;
       status.innerHTML = '';
       status.append(message);
       if (carbonError !== 'rate-limit') {
@@ -793,7 +783,7 @@ const journalPosts = [
       }
       if (green && typeof green.green === 'boolean') {
         status.append(
-          ` One thing we did learn: ${url.hostname} ${green.green ? 'is on verified green hosting — a strong start.' : 'is not in the verified green hosting directory.'}`,
+          ` One thing we did learn: ${url.hostname} ${green.green ? 'is on verified green hosting, a strong start.' : 'is not in the verified green hosting directory.'}`,
         );
       }
       return;
@@ -818,15 +808,15 @@ const journalPosts = [
     el<HTMLElement>('stat-cleaner').textContent = cleanerThan !== null ? `${cleanerThan}% of pages` : 'Below median';
     el<HTMLElement>('stat-hosting').textContent = isGreenHost ? 'Green ✓' : greenKnown ? 'Not green' : 'Unknown';
     el<HTMLElement>('stat-hosting-detail').textContent = isGreenHost
-      ? `Verified green hosting${green?.hosted_by ? ` — hosted by ${green.hosted_by}` : ''} (The Green Web Foundation directory).`
+      ? `Verified green hosting${green?.hosted_by ? `, hosted by ${green.hosted_by}` : ''} (The Green Web Foundation directory).`
       : greenKnown
         ? `No verified green hosting evidence found for ${url.hostname} in The Green Web Foundation directory.`
-        : 'We could not reach the green hosting directory just now — try again shortly for the hosting result.';
+        : 'We could not reach the green hosting directory just now. Try again shortly for the hosting result.';
 
     const annualKg = (grams * 120000) / 1000; // 10k visits/month for a year
     const carKm = Math.round((annualKg * 1000) / 170); // ~170 g CO2e per petrol-car km
     el<HTMLElement>('equiv-line').textContent =
-      `At 10,000 visits a month, this page would emit roughly ${annualKg.toFixed(1)} kg of CO₂e a year — about the same as driving ${carKm.toLocaleString()} km in a petrol car.`;
+      `At 10,000 visits a month, this page would emit roughly ${annualKg.toFixed(1)} kg of CO₂e a year, about the same as driving ${carKm.toLocaleString()} km in a petrol car.`;
 
     // ---- Verdict + CTA state ----
     const isLean = grade === 'A+' || grade === 'A';
@@ -872,7 +862,7 @@ const journalPosts = [
       event.preventDefault();
       const url = normaliseUrl(input.value);
       if (!url) {
-        status.textContent = 'That doesn\'t look like a web address — try something like yourwebsite.co.uk';
+        status.textContent = 'That doesn\'t look like a web address. Try something like yourwebsite.co.uk';
         return;
       }
       runAudit(url);

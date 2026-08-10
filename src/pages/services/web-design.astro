@@ -119,9 +119,7 @@ const faqSchema = {
   schema={[serviceSchema, breadcrumbs, faqSchema]}
 >
   <section class="relative pt-32 pb-20 overflow-hidden">
-    <div class="hero-glow" style="top: 45%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-      <p class="label text-forest mb-8">Service · Web Design</p>
       <h1 class="headline text-ink max-w-4xl" style="font-size: clamp(2rem, 5.5vw, 4.5rem);">
         Websites designed around <em class="text-forest">the people</em> who have to use them.
       </h1>
@@ -148,13 +146,13 @@ const faqSchema = {
 
   <section class="py-20 md:py-28 border-t border-stone">
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
-      <p class="label text-gray mb-10 md:mb-14">What's included</p>
+      <h2 class="headline text-xl md:text-2xl mb-10 md:mb-14">What's included</h2>
       <div class="grid md:grid-cols-3 gap-8 md:gap-12">
         {offerings.map((o) => (
           <div class="reveal">
             <p class="label text-forest mb-4">{o.label}</p>
             <h3 class="headline text-xl md:text-2xl mb-4">{o.title}</h3>
-            <p class="text-[14px] text-ink/60 leading-relaxed">{o.description}</p>
+            <p class="text-[14px] text-ink/65 leading-relaxed">{o.description}</p>
           </div>
         ))}
       </div>
@@ -165,9 +163,8 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">How we work</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Five stages. <em class="text-forest">Architecture&nbsp;first.</em>
+            Five stages. Architecture&nbsp;first.
           </h2>
         </div>
         <ol class="md:col-span-7 md:col-start-6 border-t border-stone">
@@ -176,7 +173,7 @@ const faqSchema = {
               <span class="label text-gray pt-1">{p.step}</span>
               <div>
                 <h3 class="text-base md:text-lg font-medium text-ink">{p.title}</h3>
-                <p class="mt-2 text-[14px] text-ink/60 leading-relaxed">{p.body}</p>
+                <p class="mt-2 text-[14px] text-ink/65 leading-relaxed">{p.body}</p>
               </div>
             </li>
           ))}
@@ -189,9 +186,8 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Who it's for</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Good fits <em class="text-forest">look&nbsp;like…</em>
+            Good fits look&nbsp;like…
           </h2>
         </div>
         <ul class="md:col-span-7 md:col-start-6 border-t border-stone">
@@ -211,9 +207,8 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Frequently asked</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Web design <em class="text-forest">questions</em> we hear a lot.
+            Web design questions we hear a lot.
           </h2>
         </div>
         <dl class="md:col-span-7 md:col-start-6 border-t border-stone">
@@ -232,9 +227,8 @@ const faqSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
-          <p class="label text-gray mb-6">Where we work</p>
           <h2 class="headline text-2xl md:text-3xl">
-            Web design across <em class="text-forest">Lancashire</em> and the wider UK.
+            Web design across Lancashire and the wider UK.
           </h2>
           <p class="mt-6 text-[14px] md:text-[15px] text-ink/65 leading-relaxed">
             Our studio is in Burscough — a few minutes from Ormskirk and the
@@ -262,14 +256,12 @@ const faqSchema = {
   <AuditCta />
 
   <section class="py-24 md:py-40 border-t border-stone relative overflow-hidden">
-    <div class="hero-glow" style="top: 50%;"></div>
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
       <div class="reveal max-w-2xl">
-        <p class="label text-gray mb-6">Next step</p>
         <h2 class="headline text-3xl md:text-4xl lg:text-5xl">
           Tell us about the <em class="text-forest">site</em>. And the <em class="text-forest">goal</em>.
         </h2>
-        <p class="mt-6 text-[15px] text-ink/60 leading-relaxed max-w-lg">
+        <p class="mt-6 text-[15px] text-ink/65 leading-relaxed max-w-lg">
           Drop the current URL if there is one, plus a line or two about what you
           are trying to achieve. We reply within 24 hours with a first read.
         </p>

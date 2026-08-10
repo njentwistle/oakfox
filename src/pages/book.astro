@@ -15,7 +15,6 @@ const serviceSchema = {
 >
   <section class="pt-32 pb-12">
     <div class="max-w-3xl mx-auto px-6">
-      <p class="label text-forest mb-6">Book a call</p>
       <h1 class="headline text-ink" style="font-size: clamp(2rem, 5vw, 3.5rem);">
         A free <em class="text-forest">thirty minutes</em>.
       </h1>
@@ -39,18 +38,18 @@ const serviceSchema = {
         <div id="book-step-time" class="hidden mt-8">
           <div class="flex items-baseline justify-between mb-4">
             <p class="label text-forest">Step 2 · Pick a time</p>
-            <button type="button" id="back-to-day" class="text-[12px] font-mono uppercase tracking-widest text-ink/50 hover:text-forest transition-colors">&larr; Change day</button>
+            <button type="button" id="back-to-day" class="text-[12px] font-mono uppercase tracking-widest text-ink/65 hover:text-forest transition-colors">&larr; Change day</button>
           </div>
           <p id="selected-day-label" class="text-[15px] text-ink/70 mb-5"></p>
           <div id="slots" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
-          <p id="slots-status" class="text-[13px] text-ink/50 mt-4"></p>
+          <p id="slots-status" class="text-[13px] text-ink/65 mt-4"></p>
         </div>
 
         <!-- Step 3: Details -->
         <form id="book-step-form" class="hidden mt-8 space-y-5" novalidate>
           <div class="flex items-baseline justify-between mb-4">
             <p class="label text-forest">Step 3 · Your details</p>
-            <button type="button" id="back-to-time" class="text-[12px] font-mono uppercase tracking-widest text-ink/50 hover:text-forest transition-colors">&larr; Change time</button>
+            <button type="button" id="back-to-time" class="text-[12px] font-mono uppercase tracking-widest text-ink/65 hover:text-forest transition-colors">&larr; Change time</button>
           </div>
           <p id="picked-slot-label" class="text-[15px] text-ink/70 mb-5"></p>
           <div class="grid md:grid-cols-2 gap-4">
@@ -64,11 +63,11 @@ const serviceSchema = {
             </label>
           </div>
           <label class="block">
-            <span class="block text-[13px] font-medium text-ink mb-2">Phone <span class="text-ink/40 font-normal">(optional, best for calls)</span></span>
+            <span class="block text-[13px] font-medium text-ink mb-2">Phone <span class="text-ink/65 font-normal">(optional, best for calls)</span></span>
             <input name="phone" type="tel" autocomplete="tel" class="booking-input" placeholder="07700 900000" />
           </label>
           <label class="block">
-            <span class="block text-[13px] font-medium text-ink mb-2">What shall we talk about? <span class="text-ink/40 font-normal">(optional)</span></span>
+            <span class="block text-[13px] font-medium text-ink mb-2">What shall we talk about? <span class="text-ink/65 font-normal">(optional)</span></span>
             <textarea name="notes" rows="4" class="booking-input resize-none" placeholder="A few lines on your project and what you're hoping to do"></textarea>
           </label>
           <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="booking-hp" />
@@ -78,12 +77,11 @@ const serviceSchema = {
 
         <!-- Confirmation -->
         <div id="book-step-done" class="hidden py-4">
-          <p class="label text-forest mb-4">Confirmed</p>
           <h2 class="headline text-2xl md:text-3xl mb-4">
-            You're <em class="text-forest">in the diary</em>.
+            You're in the diary.
           </h2>
           <p id="done-details" class="text-[15px] text-ink/70 leading-relaxed mb-6"></p>
-          <p class="text-[13px] text-ink/50">A confirmation email (with a cancel link) is on its way. Speak soon.</p>
+          <p class="text-[13px] text-ink/65">A confirmation email (with a cancel link) is on its way. Speak soon.</p>
         </div>
       </div>
     </div>
