@@ -233,10 +233,16 @@ const jsonLd = {
         overlayEl?.addEventListener('click', closeMobileNav);
       }
 
-      // ----- Fallback reveal observer for non-homepage `.reveal`s ------
-      // GSAP scenes drive `.reveal` on the homepage; this is a no-JS-
-      // friendly fallback for other pages. Harmless when GSAP runs.
+      // ----- Fallback reveal observer for `.reveal` elements ------------
+      // GSAP scenes drive the reveals inside [data-scene]; this covers the
+      // rest, and is what shows them if the motion bundle never runs.
+      // Held at module scope so each page gets exactly one observer: a new
+      // one per navigation would otherwise pile up, each still holding
+      // references to the DOM that was swapped out from under it.
+      let revealObserver: IntersectionObserver | null = null;
+
       function bindRevealFallback(): void {
+        revealObserver?.disconnect();
         const obs = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -248,22 +254,34 @@ const jsonLd = {
           },
           { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
         );
+        revealObserver = obs;
         document.querySelectorAll('.reveal:not(.visible)').forEach((el) => obs.observe(el));
       }
 
+      // Idempotent per document, for the same reason as onPageLoad in
+      // motion.ts: ClientRouter fires `astro:page-load` on the initial load
+      // as well as after each soft navigation, so the immediate call below
+      // and the listener would otherwise both run on first paint.
+      let pageBound = false;
+
       function onPageReady(): void {
+        if (pageBound) return;
+        pageBound = true;
         onScroll();
         bindMobileNav();
         bindRevealFallback();
       }
 
-      // Astro fires `astro:page-load` on initial load AND after each
-      // soft navigation. Subscribe once — listeners on `document` survive
-      // body swaps.
+      // Navigating away invalidates the bindings for the outgoing document.
+      document.addEventListener('astro:before-preparation', () => {
+        pageBound = false;
+        revealObserver?.disconnect();
+        revealObserver = null;
+      });
+
       document.addEventListener('astro:page-load', onPageReady);
 
-      // Also run immediately for the first paint in case the script
-      // executes after `astro:page-load` has already fired.
+      // Fallback for the case where ClientRouter is not active.
       if (document.readyState !== 'loading') onPageReady();
       else document.addEventListener('DOMContentLoaded', onPageReady, { once: true });
 
