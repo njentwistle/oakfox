@@ -20,9 +20,11 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  /* No `scroll-behavior: smooth` here on purpose. Lenis drives smooth
+     scrolling from its own rAF loop, and native CSS smoothing fights it —
+     the browser and Lenis both animate the scroll position, which stutters.
+     Lenis handles in-page anchors via its `anchors` option instead. Under
+     prefers-reduced-motion Lenis never starts, so scrolling stays native. */
 
   body {
     font-family: var(--font-sans);
@@ -107,6 +109,17 @@
   opacity: 1;
   transform: translateY(0);
 }
+/* Inside a GSAP scene, GSAP owns opacity/transform. Running the CSS
+   transition as well means two animators on one element, each with its own
+   duration, easing and delay — the source of the jittery scroll-ins.
+   `.motion-js` is set by runScenes() in motion.ts. Reveals outside
+   [data-scene], and every page with JS off, keep the CSS transition. */
+.motion-js [data-scene] .reveal,
+.motion-js [data-scene] .reveal-stagger > .reveal {
+  transition: none;
+  transition-delay: 0s;
+}
+
 /* Stagger children */
 .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
 .reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.1s; }

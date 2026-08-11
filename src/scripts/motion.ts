@@ -37,6 +37,30 @@ const desktop = (): boolean =>
 /* Lenis bootstrap                                                     */
 /* ------------------------------------------------------------------ */
 
+function onAnchorClick(event: MouseEvent): void {
+  if (event.defaultPrevented || event.button !== 0) return;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+  const link = (event.target as Element | null)?.closest?.('a[href]') as
+    | HTMLAnchorElement
+    | null;
+  const href = link?.getAttribute('href');
+  if (!href || href === '#' || !href.startsWith('#')) return;
+
+  let target: Element | null = null;
+  try {
+    target = document.querySelector(href);
+  } catch {
+    return; // not a valid selector
+  }
+  if (!target || !lenis) return;
+
+  event.preventDefault();
+  const inset = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+  lenis.scrollTo(target as HTMLElement, { offset: -inset, duration: 1.1 });
+  history.pushState(null, '', href);
+}
+
 function startLenis(): void {
   if (lenis || prefersReduced()) return;
 
@@ -48,6 +72,13 @@ function startLenis(): void {
     touchMultiplier: 1.4,
   });
 
+  // In-page anchors used to be handled by `scroll-behavior: smooth` on
+  // <html>, which conflicts with Lenis. Lenis's own `anchors: true` swallows
+  // the click without scrolling here, so drive scrollTo directly. Honour the
+  // target's scroll-margin-top (e.g. `scroll-mt-24` on #plans) the way the
+  // native jump did.
+  document.addEventListener('click', onAnchorClick);
+
   lenis.on('scroll', ScrollTrigger.update);
 
   rafTickerCallback = (time: number) => {
@@ -58,6 +89,7 @@ function startLenis(): void {
 }
 
 function stopLenis(): void {
+  document.removeEventListener('click', onAnchorClick);
   if (rafTickerCallback) {
     gsap.ticker.remove(rafTickerCallback);
     rafTickerCallback = null;
@@ -593,6 +625,17 @@ function ctaScene(): void {
 /* ------------------------------------------------------------------ */
 
 function runScenes(): void {
+  // Hand the GSAP-owned regions over before any tween is created. Inside
+  // `[data-scene]`, GSAP animates opacity/transform itself; leaving the CSS
+  // `.reveal` transition live means both systems drive the same properties
+  // on different clocks and easings, which reads as jitter. The `motion-js`
+  // flag kills that transition (see global.css) and `.visible` stops the
+  // fallback observer from re-triggering it mid-tween.
+  document.documentElement.classList.add('motion-js');
+  document
+    .querySelectorAll('[data-scene] .reveal')
+    .forEach((el) => el.classList.add('visible'));
+
   pageContext = gsap.context(() => {
     heroScene();
     magneticScene();
@@ -616,6 +659,11 @@ function teardown(): void {
 }
 
 function onPageLoad(): void {
+  // Idempotent. `astro:page-load` fires on the initial document load as well
+  // as after each soft navigation, so without this guard the first paint runs
+  // the scenes twice and the hero animates twice. Soft navigations still
+  // re-run because `astro:before-preparation` tears down first.
+  if (pageContext) return;
   startLenis();
   runScenes();
 }
@@ -634,10 +682,7 @@ export function bootMotion(): void {
   // truth. `astro:before-preparation` runs as the user navigates away —
   // tear ScrollTriggers + Lenis + magnetic listeners down there.
   document.addEventListener('astro:before-preparation', onBeforePreparation);
-  document.addEventListener('astro:page-load', () => {
-    teardown();
-    onPageLoad();
-  });
+  document.addEventListener('astro:page-load', onPageLoad);
 
   // Defensive fallback: if for any reason ClientRouter is not active
   // (e.g. a subset of pages opt out of view transitions), kick off
