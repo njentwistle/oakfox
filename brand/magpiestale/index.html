@@ -1,0 +1,848 @@
+<!DOCTYPE html><html lang="en-GB"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The Magpie’s Tale: Brand Guidelines</title><meta name="description" content="Brand guidelines for The Magpie’s Tale. An independent bookshop in Churchtown, Southport. Produced by OakFox."><meta name="robots" content="noindex, nofollow"><link rel="icon" href="./assets/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="./assets/fonts.css"><style>:root {
+  --accent: #0B6E6E;
+  --accent-ink: #ffffff;
+  --accent-wash: rgba(11, 110, 110, 0.07);
+  --accent-line: rgba(11, 110, 110, 0.22);
+  --ink: #0E0E0F;
+  --ink-70: rgba(14, 14, 15, 0.7);
+  --paper: #FFFFFF;
+  --muted: #6E6E6F;
+  --rule: rgba(14, 14, 15, 0.12);
+  --rule-soft: rgba(14, 14, 15, 0.07);
+  --cover-bg: #0E0E0F;
+  --cover-fg: #FFFFFF;
+  --cover-fg-60: rgba(255, 255, 255, 0.6);
+  --cover-rule: rgba(255, 255, 255, 0.18);
+  --font-display: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
+  --font-body: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
+  --font-mono: 'EB Garamond', Garamond, Georgia, serif;
+}</style><style>
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-weight: 400;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      img { max-width: 100%; height: auto; display: block; }
+      a { color: inherit; }
+      h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+      p { margin: 0; }
+      ul { margin: 0; padding: 0; list-style: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      }
+
+      /* ── Shared type ───────────────────────────────────────────────── */
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        letter-spacing: 0.11em;
+        font-variant-caps: all-small-caps;
+        font-variant-numeric: lining-nums tabular-nums;
+        color: var(--muted);
+        line-height: 1;
+      }
+      .display { font-family: var(--font-display); letter-spacing: -0.015em; line-height: 1.08; }
+      .mono { font-family: var(--font-mono); }
+      .measure { max-width: 62ch; }
+      .lede { font-size: 1.0625rem; color: var(--ink-70); }
+
+      /* ── Reading-progress hairline ─────────────────────────────────── */
+      .progress {
+        position: fixed;
+        top: 0; left: 0;
+        height: 2px;
+        width: 0;
+        background: var(--accent);
+        z-index: 60;
+        transition: width 0.1s linear;
+      }
+
+      /* ── Top bar ───────────────────────────────────────────────────── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 28px;
+        background: color-mix(in srgb, var(--paper) 88%, transparent);
+        backdrop-filter: saturate(180%) blur(12px);
+        border-bottom: 1px solid var(--rule-soft);
+      }
+      .topbar-name {
+        min-width: 0;
+        font-family: var(--font-display);
+        font-size: 0.9375rem;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .topbar-sep { color: var(--rule); }
+      .topbar-spacer { flex: 1; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        white-space: nowrap;
+      }
+      .btn { flex: none; }
+      .btn:hover { opacity: 0.86; transform: translateY(-1px); }
+      .btn-short { display: none; }
+      .btn-ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+
+      /* ── Shell ─────────────────────────────────────────────────────── */
+      .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); align-items: start; }
+      .sidebar {
+        position: sticky;
+        top: 57px;
+        height: calc(100vh - 57px);
+        padding: 40px 20px 28px 28px;
+        border-right: 1px solid var(--rule-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        overflow-y: auto;
+      }
+      .sidebar-nav { display: flex; flex-direction: column; gap: 1px; }
+      .sidebar-link {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        padding: 7px 10px 7px 12px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 0.8125rem;
+        color: var(--muted);
+        border-left: 2px solid transparent;
+        transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      }
+      .sidebar-link:hover { color: var(--ink); background: var(--rule-soft); }
+      .sidebar-link.is-active { color: var(--ink); border-left-color: var(--accent); background: var(--accent-wash); }
+      .sidebar-link .num { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--accent); opacity: 0.75; font-variant-numeric: lining-nums tabular-nums; }
+      .sidebar-foot { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--rule-soft); font-size: 0.75rem; color: var(--muted); }
+      .sidebar-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+      .sidebar-foot a:hover { border-bottom-color: var(--accent); }
+
+      .main { padding: 0 clamp(24px, 5vw, 72px) 0; min-width: 0; }
+      .chipnav { display: none; }
+
+      /* ── Cover ─────────────────────────────────────────────────────── */
+      .cover {
+        position: relative;
+        margin: 0 calc(-1 * clamp(24px, 5vw, 72px));
+        padding: clamp(56px, 9vw, 104px) clamp(24px, 5vw, 72px) clamp(48px, 7vw, 84px);
+        background: var(--cover-bg);
+        color: var(--cover-fg);
+        overflow: hidden;
+      }
+      .cover::after {
+        content: '';
+        position: absolute;
+        right: -12%;
+        top: -30%;
+        width: 60%;
+        height: 140%;
+        background: radial-gradient(ellipse closest-side at center, var(--accent-line), transparent);
+        pointer-events: none;
+      }
+      .cover-inner { position: relative; z-index: 1; }
+      .cover-logo { max-height: 72px; width: auto; margin-bottom: 40px; }
+      .cover h1 { font-family: var(--font-display); font-size: clamp(2.75rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; }
+      .cover-descriptor { margin-top: 18px; font-size: clamp(1rem, 1.6vw, 1.1875rem); color: var(--cover-fg-60); max-width: 46ch; }
+      .cover-title { margin-top: 34px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cover-fg); }
+      .cover-meta {
+        margin-top: 44px;
+        padding-top: 22px;
+        border-top: 1px solid var(--cover-rule);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 36px;
+      }
+      .cover-meta dt { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cover-fg-60); }
+      .cover-meta dd { margin: 6px 0 0; font-size: 0.9375rem; }
+
+      /* ── Sections ──────────────────────────────────────────────────── */
+      .section { padding: clamp(64px, 8vw, 104px) 0; border-bottom: 1px solid var(--rule-soft); scroll-margin-top: 72px; }
+      .section:last-of-type { border-bottom: 0; }
+      .section-head { margin-bottom: clamp(32px, 4vw, 48px); }
+      .section-head .eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+      .section-head .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); max-width: 160px; }
+      .section-head h2 { font-family: var(--font-display); font-size: clamp(1.875rem, 3.4vw, 2.75rem); }
+      .section-head .lede { margin-top: 16px; }
+
+      .block { margin-top: clamp(32px, 4vw, 48px); }
+      .block-label { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+      .grid { display: grid; gap: 20px; }
+      .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+      /* ── Story ─────────────────────────────────────────────────────── */
+      .statement {
+        font-family: var(--font-display);
+        font-size: clamp(1.375rem, 2.6vw, 2rem);
+        line-height: 1.3;
+        letter-spacing: -0.015em;
+        padding-left: clamp(20px, 3vw, 32px);
+        border-left: 2px solid var(--accent);
+        max-width: 34ch;
+      }
+      .story-block { padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+      .story-block .eyebrow { display: block; margin-bottom: 10px; }
+      .value-card { padding: 22px 24px; background: var(--accent-wash); border-radius: 12px; }
+      .value-card h3 { font-family: var(--font-display); font-size: 1.125rem; margin-bottom: 6px; }
+      .value-card p { font-size: 0.9375rem; color: var(--ink-70); }
+
+      /* ── Logo ──────────────────────────────────────────────────────── */
+      .lockup { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .lockup-stage { display: flex; align-items: center; justify-content: center; padding: clamp(32px, 5vw, 56px); min-height: 180px; }
+      .lockup-stage img { max-height: 84px; width: auto; }
+      .lockup-foot { padding: 14px 18px; border-top: 1px solid var(--rule-soft); }
+      .lockup-foot strong { font-weight: 500; font-size: 0.875rem; }
+      .lockup-foot p { font-size: 0.8125rem; color: var(--muted); margin-top: 3px; }
+
+      .spec-list { display: flex; flex-direction: column; gap: 1px; }
+      .spec-row { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--rule-soft); font-size: 0.9375rem; }
+      .spec-row span:last-child { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); text-align: right; font-variant-numeric: lining-nums tabular-nums; }
+
+      /* ── Do / don't ────────────────────────────────────────────────── */
+      .rule-col { padding: 22px 24px; border-radius: 12px; border: 1px solid var(--rule-soft); }
+      .rule-col-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+      .rule-mark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; flex: none; }
+      .tone-do .rule-mark { background: var(--accent); color: var(--accent-ink); }
+      .tone-dont .rule-mark { background: var(--ink); color: var(--paper); }
+      .tone-note .rule-mark { background: var(--rule); color: var(--ink); }
+      .rule-col li { position: relative; padding-left: 18px; font-size: 0.9375rem; color: var(--ink-70); margin-bottom: 9px; }
+      .rule-col li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 1px; background: var(--accent); }
+      .rule-col li:last-child { margin-bottom: 0; }
+
+      .misuse { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .misuse-stage { position: relative; padding: 28px; min-height: 132px; display: grid; place-items: center; background: #fff; }
+      .misuse-stage::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top left, transparent calc(50% - 0.5px), var(--rule) 50%, transparent calc(50% + 0.5px));
+        opacity: 0.55;
+      }
+      .misuse-foot { padding: 12px 16px; border-top: 1px solid var(--rule-soft); font-size: 0.8125rem; }
+      .misuse-foot strong { font-weight: 500; }
+      .misuse-foot p { color: var(--muted); margin-top: 2px; }
+
+      /* ── Colour ────────────────────────────────────────────────────── */
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--rule-soft);
+        border-radius: 12px;
+        overflow: hidden;
+        background: none;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      .swatch-chip { padding: 22px 18px; height: 132px; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: flex-end; }
+      .swatch-chip .name { font-size: 0.9375rem; font-weight: 500; }
+      .swatch-chip .hex { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.72; margin-top: 2px; letter-spacing: 0.04em; font-variant-numeric: lining-nums tabular-nums; }
+      .swatch-body { display: block; flex: 1 1 auto; padding: 14px 18px 16px; }
+      .swatch-body .use { display: block; font-size: 0.8125rem; color: var(--ink-70); }
+      .swatch-spec { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+      .swatch-spec span { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
+      .copy-hint { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; }
+
+      .pairing { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .pairing-stage { padding: 26px 22px; font-family: var(--font-display); font-size: 1.375rem; }
+      .pairing-foot { padding: 12px 18px; border-top: 1px solid var(--rule-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .pairing-foot .label { font-size: 0.8125rem; }
+      .pairing-foot .note { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+      .badge { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; white-space: nowrap; }
+      .gradient-bar {
+        position: relative; height: 116px; border-radius: 3px;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+      }
+      .gradient-tick {
+        position: absolute; bottom: 0; width: 1px; height: 14px;
+        background: rgba(255,255,255,0.85); transform: translateX(-0.5px);
+      }
+      .gradient-axis { position: relative; height: 22px; margin-bottom: 22px; }
+      .gradient-at {
+        position: absolute; top: 5px; transform: translateX(-50%);
+        font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em;
+        font-variant-numeric: lining-nums tabular-nums;
+        color: var(--muted); white-space: nowrap;
+      }
+      .gradient-at:first-child { transform: none; }
+      .gradient-at:last-child { transform: translateX(-100%); }
+      .gradient-stop {
+        display: flex; gap: 12px; align-items: flex-start; text-align: left;
+        padding: 16px 18px; border: 1px solid var(--rule); border-radius: 3px;
+        background: none; font: inherit; color: inherit; cursor: pointer; width: 100%;
+      }
+      .gradient-stop:hover { border-color: var(--accent-line); }
+      .gradient-dot {
+        flex: 0 0 auto; width: 15px; height: 15px; border-radius: 50%; margin-top: 4px;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+      }
+      .gradient-meta { display: grid; gap: 5px; }
+      .gradient-meta .name { font-size: 1rem; }
+      .gradient-meta .name em { font-style: normal; color: var(--muted); }
+      .gradient-meta .hex { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
+      .gradient-meta .use { font-size: 0.875rem; color: var(--ink-70); }
+      @media (max-width: 700px) { .gradient-bar { height: 74px; } }
+      .badge-pass { background: var(--accent-wash); color: var(--ink); border: 1px solid var(--accent-line); }
+      .badge-fail { background: var(--rule-soft); color: var(--muted); border: 1px solid var(--rule); }
+
+      /* ── Type ──────────────────────────────────────────────────────── */
+      .face { padding-top: 26px; border-top: 1px solid var(--rule); }
+      .face + .face { margin-top: 40px; }
+      .face-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+      .face-head h3 { font-size: 1.375rem; font-family: var(--font-display); }
+      .face-specimen { font-size: clamp(2rem, 6vw, 4rem); line-height: 1.1; letter-spacing: -0.02em; word-break: break-word; }
+      .face-meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+      .face-meta div { font-size: 0.8125rem; color: var(--muted); }
+      .face-meta strong { display: block; font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 400; margin-bottom: 3px; }
+      .scale-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; padding: 20px 0; border-bottom: 1px solid var(--rule-soft); }
+      .scale-meta { flex: 0 0 128px; }
+      .scale-meta .eyebrow { display: block; margin-bottom: 4px; }
+      .scale-meta span { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); display: block; }
+      .scale-sample { flex: 1 1 320px; min-width: 0; }
+
+      /* ── Voice ─────────────────────────────────────────────────────── */
+      .example { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .example-context { padding: 12px 18px; background: var(--rule-soft); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+      .example-row { padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start; }
+      .example-row + .example-row { border-top: 1px solid var(--rule-soft); }
+      .example-row .mark { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; padding-top: 4px; flex: none; }
+      .example-yes .mark { color: var(--accent); }
+      .example-no { color: var(--muted); }
+      .lexicon li { font-family: var(--font-mono); font-size: 0.8125rem; padding: 8px 0; border-bottom: 1px solid var(--rule-soft); }
+      .lexicon li::before { display: none; }
+
+      /* ── Gallery ───────────────────────────────────────────────────── */
+      .tile { border-radius: 12px; overflow: hidden; border: 1px solid var(--rule-soft); }
+      .tile img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      .tile-foot { padding: 12px 16px; }
+      .tile-foot strong { font-weight: 500; font-size: 0.875rem; }
+      .tile-foot p { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+
+      /* ── Assets ────────────────────────────────────────────────────── */
+      .asset-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--rule-soft);
+        text-decoration: none;
+      }
+      .asset-row:hover .asset-name { color: var(--accent); }
+      .asset-name { font-size: 0.9375rem; font-weight: 500; transition: color 0.18s ease; }
+      .asset-note { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+      .asset-meta { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); text-align: right; white-space: nowrap; }
+
+      /* ── Footer ────────────────────────────────────────────────────── */
+      .colophon {
+        margin: 0 calc(-1 * clamp(24px, 5vw, 72px));
+        padding: clamp(48px, 6vw, 72px) clamp(24px, 5vw, 72px);
+        background: var(--cover-bg);
+        color: var(--cover-fg);
+      }
+      .colophon h3 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 12px; }
+      .colophon p { color: var(--cover-fg-60); font-size: 0.9375rem; max-width: 52ch; }
+      .colophon a { color: var(--cover-fg); text-decoration: none; border-bottom: 1px solid var(--cover-rule); }
+      .colophon a:hover { border-bottom-color: var(--accent); }
+      .colophon-grid { margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--cover-rule); display: flex; flex-wrap: wrap; gap: 32px 56px; }
+      .colophon-grid dt { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cover-fg-60); margin-bottom: 6px; }
+      .colophon-grid dd { margin: 0; font-size: 0.9375rem; }
+
+      /* ── Copy toast ────────────────────────────────────────────────── */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translate(-50%, 12px);
+        padding: 10px 18px;
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 70;
+      }
+      .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+      /* ── Narrow ────────────────────────────────────────────────────── */
+      @media (max-width: 1024px) {
+        .shell { grid-template-columns: minmax(0, 1fr); }
+        .sidebar { display: none; }
+        .chipnav {
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          padding: 12px clamp(24px, 5vw, 72px);
+          border-bottom: 1px solid var(--rule-soft);
+          position: sticky;
+          top: 57px;
+          background: var(--paper);
+          z-index: 40;
+          scrollbar-width: none;
+        }
+        .chipnav::-webkit-scrollbar { display: none; }
+        .chip {
+          flex: none;
+          padding: 6px 13px;
+          border: 1px solid var(--rule);
+          border-radius: 999px;
+          font-size: 0.75rem;
+          text-decoration: none;
+          color: var(--muted);
+          white-space: nowrap;
+        }
+        .chip.is-active { border-color: var(--accent); color: var(--ink); background: var(--accent-wash); }
+      }
+      @media (max-width: 780px) {
+        .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 480px) {
+        .topbar { gap: 10px; padding: 12px 16px; }
+        .btn-long { display: none; }
+        .btn-short { display: inline; }
+        .btn { padding: 8px 13px; }
+      }
+      @media (max-width: 560px) {
+        .g2, .g3, .g4 { grid-template-columns: minmax(0, 1fr); }
+        .topbar { padding: 12px 18px; }
+        .pairing-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .scale-meta { flex: 0 0 100%; }
+      }
+
+      /* ── Print / PDF ───────────────────────────────────────────────── */
+      @page { size: A4 portrait; margin: 15mm 14mm; }
+      /* Named pages so the two full-bleed spreads lose the document margin. */
+      @page bleed { size: A4 portrait; margin: 0; }
+      @media print {
+        html { scroll-behavior: auto; }
+        body { background: #fff; font-size: 10.5pt; line-height: 1.5; }
+        .topbar, .sidebar, .chipnav, .progress, .toast, .no-print { display: none !important; }
+        .shell { display: block; }
+        .main { padding: 0; }
+        .cover, .colophon {
+          page: bleed;
+          margin: 0;
+          padding: 26mm 20mm;
+          box-sizing: border-box;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .cover { height: 296mm; display: flex; align-items: center; }
+        .cover h1 { font-size: 40pt; }
+        .section { break-before: page; page-break-before: always; padding: 0 0 10mm; border: 0; }
+        .section-head h2 { font-size: 21pt; }
+        .colophon { break-before: page; page-break-before: always; }
+        .face, .lockup, .swatch, .value-card, .rule-col, .pairing, .tile, .example, .scale-row, .misuse {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        .swatch-chip, .lockup-stage, .pairing-stage, .misuse-stage, .value-card, .badge, .rule-mark {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .g4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        /* Never leave a heading stranded at the foot of a page. */
+        .section-head, .block-label, .face-head { break-after: avoid; page-break-after: avoid; }
+        .pairing-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .lockup-stage { min-height: 32mm; padding: 10mm; }
+        .lockup-stage img { max-height: 20mm; }
+        .swatch-chip { height: 26mm; }
+        .face-specimen { font-size: 30pt; }
+        a { text-decoration: none; }
+      }
+    </style></head> <body> <div class="progress" id="progress"></div> <header class="topbar"> <span class="eyebrow">OakFox</span> <span class="topbar-sep">/</span> <span class="topbar-name">The Magpie’s Tale</span> <span class="topbar-spacer"></span> <button class="btn" type="button" id="print-btn"> <span class="btn-long">Download PDF</span> <span class="btn-short">PDF</span> </button> </header> <nav class="chipnav" aria-label="Sections"> <a class="chip" href="#brand" data-chip="brand">The idea</a><a class="chip" href="#logo" data-chip="logo">Logo</a><a class="chip" href="#colour" data-chip="colour">Colour</a><a class="chip" href="#shimmer" data-chip="shimmer">Shimmer</a><a class="chip" href="#type" data-chip="type">Typography</a><a class="chip" href="#voice" data-chip="voice">Voice</a><a class="chip" href="#illustration" data-chip="illustration">Illustration</a><a class="chip" href="#applications" data-chip="applications">Applications</a><a class="chip" href="#checklist" data-chip="checklist">Checklist</a><a class="chip" href="#downloads" data-chip="downloads">Downloads</a> </nav> <div class="shell"> <aside class="sidebar"> <nav class="sidebar-nav" aria-label="Guidelines contents"> <a class="sidebar-link" href="#brand" data-link="brand"> <span class="num">01</span> <span>The idea</span> </a><a class="sidebar-link" href="#logo" data-link="logo"> <span class="num">02</span> <span>Logo</span> </a><a class="sidebar-link" href="#colour" data-link="colour"> <span class="num">03</span> <span>Colour</span> </a><a class="sidebar-link" href="#shimmer" data-link="shimmer"> <span class="num">04</span> <span>Shimmer</span> </a><a class="sidebar-link" href="#type" data-link="type"> <span class="num">05</span> <span>Typography</span> </a><a class="sidebar-link" href="#voice" data-link="voice"> <span class="num">06</span> <span>Voice</span> </a><a class="sidebar-link" href="#illustration" data-link="illustration"> <span class="num">07</span> <span>Illustration</span> </a><a class="sidebar-link" href="#applications" data-link="applications"> <span class="num">08</span> <span>Applications</span> </a><a class="sidebar-link" href="#checklist" data-link="checklist"> <span class="num">09</span> <span>Checklist</span> </a><a class="sidebar-link" href="#downloads" data-link="downloads"> <span class="num">10</span> <span>Downloads</span> </a> </nav> <div class="sidebar-foot"> <p>Version 1.0, 20 August 2026</p> <p style="margin-top:6px;">
+Produced by <a href="https://oakfox.co.uk" target="_blank" rel="noopener">OakFox</a> </p> </div> </aside> <main class="main"> <!-- ── Cover ── --> <section class="cover"> <div class="cover-inner"> <img class="cover-logo" src="./assets/magpie-reversed.svg" alt="The Magpie’s Tale logo"> <h1>The Magpie’s Tale</h1> <p class="cover-descriptor">An independent bookshop in Churchtown, Southport.</p> <p class="cover-title">Brand Guidelines</p> <dl class="cover-meta"> <div> <dt>Version</dt> <dd>1.0</dd> </div> <div> <dt>Issued</dt> <dd>20 August 2026</dd> </div> <div> <dt>Live at</dt> <dd>magpiestale.oakfox.co.uk</dd> </div> <div> <dt>Prepared by</dt> <dd>OakFox</dd> </div> </dl> </div> </section> <!-- ── Sections ── --> <section class="section" id="brand"> <div class="section-head"> <p class="eyebrow"> <span>01</span> <span>The idea</span> </p> <h2>The idea</h2> <p class="lede measure">An independent bookshop in Churchtown, Southport.</p> </div>  <div> <p class="statement">Everything is black and white, except the shimmer.</p> <div class="grid g2 block"> <div class="story-block"> <span class="eyebrow">Where that comes from</span> <p>A magpie looks black and white until the light catches it. Then the tail turns green, then blue, then violet, and then it goes back to black. Ink and paper do the work, and one narrow band of colour is used to draw the eye.</p> </div><div class="story-block"> <span class="eyebrow">Where it has to work</span> <p>A fascia board, a paper bag, a shelf card, a phone screen. Black and white because a signwriter and a screen printer can both match it exactly, in one colour, for very little. The gradient stays rare partly because it is the one thing neither of them can.</p> </div><div class="story-block"> <span class="eyebrow">Who the shop is for</span> <p>Readers in Churchtown and the rest of Southport who would rather be told what to read by a person than by a recommendation engine.</p> </div><div class="story-block"> <span class="eyebrow">What the shop is not</span> <p>Not a gift shop that sells some books. Not a cafe.</p> </div> </div> <div class="block"> <p class="eyebrow block-label">Values</p> <div class="grid g3"> <div class="value-card"> <h3>Read before recommended</h3> <p>Nobody here recommends a book they have not finished. It is slower, it limits what can go on the front table, and it is the reason people come back.</p> </div><div class="value-card"> <h3>Small and chosen</h3> <p>Four hundred books the shop can vouch for beat four thousand it cannot. Shelf space is the scarcest thing in the building and it should be treated that way.</p> </div><div class="value-card"> <h3>Part of Churchtown</h3> <p>Local writers, local schools, and whatever is happening on the village green. A shop that only talks about itself is a shop nobody talks about.</p> </div> </div> </div> </div>                 </section><section class="section" id="logo"> <div class="section-head"> <p class="eyebrow"> <span>02</span> <span>Logo</span> </p> <h2>The logo</h2> <p class="lede measure">Two pieces that were made in deliberately different ways. The wordmark is typeset in EB Garamond and converted to outlines, so it stays legible down to a rubber stamp. The magpie is traced straight from the original drawing of the shopfront and has not been tidied up, because the wobble in the line is the only thing on this page that no other bookshop can copy.</p> </div>    <div> <div class="grid g2"> <div class="lockup"> <div class="lockup-stage" style="background:#ffffff"> <img src="./assets/logo.svg" alt="The Magpie’s Tale wordmark in black on white"> </div> <div class="lockup-foot"> <strong>Primary wordmark</strong> <p>Ink on white. The default everywhere. If in doubt, this one.</p> </div> </div><div class="lockup"> <div class="lockup-stage" style="background:#0E0E0F"> <img src="./assets/logo-reversed.svg" alt="The Magpie’s Tale wordmark reversed out of black"> </div> <div class="lockup-foot"> <strong>Reversed wordmark</strong> <p>White out of Ink. For the fascia, the tote and anything printed dark.</p> </div> </div><div class="lockup"> <div class="lockup-stage" style="background:#ffffff"> <img src="./assets/logo-stacked.svg" alt="The magpie above The Magpie’s Tale wordmark"> </div> <div class="lockup-foot"> <strong>Stacked lockup</strong> <p>For square and near-square spaces: the stamp, a loyalty card, an ad slot.</p> </div> </div><div class="lockup"> <div class="lockup-stage" style="background:#ffffff"> <img src="./assets/magpie.svg" alt="The magpie on its own"> </div> <div class="lockup-foot"> <strong>The magpie alone</strong> <p>Social avatars, endpapers, the back of a bookmark. Only where the name is already obvious.</p> </div> </div> </div> <div class="block"> <p class="eyebrow block-label">Clear space</p> <div class="grid g2"> <div class="lockup"> <div class="lockup-stage" style="background:#fff"> <img src="./assets/clearspace.svg" alt="Diagram showing clear space of one cap height on all four sides of the wordmark"> </div> </div> <p class="measure" style="align-self:center">Keep one cap height clear on every side, measured off the T. That margin stays empty: no text, no rule, no photograph edge, no other logo. The dashed box is a guide and does not print.</p> </div> </div> <div class="block"> <p class="eyebrow block-label">Minimum size</p> <p class="measure" style="margin-bottom:16px">Below these the thin strokes in Garamond start to break up, and the magpie loses the white flash on its wing. If the space is smaller than the minimum, use the magpie on its own rather than shrinking the wordmark further.</p> <div class="spec-list"> <div class="spec-row"> <span>Wordmark, screen</span> <span>140 px wide</span> </div><div class="spec-row"> <span>Wordmark, print</span> <span>34 mm wide</span> </div><div class="spec-row"> <span>Stacked lockup, screen</span> <span>96 px wide</span> </div><div class="spec-row"> <span>Magpie alone, screen</span> <span>28 px wide</span> </div> </div> </div> <div class="block"> <p class="eyebrow block-label">What to avoid</p> <div class="grid g3"> <div class="misuse"> <div class="misuse-stage"> <img src="./assets/misuse-stretch.svg" alt="Stretched or squashed"> </div> <div class="misuse-foot"> <strong>Stretched or squashed</strong> <p>Scale both dimensions together. Garamond is familiar enough that people notice when its proportions are off, even if they could not say why.</p> </div> </div><div class="misuse"> <div class="misuse-stage"> <img src="./assets/misuse-recolour.svg" alt="Filled with the shimmer"> </div> <div class="misuse-foot"> <strong>Filled with the shimmer</strong> <p>The most tempting one on this page, and worth resisting. The shimmer belongs to the tail rather than the type. The wordmark stays Ink or white.</p> </div> </div><div class="misuse"> <div class="misuse-stage"> <img src="./assets/misuse-outline.svg" alt="Outlined or shadowed"> </div> <div class="misuse-foot"> <strong>Outlined or shadowed</strong> <p>No outlines, shadows, bevels or glows. If it is not showing up, the background is usually the thing to change.</p> </div> </div> </div> </div> </div>               </section><section class="section" id="colour"> <div class="section-head"> <p class="eyebrow"> <span>03</span> <span>Colour</span> </p> <h2>Colour</h2> <p class="lede measure">Two colours and one gradient. Ink and paper carry every piece the shop makes, and the shimmer appears about as often as the light really does catch a magpie. A piece with no colour at all is still on brand. Colour in two places on the same piece is usually one too many.</p> </div>      <div> <div class="block"> <p class="eyebrow block-label">Ink and paper</p> <p class="measure" style="margin-bottom:18px">These two do most of the work. The rest of the palette is detail by comparison.</p>  <div class="grid g4"> <button class="swatch" type="button" data-copy="#0E0E0F"> <span class="swatch-chip" style="background:#0E0E0F;color:#ffffff;box-shadow:inset 0 -1px 0 0 rgba(255, 255, 255, 0.14)"> <span class="name">Ink</span> <span class="hex">#0E0E0F</span> </span> <span class="swatch-body"> <span class="use">Text, the wordmark, dark backgrounds. Print it as 100% K, not as a rich black.</span> <span class="swatch-spec"> <span>RGB 14 14 15</span> <span>CMYK 0 0 0 100</span>  </span> </span> </button><button class="swatch" type="button" data-copy="#FFFFFF"> <span class="swatch-chip" style="background:#FFFFFF;color:#141414;box-shadow:inset 0 -1px 0 0 rgba(20, 20, 20, 0.14)"> <span class="name">Paper</span> <span class="hex">#FFFFFF</span> </span> <span class="swatch-body"> <span class="use">The background, everywhere. Plain white, not cream. The drawing was made on white paper.</span> <span class="swatch-spec"> <span>RGB 255 255 255</span> <span>CMYK 0 0 0 0</span>  </span> </span> </button> </div> </div><div class="block"> <p class="eyebrow block-label">The shimmer</p> <p class="measure" style="margin-bottom:18px">One colour, not three. It is shown as the gradient because that is the only form it takes; three chips side by side would suggest they can be used separately, and they cannot. The percentages are the stop positions, and the note in the next section explains how they were arrived at.</p> <div class="gradient"> <div class="gradient-bar" style="background:linear-gradient(90deg, #0B6E6E 0%, #2A4E9B 68%, #5C2E8E 100%)"> <span class="gradient-tick" style="left:0%"></span><span class="gradient-tick" style="left:68%"></span><span class="gradient-tick" style="left:100%"></span> </div> <div class="gradient-axis"> <span class="gradient-at" style="left:0%">0%</span><span class="gradient-at" style="left:68%">68%</span><span class="gradient-at" style="left:100%">100%</span> </div> <div class="grid g3"> <button class="gradient-stop" type="button" data-copy="#0B6E6E"> <span class="gradient-dot" style="background:#0B6E6E"></span> <span class="gradient-meta"> <span class="name">Shimmer Teal <em>0%</em></span> <span class="hex">#0B6E6E</span> <span class="use">The start of the sweep.</span> <span class="swatch-spec"> <span>RGB 11 110 110</span> <span>CMYK 87 32 46 12</span> </span> </span> </button><button class="gradient-stop" type="button" data-copy="#2A4E9B"> <span class="gradient-dot" style="background:#2A4E9B"></span> <span class="gradient-meta"> <span class="name">Shimmer Blue <em>68%</em></span> <span class="hex">#2A4E9B</span> <span class="use">The middle stop, and the one easiest to overlook. It sits at 68%, not halfway.</span> <span class="swatch-spec"> <span>RGB 42 78 155</span> <span>CMYK 86 65 0 9</span> </span> </span> </button><button class="gradient-stop" type="button" data-copy="#5C2E8E"> <span class="gradient-dot" style="background:#5C2E8E"></span> <span class="gradient-meta"> <span class="name">Shimmer Violet <em>100%</em></span> <span class="hex">#5C2E8E</span> <span class="use">The end of the sweep.</span> <span class="swatch-spec"> <span>RGB 92 46 142</span> <span>CMYK 73 89 0 6</span> </span> </span> </button> </div> </div> <div class="grid g4">  </div> </div><div class="block"> <p class="eyebrow block-label">Tints of Ink</p> <p class="measure" style="margin-bottom:18px">Not new colours. These are Ink at reduced strength, for the things that should be readable without competing with the text above them.</p>  <div class="grid g4"> <button class="swatch" type="button" data-copy="#6E6E6F"> <span class="swatch-chip" style="background:#6E6E6F;color:#ffffff;box-shadow:inset 0 -1px 0 0 rgba(255, 255, 255, 0.14)"> <span class="name">Ink 60</span> <span class="hex">#6E6E6F</span> </span> <span class="swatch-body"> <span class="use">Captions, prices, dates, the second line of anything.</span> <span class="swatch-spec"> <span>RGB 110 110 111</span>   </span> </span> </button><button class="swatch" type="button" data-copy="#E2E2E2"> <span class="swatch-chip" style="background:#E2E2E2;color:#141414;box-shadow:inset 0 -1px 0 0 rgba(20, 20, 20, 0.14)"> <span class="name">Ink 12</span> <span class="hex">#E2E2E2</span> </span> <span class="swatch-body"> <span class="use">Hairlines and table rules. Too light for type.</span> <span class="swatch-spec"> <span>RGB 226 226 226</span>   </span> </span> </button> </div> </div> <div class="block"> <p class="eyebrow block-label">Approved combinations</p> <div class="grid g3"> <div class="pairing"> <div class="pairing-stage" style="background:#FFFFFF;color:#0E0E0F">
+Aa
+</div> <div class="pairing-foot"> <div> <div class="label">Ink on Paper</div> <div class="note">Everything, by default.</div> </div> <span class="badge badge-pass"> AAA · 19.29 </span> </div> </div><div class="pairing"> <div class="pairing-stage" style="background:#0E0E0F;color:#FFFFFF">
+Aa
+</div> <div class="pairing-foot"> <div> <div class="label">Paper on Ink</div> <div class="note">The fascia, the tote, the bag.</div> </div> <span class="badge badge-pass"> AAA · 19.29 </span> </div> </div><div class="pairing"> <div class="pairing-stage" style="background:#FFFFFF;color:#6E6E6F">
+Aa
+</div> <div class="pairing-foot"> <div> <div class="label">Ink 60 on Paper</div> <div class="note">Captions and prices. This is as light as text should go.</div> </div> <span class="badge badge-pass"> AA · 5.09 </span> </div> </div><div class="pairing"> <div class="pairing-stage" style="background:#0B6E6E;color:#FFFFFF">
+Aa
+</div> <div class="pairing-foot"> <div> <div class="label">Paper on Shimmer Teal</div> <div class="note">The weakest point of the sweep. White that clears it clears the whole gradient.</div> </div> <span class="badge badge-pass"> AA · 6.05 </span> </div> </div><div class="pairing"> <div class="pairing-stage" style="background:#5C2E8E;color:#FFFFFF">
+Aa
+</div> <div class="pairing-foot"> <div> <div class="label">Paper on Shimmer Violet</div> <div class="note">The strongest point. Between these two, white is safe anywhere along the sweep.</div> </div> <span class="badge badge-pass"> AAA · 9.39 </span> </div> </div> </div> </div> </div>             </section><section class="section" id="shimmer"> <div class="section-head"> <p class="eyebrow"> <span>04</span> <span>Shimmer</span> </p> <h2>The shimmer</h2> <p class="lede measure">The one piece of colour in the identity, and the one worth taking care over. A magpie is not teal. It is black, and it goes teal for a second when the light hits it at the right angle. The gradient works best when it behaves the same way: brief, and in one place. Spread across a whole background it stops reading as a magpie and starts reading as decoration.</p> </div>                  <div>
+<style>
+  .sh-band { height: 76px; border-radius: 3px; }
+  .sh-full { background: linear-gradient(90deg, #0B6E6E 0%, #2A4E9B 68%, #5C2E8E 100%); }
+  .sh-bad  { background: linear-gradient(90deg, #0B6E6E 0%, #5C2E8E 100%); }
+  .sh-caption { margin-top: 10px; font-size: 0.9375rem; color: var(--muted); }
+  .sh-caption strong { color: var(--ink); font-weight: 400; font-style: italic; }
+  .sh-code {
+    margin: 0; padding: 18px 20px; background: #0E0E0F; color: #FFFFFF;
+    border-radius: 3px; overflow-x: auto; font-size: 0.8125rem; line-height: 1.7;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .sh-code .c { color: #9A9A9B; }
+  .sh-rule { height: 3px; border-radius: 2px; }
+  .sh-demo { padding: 30px 32px; border: 1px solid var(--rule); border-radius: 3px; }
+  .sh-demo h3 { font-size: 1.5rem; font-weight: 400; margin: 0 0 4px; }
+  .sh-demo p { color: var(--muted); font-size: 0.9375rem; }
+  .sh-swatchrow { display: flex; gap: 2px; margin-bottom: 10px; }
+  .sh-swatchrow span { flex: 1; height: 34px; }
+  @media (max-width: 700px) { .sh-band { height: 56px; } }
+</style>
+
+<div class="block">
+  <p class="eyebrow block-label">The gradient</p>
+  <div class="sh-band sh-full"></div>
+  <p class="sh-caption">Teal to violet, left to right, with blue at 68%. This is the only form the
+  colour ever takes.</p>
+</div>
+
+<div class="grid g2 block">
+  <div>
+    <div class="sh-band sh-full"></div>
+    <p class="sh-caption"><strong>This.</strong> Three stops, with the blue at 68%. The sweep stays
+    saturated the whole way across and changes at an even rate.</p>
+  </div>
+  <div>
+    <div class="sh-band sh-bad"></div>
+    <p class="sh-caption"><strong>Not this.</strong> Two stops. Teal and violet sit on opposite sides
+    of the colour wheel, so the midpoint lands on <code>#344E7E</code>, a flat slate blue, and the
+    sweep loses its colour through the middle.</p>
+  </div>
+</div>
+
+<div class="block">
+  <p class="eyebrow block-label">Why 68% and not half way</p>
+  <p class="measure">Teal and blue are much further apart to the eye than blue and violet: in Lab,
+  the first step measures about 56 and the second about 26. Put the blue at 50% and the sweep tears
+  through the teal end and then crawls through the violet end. At 68% the two halves are the same
+  perceptual size, so the colour changes at a steady rate the whole way across. It also leaves more
+  teal in the bar, which is closer to how the sheen actually sits on the bird.</p>
+</div>
+
+<div class="block">
+  <p class="eyebrow block-label">How to build it</p>
+  <pre class="sh-code"><code><span class="c">/* The shimmer. All three stops, one direction, blue at 68%. */</span>
+background: linear-gradient(90deg, #0B6E6E 0%, #2A4E9B 68%, #5C2E8E 100%);
+
+<span class="c">/* As a rule or an underline, which is how it is used most often. */</span>
+height: 3px;
+background: linear-gradient(90deg, #0B6E6E 0%, #2A4E9B 68%, #5C2E8E 100%);
+
+<span class="c">/* In print, same three stops at the same positions. */</span>
+<span class="c">0%   C87 M32 Y46 K12</span>
+<span class="c">68%  C86 M65 Y0  K9</span>
+<span class="c">100% C73 M89 Y0  K6</span></code></pre>
+</div>
+
+<div class="block">
+  <p class="eyebrow block-label">Where it is allowed</p>
+  <div class="grid g2">
+    <div class="sh-demo">
+      <div class="sh-rule sh-full" style="margin-bottom:20px"></div>
+      <h3>As a rule</h3>
+      <p>A 2 to 4 px line under a heading, along the top of a page, or down the edge of a card like
+      the stained edge of a book block. This is the default use and covers most jobs.</p>
+    </div>
+    <div class="sh-demo">
+      <div style="display:inline-block;padding:11px 22px;border-radius:2px;color:#fff;background:linear-gradient(90deg,#0B6E6E 0%,#2A4E9B 68%,#5C2E8E 100%);margin-bottom:20px">Reserve a copy</div>
+      <h3>Behind one button</h3>
+      <p>One per page, on whichever thing matters most. White text only. A second shimmer button on
+      the same page takes the emphasis away from the first.</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid g2 block">
+  <div class="rule-col tone-do">
+    <div class="rule-col-head"><span class="rule-mark">+</span><span class="eyebrow" style="color:var(--ink)">Do</span></div>
+    <ul>
+      <li>Use it once per page, poster or post.</li>
+      <li>Run it in a straight line, left to right or top to bottom.</li>
+      <li>Keep all three stops, in order.</li>
+      <li>Put white on it when it sits behind text.</li>
+    </ul>
+  </div>
+  <div class="rule-col tone-dont">
+    <div class="rule-col-head"><span class="rule-mark">&times;</span><span class="eyebrow" style="color:var(--ink)">Don’t</span></div>
+    <ul>
+      <li>Fill a whole background with it.</li>
+      <li>Use one stop on its own as a flat colour.</li>
+      <li>Make it radial, diagonal or animated.</li>
+      <li>Put it behind or inside the wordmark.</li>
+      <li>Set body text in any of the three colours.</li>
+    </ul>
+  </div>
+</div>
+</div> </section><section class="section" id="type"> <div class="section-head"> <p class="eyebrow"> <span>05</span> <span>Typography</span> </p> <h2>Typography</h2> <p class="lede measure">One family throughout. EB Garamond is a revival of the types Claude Garamont cut in Paris in the 1540s, which have set literary publishing ever since. A bookshop setting its own name in Garamond puts it in the same trade as the things on its shelves. A second typeface would dilute that, which is why there is only one here.</p> </div>        <div> <div class="face"> <div class="face-head"> <h3>EB Garamond</h3> <span class="eyebrow">Everything</span> </div> <p class="face-specimen" style="font-family:'EB Garamond', Garamond, Georgia, serif"> The Magpie’s Tale </p> <div class="face-meta"> <div> <strong>Weights</strong> Regular 400 · Italic 400 </div> <div> <strong>Source</strong> SIL Open Font Licence 1.1. Free for print and web, nothing to buy, no per-seat licence for a printer or signmaker. The web files carry small caps, and both oldstyle and lining figures. </div> <div> <strong>Notes</strong> Regular sets everything. Italic does the work bold would do elsewhere. </div> </div> </div><div class="face"> <div class="face-head"> <h3>EB Garamond Italic</h3> <span class="eyebrow">Emphasis and titles</span> </div> <p class="face-specimen" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-style:italic"> Wolf Hall, Hilary Mantel </p> <div class="face-meta"> <div> <strong>Weights</strong> Italic 400 </div> <div> <strong>Source</strong> Included in the same download. </div> <div> <strong>Notes</strong> Book titles take italic. That is the publishing convention anyway, so it costs nothing to be correct. </div> </div> </div> <div class="block"> <p class="eyebrow block-label">Type scale</p> <div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Display</span> <span>60px</span> <span>LH 1.04</span> <span>W 400</span> <span>TR -0.012em</span> </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-size:60px;line-height:1.04;font-weight:400;letter-spacing:-0.012em"> Books somebody here has actually finished </div> </div><div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Heading</span> <span>34px</span> <span>LH 1.18</span> <span>W 400</span>  </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-size:34px;line-height:1.18;font-weight:400"> On the front table this month </div> </div><div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Subheading</span> <span>22px</span> <span>LH 1.4</span> <span>W 400</span>  </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-style:italic;font-size:22px;line-height:1.4;font-weight:400"> Fiction, nature writing, and one very odd cookbook </div> </div><div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Body</span> <span>19px</span> <span>LH 1.6</span> <span>W 400</span>  </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-size:19px;line-height:1.6;font-weight:400"> Every card on these shelves was written by somebody who got to the end of the book. It is a slow way to run a bookshop and it is the only reason anyone asks us what to read next. </div> </div><div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Small</span> <span>16px</span> <span>LH 1.5</span> <span>W 400</span>  </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-size:16px;line-height:1.5;font-weight:400"> Paperback, 384 pages, £9.99 </div> </div><div class="scale-row"> <div class="scale-meta"> <span class="eyebrow">Label</span> <span>13px</span> <span>LH 1.4</span> <span>W 400</span> <span>TR 0.11em</span> </div> <div class="scale-sample" style="font-family:'EB Garamond', Garamond, Georgia, serif;font-size:13px;line-height:1.4;font-weight:400;letter-spacing:0.11em"> Staff pick, shelf four </div> </div> </div> <div class="block"> <p class="eyebrow block-label">Setting rules</p> <div class="rule-col tone-note"> <ul> <li>Keep body text at 19px or larger on screen. Garamond has a small x-height, so it reads a full size smaller than a sans at the same measurement. At 16px it starts to go grey and hard to read, which is the most common way Garamond comes unstuck on the web.</li><li>Use italic for emphasis, and for book titles. Bold is best left alone: EB Garamond’s bold was drawn centuries after the roman and sits awkwardly beside it.</li><li>Set ragged right. Justified Garamond opens rivers of white down the column, which is worse than an uneven edge.</li><li>Keep lines between 62 and 70 characters. Past that the eye loses the return.</li><li>The shop’s name takes a curly apostrophe: The Magpie’s Tale rather than The Magpie&#39;s Tale. It is in the name, so it is worth the keystroke.</li><li>Labels, eyebrows and buttons are set in small caps at 13px with 0.11em letterspacing, using the font’s own small caps rather than shrunken capitals. In CSS that is font-variant-caps: all-small-caps.</li><li>Anything that is data rather than prose takes lining, tabular figures: prices, opening hours, phone numbers, dates, page counts. In CSS that is font-variant-numeric: lining-nums tabular-nums. Running prose keeps the oldstyle figures the font gives you by default, which is what makes numbers sit properly inside a sentence.</li> </ul> </div> </div> </div>           </section><section class="section" id="voice"> <div class="section-head"> <p class="eyebrow"> <span>06</span> <span>Voice</span> </p> <h2>Tone of voice</h2> <p class="lede measure">Write the way somebody behind the counter talks on a quiet Tuesday. Someone who has read a great deal and has no particular interest in you knowing that. Warm, dry, specific, and not selling.</p> </div>          <div> <div class="grid g3"> <div class="value-card"> <h3>Say what it does, not how good it is</h3> <p>&quot;Four hundred pages about a hotel and not one dull one&quot; tells a reader something they can act on. &quot;Unmissable&quot; tells them nothing, and they have read it a thousand times before.</p> </div><div class="value-card"> <h3>Dry, not clever</h3> <p>A light touch is welcome. A pun that draws attention to itself is less so. If a line makes the writer look good rather than the book sound worth reading, it can usually go.</p> </div><div class="value-card"> <h3>Write it the way you would say it</h3> <p>Contractions, mostly. &quot;If we haven’t got it&quot; is what somebody behind the counter actually says; &quot;if we have not got it&quot; is what a form letter says. The shop sounds like a person or it sounds like a chain.</p> </div><div class="value-card"> <h3>Stop earlier than feels right</h3> <p>A shelf card is about twenty five words. An event listing is two sentences. The temptation is to add one more clause, and the writing is usually better without it.</p> </div> </div> <div class="block"> <p class="eyebrow block-label">In practice</p> <div class="grid g2"> <div class="example"> <div class="example-context">Shelf card</div> <div class="example-row example-yes"> <span class="mark">YES</span> <p>A novel about grief that’s somehow very funny. Start it on a day you’ve nothing on.</p> </div> <div class="example-row example-no"> <span class="mark">NO</span> <p>An unmissable emotional rollercoaster that will stay with you long after the final page!</p> </div> </div><div class="example"> <div class="example-context">Instagram</div> <div class="example-row example-yes"> <span class="mark">YES</span> <p>Restocked at last. It took four months and two increasingly rude emails.</p> </div> <div class="example-row example-no"> <span class="mark">NO</span> <p>BACK IN STOCK! 🔥 Get yours before they’re gone!! 📚✨</p> </div> </div><div class="example"> <div class="example-context">Event listing</div> <div class="example-row example-yes"> <span class="mark">YES</span> <p>Thursday, 7pm. Twenty chairs, one author, and wine that’s better than it needs to be.</p> </div> <div class="example-row example-no"> <span class="mark">NO</span> <p>Join us for an unforgettable evening celebrating the transformative power of storytelling.</p> </div> </div><div class="example"> <div class="example-context">Out of stock</div> <div class="example-row example-yes"> <span class="mark">YES</span> <p>Gone, sorry. We can have it here by Thursday if you want it putting aside.</p> </div> <div class="example-row example-no"> <span class="mark">NO</span> <p>We apologise for any inconvenience caused by the current unavailability of this item.</p> </div> </div><div class="example"> <div class="example-context">Closed for the day</div> <div class="example-row example-yes"> <span class="mark">YES</span> <p>Shut today. Back at ten tomorrow.</p> </div> <div class="example-row example-no"> <span class="mark">NO</span> <p>We are currently closed but look forward to welcoming you back very soon!</p> </div> </div> </div> </div> <div class="block"> <p class="eyebrow block-label">Words</p> <div class="grid g2"> <div class="rule-col tone-do"> <div class="rule-col-head"> <span class="rule-mark">+</span> <span class="eyebrow" style="color:var(--ink)">We say</span> </div> <ul class="lexicon"> <li>bookshop</li><li>reader</li><li>shelf card</li><li>we have read it</li><li>order it in</li><li>putting one aside</li><li>secondhand</li><li>Churchtown</li> </ul> </div> <div class="rule-col tone-dont"> <div class="rule-col-head"> <span class="rule-mark">&times;</span> <span class="eyebrow" style="color:var(--ink)">We never say</span> </div> <ul class="lexicon"> <li>bookstore</li><li>curated</li><li>literary journey</li><li>must-read</li><li>unmissable</li><li>page-turner</li><li>hidden gem</li><li>nestled</li><li>customers</li> </ul> </div> </div> </div> </div>         </section><section class="section" id="illustration"> <div class="section-head"> <p class="eyebrow"> <span>07</span> <span>Illustration</span> </p> <h2>Illustration</h2> <p class="lede measure">Two different drawing styles, and this section is about giving each one its own space. The shopfront is the shop’s own drawing: flat, open and unfussy. The spot illustrations are a supporting set in a more formal engraving style. Both are useful. At similar sizes they compete, and the shopfront comes off worse, so the rule below is about size rather than taste.</p> </div>                  <div>
+<style>
+  .il-hero { border: 1px solid var(--rule); border-radius: 3px; padding: 30px; text-align: center; }
+  .il-hero img { margin: 0 auto; max-width: 460px; width: 100%; }
+  .il-cap { margin-top: 18px; font-size: 0.9375rem; color: var(--muted); }
+  .il-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .il-sp { border: 1px solid var(--rule); border-radius: 3px; padding: 14px; display: grid; place-items: center; }
+  .il-sp img { width: 100%; max-width: 118px; }
+  @media (max-width: 760px) { .il-grid { grid-template-columns: repeat(3, 1fr); } }
+  .il-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .il-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .il-card-top { padding: 26px; display: flex; align-items: flex-end; justify-content: center; gap: 22px; min-height: 190px; }
+  .il-card-foot { padding: 13px 16px; border-top: 1px solid var(--rule); font-size: 0.875rem; color: var(--muted); }
+  .il-card-foot strong { display: block; color: var(--ink); font-weight: 400; font-style: italic; margin-bottom: 2px; }
+  @media (max-width: 760px) { .il-vs { grid-template-columns: 1fr; } }
+</style>
+
+<div class="block">
+  <p class="eyebrow block-label">The primary illustration</p>
+  <div class="il-hero">
+    <img src="./assets/shopfront.webp" alt="Pen drawing of the shopfront with a magpie on the roof" loading="lazy">
+    <p class="il-cap">The shop’s own drawing. It is the origin of the whole identity and the one
+    image nobody else can use. It goes large, on white, on its own.</p>
+  </div>
+</div>
+
+<div class="block">
+  <p class="eyebrow block-label">The spot set</p>
+  <p class="measure" style="margin-bottom:18px">A supporting set for section marks and headers. The
+  line is finer and more worked than the shopfront, which is exactly why they only ever appear
+  small. Below about 160&nbsp;px the hatching reads as texture instead of as a second illustrator.</p>
+  <div class="il-grid">
+    <div class="il-sp"><img src="./assets/spots/magpie-perched.webp" alt="Magpie perched on a twig" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/books-stack.webp" alt="A stack of books" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/wine-and-books.webp" alt="A glass of wine beside two books" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/church-tower.webp" alt="A parish church tower" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/tea-and-book.webp" alt="A teapot and mug on books" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/magpie-feather.webp" alt="A single tail feather" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/armchair.webp" alt="A reading armchair" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/spectacles.webp" alt="Reading glasses on an open book" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/tote-bag.webp" alt="A cotton tote bag" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/magpie-flight.webp" alt="A magpie in flight" loading="lazy"></div>
+    <div class="il-sp"><img src="./assets/spots/magpie-treasure.webp" alt="A magpie holding a ring in its beak" loading="lazy"></div>
+  </div>
+</div>
+
+<div class="block">
+  <p class="eyebrow block-label">The size rule, and why it exists</p>
+  <div class="il-vs">
+    <div class="il-card">
+      <div class="il-card-top">
+        <img src="./assets/spots/books-stack.webp" alt="" style="width:96px" loading="lazy">
+        <img src="./assets/spots/magpie-perched.webp" alt="" style="width:96px" loading="lazy">
+      </div>
+      <div class="il-card-foot"><strong>This</strong>Spots kept small and used together. One style on
+      the page, reading as texture beside the type.</div>
+    </div>
+    <div class="il-card">
+      <div class="il-card-top">
+        <img src="./assets/shopfront.webp" alt="" style="width:172px" loading="lazy">
+        <img src="./assets/spots/books-stack.webp" alt="" style="width:150px" loading="lazy">
+      </div>
+      <div class="il-card-foot"><strong>Not this</strong>The shopfront next to a spot at a similar
+      size. The two styles pull against each other, and the shopfront reads as the weaker of the
+      two when it is simply the plainer one.</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid g2 block">
+  <div class="rule-col tone-do">
+    <div class="rule-col-head"><span class="rule-mark">+</span><span class="eyebrow" style="color:var(--ink)">Do</span></div>
+    <ul>
+      <li>Keep spot illustrations under 160 px on screen, and under 40 mm in print.</li>
+      <li>Use one spot per section, as a mark beside a heading.</li>
+      <li>Let the shopfront be the only illustration on any piece it appears on.</li>
+      <li>Keep them pure black on white, like everything else.</li>
+    </ul>
+  </div>
+  <div class="rule-col tone-dont">
+    <div class="rule-col-head"><span class="rule-mark">&times;</span><span class="eyebrow" style="color:var(--ink)">Don’t</span></div>
+    <ul>
+      <li>Put a spot and the shopfront on the same page at similar sizes.</li>
+      <li>Blow a spot up to fill a hero, a poster or a window.</li>
+      <li>Scatter four or five spots across one page.</li>
+      <li>Add a new spot in a third style. A new one is best commissioned to match either the shopfront or the spot set.</li>
+    </ul>
+  </div>
+</div>
+</div> </section><section class="section" id="applications"> <div class="section-head"> <p class="eyebrow"> <span>08</span> <span>Applications</span> </p> <h2>The brand applied</h2> <p class="lede measure">The four things the shop makes most. Once these are right the rest tends to follow the same logic: white paper, black type, and one piece of colour where it earns its place.</p> </div>                  <div>
+<style>
+  .ap { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .ap-stage { padding: 34px 30px; min-height: 210px; display: flex; flex-direction: column; justify-content: center; }
+  .ap-foot { padding: 14px 18px; border-top: 1px solid var(--rule); font-size: 0.875rem; color: var(--muted); }
+  .ap-foot strong { display: block; color: var(--ink); font-weight: 400; font-style: italic; margin-bottom: 2px; }
+  .ap-label { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .ap-dark { background: #0E0E0F; color: #fff; }
+  .ap-dark .ap-label { color: rgba(255,255,255,0.55); }
+  .ap-word { font-size: 1.75rem; line-height: 1.1; }
+  .ap-shim { height: 3px; background: linear-gradient(90deg,#0B6E6E 0%,#2A4E9B 68%,#5C2E8E 100%); }
+  .ap-price { color: var(--muted); font-size: 0.9375rem; }
+  @media (max-width: 700px) { .ap-stage { min-height: 0; } }
+</style>
+
+<div class="grid g2">
+
+  <div class="ap">
+    <div class="ap-stage">
+      <div class="ap-label" style="margin-bottom:14px">Staff pick, shelf four</div>
+      <div style="font-size:1.375rem;line-height:1.3;margin-bottom:10px"><em>The Bee Sting</em><br>Paul Murray</div>
+      <p style="font-size:1rem;line-height:1.55;margin:0 0 14px">A family falling apart over six hundred pages, and I resented every interruption. Take it on holiday.</p>
+      <div class="ap-price">Paperback · £9.99</div>
+    </div>
+    <div class="ap-foot"><strong>Shelf card</strong>A5, white card, black ink only. No colour here:
+    there are dozens of these around the shop, and the shimmer works because it is rare.</div>
+  </div>
+
+  <div class="ap">
+    <div class="ap-stage ap-dark" style="align-items:center;text-align:center">
+      <div class="ap-word" style="font-family:var(--font-display)">The Magpie’s Tale</div>
+      <div class="ap-label" style="margin-top:12px">Churchtown · Southport</div>
+    </div>
+    <div class="ap-foot"><strong>Tote and paper bag</strong>Reversed wordmark, one colour, screen
+    printed. No strapline, no web address and no shimmer: the name on its own carries it.</div>
+  </div>
+
+  <div class="ap">
+    <div class="ap-shim"></div>
+    <div class="ap-stage">
+      <div class="ap-label" style="margin-bottom:12px">Thursday 4 September, 7pm</div>
+      <div style="font-size:1.5rem;line-height:1.2;margin-bottom:10px">An evening with<br>a local author</div>
+      <p style="font-size:1rem;line-height:1.55;margin:0">Twenty chairs, one author, and wine that is
+      better than it needs to be. Free, but tell us you are coming.</p>
+    </div>
+    <div class="ap-foot"><strong>Event poster</strong>The piece that earns its colour: a single
+    shimmer rule across the top, with everything below it black on white.</div>
+  </div>
+
+  <div class="ap">
+    <div class="ap-stage" style="align-items:center;justify-content:center">
+      <img src="./assets/magpie.svg" alt="The magpie" style="width:62%;max-width:220px" loading="lazy">
+    </div>
+    <div class="ap-foot"><strong>Social avatar and stamp</strong>The magpie on its own, black on
+    white. The name is already next to it in every place this appears.</div>
+  </div>
+
+</div>
+
+<div class="grid g2 block">
+  <div class="rule-col tone-do">
+    <div class="rule-col-head"><span class="rule-mark">+</span><span class="eyebrow" style="color:var(--ink)">Do</span></div>
+    <ul>
+      <li>Leave more white space than feels necessary. It is a large part of the identity.</li>
+      <li>Photograph the actual shop, in daylight, against the actual shelves.</li>
+      <li>Let the drawing of the shopfront do the work on anything that needs an image.</li>
+      <li>Print black on white stock. Uncoated, and not cream.</li>
+    </ul>
+  </div>
+  <div class="rule-col tone-dont">
+    <div class="rule-col-head"><span class="rule-mark">&times;</span><span class="eyebrow" style="color:var(--ink)">Don’t</span></div>
+    <ul>
+      <li>Put the wordmark and the magpie on the same face of anything. One or the other reads better.</li>
+      <li>Use stock photography of artfully stacked books. Pictures of the actual shop always do more.</li>
+      <li>Add a second colour for Christmas or World Book Day. Black and white holds up all year.</li>
+      <li>Set the shop name in anything other than Garamond, including in an email signature.</li>
+    </ul>
+  </div>
+</div>
+</div> </section><section class="section" id="checklist"> <div class="section-head"> <p class="eyebrow"> <span>09</span> <span>Checklist</span> </p> <h2>Before it goes out</h2> <p class="lede measure">A thirty-second pass that catches most things. It is the shop’s brand, so nothing here needs anyone’s permission. This is just the list of things that are easy to miss and annoying to reprint.</p> </div>              <div class="grid g3"> <div class="rule-col tone-do"> <div class="rule-col-head"> <span class="rule-mark"> + </span> <span class="eyebrow" style="color:var(--ink)">Worth checking</span> </div> <ul> <li>Background is white rather than cream or off-white.</li><li>The logo has a full cap height clear on all four sides.</li><li>Everything is set in EB Garamond.</li><li>Body text is 19px or larger on screen, 10pt or larger in print.</li><li>Emphasis is italic rather than bold.</li><li>The apostrophe in the shop name is curly.</li> </ul> </div><div class="rule-col tone-dont"> <div class="rule-col-head"> <span class="rule-mark"> × </span> <span class="eyebrow" style="color:var(--ink)">Easy to get wrong</span> </div> <ul> <li>More than one shimmer element in the same piece.</li><li>A shimmer colour used flat, without the gradient.</li><li>The wordmark stretched, outlined, shadowed or recoloured.</li><li>Exclamation marks, which the shop’s voice rarely needs.</li><li>Emoji in shop copy.</li><li>A second typeface slipping in for a one-off.</li> </ul> </div><div class="rule-col tone-note"> <div class="rule-col-head"> <span class="rule-mark"> i </span> <span class="eyebrow" style="color:var(--ink)">Happy to help with</span> </div> <ul> <li>Co-branding with a publisher, a festival or another shop.</li><li>The logo on merchandise that is being sold rather than given away.</li><li>Anything printed larger than A1, including the window.</li><li>A one-off campaign that seems to want a new colour. There is usually a way to do it in black and white.</li> </ul> </div> </div>     </section><section class="section" id="downloads"> <div class="section-head"> <p class="eyebrow"> <span>10</span> <span>Downloads</span> </p> <h2>Downloads</h2> <p class="lede measure">Everything a printer, a signmaker or a collaborator is likely to ask for. When somebody asks for &quot;the logo&quot;, the pack is usually more useful than a screenshot from this page, and it tends to save a reprint.</p> </div>                <div> <div class="block"> <p class="eyebrow block-label">Logos</p> <a class="asset-row" href="./assets/downloads/magpiestale-logos.zip" download> <div> <div class="asset-name">Full logo pack</div> <div class="asset-note">Every lockup in SVG, black and reversed, plus the shopfront drawing.</div> </div> <div class="asset-meta"> ZIP </div> </a><a class="asset-row" href="./assets/logo.svg" download> <div> <div class="asset-name">Primary wordmark</div> <div class="asset-note">Outlined, so it needs no font installed. Scales to any size.</div> </div> <div class="asset-meta"> SVG </div> </a><a class="asset-row" href="./assets/logo-reversed.svg" download> <div> <div class="asset-name">Reversed wordmark</div> <div class="asset-note">White, for dark backgrounds.</div> </div> <div class="asset-meta"> SVG </div> </a><a class="asset-row" href="./assets/logo-stacked.svg" download> <div> <div class="asset-name">Stacked lockup</div> <div class="asset-note">Magpie above the wordmark, for square spaces.</div> </div> <div class="asset-meta"> SVG </div> </a><a class="asset-row" href="./assets/magpie.svg" download> <div> <div class="asset-name">The magpie</div> <div class="asset-note">Traced from the original drawing. Avatars, stamps, endpapers.</div> </div> <div class="asset-meta"> SVG </div> </a> </div><div class="block"> <p class="eyebrow block-label">Typeface</p> <a class="asset-row" href="./assets/downloads/magpiestale-fonts.zip" download> <div> <div class="asset-name">EB Garamond, roman and italic</div> <div class="asset-note">Web files, subset to the characters the shop needs. Open Font Licence, so a printer can install it without buying anything. For desktop use, the full family is on Google Fonts.</div> </div> <div class="asset-meta"> ZIP </div> </a> </div><div class="block"> <p class="eyebrow block-label">Illustration</p> <a class="asset-row" href="./assets/shopfront.webp" download> <div> <div class="asset-name">The shopfront</div> <div class="asset-note">The original drawing, cleaned to pure black and white. 23 KB.</div> </div> <div class="asset-meta"> WEBP </div> </a><a class="asset-row" href="./assets/downloads/magpiestale-illustrations.zip" download> <div> <div class="asset-name">Spot illustrations</div> <div class="asset-note">The eleven spot drawings plus the shopfront. Read the size rule in the illustration section before using any of them.</div> </div> <div class="asset-meta"> ZIP </div> </a> </div> </div>   </section> <!-- ── Colophon ── --> <section class="colophon"> <h3>Questions about any of this?</h3> <p>
+These guidelines are a living document. If something you need is not covered here,
+            whether that is a new format, a co-branded piece or an application nobody has thought
+            of yet, get in touch and we will extend the system properly rather than leave you
+            guessing.
+</p> <dl class="colophon-grid"> <div> <dt>Your contact</dt> <dd> Nathan Entwistle <span style="opacity:0.6">, OakFox</span> </dd> <dd style="margin-top:4px"> <a href="mailto:nathan@oakfox.co.uk">nathan@oakfox.co.uk</a> </dd> <dd style="margin-top:4px">07730 396404</dd> </div> <div> <dt>Document</dt> <dd>Version 1.0</dd> <dd style="margin-top:4px;opacity:0.6">Issued 20 August 2026</dd> </div> <div> <dt>Produced by</dt> <dd><a href="https://oakfox.co.uk" target="_blank" rel="noopener">OakFox</a></dd> <dd style="margin-top:4px;opacity:0.6">Sustainable design, West Lancashire</dd> </div> </dl> </section> </main> </div> <div class="toast" id="toast">Copied</div> <script>
+      (function () {
+        var progress = document.getElementById('progress');
+        var toast = document.getElementById('toast');
+        var printBtn = document.getElementById('print-btn');
+        var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+        var links = Array.prototype.slice.call(document.querySelectorAll('[data-link], [data-chip]'));
+
+        if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+
+        /* Reading progress */
+        var ticking = false;
+        function draw() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+          progress.style.width = Math.min(100, Math.max(0, pct)) + '%';
+          ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+          if (!ticking) { ticking = true; window.requestAnimationFrame(draw); }
+        }, { passive: true });
+        draw();
+
+        /* Scrollspy: mark the section currently nearest the top of the viewport */
+        if ('IntersectionObserver' in window && sections.length) {
+          var visible = {};
+          var spy = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+              var current = null;
+              for (var i = 0; i < sections.length; i++) {
+                if (visible[sections[i].id]) { current = sections[i].id; break; }
+              }
+              if (!current) return;
+              links.forEach(function (l) {
+                var id = l.getAttribute('data-link') || l.getAttribute('data-chip');
+                l.classList.toggle('is-active', id === current);
+              });
+            },
+            { rootMargin: '-72px 0px -60% 0px', threshold: 0 }
+          );
+          sections.forEach(function (s) { spy.observe(s); });
+        }
+
+        /* Click a swatch to copy its hex */
+        var toastTimer;
+        function flash(message) {
+          toast.textContent = message;
+          toast.classList.add('is-on');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, 1600);
+        }
+        document.addEventListener('click', function (e) {
+          var el = e.target.closest ? e.target.closest('[data-copy]') : null;
+          if (!el) return;
+          var value = el.getAttribute('data-copy');
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(
+              function () { flash(value + ' copied'); },
+              function () { flash(value); }
+            );
+          } else {
+            flash(value);
+          }
+        });
+      })();
+    </script> </body> </html>
