@@ -16,6 +16,9 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/dashboard') &&
+        // Client brand guidelines: confidential, and served from their own
+        // subdomains. Never in the sitemap on either host.
+        !page.includes('/brand/') &&
         !page.includes('/og/') &&
         !page.includes('/blog/tags/'),
       changefreq: 'weekly',

@@ -6,118 +6,141 @@ User-agent: *
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 # --- Search engines ---
 User-agent: Googlebot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: DuckDuckBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 # --- AI answer engines (retrieval at query time) ---
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Perplexity-User
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: anthropic-ai
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Applebot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 # --- AI training crawlers (content may be used to train future models) ---
 User-agent: GPTBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Meta-ExternalAgent
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: FacebookBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: CCBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Bytespider
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Diffbot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: Amazonbot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: cohere-ai
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 User-agent: YouBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /brand/
 
 Sitemap: https://oakfox.co.uk/sitemap-index.xml

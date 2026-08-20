@@ -1,0 +1,1005 @@
+---
+/**
+ * The Magpie's Tale website concept.
+ *
+ * Sibling of the brand guidelines at `/brand/magpiestale/`, and served from the
+ * same cPanel subdomain, so this answers on both:
+ *   oakfox.co.uk/brand/magpiestale/mockup/  and  magpiestale.oakfox.co.uk/mockup/
+ *
+ * Same constraint as the guidelines page and for the same reason: no BaseLayout,
+ * no Tailwind, no bundled scripts. Astro emits those as absolute `/_astro/…`
+ * URLs, which 404 on the subdomain. Everything here is `is:inline` and every
+ * asset path is relative. Assets sit one level up, in `../assets/`.
+ *
+ * This is a comp, not a build. It is deliberately framed on a dark canvas so
+ * nobody mistakes it for a working site: the links go nowhere and the content
+ * is stand-in. The real thing gets built once the client signs off the look.
+ */
+const PAGE_TITLE = 'The Magpie’s Tale: Website concept';
+
+// Stand-in stock. Real books, invented shelf notes: the notes are the one thing
+// on the page only the shop can write, so they are left obviously placeholder.
+const PICKS = [
+  {
+    shelf: 'Staff pick · Fiction',
+    title: 'The Bee Sting',
+    author: 'Paul Murray',
+    note: 'A family coming apart over six hundred pages, and I resented every interruption. Take it somewhere you’ve nothing else on.',
+    meta: 'Paperback · 656pp',
+    price: '£9.99',
+  },
+  {
+    shelf: 'Staff pick · Fiction',
+    title: 'Orbital',
+    author: 'Samantha Harvey',
+    note: 'Six astronauts, sixteen sunrises, almost no plot. Finished it in an afternoon and started it again the week after.',
+    meta: 'Paperback · 144pp',
+    price: '£9.99',
+  },
+  {
+    shelf: 'Staff pick · Non-fiction',
+    title: 'The Wager',
+    author: 'David Grann',
+    note: 'A shipwreck, a mutiny, and two crews who came home telling completely different stories. Better than it has any right to be.',
+    meta: 'Paperback · 352pp',
+    price: '£10.99',
+  },
+];
+
+const EVENTS = [
+  {
+    date: 'Fri 4 Sep',
+    time: '7pm',
+    title: 'An evening with a local author',
+    body: 'Twenty chairs, one author, and wine that’s better than it needs to be. Free, but tell us you’re coming.',
+  },
+  {
+    date: 'Sun 13 Sep',
+    time: '10.30am',
+    title: 'Toddler storytime',
+    body: 'Half an hour of picture books on the rug at the back. No need to book, just turn up.',
+  },
+];
+
+// Callouts pinned to the desktop comp. `top` is a percentage down the artboard,
+// measured off the rendered comp rather than guessed.
+const NOTES = [
+  {
+    n: 1,
+    top: '7.5%',
+    title: 'The drawing does the work',
+    body: 'The shopfront illustration is the hero rather than a stock photograph of books. It is the one image no other bookshop can use, and at 23 KB it costs less than a single photo would.',
+  },
+  {
+    n: 2,
+    top: '13.5%',
+    title: 'Open or shut, answered immediately',
+    body: 'The most common reason anyone visits a local shop website. It sits above everything else and is the only moving part on the page.',
+  },
+  {
+    n: 3,
+    top: '16.5%',
+    title: 'The shimmer, once',
+    body: 'The only colour on the page, and it sits on the one thing worth pressing. Everything else is black on white, which is what makes a single gradient carry any weight at all.',
+  },
+  {
+    n: 4,
+    top: '22%',
+    title: 'Shelf cards, not product tiles',
+    body: 'Each book is set like the hand-written card on the shelf: label, title in italic, and a note from somebody who finished it. This is the piece the shop updates most, so it is the easiest thing to edit.',
+  },
+  {
+    n: 5,
+    top: '35.5%',
+    title: 'The one thing the page asks for',
+    body: 'Ordering anything in print is what a small shop can offer that a warehouse cannot. It was a sentence at the bottom of the page and is now a section, because it is the reason to choose the shop over a next-day delivery.',
+  },
+  {
+    n: 6,
+    top: '63%',
+    title: 'A reason to come back',
+    body: 'One recurring slot, and one short record for the shop to fill in each month: date, book, a line about it. Cheap to keep current, and it gives people a fixed thing to turn up to.',
+  },
+  {
+    n: 7,
+    top: '75%',
+    title: 'Read before recommended, shown',
+    body: 'The picks only work if somebody believes a person chose them. Naming what the two of them are reading this week costs nothing to maintain and does more for that than any amount of copy about a passion for books.',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{PAGE_TITLE}</title>
+    <meta
+      name="description"
+      content="Website concept for The Magpie’s Tale, an independent bookshop in Churchtown, Southport. Produced by OakFox."
+    />
+    {/* Client-confidential, and an unbuilt concept. Never index it. */}
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="../assets/favicon.svg" />
+    <style is:inline>
+      /* Self-hosted, same two files the guidelines page uses. No Google Fonts
+         request, so nothing leaves the origin and there is no third party to
+         declare in a privacy notice. */
+      @font-face {
+        font-family: 'EB Garamond';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('../assets/fonts/ebgaramond-400.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'EB Garamond';
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url('../assets/fonts/ebgaramond-400i.woff2') format('woff2');
+      }
+
+      :root {
+        --ink: #0e0e0f;
+        --ink-60: #6e6e6f;
+        --ink-12: #e2e2e2;
+        --paper: #ffffff;
+        --shimmer: linear-gradient(90deg, #0b6e6e 0%, #2a4e9b 68%, #5c2e8e 100%);
+        --serif: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
+        /* Presentation chrome only. Deliberately outside the brand palette so
+           the frame can never be mistaken for part of the design. */
+        --canvas: #16161a;
+        --canvas-2: #1f1f24;
+        --canvas-line: #33333b;
+        --canvas-fg: #e7e7ea;
+        --canvas-mute: #8d8d99;
+        --ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--canvas-fg);
+        font-family: var(--ui);
+        -webkit-font-smoothing: antialiased;
+      }
+      img { max-width: 100%; height: auto; display: block; }
+      h1, h2, h3, h4, p, figure { margin: 0; }
+      ul { margin: 0; padding: 0; list-style: none; }
+
+      /* ── Presentation shell ───────────────────────────────────────────── */
+      .bar {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+        padding: 14px 26px;
+        background: rgba(22, 22, 26, 0.92);
+        backdrop-filter: saturate(140%) blur(8px);
+        border-bottom: 1px solid var(--canvas-line);
+        font-size: 13px;
+      }
+      .bar-name { font-family: var(--serif); font-size: 17px; }
+      .bar-sep { color: var(--canvas-line); }
+      .bar-kind {
+        font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+        padding: 4px 9px; border-radius: 2px;
+        background: var(--canvas-2); border: 1px solid var(--canvas-line);
+        color: var(--canvas-mute);
+      }
+      .bar-spacer { flex: 1 1 auto; }
+      .bar a { color: var(--canvas-fg); text-decoration: none; border-bottom: 1px solid var(--canvas-line); padding-bottom: 2px; }
+      .bar a:hover { border-bottom-color: var(--canvas-fg); }
+
+      .wrap { max-width: 1500px; margin: 0 auto; padding: 44px 26px 90px; }
+
+      .intro { max-width: 62ch; margin-bottom: 54px; }
+      .intro h1 { font-family: var(--serif); font-size: clamp(30px, 4.4vw, 46px); line-height: 1.1; font-weight: 400; }
+      .intro p { margin-top: 16px; color: var(--canvas-mute); font-size: 15px; line-height: 1.65; }
+      .intro strong { color: var(--canvas-fg); font-weight: 500; }
+      .intro a, .foot a, .panel a { color: var(--canvas-fg); text-decoration: none; border-bottom: 1px solid var(--canvas-mute); }
+      .intro a:hover, .foot a:hover, .panel a:hover { border-bottom-color: var(--canvas-fg); }
+
+      .plate {
+        display: flex; align-items: baseline; gap: 12px;
+        margin: 0 0 16px; padding-bottom: 12px;
+        border-bottom: 1px solid var(--canvas-line);
+      }
+      .plate-n { font-size: 11px; letter-spacing: 0.16em; color: var(--canvas-mute); }
+      .plate-t { font-family: var(--serif); font-size: 21px; }
+      .plate-d { margin-left: auto; font-size: 12px; color: var(--canvas-mute); }
+
+      .stage { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 34px; align-items: start; }
+      @media (max-width: 1100px) { .stage { grid-template-columns: 1fr; } }
+
+      /* The comp itself: a white page resting on the dark canvas. */
+      .board-wrap { position: relative; }
+      .scroll-hint { display: none; }
+      @media (max-width: 900px) {
+        .board-desk { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 3px; }
+        .board-desk .board { min-width: 1100px; }
+        .scroll-hint {
+          display: block; margin: 0 0 10px; font-size: 12px; color: var(--canvas-mute);
+        }
+      }
+      .board { background: var(--paper); border-radius: 3px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); overflow: hidden; }
+      .board-mob { max-width: 390px; }
+
+      .pin {
+        position: absolute; left: -13px; z-index: 5;
+        width: 26px; height: 26px; border-radius: 50%;
+        display: grid; place-items: center;
+        background: var(--canvas); color: #fff;
+        font-size: 12px; font-family: var(--ui);
+        border: 1px solid var(--canvas-line);
+      }
+      @media (max-width: 1100px) { .pin { display: none; } }
+
+      .notes { position: sticky; top: 78px; display: grid; gap: 20px; }
+      .note { display: grid; grid-template-columns: 26px 1fr; gap: 12px; }
+      .note-n {
+        width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+        background: var(--canvas-2); border: 1px solid var(--canvas-line); font-size: 12px;
+      }
+      .note h3 { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+      .note p { font-size: 13px; line-height: 1.6; color: var(--canvas-mute); }
+
+      .section-gap { margin-top: 76px; }
+
+      /* ── Inside the comp: the site design itself ──────────────────────── */
+      .site { color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6; }
+      .site a { color: inherit; }
+      .site-pad { padding: 0 clamp(24px, 5.5%, 76px); }
+
+      .site-nav {
+        display: flex; align-items: center; gap: 30px;
+        padding-top: 26px; padding-bottom: 26px;
+        border-bottom: 1px solid var(--ink-12);
+      }
+      .site-word { font-size: 25px; letter-spacing: 0.005em; }
+      .site-links { display: flex; gap: 26px; margin-left: auto; font-size: 16px; }
+      .site-links span { color: var(--ink-60); }
+
+      .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 50px; align-items: center; padding: 58px 0 46px; }
+      .hero h2.hero-t { font-size: clamp(38px, 4.6vw, 62px); font-weight: 400; line-height: 1.02; font-weight: 400; letter-spacing: -0.012em; }
+      .hero-sub { margin-top: 20px; font-size: 21px; line-height: 1.45; color: var(--ink-60); max-width: 30ch; }
+      .hero-fig { margin: 0; }
+
+      .status {
+        font-variant-numeric: lining-nums tabular-nums;
+        display: flex; width: fit-content; align-items: baseline; gap: 10px;
+        margin-top: 30px; padding: 10px 0 0;
+        border-top: 2px solid var(--ink);
+        font-size: 17px;
+      }
+      .status b { font-weight: 400; }
+      .status i { font-style: italic; color: var(--ink-60); }
+
+      .band { padding: 54px 0; border-top: 1px solid var(--ink-12); }
+      .band-head { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+      .band-spot { width: 78px; flex: 0 0 auto; }
+      .m .band-spot { width: 56px; }
+      .band-head h2 { font-size: 30px; font-weight: 400; }
+      .band-head .more { margin-left: auto; font-size: 16px; color: var(--ink-60); font-style: italic; }
+
+      .label {
+        font-size: 13px; letter-spacing: 0.1em; color: var(--ink-60);
+        font-variant-caps: all-small-caps; font-variant-numeric: lining-nums tabular-nums;
+      }
+
+      .picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+      .pick { display: flex; flex-direction: column; }
+      .pick-t { margin-top: 12px; font-size: 22px; font-style: italic; line-height: 1.2; }
+      .pick-a { font-size: 17px; color: var(--ink-60); margin-top: 2px; }
+      .pick-n { margin-top: 12px; font-size: 17px; line-height: 1.5; }
+      .pick-f {
+        display: flex; align-items: baseline; gap: 10px; margin-top: 16px; padding-top: 10px;
+        border-top: 1px solid var(--ink-12); font-size: 15px; color: var(--ink-60);
+        font-variant-numeric: lining-nums tabular-nums;
+      }
+      .pick-f b { margin-left: auto; color: var(--ink); font-weight: 400; }
+
+      .site a.cta {
+        display: inline-block; margin-top: 26px; padding: 12px 26px; border-radius: 2px;
+        background: var(--shimmer); color: #fff; text-decoration: none;
+        font-size: 17px; letter-spacing: 0.06em; font-variant-caps: all-small-caps;
+      }
+      .site.m a.cta { margin-top: 20px; padding: 10px 22px; font-size: 16px; }
+
+      /* Order anything: the page's one ask. Three steps, numbered because the
+         order genuinely matters to somebody working out what happens next. */
+      .order { display: grid; grid-template-columns: 1fr 220px; gap: 46px; align-items: center; }
+      .order-lead { font-size: 21px; line-height: 1.45; }
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 28px; }
+      .step-n {
+        font-size: 13px; letter-spacing: 0.1em; color: var(--ink-60);
+        font-variant-caps: all-small-caps; font-variant-numeric: lining-nums tabular-nums;
+      }
+      .step p { margin-top: 6px; font-size: 17px; line-height: 1.5; }
+      .order figure { margin: 0; }
+
+      /* Reading group: one recurring record, so the layout is a single row. */
+      .group { display: grid; grid-template-columns: 150px 1fr; gap: 26px; align-items: start; }
+      .group-when {
+        font-size: 17px; font-variant-numeric: lining-nums tabular-nums;
+      }
+      .group-when span { display: block; color: var(--ink-60); font-size: 15px; }
+      .group h3 { font-size: 22px; font-weight: 400; font-style: italic; }
+      .group .by { color: var(--ink-60); font-size: 17px; margin-top: 2px; }
+      .group p { margin-top: 10px; font-size: 17px; line-height: 1.55; max-width: 58ch; }
+
+      /* Behind the counter: the human note before the practical details. */
+      .counter { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+      .counter p { font-size: 19px; line-height: 1.6; }
+      .counter p + p { margin-top: 14px; }
+      .reading { margin-top: 4px; display: grid; gap: 14px; }
+      .reading li { display: grid; grid-template-columns: 1fr auto; gap: 16px; font-size: 17px; align-items: baseline; }
+      .reading em { font-style: italic; }
+      .reading .who { color: var(--ink-60); }
+
+      @media (max-width: 720px) {
+        .order, .counter { grid-template-columns: 1fr; gap: 26px; }
+        .steps { grid-template-columns: 1fr; gap: 16px; }
+        .group { grid-template-columns: 1fr; gap: 8px; }
+      }
+
+      .events { display: grid; gap: 0; }
+      .event { display: grid; grid-template-columns: 130px 1fr; gap: 26px; padding: 24px 0; border-bottom: 1px solid var(--ink-12); }
+      .event:first-child { border-top: 1px solid var(--ink-12); }
+      .event-d { font-size: 17px; font-variant-numeric: lining-nums tabular-nums; }
+      .event-d span { display: block; color: var(--ink-60); font-size: 15px; }
+      .event h3 { font-size: 22px; font-weight: 400; }
+      .event p { margin-top: 6px; font-size: 17px; line-height: 1.5; color: var(--ink-60); max-width: 56ch; }
+
+      .find { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+      .find dl {
+        display: grid; grid-template-columns: auto 1fr; gap: 8px 22px; margin: 14px 0 0;
+        font-size: 17px; font-variant-numeric: lining-nums tabular-nums;
+      }
+      .find dt { color: var(--ink-60); }
+      .find dd { margin: 0; }
+
+      .site-foot { padding: 32px 0 40px; border-top: 1px solid var(--ink-12); display: flex; align-items: center; gap: 20px; font-size: 15px; color: var(--ink-60); }
+      .site-foot img { width: 92px; }
+      .site-foot .r { margin-left: auto; }
+
+      /* Mobile comp: same design, narrower. */
+      .m .site-nav { padding-top: 20px; padding-bottom: 20px; }
+      .m .site-links { display: none; }
+      .m .site-word { font-size: 21px; }
+      .m .burger { margin-left: auto; display: grid; gap: 4px; }
+      .m .burger i { display: block; width: 20px; height: 1px; background: var(--ink); }
+      .m .hero { grid-template-columns: 1fr; gap: 26px; padding: 34px 0 30px; }
+      .m .hero h2.hero-t { font-size: 34px; }
+      .m .hero-sub { font-size: 18px; }
+      .m .picks { grid-template-columns: 1fr; gap: 26px; }
+      .m .find { grid-template-columns: 1fr; gap: 26px; }
+      .m .order { grid-template-columns: 1fr; gap: 24px; }
+      .m .steps { grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
+      .m .group { grid-template-columns: 1fr; gap: 8px; }
+      .m .counter { grid-template-columns: 1fr; gap: 24px; }
+      .m .order figure { max-width: 190px; }
+      .m .band { padding: 34px 0; }
+
+      /* ── Spec panels below the comps ──────────────────────────────────── */
+      .panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+      .panels-wide { grid-template-columns: 1fr; }
+      .panels-wide .panel p { max-width: 92ch; }
+      @media (max-width: 900px) { .panels { grid-template-columns: 1fr; } }
+      .panel { background: var(--canvas-2); border: 1px solid var(--canvas-line); border-radius: 3px; padding: 26px 28px; }
+      .panel h3 { font-family: var(--serif); font-size: 22px; font-weight: 400; margin-bottom: 12px; }
+      .panel p { font-size: 14px; line-height: 1.65; color: var(--canvas-mute); }
+      .panel p + p { margin-top: 12px; }
+      .panel strong { color: var(--canvas-fg); font-weight: 500; }
+      .panel ul { margin-top: 12px; display: grid; gap: 9px; }
+      .panel li { position: relative; padding-left: 17px; font-size: 14px; line-height: 1.55; color: var(--canvas-mute); }
+      .panel li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 8px; height: 1px; background: var(--canvas-mute); }
+
+      .budget { display: grid; gap: 7px; margin-top: 16px; }
+      .brow { display: grid; grid-template-columns: 1fr auto; gap: 12px; font-size: 13px; padding-bottom: 6px; border-bottom: 1px solid var(--canvas-line); font-variant-numeric: lining-nums tabular-nums; }
+      .brow:last-of-type { border-bottom: 0; }
+      .brow b { font-weight: 500; color: var(--canvas-fg); }
+      .btot { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 10px; padding-top: 11px; border-top: 1px solid var(--canvas-fg); font-size: 14px; }
+
+      .grade { display: inline-flex; align-items: center; gap: 9px; margin-top: 18px; padding: 8px 14px; border-radius: 2px; background: var(--shimmer); color: #fff; font-size: 13px; }
+      .grade b { font-size: 17px; font-family: var(--serif); }
+
+      /* A rough sketch of the editor the client would actually see. */
+      .cms { border: 1px solid var(--canvas-line); border-radius: 3px; overflow: hidden; background: #fbfbfa; color: #26262a; }
+      .cms-bar { display: flex; align-items: center; gap: 9px; padding: 10px 14px; background: #eeeeec; border-bottom: 1px solid #dcdcd8; font-size: 12px; color: #5b5b60; }
+      .cms-dot { width: 9px; height: 9px; border-radius: 50%; background: #cfcfca; }
+      .cms-body { padding: 20px 22px 24px; }
+      .cms-h { font-family: var(--serif); font-size: 19px; margin-bottom: 3px; }
+      .cms-sub { font-size: 12px; color: #77777d; margin-bottom: 18px; }
+      .fld { margin-bottom: 14px; }
+      .fld label { display: block; font-size: 13px; letter-spacing: 0.07em; font-variant-caps: all-small-caps; color: #77777d; margin-bottom: 5px; }
+      .fld .box { border: 1px solid #d7d7d2; border-radius: 2px; background: #fff; padding: 9px 11px; font-size: 15px; font-family: var(--serif); font-variant-numeric: lining-nums tabular-nums; }
+      .fld .box.ta { min-height: 62px; line-height: 1.45; }
+      .fld .hint { margin-top: 5px; font-size: 11.5px; color: #8a8a90; font-style: italic; }
+      .cms-actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+      .cms-save { padding: 8px 20px; border-radius: 2px; background: #16161a; color: #fff; font-size: 15px; letter-spacing: 0.09em; font-variant-caps: all-small-caps; }
+      .cms-note { font-size: 12px; color: #77777d; }
+
+      .foot { margin-top: 80px; padding-top: 26px; border-top: 1px solid var(--canvas-line); display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--canvas-mute); }
+      .foot a { color: var(--canvas-fg); }
+      .foot .r { margin-left: auto; }
+
+      @media (max-width: 720px) {
+        .hero { grid-template-columns: 1fr; }
+        .picks { grid-template-columns: 1fr; }
+        .find { grid-template-columns: 1fr; }
+        .event { grid-template-columns: 1fr; gap: 8px; }
+        .site { font-size: 17px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      }
+      :where(a, button):focus-visible { outline: 2px solid #6ea8ff; outline-offset: 3px; }
+    </style>
+  </head>
+
+  <body>
+    <header class="bar">
+      <span class="bar-name">The Magpie’s Tale</span>
+      <span class="bar-sep">/</span>
+      <span class="bar-kind">Website concept</span>
+      <span class="bar-spacer"></span>
+      <a href="../">Brand guidelines</a>
+    </header>
+
+    <div class="wrap">
+      <div class="intro">
+        <h1>A homepage, before it gets built</h1>
+        <p>
+          This is a <strong>design concept</strong>, not a working website. Nothing on it clicks, and
+          the books, events, hours and address are stand-in content. It is here so the look can be
+          agreed before anybody writes the real thing. The identity it uses is set out in the
+          <a href="../">brand guidelines</a>.
+        </p>
+      </div>
+
+      <!-- ── Desktop comp ──────────────────────────────────────────────── -->
+      <div class="plate">
+        <span class="plate-n">01</span>
+        <span class="plate-t">Homepage</span>
+        <span class="plate-d">Desktop, 1440px</span>
+      </div>
+
+      <div class="stage">
+        <div class="board-wrap board-desk">
+          <p class="scroll-hint">This is the desktop layout. Scroll it sideways to see the full width, or see the phone version below.</p>
+          {NOTES.map((note) => <span class="pin" style={`top:${note.top}`}>{note.n}</span>)}
+          <div class="board">
+          <div class="site">
+            <div class="site-pad">
+              <nav class="site-nav">
+                <span class="site-word">The Magpie’s Tale</span>
+                <span class="site-links">
+                  <span>Books</span><span>What’s on</span><span>About</span><span>Find us</span>
+                </span>
+              </nav>
+
+              <div class="hero">
+                <div>
+                  <h2 class="hero-t">A small bookshop in Churchtown.</h2>
+                  <p class="hero-sub">
+                    Every book in the shop was chosen by one of the two of us.
+                  </p>
+                  <p class="status">
+                    <b>Open today until 4pm.</b> <i>Wednesday to Sunday, 10 to 4.</i>
+                  </p>
+                  <a class="cta" href="#">About the shop</a>
+                </div>
+                <figure class="hero-fig">
+                  <img
+                    src="../assets/shopfront.webp"
+                    alt="Pen drawing of The Magpie’s Tale shopfront, with a magpie sitting on the roof"
+                    width="1400" height="1218"
+                  />
+                </figure>
+              </div>
+            </div>
+
+            <div class="site-pad">
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/books-stack.webp" alt="" loading="lazy" />
+                  <h2>On the front table</h2>
+                  <span class="more">All our picks</span>
+                </div>
+                <div class="picks">
+                  {PICKS.map((p) => (
+                    <article class="pick">
+                      <span class="label">{p.shelf}</span>
+                      <h3 class="pick-t">{p.title}</h3>
+                      <p class="pick-a">{p.author}</p>
+                      <p class="pick-n">{p.note}</p>
+                      <p class="pick-f">{p.meta}<b>{p.price}</b></p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            <div class="site-pad">
+              <section class="band">
+                <div class="order">
+                  <div>
+                    <div class="band-head" style="margin-bottom:18px">
+                      <h2>If we haven’t got it</h2>
+                    </div>
+                    <p class="order-lead">
+                      Almost anything in print can be here by the end of the week, and it costs the
+                      same as it would anywhere else.
+                    </p>
+                    <div class="steps">
+                      <div class="step">
+                        <span class="step-n">Step one</span>
+                        <p>Tell us what you’re after. Ring, email, or come in and ask.</p>
+                      </div>
+                      <div class="step">
+                        <span class="step-n">Step two</span>
+                        <p>We order it that day. Most things arrive within three or four.</p>
+                      </div>
+                      <div class="step">
+                        <span class="step-n">Step three</span>
+                        <p>It waits behind the counter with your name on it until you can get in.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <figure>
+                    <img src="../assets/spots/magpie-flight.webp" alt="" loading="lazy" />
+                  </figure>
+                </div>
+              </section>
+            </div>
+
+            <div class="site-pad">
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/wine-and-books.webp" alt="" loading="lazy" />
+                  <h2>What’s on</h2>
+                  <span class="more">Everything coming up</span>
+                </div>
+                <div class="events">
+                  {EVENTS.map((e) => (
+                    <article class="event">
+                      <p class="event-d">{e.date}<span>{e.time}</span></p>
+                      <div>
+                        <h3>{e.title}</h3>
+                        <p>{e.body}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/tea-and-book.webp" alt="" loading="lazy" />
+                  <h2>The reading group</h2>
+                  <span class="more">Every last Wednesday</span>
+                </div>
+                <div class="group">
+                  <p class="group-when">Wed 30 Sep<span>7.30pm</span></p>
+                  <div>
+                    <h3>Small Things Like These</h3>
+                    <p class="by">Claire Keegan</p>
+                    <p>
+                      Short enough to read in an evening and difficult to stop thinking about
+                      afterwards. Copies are behind the counter at a couple of pounds off if you’re
+                      coming. Nobody minds if you haven’t finished it.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/armchair.webp" alt="" loading="lazy" />
+                  <h2>Behind the counter</h2>
+                </div>
+                <div class="counter">
+                  <div>
+                    <p>
+                      There are two of us. Between us we read a good deal of what we stock, and when
+                      we haven’t read something we’ll tell you so rather than guess.
+                    </p>
+                    <p>
+                      If you tell us what you liked last, we’ll usually have something for you. If
+                      we haven’t read it, we’ll say so.
+                    </p>
+                  </div>
+                  <div>
+                    <span class="label">What we are reading now</span>
+                    <ul class="reading">
+                      <li><span><em>Orbital</em>, Samantha Harvey</span><span class="who">Kate</span></li>
+                      <li><span><em>The Wager</em>, David Grann</span><span class="who">Sam</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="find">
+                  <div>
+                    <div class="band-head" style="margin-bottom:8px">
+                      <img class="band-spot" src="../assets/spots/church-tower.webp" alt="" loading="lazy" />
+                      <h2 style="font-size:30px;font-weight:400">Find us</h2>
+                    </div>
+                    <dl>
+                      <dt>Where</dt><dd>Botanic Road, Churchtown, Southport</dd>
+                      <dt>Wednesday to Sunday</dt><dd>10am to 4pm</dd>
+                      <dt>Monday and Tuesday</dt><dd>Closed</dd>
+                      <dt>Phone</dt><dd>01704 000000</dd>
+                    </dl>
+                  </div>
+                  <div>
+                    <span class="label">Getting here</span>
+                    <p style="margin-top:12px;line-height:1.55">
+                      Two minutes from the Botanic Gardens, on the same side as the church. There is
+                      free parking on the road outside and a larger car park behind the gardens. The
+                      shop is on the ground floor with a step at the door.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <footer class="site-foot">
+                <img src="../assets/magpie.svg" alt="" />
+                <span>The Magpie’s Tale, Churchtown</span>
+                <span class="r">@themagpiestale</span>
+              </footer>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          {NOTES.map((note) => (
+            <div class="note">
+              <span class="note-n">{note.n}</span>
+              <div>
+                <h3>{note.title}</h3>
+                <p>{note.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── Mobile comp ───────────────────────────────────────────────── -->
+      <div class="section-gap"></div>
+      <div class="plate">
+        <span class="plate-n">02</span>
+        <span class="plate-t">Homepage</span>
+        <span class="plate-d">Mobile, 390px</span>
+      </div>
+
+      <div class="stage">
+        <div class="board-wrap board-mob"><div class="board">
+          <div class="site m" style="font-size:17px">
+            <div class="site-pad" style="padding:0 22px">
+              <nav class="site-nav">
+                <span class="site-word">The Magpie’s Tale</span>
+                <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+              </nav>
+
+              <div class="hero">
+                <div>
+                  <h2 class="hero-t">A small bookshop in Churchtown.</h2>
+                  <p class="hero-sub">Every book in the shop was chosen by one of the two of us.</p>
+                  <p class="status"><b>Open today until 4pm.</b></p>
+                  <a class="cta" href="#">About the shop</a>
+                </div>
+                <figure class="hero-fig">
+                  <img
+                    src="../assets/shopfront-sm.webp"
+                    alt="Pen drawing of The Magpie’s Tale shopfront"
+                    width="700" height="609" loading="lazy"
+                  />
+                </figure>
+              </div>
+
+              <section class="band">
+                <div class="band-head"><img class="band-spot" src="../assets/spots/books-stack.webp" alt="" loading="lazy" /><h2 style="font-size:24px;font-weight:400">On the front table</h2></div>
+                <div class="picks">
+                  {PICKS.slice(0, 2).map((p) => (
+                    <article class="pick">
+                      <span class="label">{p.shelf}</span>
+                      <h3 class="pick-t">{p.title}</h3>
+                      <p class="pick-a">{p.author}</p>
+                      <p class="pick-n">{p.note}</p>
+                      <p class="pick-f">{p.meta}<b>{p.price}</b></p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            </div>
+            <div class="site-pad" style="padding:0 22px">
+              <section class="band">
+                <div class="band-head"><img class="band-spot" src="../assets/spots/wine-and-books.webp" alt="" loading="lazy" /><h2 style="font-size:24px;font-weight:400">What’s on</h2></div>
+                <div class="events">
+                  <article class="event" style="grid-template-columns:1fr;gap:6px">
+                    <p class="event-d">{EVENTS[0].date} <span>{EVENTS[0].time}</span></p>
+                    <div>
+                      <h3 style="font-size:19px">{EVENTS[0].title}</h3>
+                      <p>{EVENTS[0].body}</p>
+                    </div>
+                  </article>
+                </div>
+              </section>
+              <section class="band">
+                <div class="order">
+                  <div>
+                    <div class="band-head" style="margin-bottom:14px">
+                      <h2 style="font-size:24px;font-weight:400">If we haven’t got it</h2>
+                    </div>
+                    <p style="font-size:18px;line-height:1.45">
+                      Almost anything in print can be here by the end of the week, and it costs the
+                      same as it would anywhere else.
+                    </p>
+                    <div class="steps">
+                      <div class="step">
+                        <span class="step-n">Step one</span>
+                        <p>Tell us what you’re after.</p>
+                      </div>
+                      <div class="step">
+                        <span class="step-n">Step two</span>
+                        <p>We order it that day.</p>
+                      </div>
+                      <div class="step">
+                        <span class="step-n">Step three</span>
+                        <p>It waits behind the counter with your name on it.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <figure><img src="../assets/spots/magpie-flight.webp" alt="" loading="lazy" /></figure>
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/tea-and-book.webp" alt="" loading="lazy" />
+                  <h2 style="font-size:24px;font-weight:400">The reading group</h2>
+                </div>
+                <div class="group">
+                  <p class="group-when">Wed 30 Sep<span>7.30pm</span></p>
+                  <div>
+                    <h3 style="font-size:20px">Small Things Like These</h3>
+                    <p class="by">Claire Keegan</p>
+                    <p>Short enough to read in an evening. Nobody minds if you haven’t finished it.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="band-head">
+                  <img class="band-spot" src="../assets/spots/armchair.webp" alt="" loading="lazy" />
+                  <h2 style="font-size:24px;font-weight:400">Behind the counter</h2>
+                </div>
+                <div class="counter">
+                  <p>
+                    There are two of us. Between us we read a good deal of what we stock, and when
+                    we haven’t read something we’ll tell you so rather than guess.
+                  </p>
+                  <div>
+                    <span class="label">What we are reading now</span>
+                    <ul class="reading" style="margin-top:10px">
+                      <li><span><em>Orbital</em>, Samantha Harvey</span><span class="who">Kate</span></li>
+                      <li><span><em>The Wager</em>, David Grann</span><span class="who">Sam</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <section class="band">
+                <div class="band-head" style="margin-bottom:8px">
+                  <img class="band-spot" src="../assets/spots/church-tower.webp" alt="" loading="lazy" />
+                  <h2 style="font-size:24px;font-weight:400">Find us</h2>
+                </div>
+                <div class="find">
+                  <dl>
+                    <dt>Where</dt><dd>Botanic Road, Churchtown</dd>
+                    <dt>Wednesday to Sunday</dt><dd>10am to 4pm</dd>
+                    <dt>Monday and Tuesday</dt><dd>Closed</dd>
+                    <dt>Phone</dt><dd>01704 000000</dd>
+                  </dl>
+                </div>
+              </section>
+
+              <footer class="site-foot">
+                <img src="../assets/magpie.svg" alt="" style="width:70px" />
+                <span class="r">@themagpiestale</span>
+              </footer>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="note">
+            <span class="note-n">·</span>
+            <div>
+              <h3>One column, same page</h3>
+              <p>
+                Nothing is hidden on a phone and nothing extra is loaded for it. The picks stack, the
+                navigation folds, and the drawing swaps to a smaller file at 9 KB. Most people
+                looking up a shop are standing outside it on a phone, so this is the layout that
+                matters most.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── How it gets built ─────────────────────────────────────────── -->
+      <div class="section-gap"></div>
+      <div class="plate">
+        <span class="plate-n">03</span>
+        <span class="plate-t">How it would be built</span>
+        <span class="plate-d">Carbon and editing</span>
+      </div>
+
+      <div class="panels">
+        <div class="panel">
+          <h3>Why the page is light, and what A+ means</h3>
+          <p>
+            Opening a web page means downloading it onto a phone or a laptop, and downloading uses
+            electricity. The more there is to download, the more it uses. Website Carbon grades
+            pages from A+ at the top down to F, based on exactly that.
+          </p>
+          <p>
+            Here is everything a visitor would download, measured from the real files in this
+            concept rather than estimated.
+          </p>
+          <div class="budget">
+            <div class="brow"><span>The words and the page itself</span><b>~11 KB</b></div>
+            <div class="brow"><span>The design: layout, spacing, type sizes</span><b>~6 KB</b></div>
+            <div class="brow"><span>The typeface, in two styles</span><b>57 KB</b></div>
+            <div class="brow"><span>The shopfront drawing</span><b>23 KB</b></div>
+            <div class="brow"><span>The magpie in the footer</span><b>6 KB</b></div>
+            <div class="brow"><span>Six small illustrations</span><b>29 KB</b></div>
+            <div class="brow"><span>Tracking, adverts and pop-ups</span><b>0 KB</b></div>
+            <div class="btot"><span>What a first-time visitor downloads</span><b>~132 KB</b></div>
+            <div class="brow" style="border:0"><span>What the same person downloads next time</span><b>~15 KB</b></div>
+          </div>
+          <p class="grade"><span>Website Carbon</span><b>A+</b></p>
+          <p style="margin-top:14px">
+            That comes out at <strong>0.016 grams of CO2 per visit</strong>. Grams of CO2 are hard
+            to picture, so the useful part is the band rather than the number: A+ runs up to 0.04
+            grams, and this page sits at less than half of that.
+          </p>
+          <p>
+            In practical terms, the page could grow to roughly two and a half times its current
+            size before the rating would change. That is the headroom that matters. It means the
+            shop can add photographs of the shelves later, or a few more sections, without losing
+            the grade.
+          </p>
+          <p>
+            For comparison, an average web page is about 2.5 MB, close to twenty times heavier than
+            this one. Nothing clever is going on. The site simply has no tracking scripts, so it
+            needs no cookie banner, and it uses the shop’s own drawings rather than stock
+            photography and one typeface rather than four.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>What the shop would see</h3>
+          <p>
+            The three things that change often are the picks, the events and the opening hours.
+            Each one is a short form with a handful of boxes, and nothing else on the page can be
+            broken from inside it. There is no page builder, no blocks to drag, and no way to
+            change a font.
+          </p>
+          <div class="cms" style="margin-top:16px">
+            <div class="cms-bar"><span class="cms-dot"></span><span>Edit a pick</span></div>
+            <div class="cms-body">
+              <p class="cms-h">Add a book to the front table</p>
+              <p class="cms-sub">It appears on the homepage as soon as you save.</p>
+              <div class="fld">
+                <label>Title</label>
+                <div class="box">Orbital</div>
+              </div>
+              <div class="fld">
+                <label>Author</label>
+                <div class="box">Samantha Harvey</div>
+              </div>
+              <div class="fld">
+                <label>Your note</label>
+                <div class="box ta">Six astronauts, sixteen sunrises, almost no plot. Finished it in an afternoon and started it again the week after.</div>
+                <p class="hint">Two or three sentences. Say what it does, not how good it is.</p>
+              </div>
+              <div class="fld">
+                <label>Price</label>
+                <div class="box" style="max-width:130px">£9.99</div>
+              </div>
+              <div class="cms-actions">
+                <span class="cms-save">Save</span>
+                <span class="cms-note">Live in about a minute.</span>
+              </div>
+            </div>
+          </div>
+          <ul>
+            <li>Log in with one account, on a phone as easily as on a laptop.</li>
+            <li>Every edit is kept, so a wrong one can be put back in a click.</li>
+            <li>Adding a pick cannot change the layout, the colours or the type.</li>
+            <li>Nothing to update, patch or back up. There is no database to break.</li>
+          </ul>
+          <p style="margin-top:14px">
+            Underneath, the editor writes to the same store the site is built from, and the build
+            that is already set up for this hosting runs on its own and publishes the change. The
+            shop waits about a minute and never sees any of that. It also means the site stays a set
+            of plain files, which is most of the reason the rating holds.
+          </p>
+        </div>
+      </div>
+
+      <div class="panels" style="margin-top:20px">
+        <div class="panel">
+          <h3>What is settled here, and what is not</h3>
+          <p>
+            <strong>Settled:</strong> the layout, the type, the way books and events are presented,
+            the fact that colour appears exactly once, and that spot illustrations stay small enough
+            not to compete with the shopfront drawing.
+          </p>
+          <p>
+            <strong>Not settled:</strong> every word of content on the comp. The books are real, the
+            notes about them are written as examples of the right tone, and the address, phone
+            number and hours are stand-in. The shop supplies all of that before build.
+          </p>
+        </div>
+        <div class="panel">
+          <h3>Pages beyond this one</h3>
+          <p>
+            The homepage sets the pattern and the rest reuses it, so the whole site stays inside the
+            same budget.
+          </p>
+          <ul>
+            <li>Books: the full list of picks, same shelf-card treatment.</li>
+            <li>What’s on: events, with the past ones dropping off by themselves.</li>
+            <li>About: the longer version of Behind the counter, plus the drawing and the shop’s own account of itself.</li>
+            <li>Find us: hours, directions, and a still image rather than an embedded map, which alone would cost more than this entire page.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panels panels-wide" style="margin-top:20px">
+        <div class="panel">
+          <h3>Selling online, if the shop ever wants to</h3>
+          <p>
+            This concept deliberately stops at telling people what is in the shop and getting them
+            through the door. Selling and posting books is a bigger step, and it is worth saying
+            plainly that the website is the easy half of it.
+          </p>
+          <p>
+            <strong>What the shop would need first,</strong> none of which is a web problem:
+            somewhere to know what is actually in stock hour by hour, packaging and postage, someone
+            picking and packing every day it is open, and a way of handling returns. Book margins
+            are thin and postage eats into them, so a lot of small shops find the numbers only work
+            above a certain volume.
+          </p>
+          <p>
+            <strong>Two smaller steps worth considering first.</strong> Click and collect sells
+            online but skips shipping entirely: people pay on the site and pick the book up at the
+            counter, which is the ordering section on this page with a card payment attached.
+            Alternatively Bookshop.org lets independent shops have an online storefront while they
+            handle the fulfilment, which means no packing and no post office.
+          </p>
+          <p>
+            One thing to know before deciding: a real shop adds product photographs, a basket and
+            payment scripts, and that would very likely move the site out of the A+ band. That is a
+            fair trade if the shop is selling, but it should be a choice rather than a surprise.
+          </p>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>Website concept, version 1.0. 20 August 2026.</span>
+        <span class="r">Produced by OakFox · <a href="../">Brand guidelines</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

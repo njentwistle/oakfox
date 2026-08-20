@@ -1,0 +1,19 @@
+/* EB Garamond, self-hosted and subset to the characters a UK bookshop needs.
+   Served from the same origin as the page, so there is no third-party font
+   request to Google, no extra DNS and TLS handshake, and nothing to disclose
+   in a privacy notice. Two files, 41 KB in total.
+   SIL Open Font Licence 1.1 — free for print and web, no licence to buy. */
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/ebgaramond-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/ebgaramond-400i.woff2') format('woff2');
+}

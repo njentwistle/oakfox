@@ -1,0 +1,1236 @@
+---
+/**
+ * Client brand-guidelines microsite.
+ *
+ * Builds one self-contained page per entry in `src/data/brands/`, output to
+ * `dist/brand/<slug>/index.html`. A cPanel subdomain points its document root
+ * at that folder, so the same file answers on both
+ * `oakfox.co.uk/brand/<slug>/` and `<slug>.oakfox.co.uk/`.
+ *
+ * That dual-serving is why this page deliberately does NOT use BaseLayout,
+ * Tailwind, or bundled scripts: Astro emits those as absolute `/_astro/…`
+ * URLs, which 404 on the subdomain. Everything here is `is:inline` CSS/JS and
+ * relative asset paths. Keep it that way. See `docs/brand-guidelines.md`.
+ */
+import { brands } from '../../../data/brands';
+import type { Brand, Lockup } from '../../../data/brands/types';
+import { readableOn, alpha, contrast, wcag } from '../../../lib/colour';
+
+export async function getStaticPaths() {
+  return brands.map((brand) => ({ params: { slug: brand.slug }, props: { brand } }));
+}
+
+interface Props {
+  brand: Brand;
+}
+
+const { brand } = Astro.props;
+
+const ink = brand.theme.ink ?? '#17181a';
+const paper = brand.theme.paper ?? '#faf9f6';
+const muted = brand.theme.muted ?? '#6f7174';
+const accent = brand.theme.accent;
+const cover = brand.theme.cover ?? { bg: ink, fg: paper };
+
+const fontHref =
+  brand.fonts?.href ??
+  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap';
+const fontDisplay = brand.fonts?.display ?? "'Playfair Display', Georgia, serif";
+const fontBody = brand.fonts?.body ?? "'Work Sans', system-ui, -apple-system, sans-serif";
+const fontMono = brand.fonts?.mono ?? "'JetBrains Mono', ui-monospace, monospace";
+
+const updated = new Date(brand.updated).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const nav = brand.sections.map((s, i) => ({
+  id: s.id,
+  label: s.nav ?? s.title,
+  index: String(i + 1).padStart(2, '0'),
+}));
+
+const pageTitle = `${brand.name}: Brand Guidelines`;
+
+/** Resolves a Lockup.background keyword to a real colour. */
+const lockupBg = (bg: Lockup['background']) =>
+  bg === 'dark' ? ink : bg === 'accent' ? accent : bg === 'light' || !bg ? '#ffffff' : bg;
+
+const themeVars = `
+:root {
+  --accent: ${accent};
+  --accent-ink: ${readableOn(accent)};
+  --accent-wash: ${alpha(accent, 0.07)};
+  --accent-line: ${alpha(accent, 0.22)};
+  --ink: ${ink};
+  --ink-70: ${alpha(ink, 0.7)};
+  --paper: ${paper};
+  --muted: ${muted};
+  --rule: ${alpha(ink, 0.12)};
+  --rule-soft: ${alpha(ink, 0.07)};
+  --cover-bg: ${cover.bg};
+  --cover-fg: ${cover.fg};
+  --cover-fg-60: ${alpha(cover.fg, 0.6)};
+  --cover-rule: ${alpha(cover.fg, 0.18)};
+  --font-display: ${fontDisplay};
+  --font-body: ${fontBody};
+  --font-mono: ${fontMono};
+}`.trim();
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta
+      name="description"
+      content={`Brand guidelines for ${brand.name}${brand.descriptor ? `. ${brand.descriptor}` : '.'} Produced by OakFox.`}
+    />
+    {/* Client-confidential. Never index these, on either host. */}
+    <meta name="robots" content="noindex, nofollow" />
+    {brand.logo.favicon && <link rel="icon" href={brand.logo.favicon} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontHref} />
+    <style is:inline set:html={themeVars}></style>
+    <style is:inline>
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-weight: 400;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      img { max-width: 100%; height: auto; display: block; }
+      a { color: inherit; }
+      h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+      p { margin: 0; }
+      ul { margin: 0; padding: 0; list-style: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      }
+
+      /* ── Shared type ───────────────────────────────────────────────── */
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        letter-spacing: 0.11em;
+        font-variant-caps: all-small-caps;
+        font-variant-numeric: lining-nums tabular-nums;
+        color: var(--muted);
+        line-height: 1;
+      }
+      .display { font-family: var(--font-display); letter-spacing: -0.015em; line-height: 1.08; }
+      .mono { font-family: var(--font-mono); }
+      .measure { max-width: 62ch; }
+      .lede { font-size: 1.0625rem; color: var(--ink-70); }
+
+      /* ── Reading-progress hairline ─────────────────────────────────── */
+      .progress {
+        position: fixed;
+        top: 0; left: 0;
+        height: 2px;
+        width: 0;
+        background: var(--accent);
+        z-index: 60;
+        transition: width 0.1s linear;
+      }
+
+      /* ── Top bar ───────────────────────────────────────────────────── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 28px;
+        background: color-mix(in srgb, var(--paper) 88%, transparent);
+        backdrop-filter: saturate(180%) blur(12px);
+        border-bottom: 1px solid var(--rule-soft);
+      }
+      .topbar-name {
+        min-width: 0;
+        font-family: var(--font-display);
+        font-size: 0.9375rem;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .topbar-sep { color: var(--rule); }
+      .topbar-spacer { flex: 1; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        white-space: nowrap;
+      }
+      .btn { flex: none; }
+      .btn:hover { opacity: 0.86; transform: translateY(-1px); }
+      .btn-short { display: none; }
+      .btn-ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+
+      /* ── Shell ─────────────────────────────────────────────────────── */
+      .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); align-items: start; }
+      .sidebar {
+        position: sticky;
+        top: 57px;
+        height: calc(100vh - 57px);
+        padding: 40px 20px 28px 28px;
+        border-right: 1px solid var(--rule-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        overflow-y: auto;
+      }
+      .sidebar-nav { display: flex; flex-direction: column; gap: 1px; }
+      .sidebar-link {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        padding: 7px 10px 7px 12px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 0.8125rem;
+        color: var(--muted);
+        border-left: 2px solid transparent;
+        transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      }
+      .sidebar-link:hover { color: var(--ink); background: var(--rule-soft); }
+      .sidebar-link.is-active { color: var(--ink); border-left-color: var(--accent); background: var(--accent-wash); }
+      .sidebar-link .num { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--accent); opacity: 0.75; font-variant-numeric: lining-nums tabular-nums; }
+      .sidebar-foot { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--rule-soft); font-size: 0.75rem; color: var(--muted); }
+      .sidebar-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+      .sidebar-foot a:hover { border-bottom-color: var(--accent); }
+
+      .main { padding: 0 clamp(24px, 5vw, 72px) 0; min-width: 0; }
+      .chipnav { display: none; }
+
+      /* ── Cover ─────────────────────────────────────────────────────── */
+      .cover {
+        position: relative;
+        margin: 0 calc(-1 * clamp(24px, 5vw, 72px));
+        padding: clamp(56px, 9vw, 104px) clamp(24px, 5vw, 72px) clamp(48px, 7vw, 84px);
+        background: var(--cover-bg);
+        color: var(--cover-fg);
+        overflow: hidden;
+      }
+      .cover::after {
+        content: '';
+        position: absolute;
+        right: -12%;
+        top: -30%;
+        width: 60%;
+        height: 140%;
+        background: radial-gradient(ellipse closest-side at center, var(--accent-line), transparent);
+        pointer-events: none;
+      }
+      .cover-inner { position: relative; z-index: 1; }
+      .cover-logo { max-height: 72px; width: auto; margin-bottom: 40px; }
+      .cover h1 { font-family: var(--font-display); font-size: clamp(2.75rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; }
+      .cover-descriptor { margin-top: 18px; font-size: clamp(1rem, 1.6vw, 1.1875rem); color: var(--cover-fg-60); max-width: 46ch; }
+      .cover-title { margin-top: 34px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cover-fg); }
+      .cover-meta {
+        margin-top: 44px;
+        padding-top: 22px;
+        border-top: 1px solid var(--cover-rule);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 36px;
+      }
+      .cover-meta dt { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cover-fg-60); }
+      .cover-meta dd { margin: 6px 0 0; font-size: 0.9375rem; }
+
+      /* ── Sections ──────────────────────────────────────────────────── */
+      .section { padding: clamp(64px, 8vw, 104px) 0; border-bottom: 1px solid var(--rule-soft); scroll-margin-top: 72px; }
+      .section:last-of-type { border-bottom: 0; }
+      .section-head { margin-bottom: clamp(32px, 4vw, 48px); }
+      .section-head .eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+      .section-head .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); max-width: 160px; }
+      .section-head h2 { font-family: var(--font-display); font-size: clamp(1.875rem, 3.4vw, 2.75rem); }
+      .section-head .lede { margin-top: 16px; }
+
+      .block { margin-top: clamp(32px, 4vw, 48px); }
+      .block-label { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+      .grid { display: grid; gap: 20px; }
+      .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+      /* ── Story ─────────────────────────────────────────────────────── */
+      .statement {
+        font-family: var(--font-display);
+        font-size: clamp(1.375rem, 2.6vw, 2rem);
+        line-height: 1.3;
+        letter-spacing: -0.015em;
+        padding-left: clamp(20px, 3vw, 32px);
+        border-left: 2px solid var(--accent);
+        max-width: 34ch;
+      }
+      .story-block { padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+      .story-block .eyebrow { display: block; margin-bottom: 10px; }
+      .value-card { padding: 22px 24px; background: var(--accent-wash); border-radius: 12px; }
+      .value-card h3 { font-family: var(--font-display); font-size: 1.125rem; margin-bottom: 6px; }
+      .value-card p { font-size: 0.9375rem; color: var(--ink-70); }
+
+      /* ── Logo ──────────────────────────────────────────────────────── */
+      .lockup { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .lockup-stage { display: flex; align-items: center; justify-content: center; padding: clamp(32px, 5vw, 56px); min-height: 180px; }
+      .lockup-stage img { max-height: 84px; width: auto; }
+      .lockup-foot { padding: 14px 18px; border-top: 1px solid var(--rule-soft); }
+      .lockup-foot strong { font-weight: 500; font-size: 0.875rem; }
+      .lockup-foot p { font-size: 0.8125rem; color: var(--muted); margin-top: 3px; }
+
+      .spec-list { display: flex; flex-direction: column; gap: 1px; }
+      .spec-row { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--rule-soft); font-size: 0.9375rem; }
+      .spec-row span:last-child { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); text-align: right; font-variant-numeric: lining-nums tabular-nums; }
+
+      /* ── Do / don't ────────────────────────────────────────────────── */
+      .rule-col { padding: 22px 24px; border-radius: 12px; border: 1px solid var(--rule-soft); }
+      .rule-col-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+      .rule-mark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; flex: none; }
+      .tone-do .rule-mark { background: var(--accent); color: var(--accent-ink); }
+      .tone-dont .rule-mark { background: var(--ink); color: var(--paper); }
+      .tone-note .rule-mark { background: var(--rule); color: var(--ink); }
+      .rule-col li { position: relative; padding-left: 18px; font-size: 0.9375rem; color: var(--ink-70); margin-bottom: 9px; }
+      .rule-col li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 1px; background: var(--accent); }
+      .rule-col li:last-child { margin-bottom: 0; }
+
+      .misuse { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .misuse-stage { position: relative; padding: 28px; min-height: 132px; display: grid; place-items: center; background: #fff; }
+      .misuse-stage::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top left, transparent calc(50% - 0.5px), var(--rule) 50%, transparent calc(50% + 0.5px));
+        opacity: 0.55;
+      }
+      .misuse-foot { padding: 12px 16px; border-top: 1px solid var(--rule-soft); font-size: 0.8125rem; }
+      .misuse-foot strong { font-weight: 500; }
+      .misuse-foot p { color: var(--muted); margin-top: 2px; }
+
+      /* ── Colour ────────────────────────────────────────────────────── */
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--rule-soft);
+        border-radius: 12px;
+        overflow: hidden;
+        background: none;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      .swatch-chip { padding: 22px 18px; height: 132px; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: flex-end; }
+      .swatch-chip .name { font-size: 0.9375rem; font-weight: 500; }
+      .swatch-chip .hex { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.72; margin-top: 2px; letter-spacing: 0.04em; font-variant-numeric: lining-nums tabular-nums; }
+      .swatch-body { display: block; flex: 1 1 auto; padding: 14px 18px 16px; }
+      .swatch-body .use { display: block; font-size: 0.8125rem; color: var(--ink-70); }
+      .swatch-spec { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+      .swatch-spec span { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
+      .copy-hint { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; }
+
+      .pairing { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .pairing-stage { padding: 26px 22px; font-family: var(--font-display); font-size: 1.375rem; }
+      .pairing-foot { padding: 12px 18px; border-top: 1px solid var(--rule-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .pairing-foot .label { font-size: 0.8125rem; }
+      .pairing-foot .note { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+      .badge { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; white-space: nowrap; }
+      .gradient-bar {
+        position: relative; height: 116px; border-radius: 3px;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+      }
+      .gradient-tick {
+        position: absolute; bottom: 0; width: 1px; height: 14px;
+        background: rgba(255,255,255,0.85); transform: translateX(-0.5px);
+      }
+      .gradient-axis { position: relative; height: 22px; margin-bottom: 22px; }
+      .gradient-at {
+        position: absolute; top: 5px; transform: translateX(-50%);
+        font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em;
+        font-variant-numeric: lining-nums tabular-nums;
+        color: var(--muted); white-space: nowrap;
+      }
+      .gradient-at:first-child { transform: none; }
+      .gradient-at:last-child { transform: translateX(-100%); }
+      .gradient-stop {
+        display: flex; gap: 12px; align-items: flex-start; text-align: left;
+        padding: 16px 18px; border: 1px solid var(--rule); border-radius: 3px;
+        background: none; font: inherit; color: inherit; cursor: pointer; width: 100%;
+      }
+      .gradient-stop:hover { border-color: var(--accent-line); }
+      .gradient-dot {
+        flex: 0 0 auto; width: 15px; height: 15px; border-radius: 50%; margin-top: 4px;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+      }
+      .gradient-meta { display: grid; gap: 5px; }
+      .gradient-meta .name { font-size: 1rem; }
+      .gradient-meta .name em { font-style: normal; color: var(--muted); }
+      .gradient-meta .hex { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
+      .gradient-meta .use { font-size: 0.875rem; color: var(--ink-70); }
+      @media (max-width: 700px) { .gradient-bar { height: 74px; } }
+      .badge-pass { background: var(--accent-wash); color: var(--ink); border: 1px solid var(--accent-line); }
+      .badge-fail { background: var(--rule-soft); color: var(--muted); border: 1px solid var(--rule); }
+
+      /* ── Type ──────────────────────────────────────────────────────── */
+      .face { padding-top: 26px; border-top: 1px solid var(--rule); }
+      .face + .face { margin-top: 40px; }
+      .face-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+      .face-head h3 { font-size: 1.375rem; font-family: var(--font-display); }
+      .face-specimen { font-size: clamp(2rem, 6vw, 4rem); line-height: 1.1; letter-spacing: -0.02em; word-break: break-word; }
+      .face-meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+      .face-meta div { font-size: 0.8125rem; color: var(--muted); }
+      .face-meta strong { display: block; font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 400; margin-bottom: 3px; }
+      .scale-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; padding: 20px 0; border-bottom: 1px solid var(--rule-soft); }
+      .scale-meta { flex: 0 0 128px; }
+      .scale-meta .eyebrow { display: block; margin-bottom: 4px; }
+      .scale-meta span { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); display: block; }
+      .scale-sample { flex: 1 1 320px; min-width: 0; }
+
+      /* ── Voice ─────────────────────────────────────────────────────── */
+      .example { border: 1px solid var(--rule-soft); border-radius: 12px; overflow: hidden; }
+      .example-context { padding: 12px 18px; background: var(--rule-soft); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+      .example-row { padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start; }
+      .example-row + .example-row { border-top: 1px solid var(--rule-soft); }
+      .example-row .mark { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; padding-top: 4px; flex: none; }
+      .example-yes .mark { color: var(--accent); }
+      .example-no { color: var(--muted); }
+      .lexicon li { font-family: var(--font-mono); font-size: 0.8125rem; padding: 8px 0; border-bottom: 1px solid var(--rule-soft); }
+      .lexicon li::before { display: none; }
+
+      /* ── Gallery ───────────────────────────────────────────────────── */
+      .tile { border-radius: 12px; overflow: hidden; border: 1px solid var(--rule-soft); }
+      .tile img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      .tile-foot { padding: 12px 16px; }
+      .tile-foot strong { font-weight: 500; font-size: 0.875rem; }
+      .tile-foot p { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+
+      /* ── Assets ────────────────────────────────────────────────────── */
+      .asset-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--rule-soft);
+        text-decoration: none;
+      }
+      .asset-row:hover .asset-name { color: var(--accent); }
+      .asset-name { font-size: 0.9375rem; font-weight: 500; transition: color 0.18s ease; }
+      .asset-note { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+      .asset-meta { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); text-align: right; white-space: nowrap; }
+
+      /* ── Footer ────────────────────────────────────────────────────── */
+      .colophon {
+        margin: 0 calc(-1 * clamp(24px, 5vw, 72px));
+        padding: clamp(48px, 6vw, 72px) clamp(24px, 5vw, 72px);
+        background: var(--cover-bg);
+        color: var(--cover-fg);
+      }
+      .colophon h3 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 12px; }
+      .colophon p { color: var(--cover-fg-60); font-size: 0.9375rem; max-width: 52ch; }
+      .colophon a { color: var(--cover-fg); text-decoration: none; border-bottom: 1px solid var(--cover-rule); }
+      .colophon a:hover { border-bottom-color: var(--accent); }
+      .colophon-grid { margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--cover-rule); display: flex; flex-wrap: wrap; gap: 32px 56px; }
+      .colophon-grid dt { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cover-fg-60); margin-bottom: 6px; }
+      .colophon-grid dd { margin: 0; font-size: 0.9375rem; }
+
+      /* ── Copy toast ────────────────────────────────────────────────── */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translate(-50%, 12px);
+        padding: 10px 18px;
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 70;
+      }
+      .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+      /* ── Narrow ────────────────────────────────────────────────────── */
+      @media (max-width: 1024px) {
+        .shell { grid-template-columns: minmax(0, 1fr); }
+        .sidebar { display: none; }
+        .chipnav {
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          padding: 12px clamp(24px, 5vw, 72px);
+          border-bottom: 1px solid var(--rule-soft);
+          position: sticky;
+          top: 57px;
+          background: var(--paper);
+          z-index: 40;
+          scrollbar-width: none;
+        }
+        .chipnav::-webkit-scrollbar { display: none; }
+        .chip {
+          flex: none;
+          padding: 6px 13px;
+          border: 1px solid var(--rule);
+          border-radius: 999px;
+          font-size: 0.75rem;
+          text-decoration: none;
+          color: var(--muted);
+          white-space: nowrap;
+        }
+        .chip.is-active { border-color: var(--accent); color: var(--ink); background: var(--accent-wash); }
+      }
+      @media (max-width: 780px) {
+        .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 480px) {
+        .topbar { gap: 10px; padding: 12px 16px; }
+        .btn-long { display: none; }
+        .btn-short { display: inline; }
+        .btn { padding: 8px 13px; }
+      }
+      @media (max-width: 560px) {
+        .g2, .g3, .g4 { grid-template-columns: minmax(0, 1fr); }
+        .topbar { padding: 12px 18px; }
+        .pairing-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .scale-meta { flex: 0 0 100%; }
+      }
+
+      /* ── Print / PDF ───────────────────────────────────────────────── */
+      @page { size: A4 portrait; margin: 15mm 14mm; }
+      /* Named pages so the two full-bleed spreads lose the document margin. */
+      @page bleed { size: A4 portrait; margin: 0; }
+      @media print {
+        html { scroll-behavior: auto; }
+        body { background: #fff; font-size: 10.5pt; line-height: 1.5; }
+        .topbar, .sidebar, .chipnav, .progress, .toast, .no-print { display: none !important; }
+        .shell { display: block; }
+        .main { padding: 0; }
+        .cover, .colophon {
+          page: bleed;
+          margin: 0;
+          padding: 26mm 20mm;
+          box-sizing: border-box;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .cover { height: 296mm; display: flex; align-items: center; }
+        .cover h1 { font-size: 40pt; }
+        .section { break-before: page; page-break-before: always; padding: 0 0 10mm; border: 0; }
+        .section-head h2 { font-size: 21pt; }
+        .colophon { break-before: page; page-break-before: always; }
+        .face, .lockup, .swatch, .value-card, .rule-col, .pairing, .tile, .example, .scale-row, .misuse {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        .swatch-chip, .lockup-stage, .pairing-stage, .misuse-stage, .value-card, .badge, .rule-mark {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .g4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        /* Never leave a heading stranded at the foot of a page. */
+        .section-head, .block-label, .face-head { break-after: avoid; page-break-after: avoid; }
+        .pairing-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .lockup-stage { min-height: 32mm; padding: 10mm; }
+        .lockup-stage img { max-height: 20mm; }
+        .swatch-chip { height: 26mm; }
+        .face-specimen { font-size: 30pt; }
+        a { text-decoration: none; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="progress" id="progress"></div>
+
+    <header class="topbar">
+      <span class="eyebrow">OakFox</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-name">{brand.name}</span>
+      <span class="topbar-spacer"></span>
+      {
+        brand.pdf ? (
+          <a class="btn" href={`./${brand.pdf}`} download>
+            <span class="btn-long">Download PDF</span>
+            <span class="btn-short">PDF</span>
+          </a>
+        ) : (
+          <button class="btn" type="button" id="print-btn">
+            <span class="btn-long">Download PDF</span>
+            <span class="btn-short">PDF</span>
+          </button>
+        )
+      }
+    </header>
+
+    <nav class="chipnav" aria-label="Sections">
+      {nav.map((item) => <a class="chip" href={`#${item.id}`} data-chip={item.id}>{item.label}</a>)}
+    </nav>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <nav class="sidebar-nav" aria-label="Guidelines contents">
+          {
+            nav.map((item) => (
+              <a class="sidebar-link" href={`#${item.id}`} data-link={item.id}>
+                <span class="num">{item.index}</span>
+                <span>{item.label}</span>
+              </a>
+            ))
+          }
+        </nav>
+        <div class="sidebar-foot">
+          <p>Version {brand.version}, {updated}</p>
+          <p style="margin-top:6px;">
+            Produced by <a href="https://oakfox.co.uk" target="_blank" rel="noopener">OakFox</a>
+          </p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <!-- ── Cover ── -->
+        <section class="cover">
+          <div class="cover-inner">
+            {
+              brand.logo.light && (
+                <img class="cover-logo" src={brand.logo.light} alt={`${brand.name} logo`} />
+              )
+            }
+            <h1>{brand.name}</h1>
+            {brand.descriptor && <p class="cover-descriptor">{brand.descriptor}</p>}
+            <p class="cover-title">Brand Guidelines</p>
+            <dl class="cover-meta">
+              <div>
+                <dt>Version</dt>
+                <dd>{brand.version}</dd>
+              </div>
+              <div>
+                <dt>Issued</dt>
+                <dd>{updated}</dd>
+              </div>
+              {
+                brand.subdomain && (
+                  <div>
+                    <dt>Live at</dt>
+                    <dd>{brand.subdomain}</dd>
+                  </div>
+                )
+              }
+              <div>
+                <dt>Prepared by</dt>
+                <dd>OakFox</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <!-- ── Sections ── -->
+        {
+          brand.sections.map((section, i) => (
+            <section class="section" id={section.id}>
+              <div class="section-head">
+                <p class="eyebrow">
+                  <span>{String(i + 1).padStart(2, '0')}</span>
+                  <span>{section.nav ?? section.title}</span>
+                </p>
+                <h2>{section.title}</h2>
+                {section.intro && <p class="lede measure">{section.intro}</p>}
+              </div>
+
+              {/* ── Story ── */}
+              {section.type === 'story' && (
+                <div>
+                  {section.statement && <p class="statement">{section.statement}</p>}
+                  {section.blocks && section.blocks.length > 0 && (
+                    <div class="grid g2 block">
+                      {section.blocks.map((b) => (
+                        <div class="story-block">
+                          <span class="eyebrow">{b.label}</span>
+                          <p>{b.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.values && section.values.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Values</p>
+                      <div class="grid g3">
+                        {section.values.map((v) => (
+                          <div class="value-card">
+                            <h3>{v.name}</h3>
+                            <p>{v.body}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Logo ── */}
+              {section.type === 'logo' && (
+                <div>
+                  <div class="grid g2">
+                    {section.lockups.map((l) => (
+                      <div class="lockup">
+                        <div class="lockup-stage" style={`background:${lockupBg(l.background)}`}>
+                          <img src={l.src} alt={l.alt} />
+                        </div>
+                        <div class="lockup-foot">
+                          <strong>{l.label}</strong>
+                          {l.note && <p>{l.note}</p>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {section.clearspace && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Clear space</p>
+                      <div class="grid g2">
+                        {section.clearspace.src && (
+                          <div class="lockup">
+                            <div class="lockup-stage" style="background:#fff">
+                              <img src={section.clearspace.src} alt={section.clearspace.alt ?? 'Clear space diagram'} />
+                            </div>
+                          </div>
+                        )}
+                        <p class="measure" style="align-self:center">{section.clearspace.note}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {section.minSize && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Minimum size</p>
+                      {section.minSize.note && <p class="measure" style="margin-bottom:16px">{section.minSize.note}</p>}
+                      <div class="spec-list">
+                        {section.minSize.items.map((item) => (
+                          <div class="spec-row">
+                            <span>{item.label}</span>
+                            <span>{item.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {section.misuse && section.misuse.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">What to avoid</p>
+                      <div class="grid g3">
+                        {section.misuse.map((m) => (
+                          <div class="misuse">
+                            {m.src && (
+                              <div class="misuse-stage">
+                                <img src={m.src} alt={m.label} />
+                              </div>
+                            )}
+                            <div class="misuse-foot">
+                              <strong>{m.label}</strong>
+                              {m.note && <p>{m.note}</p>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Colour ── */}
+              {section.type === 'colour' && (
+                <div>
+                  {section.groups.map((group) => (
+                    <div class="block">
+                      <p class="eyebrow block-label">{group.label}</p>
+                      {group.note && <p class="measure" style="margin-bottom:18px">{group.note}</p>}
+
+                      {group.gradient && (
+                        <div class="gradient">
+                          <div
+                            class="gradient-bar"
+                            style={`background:linear-gradient(${group.gradient.angle ?? '90deg'}, ${group.gradient.stops
+                              .map((st) => `${st.hex} ${st.at}%`)
+                              .join(', ')})`}
+                          >
+                            {group.gradient.stops.map((st) => (
+                              <span class="gradient-tick" style={`left:${st.at}%`} />
+                            ))}
+                          </div>
+                          <div class="gradient-axis">
+                            {group.gradient.stops.map((st) => (
+                              <span class="gradient-at" style={`left:${st.at}%`}>{st.at}%</span>
+                            ))}
+                          </div>
+                          <div class="grid g3">
+                            {group.gradient.stops.map((st) => (
+                              <button class="gradient-stop" type="button" data-copy={st.hex.toUpperCase()}>
+                                <span class="gradient-dot" style={`background:${st.hex}`} />
+                                <span class="gradient-meta">
+                                  <span class="name">{st.name} <em>{st.at}%</em></span>
+                                  <span class="hex">{st.hex.toUpperCase()}</span>
+                                  {st.use && <span class="use">{st.use}</span>}
+                                  <span class="swatch-spec">
+                                    {st.rgb && <span>RGB {st.rgb}</span>}
+                                    {st.cmyk && <span>CMYK {st.cmyk}</span>}
+                                  </span>
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div class="grid g4">
+                        {(group.swatches ?? []).map((s) => (
+                          <button class="swatch" type="button" data-copy={s.hex.toUpperCase()}>
+                            <span
+                              class="swatch-chip"
+                              style={`background:${s.hex};color:${readableOn(s.hex)};box-shadow:inset 0 -1px 0 0 ${alpha(readableOn(s.hex), 0.14)}`}
+                            >
+                              <span class="name">{s.name}</span>
+                              <span class="hex">{s.hex.toUpperCase()}</span>
+                            </span>
+                            <span class="swatch-body">
+                              {s.use && <span class="use">{s.use}</span>}
+                              <span class="swatch-spec">
+                                {s.rgb && <span>RGB {s.rgb}</span>}
+                                {s.cmyk && <span>CMYK {s.cmyk}</span>}
+                                {s.pantone && <span>PANTONE {s.pantone}</span>}
+                              </span>
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+
+                  {section.pairings && section.pairings.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Approved combinations</p>
+                      <div class="grid g3">
+                        {section.pairings.map((p) => {
+                          const result = wcag(contrast(p.fg, p.bg));
+                          return (
+                            <div class="pairing">
+                              <div class="pairing-stage" style={`background:${p.bg};color:${p.fg}`}>
+                                Aa
+                              </div>
+                              <div class="pairing-foot">
+                                <div>
+                                  <div class="label">{p.label}</div>
+                                  <div class="note">{p.note ?? `${result.ratio}:1`}</div>
+                                </div>
+                                <span class={`badge ${result.pass ? 'badge-pass' : 'badge-fail'}`}>
+                                  {result.pass ? `${result.body} · ${result.ratio}` : `Large text only · ${result.ratio}`}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Type ── */}
+              {section.type === 'type' && (
+                <div>
+                  {section.fonts.map((f) => (
+                    <div class="face">
+                      <div class="face-head">
+                        <h3>{f.name}</h3>
+                        <span class="eyebrow">{f.role}</span>
+                      </div>
+                      <p class="face-specimen" style={`font-family:${f.stack}${f.italic ? ';font-style:italic' : ''}`}>
+                        {f.specimen ?? 'ABCDEFGHIJKLM abcdefghijklm 0123456789'}
+                      </p>
+                      <div class="face-meta">
+                        {f.weights && f.weights.length > 0 && (
+                          <div>
+                            <strong>Weights</strong>
+                            {f.weights.join(' · ')}
+                          </div>
+                        )}
+                        {f.source && (
+                          <div>
+                            <strong>Source</strong>
+                            {f.source}
+                          </div>
+                        )}
+                        {f.note && (
+                          <div>
+                            <strong>Notes</strong>
+                            {f.note}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  {section.scale && section.scale.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Type scale</p>
+                      {section.scale.map((step) => {
+                        const face = section.fonts.find((f) => f.name === step.font);
+                        return (
+                          <div class="scale-row">
+                            <div class="scale-meta">
+                              <span class="eyebrow">{step.label}</span>
+                              <span>{step.size}</span>
+                              {step.lineHeight && <span>LH {step.lineHeight}</span>}
+                              {step.weight && <span>W {step.weight}</span>}
+                              {step.tracking && <span>TR {step.tracking}</span>}
+                            </div>
+                            <div
+                              class="scale-sample"
+                              style={[
+                                face ? `font-family:${face.stack}` : '',
+                                face?.italic ? 'font-style:italic' : '',
+                                `font-size:${step.size.split('/')[0].trim()}`,
+                                step.lineHeight ? `line-height:${step.lineHeight}` : '',
+                                step.weight ? `font-weight:${step.weight}` : '',
+                                step.tracking ? `letter-spacing:${step.tracking}` : '',
+                              ]
+                                .filter(Boolean)
+                                .join(';')}
+                            >
+                              {step.sample}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {section.rules && section.rules.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Setting rules</p>
+                      <div class="rule-col tone-note">
+                        <ul>
+                          {section.rules.map((r) => (
+                            <li>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Voice ── */}
+              {section.type === 'voice' && (
+                <div>
+                  {section.principles && section.principles.length > 0 && (
+                    <div class="grid g3">
+                      {section.principles.map((p) => (
+                        <div class="value-card">
+                          <h3>{p.name}</h4>
+                          <p>{p.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.examples && section.examples.length > 0 && (
+                    <div class="block">
+                      <p class="eyebrow block-label">In practice</p>
+                      <div class="grid g2">
+                        {section.examples.map((e) => (
+                          <div class="example">
+                            <div class="example-context">{e.context}</div>
+                            <div class="example-row example-yes">
+                              <span class="mark">YES</span>
+                              <p>{e.yes}</p>
+                            </div>
+                            <div class="example-row example-no">
+                              <span class="mark">NO</span>
+                              <p>{e.no}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {section.lexicon && (
+                    <div class="block">
+                      <p class="eyebrow block-label">Words</p>
+                      <div class="grid g2">
+                        {section.lexicon.use && section.lexicon.use.length > 0 && (
+                          <div class="rule-col tone-do">
+                            <div class="rule-col-head">
+                              <span class="rule-mark">+</span>
+                              <span class="eyebrow" style="color:var(--ink)">We say</span>
+                            </div>
+                            <ul class="lexicon">
+                              {section.lexicon.use.map((w) => (
+                                <li>{w}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {section.lexicon.avoid && section.lexicon.avoid.length > 0 && (
+                          <div class="rule-col tone-dont">
+                            <div class="rule-col-head">
+                              <span class="rule-mark">&times;</span>
+                              <span class="eyebrow" style="color:var(--ink)">We never say</span>
+                            </div>
+                            <ul class="lexicon">
+                              {section.lexicon.avoid.map((w) => (
+                                <li>{w}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Gallery ── */}
+              {section.type === 'gallery' && (
+                <div>
+                  <div class={`grid g${section.columns ?? 3}`}>
+                    {section.items.map((item) => (
+                      <figure class="tile" style="margin:0">
+                        <img src={item.src} alt={item.alt} loading="lazy" />
+                        {(item.label || item.note) && (
+                          <figcaption class="tile-foot">
+                            {item.label && <strong>{item.label}</strong>}
+                            {item.note && <p>{item.note}</p>}
+                          </figcaption>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                  {(section.dos || section.donts) && (
+                    <div class="grid g2 block">
+                      {section.dos && section.dos.length > 0 && (
+                        <div class="rule-col tone-do">
+                          <div class="rule-col-head">
+                            <span class="rule-mark">+</span>
+                            <span class="eyebrow" style="color:var(--ink)">Do</span>
+                          </div>
+                          <ul>
+                            {section.dos.map((d) => (
+                              <li>{d}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {section.donts && section.donts.length > 0 && (
+                        <div class="rule-col tone-dont">
+                          <div class="rule-col-head">
+                            <span class="rule-mark">&times;</span>
+                            <span class="eyebrow" style="color:var(--ink)">Don’t</span>
+                          </div>
+                          <ul>
+                            {section.donts.map((d) => (
+                              <li>{d}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Rules ── */}
+              {section.type === 'rules' && (
+                <div class={`grid g${Math.min(section.columns.length, 3)}`}>
+                  {section.columns.map((col) => (
+                    <div class={`rule-col tone-${col.tone}`}>
+                      <div class="rule-col-head">
+                        <span class="rule-mark">
+                          {col.tone === 'do' ? '+' : col.tone === 'dont' ? '×' : 'i'}
+                        </span>
+                        <span class="eyebrow" style="color:var(--ink)">{col.label}</span>
+                      </div>
+                      <ul>
+                        {col.items.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* ── Assets ── */}
+              {section.type === 'assets' && (
+                <div>
+                  {section.groups.map((group) => (
+                    <div class="block">
+                      <p class="eyebrow block-label">{group.label}</p>
+                      {group.files.map((file) => (
+                        <a class="asset-row" href={file.href} download>
+                          <div>
+                            <div class="asset-name">{file.name}</div>
+                            {file.note && <div class="asset-note">{file.note}</div>}
+                          </div>
+                          <div class="asset-meta">
+                            {[file.format, file.size].filter(Boolean).join(' · ')}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* ── Custom ── */}
+              {section.type === 'custom' && <div set:html={section.html} />}
+            </section>
+          ))
+        }
+
+        <!-- ── Colophon ── -->
+        <section class="colophon">
+          <h3>Questions about any of this?</h3>
+          <p>
+            These guidelines are a living document. If something you need is not covered here,
+            whether that is a new format, a co-branded piece or an application nobody has thought
+            of yet, get in touch and we will extend the system properly rather than leave you
+            guessing.
+          </p>
+          <dl class="colophon-grid">
+            {
+              brand.contact && (
+                <div>
+                  <dt>Your contact</dt>
+                  <dd>
+                    {brand.contact.name}
+                    {brand.contact.role && <span style="opacity:0.6">, {brand.contact.role}</span>}
+                  </dd>
+                  {brand.contact.email && (
+                    <dd style="margin-top:4px">
+                      <a href={`mailto:${brand.contact.email}`}>{brand.contact.email}</a>
+                    </dd>
+                  )}
+                  {brand.contact.phone && <dd style="margin-top:4px">{brand.contact.phone}</dd>}
+                </div>
+              )
+            }
+            <div>
+              <dt>Document</dt>
+              <dd>Version {brand.version}</dd>
+              <dd style="margin-top:4px;opacity:0.6">Issued {updated}</dd>
+            </div>
+            <div>
+              <dt>Produced by</dt>
+              <dd><a href="https://oakfox.co.uk" target="_blank" rel="noopener">OakFox</a></dd>
+              <dd style="margin-top:4px;opacity:0.6">Sustainable design, West Lancashire</dd>
+            </div>
+          </dl>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast">Copied</div>
+
+    <script is:inline>
+      (function () {
+        var progress = document.getElementById('progress');
+        var toast = document.getElementById('toast');
+        var printBtn = document.getElementById('print-btn');
+        var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+        var links = Array.prototype.slice.call(document.querySelectorAll('[data-link], [data-chip]'));
+
+        if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+
+        /* Reading progress */
+        var ticking = false;
+        function draw() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+          progress.style.width = Math.min(100, Math.max(0, pct)) + '%';
+          ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+          if (!ticking) { ticking = true; window.requestAnimationFrame(draw); }
+        }, { passive: true });
+        draw();
+
+        /* Scrollspy: mark the section currently nearest the top of the viewport */
+        if ('IntersectionObserver' in window && sections.length) {
+          var visible = {};
+          var spy = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+              var current = null;
+              for (var i = 0; i < sections.length; i++) {
+                if (visible[sections[i].id]) { current = sections[i].id; break; }
+              }
+              if (!current) return;
+              links.forEach(function (l) {
+                var id = l.getAttribute('data-link') || l.getAttribute('data-chip');
+                l.classList.toggle('is-active', id === current);
+              });
+            },
+            { rootMargin: '-72px 0px -60% 0px', threshold: 0 }
+          );
+          sections.forEach(function (s) { spy.observe(s); });
+        }
+
+        /* Click a swatch to copy its hex */
+        var toastTimer;
+        function flash(message) {
+          toast.textContent = message;
+          toast.classList.add('is-on');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, 1600);
+        }
+        document.addEventListener('click', function (e) {
+          var el = e.target.closest ? e.target.closest('[data-copy]') : null;
+          if (!el) return;
+          var value = el.getAttribute('data-copy');
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(
+              function () { flash(value + ' copied'); },
+              function () { flash(value); }
+            );
+          } else {
+            flash(value);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
