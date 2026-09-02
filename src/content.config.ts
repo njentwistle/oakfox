@@ -5,6 +5,9 @@ const portfolio = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/portfolio' }),
   schema: z.object({
     title: z.string(),
+    // Overrides the <title> tag only. The on-page heading still uses `title`,
+    // so a case study can read "TrailFox" while search results say what it is.
+    seoTitle: z.string().optional(),
     description: z.string(),
     category: z.enum(['branding', 'design', 'development', 'marketing', 'consultancy']),
     thumbnail: z.string(),

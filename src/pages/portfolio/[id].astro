@@ -67,7 +67,7 @@ const breadcrumbs = {
 ---
 
 <BaseLayout
-  title={item.data.title}
+  title={item.data.seoTitle ?? item.data.title}
   description={item.data.description}
   image={item.data.thumbnail}
   type="article"
