@@ -21,7 +21,6 @@ const PAGE_TITLE = 'The Magpie’s Tale: Website concept';
 // on the page only the shop can write, so they are left obviously placeholder.
 const PICKS = [
   {
-    shelf: 'Staff pick · Fiction',
     title: 'The Bee Sting',
     author: 'Paul Murray',
     note: 'A family coming apart over six hundred pages, and I resented every interruption. Take it somewhere you’ve nothing else on.',
@@ -29,7 +28,6 @@ const PICKS = [
     price: '£9.99',
   },
   {
-    shelf: 'Staff pick · Fiction',
     title: 'Orbital',
     author: 'Samantha Harvey',
     note: 'Six astronauts, sixteen sunrises, almost no plot. Finished it in an afternoon and started it again the week after.',
@@ -37,7 +35,6 @@ const PICKS = [
     price: '£9.99',
   },
   {
-    shelf: 'Staff pick · Non-fiction',
     title: 'The Wager',
     author: 'David Grann',
     note: 'A shipwreck, a mutiny, and two crews who came home telling completely different stories. Better than it has any right to be.',
@@ -80,13 +77,13 @@ const NOTES = [
     n: 3,
     top: '16.5%',
     title: 'The shimmer, once',
-    body: 'The only colour on the page, and it sits on the one thing worth pressing. Everything else is black on white, which is what makes a single gradient carry any weight at all.',
+    body: 'The only colour on the page, and it marks the one thing worth pressing: a rule under the words rather than a filled button, so it stays a mark rather than a shape. Everything else is black on white, which is what makes it carry any weight at all.',
   },
   {
     n: 4,
     top: '22%',
     title: 'Shelf cards, not product tiles',
-    body: 'Each book is set like the hand-written card on the shelf: label, title in italic, and a note from somebody who finished it. This is the piece the shop updates most, so it is the easiest thing to edit.',
+    body: 'Each book is set like the hand-written card on the shelf: title in italic, a note from somebody who finished it, and the price. No category tag above it — the heading above the row already says what the row is, so nothing repeats it.',
   },
   {
     n: 5,
@@ -291,7 +288,7 @@ const NOTES = [
 
       .picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
       .pick { display: flex; flex-direction: column; }
-      .pick-t { margin-top: 12px; font-size: 22px; font-style: italic; line-height: 1.2; }
+      .pick-t { font-size: 22px; font-style: italic; line-height: 1.2; }
       .pick-a { font-size: 17px; color: var(--ink-60); margin-top: 2px; }
       .pick-n { margin-top: 12px; font-size: 17px; line-height: 1.5; }
       .pick-f {
@@ -302,11 +299,13 @@ const NOTES = [
       .pick-f b { margin-left: auto; color: var(--ink); font-weight: 400; }
 
       .site a.cta {
-        display: inline-block; margin-top: 26px; padding: 12px 26px; border-radius: 2px;
-        background: var(--shimmer); color: #fff; text-decoration: none;
+        display: inline-block; margin-top: 26px; padding-bottom: 8px; border: 0;
+        background-color: transparent; background-image: var(--shimmer);
+        background-size: 100% 3px; background-repeat: no-repeat; background-position: 0 100%;
+        color: var(--ink); text-decoration: none;
         font-size: 17px; letter-spacing: 0.06em; font-variant-caps: all-small-caps;
       }
-      .site.m a.cta { margin-top: 20px; padding: 10px 22px; font-size: 16px; }
+      .site.m a.cta { margin-top: 20px; font-size: 16px; }
 
       /* Order anything: the page's one ask. Three steps, numbered because the
          order genuinely matters to somebody working out what happens next. */
@@ -512,7 +511,6 @@ const NOTES = [
                 <div class="picks">
                   {PICKS.map((p) => (
                     <article class="pick">
-                      <span class="label">{p.shelf}</span>
                       <h3 class="pick-t">{p.title}</h3>
                       <p class="pick-a">{p.author}</p>
                       <p class="pick-n">{p.note}</p>
@@ -712,7 +710,6 @@ const NOTES = [
                 <div class="picks">
                   {PICKS.slice(0, 2).map((p) => (
                     <article class="pick">
-                      <span class="label">{p.shelf}</span>
                       <h3 class="pick-t">{p.title}</h3>
                       <p class="pick-a">{p.author}</p>
                       <p class="pick-n">{p.note}</p>
