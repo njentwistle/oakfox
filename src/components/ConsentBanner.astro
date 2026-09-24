@@ -1,8 +1,12 @@
 ---
 const GA_ID = 'G-3EWKKEHGJ8';
-const AW_ID = 'AW-XXXXXXXXX'; // Replace with your Google Ads account ID
-const AW_CONTACT_CONVERSION = 'AW-XXXXXXXXX/XXXXXXXX'; // Replace: contact form conversion
-const AW_BOOKING_CONVERSION = 'AW-XXXXXXXXX/XXXXXXXX'; // Replace: booking conversion
+// Google Ads is off until these are set (empty = no Ads tag, no conversion
+// pings). When the Ads test starts, fill them in AND reword the banner below:
+// the Ads tag does cross-site conversion tracking, so "No ads, no cross-site
+// tracking" would no longer be true.
+const AW_ID = ''; // e.g. 'AW-123456789'
+const AW_CONTACT_CONVERSION = ''; // e.g. 'AW-123456789/AbCdEfGh' (contact form)
+const AW_BOOKING_CONVERSION = ''; // e.g. 'AW-123456789/IjKlMnOp' (booking)
 ---
 
 <div
@@ -55,13 +59,15 @@ const AW_BOOKING_CONVERSION = 'AW-XXXXXXXXX/XXXXXXXX'; // Replace: booking conve
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
       window.gtag('config', GA_ID, { anonymize_ip: true });
-      window.gtag('config', AW_ID);
+      if (AW_ID) window.gtag('config', AW_ID);
     }
 
-    window.__awConversionIds = {
-      contact: AW_CONTACT_CONVERSION,
-      booking: AW_BOOKING_CONVERSION,
-    };
+    if (AW_ID) {
+      window.__awConversionIds = {
+        contact: AW_CONTACT_CONVERSION,
+        booking: AW_BOOKING_CONVERSION,
+      };
+    }
 
     function hide() {
       banner.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
