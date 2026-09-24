@@ -104,7 +104,10 @@ Makers of <a href="https://cubtrack.co.uk" class="text-cream/70 hover:text-cream
 Short, occasional letter on sustainable design.
 </p>  <form class="newsletter-form" novalidate data-astro-cid-bfbmamsi> <div class="flex gap-2 max-w-md" data-astro-cid-bfbmamsi> <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" class="newsletter-input flex-1 newsletter-input-footer" data-astro-cid-bfbmamsi> <button type="submit" class="newsletter-submit newsletter-submit-footer" data-astro-cid-bfbmamsi>
 Subscribe
-</button> </div> <!-- honeypot --> <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="newsletter-hp" data-astro-cid-bfbmamsi> <!-- Cloudflare Turnstile: only becomes visible if it needs a click --> <div class="newsletter-turnstile" data-theme="dark" data-astro-cid-bfbmamsi></div> <p class="newsletter-status" role="status" aria-live="polite" data-astro-cid-bfbmamsi></p> </form> </div> <script>
+</button> </div> <!-- honeypot --> <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="newsletter-hp" data-astro-cid-bfbmamsi> <!-- Cloudflare Turnstile: only becomes visible if it needs a click --> <div class="newsletter-turnstile" data-theme="dark" data-astro-cid-bfbmamsi></div> <p class="newsletter-status" role="status" aria-live="polite" data-astro-cid-bfbmamsi></p> </form> </div> <script data-astro-rerun>
+  // data-astro-rerun: ClientRouter skips an inline script it has already run,
+  // so without it the footer form on every page after the first is left
+  // unbound and submits as a plain GET (a jump to /?email=…, nothing sent).
   // Wrapped so a second copy of this script on the page can redeclare its consts.
   (() => {
     const TURNSTILE_SITE_KEY = '0x4AAAAAAFCIIA08No2XUxq6';
