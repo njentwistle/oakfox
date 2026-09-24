@@ -51,7 +51,10 @@ const isFooter = variant === 'footer';
   </form>
 </div>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
+  // data-astro-rerun: ClientRouter skips an inline script it has already run,
+  // so without it the footer form on every page after the first is left
+  // unbound and submits as a plain GET (a jump to /?email=…, nothing sent).
   // Wrapped so a second copy of this script on the page can redeclare its consts.
   (() => {
     const TURNSTILE_SITE_KEY = '0x4AAAAAAFCIIA08No2XUxq6';

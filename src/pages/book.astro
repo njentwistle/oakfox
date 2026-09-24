@@ -218,7 +218,9 @@ const serviceSchema = {
   #book-status[data-state='ok'] { color: var(--color-forest); }
 </style>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
+  // data-astro-rerun: ClientRouter skips an inline script it has already run,
+  // so a second visit to /book in one session would leave the form unbound.
   (function () {
     const cal = document.getElementById('calendar');
     const stepDay = document.getElementById('book-step-day');
