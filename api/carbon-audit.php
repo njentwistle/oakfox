@@ -71,17 +71,29 @@ if (!is_dir($workDir)) {
     @mkdir($workDir, 0700, true);
 }
 
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$bucketFile = $workDir . '/rate-' . md5($ip) . '-' . date('YmdHi');
-$hits = (int) @file_get_contents($bucketFile);
-if ($hits >= RATE_LIMIT_PER_MINUTE) {
-    fail(429, 'rate-limit', 'Too many audits from this connection — give it a minute and try again.');
+// The rate limiter protects the public endpoint from abuse. It does not apply
+// under the CLI SAPIs, which is how the local outreach batch runner
+// (scripts/leads/) drives this file — a 10/min cap would make auditing a few
+// hundred prospects take most of a day. Neither 'cli' nor 'cli-server' (PHP's
+// built-in dev server) can occur behind the production web server, so this
+// cannot be reached from the web.
+$isLocalBatch = in_array(PHP_SAPI, ['cli', 'cli-server'], true);
+if (!$isLocalBatch) {
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $bucketFile = $workDir . '/rate-' . md5($ip) . '-' . date('YmdHi');
+    $hits = (int) @file_get_contents($bucketFile);
+    if ($hits >= RATE_LIMIT_PER_MINUTE) {
+        fail(429, 'rate-limit', 'Too many audits from this connection — give it a minute and try again.');
+    }
+    @file_put_contents($bucketFile, (string) ($hits + 1));
 }
-@file_put_contents($bucketFile, (string) ($hits + 1));
 
 // ?fresh=1 bypasses the cache read (the new result still overwrites it) so
 // before/after re-tests work. The per-IP rate limit above bounds abuse.
-$cacheFile = $workDir . '/result-' . md5($targetUrl);
+// The version prefix is part of the key so that adding fields to the response
+// shape invalidates old entries rather than serving them back missing the new
+// ones for up to an hour. Bump it whenever $result gains or loses a key.
+$cacheFile = $workDir . '/result-v2-' . md5($targetUrl);
 if (!isset($_GET['fresh']) && is_file($cacheFile) && (time() - filemtime($cacheFile)) < CACHE_TTL_SECONDS) {
     $cached = json_decode((string) file_get_contents($cacheFile), true);
     if (is_array($cached)) {
@@ -620,6 +632,145 @@ if ($requests === 1 && $totalBytes < 20480) {
     }
 }
 
+// ------------------------------------------------- site health signals -----
+/**
+ * Read technical staleness and quality signals off the document we already
+ * fetched. Everything here is free — the page body and DOM are in memory, so
+ * no extra requests — and it is deliberately raw: this returns observations,
+ * never a score. Scoring bands live in src/lib/site-health.mjs so they can be
+ * retuned without touching the crawler or waiting on a deploy.
+ *
+ * No contact details are collected here. This endpoint is public, and an
+ * email-harvesting API would get it abused and firewalled; contact discovery
+ * for outreach happens locally in scripts/leads/lib/contact.mjs instead.
+ */
+function collect_signals(DOMDocument $dom, string $body, string $finalUrl): array
+{
+    $xp = new DOMXPath($dom);
+    $scheme = strtolower((string) parse_url($finalUrl, PHP_URL_SCHEME));
+
+    $count = fn (string $query): int => $xp->query($query)->length;
+    $content = function (string $query) use ($xp): ?string {
+        $node = $xp->query($query)->item(0);
+        if (!$node instanceof DOMElement) {
+            return null;
+        }
+        $value = trim($node->getAttribute('content'));
+        return $value === '' ? null : $value;
+    };
+
+    $titleNode = $xp->query('//title')->item(0);
+    $title = $titleNode ? trim(preg_replace('~\s+~', ' ', $titleNode->textContent)) : null;
+
+    $viewport = $content('//meta[translate(@name,"VIEWPORT","viewport")="viewport"]');
+    $description = $content('//meta[translate(@name,"DESCRIPTION","description")="description"]');
+    $generator = $content('//meta[translate(@name,"GENERATOR","generator")="generator"]');
+
+    // Visible copyright year. Sites that stamp the year with JavaScript leave
+    // nothing static to find, so a null here is not evidence of staleness —
+    // only a concrete, old year is.
+    $copyrightYear = null;
+    $text = strip_tags(preg_replace('~<(script|style|noscript|template)\b.*?</\1\s*>~is', ' ', $body));
+    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5);
+    if (preg_match_all('~(?:©|\(c\)|copyright)[^0-9]{0,20}((?:19|20)\d{2})(?:\s*[-–—]\s*((?:19|20)\d{2}))?~i', $text, $years, PREG_SET_ORDER)) {
+        foreach ($years as $match) {
+            $year = (int) ($match[2] ?? '' ?: $match[1]);
+            if ($year >= 1995 && $year <= (int) date('Y') + 1) {
+                $copyrightYear = max((int) $copyrightYear, $year);
+            }
+        }
+    }
+
+    // Platform fingerprint. The generator meta is authoritative when present;
+    // otherwise fall back to markers these platforms leave in the markup.
+    $cms = null;
+    $haystack = strtolower(($generator ?? '') . ' ' . substr($body, 0, 200000));
+    foreach ([
+        'wordpress' => ['wp-content', 'wp-includes', 'wordpress'],
+        'wix' => ['wix.com', 'wixstatic', 'wixsite'],
+        'squarespace' => ['squarespace', 'static1.squarespace'],
+        'shopify' => ['cdn.shopify', 'shopify'],
+        'godaddy' => ['godaddy', 'websitebuilder'],
+        'weebly' => ['weebly'],
+        'joomla' => ['joomla'],
+        'drupal' => ['drupal'],
+        'webflow' => ['webflow'],
+        'duda' => ['dudamobile', 'multiscreensite'],
+        'frontpage' => ['frontpage', 'mshtml'],
+        'dreamweaver' => ['dreamweaver', 'adobe golive'],
+    ] as $name => $markers) {
+        foreach ($markers as $marker) {
+            if (str_contains($haystack, $marker)) {
+                $cms = $name;
+                break 2;
+            }
+        }
+    }
+
+    // jQuery version, if it is declared in a script URL. 1.x is the tell —
+    // it predates 2016 and usually travels with the rest of that era.
+    $jquery = null;
+    if (preg_match('~jquery[.\-/](?:core[.\-])?(\d+\.\d+(?:\.\d+)?)(?:\.min)?\.js~i', $body, $m)) {
+        $jquery = $m[1];
+    } elseif (preg_match('~jquery/(\d+\.\d+(?:\.\d+)?)/jquery~i', $body, $m)) {
+        $jquery = $m[1];
+    }
+
+    // Pre-CSS layout markup: presentational table attributes are the reliable
+    // signal, since modern tables carry data and are styled by stylesheet.
+    $layoutTables = $count('//table[@cellpadding or @cellspacing or @border or @align or @bgcolor]');
+
+    // Assets pulled over plain HTTP on an HTTPS page — browsers block these
+    // outright, so it usually means something visible is broken.
+    $mixedContent = 0;
+    if ($scheme === 'https') {
+        $mixedContent = preg_match_all('~\ssrc\s*=\s*[\'"]http://~i', $body)
+            + $count('//link[contains(translate(@rel,"STYLESHEET","stylesheet"),"stylesheet") and starts-with(@href,"http://")]');
+    }
+
+    $legacyAnalytics = (bool) preg_match('~(google-analytics\.com/(ga|analytics)\.js|_gaq\.push|urchin\.js)~i', $body)
+        && !preg_match('~(gtag/js|googletagmanager\.com/gtm\.js|gtag\()~i', $body);
+
+    return [
+        'https' => $scheme === 'https',
+        'title' => $title,
+        'titleLength' => $title === null ? 0 : mb_strlen($title),
+        'metaDescription' => $description !== null,
+        'metaDescriptionLength' => $description === null ? 0 : mb_strlen($description),
+        'viewport' => $viewport !== null && stripos($viewport, 'width') !== false,
+        'lang' => $count('//html[@lang and @lang!=""]') > 0,
+        'h1Count' => $count('//h1'),
+        'structuredData' => $count('//script[contains(translate(@type,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"),"ld+json")]') > 0,
+        'openGraph' => $count('//meta[starts-with(translate(@property,"OG","og"),"og:")]') > 0,
+        'favicon' => $count('//link[contains(translate(@rel,"ICON","icon"),"icon")]') > 0,
+        'html5Doctype' => (bool) preg_match('~<!doctype\s+html\s*>~i', substr($body, 0, 512)),
+        'metaRefresh' => $count('//meta[translate(@http-equiv,"REFSH","refsh")="refresh"]') > 0,
+        'copyrightYear' => $copyrightYear,
+        'generator' => $generator,
+        'cms' => $cms,
+        'jqueryVersion' => $jquery,
+        'legacyTags' => [
+            'font' => $count('//font'),
+            'center' => $count('//center'),
+            'marquee' => $count('//marquee'),
+            'frameset' => $count('//frameset') + $count('//iframe[@frameborder]'),
+            'blink' => $count('//blink'),
+        ],
+        'layoutTables' => $layoutTables,
+        'flash' => $count('//object[contains(@type,"flash")]') + (int) (bool) preg_match('~\.swf(\?|["\'])~i', $body),
+        'mixedContent' => $mixedContent,
+        'imageCount' => $count('//img'),
+        'modernImages' => (bool) preg_match('~\.(webp|avif)(\?|["\'\s)])~i', $body),
+        'srcset' => $count('//img[@srcset] | //source[@srcset]') > 0,
+        'lazyLoading' => $count('//img[translate(@loading,"LAZY","lazy")="lazy"]') > 0,
+        'renderBlockingScripts' => $count('//head/script[@src and not(@async) and not(@defer) and not(translate(@type,"MODULE","module")="module")]'),
+        'inlineStyleBlocks' => $count('//style'),
+        'legacyAnalytics' => $legacyAnalytics,
+    ];
+}
+
+$signals = collect_signals($dom, $page['body'], $page['url']);
+
 // ------------------------------------------------------------- response ----
 $result = [
     'ok' => true,
@@ -628,6 +779,7 @@ $result = [
     'bytes' => $totalBytes,
     'requests' => $requests,
     'breakdown' => $breakdown,
+    'signals' => $signals,
     'cached' => false,
     'elapsedMs' => (int) round((microtime(true) - $startedAt) * 1000),
 ];
