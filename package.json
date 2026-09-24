@@ -9,7 +9,17 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "badges": "node scripts/build-badges.mjs",
+    "brand:new": "node scripts/brand-new.mjs",
+    "brand:pdf": "node scripts/brand-pdf.mjs",
+    "leads:osm": "node scripts/leads/source-osm.mjs",
+    "leads:places": "node scripts/leads/source-places.mjs",
+    "leads:enrich": "node scripts/leads/enrich.mjs",
+    "leads:certify": "node scripts/leads/certify.mjs",
+    "leads:export": "node scripts/leads/export.mjs",
+    "leads:report": "node scripts/leads/report.mjs",
+    "leads:prune": "node scripts/leads/prune.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",

@@ -24,6 +24,14 @@ gsc-service-account*.json
 # auth
 .htpasswd
 
+# lead pipeline — kept off GitHub entirely, because this repo is public. The
+# prospecting scripts and the cold-email playbook live on this machine only.
+# Their working data (scripts/leads/data/) is personal data about identifiable
+# people at real businesses, and Google's Places terms cap how long some of it
+# may be retained.
+scripts/leads/
+docs/lead-engine.md
+
 # macOS-specific files
 .DS_Store
 

@@ -321,6 +321,108 @@ const journalPosts = [
                 </a>
               </div>
             </div>
+
+            <!-- Badge withheld: good carbon grade, but something serious is broken -->
+            <div id="cta-badge-withheld" class="mt-10 pt-8 border-t border-stone hidden">
+              <h3 class="headline text-[22px] md:text-[26px] text-ink leading-tight">
+                <span id="badge-withheld-grade">This page is light enough for the badge.</span>
+              </h3>
+              <p class="mt-3 text-[14px] text-ink/70 leading-relaxed max-w-xl">
+                We are not issuing it yet, though, and it is worth explaining why.
+                Weight is only half of a good website. These would need fixing
+                first:
+              </p>
+              <ul id="badge-withheld-list" class="mt-5 space-y-2.5 max-w-2xl"></ul>
+              <p class="mt-5 text-[13px] text-ink/60 leading-relaxed max-w-xl">
+                A badge that vouched for a site with these outstanding would not
+                mean much, so we would rather be straight with you about it.
+              </p>
+              <div class="mt-6">
+                <a
+                  id="badge-withheld-cta"
+                  href="/contact/?service=carbon-audit"
+                  class="inline-flex items-center gap-2 bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
+                >
+                  Get a free plan to fix these
+                </a>
+              </div>
+            </div>
+
+            <!-- Badge: shown for A+, A and B in good technical health -->
+            <div id="cta-badge" class="mt-10 pt-8 border-t border-stone hidden">
+              <h3 class="headline text-[22px] md:text-[26px] text-ink leading-tight">
+                This site has earned the badge.
+              </h3>
+              <p class="mt-3 text-[14px] text-ink/70 leading-relaxed max-w-xl">
+                Anything rated B or better can display this. It links to a live
+                re-run of this audit, so the rating a visitor checks is always
+                measured fresh — there is nothing to keep updated, and nothing
+                that can quietly go out of date.
+              </p>
+
+              <div class="mt-7 flex flex-wrap items-start gap-x-10 gap-y-7">
+                <div>
+                  <img
+                    id="badge-preview"
+                    src="/badge/carbon-a.svg"
+                    alt="Badge preview"
+                    width="200"
+                    height="56"
+                    class="block"
+                  />
+                  <div class="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+                    <div class="flex flex-col gap-2">
+                      <span class="text-[10px] uppercase tracking-[0.16em] text-ink/55">Style</span>
+                      <div class="flex gap-1.5" role="group" aria-label="Badge style">
+                        <button type="button" class="badge-opt" data-badge-theme="light" aria-pressed="true">Light</button>
+                        <button type="button" class="badge-opt" data-badge-theme="dark" aria-pressed="false">Dark</button>
+                      </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                      <span class="text-[10px] uppercase tracking-[0.16em] text-ink/55">Format</span>
+                      <div class="flex gap-1.5" role="group" aria-label="Badge format">
+                        <button type="button" class="badge-opt" data-badge-format="svg" aria-pressed="true">SVG</button>
+                        <button type="button" class="badge-opt" data-badge-format="png" aria-pressed="false">PNG</button>
+                      </div>
+                    </div>
+                  </div>
+                  <p id="badge-format-note" class="mt-3 text-[12px] text-ink/60 max-w-[220px] leading-relaxed">
+                    458 bytes. Lighter than a single line of text on most pages.
+                  </p>
+                </div>
+
+                <div class="flex-1 min-w-[min(100%,300px)]">
+                  <label
+                    for="badge-embed"
+                    class="block text-[10px] uppercase tracking-[0.16em] text-ink/55"
+                  >
+                    Paste this into your footer
+                  </label>
+                  <textarea
+                    id="badge-embed"
+                    readonly
+                    rows="6"
+                    spellcheck="false"
+                    class="mt-2 w-full bg-cream border border-stone rounded-xl p-4 font-mono text-[11.5px] leading-relaxed text-ink/80 resize-y focus:outline-none focus:border-forest/50"
+                  ></textarea>
+                  <div class="mt-4 flex flex-wrap items-center gap-4">
+                    <button
+                      id="badge-copy"
+                      type="button"
+                      class="inline-flex items-center gap-2 bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
+                    >
+                      Copy embed code
+                    </button>
+                    <a
+                      href="/carbon-badge/"
+                      class="text-[13px] text-forest underline underline-offset-4 hover:text-forest-dark transition-colors"
+                    >
+                      How the badge works
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -533,79 +635,42 @@ const journalPosts = [
       display: none;
     }
   }
+  .badge-opt {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-stone, #d6d1c8);
+    color: rgb(31 35 25 / 0.7);
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+  .badge-opt:hover {
+    border-color: rgb(26 92 18 / 0.4);
+  }
+  .badge-opt[aria-pressed='true'] {
+    background: var(--color-forest, #1a5c12);
+    border-color: var(--color-forest, #1a5c12);
+    color: var(--color-cream, #f5f0e8);
+  }
 </style>
 
 <script>
-  import { co2 } from '@tgwf/co2';
-
-  // ---- Sustainable Web Design digital carbon ratings (g CO2e / visit),
-  //      matching co2.js perVisit output. Fallback only — the letter grade
-  //      normally comes from co2.js itself. ----
-  const SWD_BANDS: Array<{ grade: string; max: number }> = [
-    { grade: 'A+', max: 0.04 },
-    { grade: 'A', max: 0.079 },
-    { grade: 'B', max: 0.145 },
-    { grade: 'C', max: 0.209 },
-    { grade: 'D', max: 0.278 },
-    { grade: 'E', max: 0.359 },
-    { grade: 'F', max: Infinity },
-  ];
-
-  const GRADE_COLORS: Record<string, string> = {
-    'A+': '#1A5C12',
-    A: '#2E6B1E',
-    B: '#4F7A1F',
-    C: '#B07D10',
-    D: '#B25714',
-    E: '#A63A1B',
-    F: '#8F1F1F',
-  };
-
-  // Percentile anchors behind the SWD rating bands, for "cleaner than X%".
-  const CLEANER_ANCHORS: Array<[number, number]> = [
-    [0, 99],
-    [0.04, 95],
-    [0.079, 90],
-    [0.145, 80],
-    [0.209, 70],
-    [0.278, 60],
-    [0.359, 50],
-  ];
-
-  let swdModel: any = null;
-  function estimateCarbon(bytes: number, greenHost: boolean): { grams: number; rating: string | null } {
-    if (!swdModel) {
-      const options = {
-        rating: true,
-        dataReloadRatio: 0.02,
-        firstVisitPercentage: 0.75,
-        returnVisitPercentage: 0.25,
-      };
-      try {
-        swdModel = new co2({ model: 'swd', version: 4, ...options });
-      } catch {
-        swdModel = new co2({ model: 'swd', ...options });
-      }
-    }
-    const raw: any = swdModel.perVisit(bytes, greenHost);
-    if (typeof raw === 'number') return { grams: raw, rating: null };
-    return {
-      grams: Number(raw?.total ?? raw?.co2 ?? 0),
-      rating: typeof raw?.rating === 'string' ? raw.rating : null,
-    };
-  }
-
-  function cleanerThanFromGrams(grams: number): number | null {
-    if (grams > 0.359) return null; // below the median — shown as text instead
-    for (let i = 1; i < CLEANER_ANCHORS.length; i++) {
-      const [g0, p0] = CLEANER_ANCHORS[i - 1];
-      const [g1, p1] = CLEANER_ANCHORS[i];
-      if (grams <= g1) {
-        return Math.round(p0 + ((grams - g0) / (g1 - g0)) * (p1 - p0));
-      }
-    }
-    return 50;
-  }
+  // Grading lives in src/lib/carbon.mjs so the outreach CLI under
+  // scripts/leads/ grades identically to this page — one model, one set of
+  // bands, no drift between what a visitor sees and what we email them.
+  import {
+    GRADE_COLORS,
+    estimateCarbon,
+    cleanerThanFromGrams,
+    gradeFromGrams,
+    formatBytes,
+    formatGrams,
+    normaliseUrl,
+    badgeSlug,
+  } from '../lib/carbon.mjs';
+  import { scoreSite, canDisplayBadge } from '../lib/site-health.mjs';
 
   const VERDICTS: Record<string, { title: string; copy: string }> = {
     great: {
@@ -637,36 +702,6 @@ const journalPosts = [
     'Crunching the carbon numbers…',
     'Nearly there. First-time audits take a little longer…',
   ];
-
-  function gradeFromGrams(grams: number): string {
-    for (const band of SWD_BANDS) {
-      if (grams <= band.max) return band.grade;
-    }
-    return 'F';
-  }
-
-  function formatBytes(bytes: number): string {
-    if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-    return `${Math.round(bytes / 1024)} KB`;
-  }
-
-  function formatGrams(grams: number): string {
-    if (grams < 0.1) return `${grams.toFixed(3)} g`;
-    return `${grams.toFixed(2)} g`;
-  }
-
-  function normaliseUrl(raw: string): URL | null {
-    let input = raw.trim();
-    if (!input) return null;
-    if (!/^https?:\/\//i.test(input)) input = `https://${input}`;
-    try {
-      const url = new URL(input);
-      if (!url.hostname.includes('.')) return null;
-      return url;
-    } catch {
-      return null;
-    }
-  }
 
   // Optional Google API key for the PageSpeed fallback. Keyless works using
   // each visitor's own per-IP quota; a key (restricted to the PageSpeed API +
@@ -857,10 +892,123 @@ const journalPosts = [
     const shareUrl = `${window.location.origin}${window.location.pathname}?url=${encodeURIComponent(url.hostname)}`;
     history.replaceState(null, '', shareUrl);
 
+    // Badge: a good carbon grade is necessary but not sufficient. A light page
+    // can still be a broken one, so the technical signals get a say too.
+    const health = scoreSite(carbon.signals, {
+      grade,
+      grams,
+      bytes: carbon.bytes,
+      requests: carbon.requests,
+    });
+    const badge = canDisplayBadge(grade, health);
+    badgeState.grade = grade;
+    badgeState.hostname = url.hostname;
+    el<HTMLElement>('cta-badge').classList.toggle('hidden', !badge.allowed);
+    el<HTMLElement>('cta-badge-withheld').classList.toggle('hidden', badge.allowed || !badge.blockers.length);
+    if (badge.allowed) renderBadgeEmbed();
+    else if (badge.blockers.length) renderBadgeWithheld(badge.blockers, grade);
+
     status.textContent = '';
     result.classList.remove('hidden');
     result.scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (celebrate) dropConfetti();
+  }
+
+  // ---- Embeddable badge ----
+  const badgeState = {
+    grade: 'A',
+    hostname: '',
+    theme: 'light' as 'light' | 'dark',
+    format: 'svg' as 'svg' | 'png',
+  };
+
+  function renderBadgeEmbed(): void {
+    const file = `carbon-${badgeSlug(badgeState.grade)}${badgeState.theme === 'dark' ? '-dark' : ''}.${badgeState.format}`;
+    const origin = 'https://oakfox.co.uk';
+
+    const preview = el<HTMLImageElement>('badge-preview');
+    preview.src = `/badge/${file}`;
+    preview.alt = `Carbon rating ${badgeState.grade} badge, ${badgeState.theme} style`;
+
+    // &amp; in the href because this is markup someone pastes into a page, and
+    // a bare & in an attribute is invalid HTML. The alt text deliberately
+    // carries the grade but no gram figure: they paste this once and never
+    // revisit it, so any number in it would slowly become a lie.
+    const link = `${origin}/website-carbon-audit?url=${encodeURIComponent(badgeState.hostname)}&amp;utm_source=badge`;
+    el<HTMLTextAreaElement>('badge-embed').value =
+      '<!-- Carbon rating badge · oakfox.co.uk -->\n' +
+      `<a href="${link}" target="_blank" rel="noopener">\n` +
+      `  <img src="${origin}/badge/${file}"\n` +
+      `       alt="Carbon rating ${badgeState.grade} — website carbon audit by OakFox"\n` +
+      '       width="200" height="56" loading="lazy" decoding="async">\n' +
+      '</a>';
+
+    el<HTMLElement>('badge-format-note').textContent =
+      badgeState.format === 'svg'
+        ? '458 bytes. Lighter than a single line of text on most pages.'
+        : '7.3 KB at 2x. Use this only if your site builder refuses SVG uploads — Wix and Squarespace both do in places.';
+  }
+
+  function renderBadgeWithheld(blockers: Array<{ label: string; pitch: string }>, grade: string): void {
+    el<HTMLElement>('badge-withheld-grade').textContent =
+      `A grade of ${grade} is light enough for the badge.`;
+
+    const list = el<HTMLUListElement>('badge-withheld-list');
+    list.replaceChildren(
+      ...blockers.map((b) => {
+        const li = document.createElement('li');
+        li.className = 'flex gap-3 text-[14px] text-ink/80 leading-relaxed';
+        const dot = document.createElement('span');
+        dot.className = 'shrink-0 w-1.5 h-1.5 rounded-full bg-[#B25714] mt-2';
+        const copy = document.createElement('span');
+        // The pitch reads as a sentence to the site's owner, which is exactly
+        // who is looking at this panel.
+        copy.textContent = `${b.label} — ${b.pitch}`;
+        li.append(dot, copy);
+        return li;
+      })
+    );
+
+    el<HTMLAnchorElement>('badge-withheld-cta').href =
+      `/contact/?service=carbon-audit&audit=${encodeURIComponent(badgeState.hostname)}&grade=${encodeURIComponent(grade)}`;
+  }
+
+  function initBadgeControls(): void {
+    document.querySelectorAll<HTMLButtonElement>('[data-badge-theme]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        badgeState.theme = btn.dataset.badgeTheme === 'dark' ? 'dark' : 'light';
+        document
+          .querySelectorAll<HTMLButtonElement>('[data-badge-theme]')
+          .forEach((sib) => sib.setAttribute('aria-pressed', String(sib === btn)));
+        renderBadgeEmbed();
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-badge-format]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        badgeState.format = btn.dataset.badgeFormat === 'png' ? 'png' : 'svg';
+        document
+          .querySelectorAll<HTMLButtonElement>('[data-badge-format]')
+          .forEach((sib) => sib.setAttribute('aria-pressed', String(sib === btn)));
+        renderBadgeEmbed();
+      });
+    });
+
+    document.getElementById('badge-copy')?.addEventListener('click', async () => {
+      const btn = document.getElementById('badge-copy')!;
+      const field = el<HTMLTextAreaElement>('badge-embed');
+      try {
+        await navigator.clipboard.writeText(field.value);
+        btn.textContent = 'Copied ✓';
+      } catch {
+        // Clipboard API needs a secure context and permission; selecting the
+        // text at least leaves the user one keystroke away.
+        field.focus();
+        field.select();
+        btn.textContent = 'Selected — press Cmd/Ctrl+C';
+      }
+      setTimeout(() => { btn.textContent = 'Copy embed code'; }, 2500);
+    });
   }
 
   function initAudit(): void {
@@ -884,6 +1032,8 @@ const journalPosts = [
     document.getElementById('fresh-btn')?.addEventListener('click', () => {
       if (lastAuditedUrl) runAudit(lastAuditedUrl, true);
     });
+
+    initBadgeControls();
 
     document.getElementById('share-btn')?.addEventListener('click', async () => {
       const btn = document.getElementById('share-btn')!;
