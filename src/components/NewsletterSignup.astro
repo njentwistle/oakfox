@@ -152,6 +152,7 @@ const isFooter = variant === 'footer';
           if (res.ok && data.success) {
             status.textContent = data.message || "Check your inbox to confirm.";
             status.dataset.state = 'ok';
+            window.oakfoxTrack?.('newsletter');
             form.reset();
           } else {
             status.textContent = data.error || 'Something went wrong. Try again in a moment.';

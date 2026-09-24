@@ -1,0 +1,40 @@
+---
+// Cookieless first-party analytics: one beacon per page view to
+// /api/hit.php. Nothing is stored on or read from the visitor's device and no
+// third party is involved, so it needs no consent (Google Analytics, in
+// ConsentBanner, still only loads after "Accept"). Forms report conversions
+// through window.oakfoxTrack(). See public/api/_analytics_lib.php.
+---
+
+<script is:inline>
+  (() => {
+    if (window.oakfoxTrack || location.hostname !== 'oakfox.co.uk' || navigator.webdriver) return;
+    const qs = new URLSearchParams(location.search);
+    let ref = '';
+    try { ref = new URL(document.referrer).hostname; } catch (e) {}
+    const internal = ref === location.hostname;
+    // Where the visit came from, sent with every view and event in this tab.
+    const entry = {
+      r: internal ? '' : ref.replace(/^www\./, ''),
+      us: qs.get('utm_source') || '',
+      um: qs.get('utm_medium') || '',
+      uc: qs.get('utm_campaign') || '',
+    };
+    let landing = !internal;
+    const send = (hit) => {
+      try {
+        navigator.sendBeacon('/api/hit.php', JSON.stringify({ ...entry, ...hit, p: location.pathname, w: innerWidth }));
+      } catch (e) {}
+    };
+    window.oakfoxTrack = (name) => send({ k: 'ev', e: name });
+    // ClientRouter fires astro:page-load on the first load and after every soft navigation.
+    document.addEventListener('astro:page-load', () => {
+      send({ k: 'pv', en: landing ? 1 : 0 });
+      landing = false;
+    });
+    // The carbon audit runs from a page script; count each submitted audit here.
+    document.addEventListener('submit', (e) => {
+      if (e.target.id === 'audit-form') window.oakfoxTrack('audit');
+    }, true);
+  })();
+</script>

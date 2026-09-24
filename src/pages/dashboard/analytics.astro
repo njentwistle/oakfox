@@ -1,0 +1,413 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Analytics">
+  <div class="db-fade-in">
+    <header class="an-head">
+      <div>
+        <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Analytics</h1>
+        <p class="an-sub" id="an-sub">Cookieless, first-party visit counts for oakfox.co.uk.</p>
+      </div>
+      <div class="an-controls">
+        <span class="an-live" id="an-live" hidden><span class="an-live-dot" aria-hidden="true"></span><span id="an-live-n">0</span>&nbsp;on site now</span>
+        <div class="db-tabs" role="tablist" aria-label="Period">
+          <button class="db-tab" data-days="7" role="tab">7 days</button>
+          <button class="db-tab active" data-days="28" role="tab">28 days</button>
+          <button class="db-tab" data-days="90" role="tab">90 days</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="an-kpis" class="an-kpis db-stagger"></div>
+
+    <section class="db-card an-chart-card">
+      <div class="an-card-head">
+        <h2 class="an-card-title">Visitors per day</h2>
+        <span class="an-card-note" id="an-range"></span>
+      </div>
+      <div class="an-chart" id="an-chart"></div>
+      <div class="an-tip" id="an-tip" hidden></div>
+      <details class="an-table-toggle">
+        <summary>View as table</summary>
+        <div id="an-table"></div>
+      </details>
+    </section>
+
+    <div class="an-grid" id="an-grid"></div>
+
+    <p class="an-error" id="an-error" hidden></p>
+    <p class="an-foot">
+      Visitors are counted per day: ids reset at midnight, so someone who comes back tomorrow counts again.
+      Visits are arrivals from outside the site. Your own browsing is excluded on any network you open this page from.
+      Google Analytics still runs alongside for visitors who accept cookies.
+    </p>
+  </div>
+</DashboardLayout>
+
+<style is:inline>
+  .an-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .an-sub { color: var(--db-text-muted); font-size: 13px; }
+  .an-live[hidden], .an-tip[hidden] { display: none; }
+  .an-controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .an-live { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--db-text-secondary); padding: 6px 12px; border: 1px solid var(--db-border); border-radius: 999px; background: var(--db-accent-soft); }
+  .an-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--db-accent-hover); box-shadow: 0 0 0 0 var(--db-accent-glow); animation: anPulse 2s ease-out infinite; }
+  @keyframes anPulse { 0% { box-shadow: 0 0 0 0 rgba(111, 163, 88, 0.45); } 100% { box-shadow: 0 0 0 10px rgba(111, 163, 88, 0); } }
+  @media (prefers-reduced-motion: reduce) { .an-live-dot { animation: none; } }
+
+  .an-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .an-delta { font-size: 11px; color: var(--db-text-muted); display: inline-flex; gap: 5px; align-items: baseline; margin-top: 4px; }
+  .an-delta-arrow { font-size: 9px; color: var(--db-text-muted); }
+  .an-delta-arrow.up { color: var(--db-accent-hover); }
+
+  .an-chart-card { position: relative; margin-bottom: 16px; }
+  .an-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .an-card-title { font-size: 13px; font-weight: 600; color: var(--db-text); letter-spacing: 0.01em; }
+  .an-card-note { font-size: 11px; color: var(--db-text-muted); }
+  .an-chart { width: 100%; min-height: 220px; }
+  .an-chart svg { display: block; overflow: visible; }
+  .an-chart .an-bar { fill: var(--db-accent); transition: fill 0.15s; }
+  .an-chart .an-bar.hover { fill: var(--db-accent-hover); }
+  .an-chart .an-hit { fill: transparent; cursor: default; outline: none; }
+  .an-chart .an-hit:focus-visible { stroke: var(--db-text-secondary); stroke-width: 1; stroke-dasharray: 2 3; }
+  .an-chart .an-grid-line { stroke: rgba(255, 255, 255, 0.05); }
+  .an-chart .an-baseline { stroke: rgba(255, 255, 255, 0.14); }
+  .an-chart text { fill: var(--db-text-muted); font: 10px 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+  .an-chart-empty { display: grid; place-items: center; min-height: 220px; color: var(--db-text-muted); font-size: 13px; text-align: center; border: 1px dashed var(--db-border); border-radius: var(--db-radius); }
+  .an-tip { position: absolute; pointer-events: none; z-index: 5; min-width: 132px; padding: 10px 12px; border-radius: var(--db-radius); background: var(--db-surface-solid); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: var(--db-shadow); font-size: 12px; color: var(--db-text-secondary); display: grid; gap: 3px; transform: translate(-50%, -100%); }
+  .an-tip strong { color: var(--db-text); font-weight: 600; margin-bottom: 2px; }
+  .an-tip b { color: var(--db-text); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .an-table-toggle { margin-top: 14px; }
+  .an-table-toggle summary { font-size: 11px; color: var(--db-text-muted); cursor: pointer; }
+  .an-table-toggle table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 12px; }
+  .an-table-toggle th, .an-table-toggle td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--db-border-subtle); color: var(--db-text-secondary); }
+  .an-table-toggle td + td, .an-table-toggle th + th { text-align: right; font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+  .an-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
+  /* Grid items default to min-width:auto, which lets a long nowrap path widen the page. */
+  .an-grid > * { min-width: 0; }
+  .an-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .an-row-top { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; margin-bottom: 5px; }
+  .an-row-label { color: var(--db-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .an-row-label a { color: inherit; text-decoration: none; }
+  .an-row-label a:hover { color: var(--db-text); }
+  .an-row-value { color: var(--db-text); font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .an-row-track { height: 6px; border-radius: 0 4px 4px 0; background: rgba(255, 255, 255, 0.03); }
+  .an-row-bar { height: 100%; min-width: 2px; border-radius: 0 4px 4px 0; background: var(--db-accent); }
+  .an-tag { display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; font-size: 10px; color: var(--db-text-muted); border: 1px solid var(--db-border); }
+  .an-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 16px; }
+  .an-chip { font-size: 11px; color: var(--db-text-secondary); padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--db-border); }
+  .an-chip b { color: var(--db-text); font-family: 'JetBrains Mono', monospace; font-weight: 500; margin-left: 4px; }
+  .an-empty { font-size: 12px; color: var(--db-text-muted); }
+  .an-conv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; font-size: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--db-border-subtle); }
+  .an-conv:last-child { border-bottom: 0; padding-bottom: 0; }
+  .an-conv-name { color: var(--db-text); font-weight: 500; }
+  .an-conv time { color: var(--db-text-muted); font-size: 11px; }
+  .an-conv-meta { grid-column: 1 / -1; color: var(--db-text-muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .an-error { color: var(--db-danger); font-size: 13px; margin-top: 16px; }
+  .an-foot { color: var(--db-text-muted); font-size: 11px; line-height: 1.6; margin-top: 24px; max-width: 72ch; }
+</style>
+
+<script>
+  type Row = { label: string; value: number; group?: string };
+  type Totals = { visitors: number; pageviews: number; visits: number; events: Record<string, number> };
+  type Point = { date: string; visitors: number; pageviews: number };
+  type Data = {
+    days: number;
+    range: [string, string];
+    since: string | null;
+    live: number;
+    current: Totals;
+    previous: Totals;
+    series: Point[];
+    pages: Row[];
+    entryPages: Row[];
+    sources: Row[];
+    groups: Row[];
+    devices: Row[];
+    campaigns: Row[];
+    conversions: { t: number; event: string; path: string; source: string }[];
+  };
+
+  const EVENTS: Record<string, string> = {
+    contact: 'Contact form sent',
+    booking: 'Call booked',
+    newsletter: 'Newsletter sign-up',
+    audit: 'Carbon audit run',
+  };
+  const STORE_KEY = 'oakfox_analytics_days';
+  const SVG = 'http://www.w3.org/2000/svg';
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const fmt = (n: number) => n.toLocaleString('en-GB');
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+  const day = (iso: string, opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' }) =>
+    new Date(`${iso}T12:00:00`).toLocaleDateString('en-GB', opts);
+
+  let current: Data | null = null;
+
+  function ago(t: number): string {
+    const s = Math.max(0, Date.now() / 1000 - t);
+    if (s < 3600) return `${Math.max(1, Math.round(s / 60))}m ago`;
+    if (s < 86400) return `${Math.round(s / 3600)}h ago`;
+    return `${Math.round(s / 86400)}d ago`;
+  }
+
+  function delta(cur: number, prev: number, days: number): string {
+    if (!cur && !prev) return `<span class="an-delta">None in prev ${days}d either</span>`;
+    if (!prev) return `<span class="an-delta">New vs prev ${days}d</span>`;
+    const pct = Math.round(((cur - prev) / prev) * 100);
+    const dir = pct > 0 ? 'up' : pct < 0 ? 'down' : '';
+    const arrow = pct > 0 ? '▲' : pct < 0 ? '▼' : '●';
+    return `<span class="an-delta"><span class="an-delta-arrow ${dir}" aria-hidden="true">${arrow}</span>${pct > 0 ? '+' : pct < 0 ? '−' : ''}${Math.abs(pct)}% vs prev ${days}d</span>`;
+  }
+
+  function renderKpis(d: Data) {
+    const enquiries = (t: Totals) => (t.events.contact || 0) + (t.events.booking || 0);
+    const tiles: [string, number, number][] = [
+      ['Visitors', d.current.visitors, d.previous.visitors],
+      ['Page views', d.current.pageviews, d.previous.pageviews],
+      ['Visits', d.current.visits, d.previous.visits],
+      ['Enquiries', enquiries(d.current), enquiries(d.previous)],
+      ['Newsletter sign-ups', d.current.events.newsletter || 0, d.previous.events.newsletter || 0],
+      ['Carbon audits run', d.current.events.audit || 0, d.previous.events.audit || 0],
+    ];
+    $('an-kpis').innerHTML = tiles
+      .map(
+        ([label, cur, prev]) => `
+          <div class="db-stat">
+            <span class="db-stat-label">${label}</span>
+            <span class="db-stat-value">${fmt(cur)}</span>
+            ${delta(cur, prev, d.days)}
+          </div>`,
+      )
+      .join('');
+  }
+
+  // Clean y-axis steps: 1, 2, 5, 10, 20, 50…
+  function niceStep(max: number): number {
+    if (max <= 4) return 1;
+    const rough = max / 4;
+    const mag = 10 ** Math.floor(Math.log10(rough));
+    const norm = rough / mag;
+    return (norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10) * mag;
+  }
+
+  function el<K extends keyof SVGElementTagNameMap>(tag: K, attrs: Record<string, string | number>, text?: string) {
+    const node = document.createElementNS(SVG, tag);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function renderChart(d: Data) {
+    const host = $('an-chart');
+    const tip = $('an-tip');
+    tip.hidden = true;
+    if (!d.current.pageviews) {
+      host.innerHTML = `<div class="an-chart-empty">No visits recorded in this period yet.<br />Counting starts with the first page view after deploy.</div>`;
+      return;
+    }
+    host.innerHTML = '';
+
+    const W = host.clientWidth || 640;
+    const H = 220;
+    const pad = { t: 10, r: 6, b: 26, l: 34 };
+    const iw = W - pad.l - pad.r;
+    const ih = H - pad.t - pad.b;
+    const base = pad.t + ih;
+    const max = Math.max(...d.series.map((p) => p.visitors), 0);
+    const step = niceStep(max);
+    const top = Math.max(step, step * Math.ceil(max / step));
+    const n = d.series.length;
+    const slot = iw / n;
+    const bw = Math.max(1, Math.min(24, slot - 2)); // 2px surface gap between columns
+    const y = (v: number) => base - (v / top) * ih;
+
+    const svg = el('svg', { width: W, height: H, role: 'img', 'aria-label': `Visitors per day, ${day(d.range[0])} to ${day(d.range[1])}` });
+
+    for (let v = 0; v <= top; v += step) {
+      if (v > 0) svg.append(el('line', { class: 'an-grid-line', x1: pad.l, x2: W - pad.r, y1: y(v), y2: y(v) }));
+      svg.append(el('text', { x: pad.l - 8, y: y(v) + 3, 'text-anchor': 'end' }, fmt(v)));
+    }
+    svg.append(el('line', { class: 'an-baseline', x1: pad.l, x2: W - pad.r, y1: base, y2: base }));
+
+    const labelAt = new Set(n <= 8 ? d.series.map((_, i) => i) : [0, Math.floor((n - 1) / 2), n - 1]);
+    const bars: SVGPathElement[] = [];
+
+    d.series.forEach((p, i) => {
+      const x = pad.l + i * slot + (slot - bw) / 2;
+      const h = base - y(p.visitors);
+      const r = Math.min(4, bw / 2, h);
+      // Rounded data end, square at the baseline.
+      const path = h > 0
+        ? `M${x},${base} V${base - h + r} Q${x},${base - h} ${x + r},${base - h} H${x + bw - r} Q${x + bw},${base - h} ${x + bw},${base - h + r} V${base} Z`
+        : '';
+      const bar = el('path', { class: 'an-bar', d: path });
+      bars.push(bar);
+      svg.append(bar);
+
+      if (labelAt.has(i)) {
+        const anchor = n > 8 && i === 0 ? 'start' : n > 8 && i === n - 1 ? 'end' : 'middle';
+        const lx = anchor === 'start' ? pad.l + i * slot : anchor === 'end' ? pad.l + (i + 1) * slot : x + bw / 2;
+        svg.append(el('text', { x: lx, y: H - 8, 'text-anchor': anchor }, day(p.date)));
+      }
+    });
+
+    // Hit targets span the whole column slot, taller and wider than the bar.
+    d.series.forEach((p, i) => {
+      const hit = el('rect', {
+        class: 'an-hit',
+        x: pad.l + i * slot,
+        y: pad.t,
+        width: slot,
+        height: ih,
+        tabindex: 0,
+        'aria-label': `${day(p.date, { weekday: 'long', day: 'numeric', month: 'long' })}: ${p.visitors} visitors, ${p.pageviews} page views`,
+      });
+      const show = () => {
+        bars.forEach((b, j) => b.classList.toggle('hover', j === i));
+        tip.innerHTML = `<strong>${day(p.date, { weekday: 'short', day: 'numeric', month: 'short' })}</strong><span><b>${fmt(p.visitors)}</b> visitors</span><span><b>${fmt(p.pageviews)}</b> page views</span>`;
+        tip.hidden = false;
+        const hostBox = host.getBoundingClientRect();
+        const cardBox = host.parentElement!.getBoundingClientRect();
+        const cx = hostBox.left - cardBox.left + pad.l + (i + 0.5) * slot;
+        const half = tip.offsetWidth / 2;
+        tip.style.left = `${Math.min(Math.max(cx, half + 8), cardBox.width - half - 8)}px`;
+        tip.style.top = `${hostBox.top - cardBox.top + Math.min(y(p.visitors), base - 4) - 10}px`;
+      };
+      const hide = () => {
+        bars[i].classList.remove('hover');
+        tip.hidden = true;
+      };
+      hit.addEventListener('pointerenter', show);
+      hit.addEventListener('focus', show);
+      hit.addEventListener('pointerleave', hide);
+      hit.addEventListener('blur', hide);
+      svg.append(hit);
+    });
+
+    host.append(svg);
+  }
+
+  function renderTable(d: Data) {
+    $('an-table').innerHTML = `<table><thead><tr><th>Date</th><th>Visitors</th><th>Page views</th></tr></thead><tbody>${d.series
+      .slice()
+      .reverse()
+      .map((p) => `<tr><td>${day(p.date, { weekday: 'short', day: 'numeric', month: 'short' })}</td><td>${fmt(p.visitors)}</td><td>${fmt(p.pageviews)}</td></tr>`)
+      .join('')}</tbody></table>`;
+  }
+
+  function list(title: string, rows: Row[], opts: { note?: string; lead?: string; empty?: string; label?: (r: Row) => string } = {}): string {
+    const max = Math.max(...rows.map((r) => r.value), 1);
+    const body = rows.length
+      ? rows
+          .map(
+            (r) => `
+              <li title="${esc(r.label)}">
+                <div class="an-row-top">
+                  <span class="an-row-label">${opts.label ? opts.label(r) : esc(r.label)}</span>
+                  <span class="an-row-value">${fmt(r.value)}</span>
+                </div>
+                <div class="an-row-track"><div class="an-row-bar" style="width:${((r.value / max) * 100).toFixed(1)}%"></div></div>
+              </li>`,
+          )
+          .join('')
+      : `<li class="an-empty">${opts.empty ?? 'Nothing recorded yet.'}</li>`;
+    return `
+      <section class="db-card">
+        <div class="an-card-head"><h2 class="an-card-title">${title}</h2>${opts.note ? `<span class="an-card-note">${opts.note}</span>` : ''}</div>
+        ${opts.lead ?? ''}
+        <ul class="an-list">${body}</ul>
+      </section>`;
+  }
+
+  const pageLink = (r: Row) => `<a href="https://oakfox.co.uk${esc(r.label)}" target="_blank" rel="noopener">${esc(r.label)}</a>`;
+
+  function renderGrid(d: Data) {
+    const chips = d.groups.length
+      ? `<div class="an-chips">${d.groups.map((g) => `<span class="an-chip">${esc(g.label)}<b>${fmt(g.value)}</b></span>`).join('')}</div>`
+      : '';
+    const conversions = d.conversions.length
+      ? d.conversions
+          .slice(0, 8)
+          .map(
+            (c) => `
+              <li class="an-conv">
+                <span class="an-conv-name">${EVENTS[c.event] ?? esc(c.event)}</span>
+                <time datetime="${new Date(c.t * 1000).toISOString()}">${ago(c.t)}</time>
+                <span class="an-conv-meta">${esc(c.path)} · from ${esc(c.source)}</span>
+              </li>`,
+          )
+          .join('')
+      : `<li class="an-empty">No enquiries, sign-ups or audits in this period yet.</li>`;
+
+    $('an-grid').innerHTML = [
+      list('Top pages', d.pages, { note: 'Page views', label: pageLink }),
+      list('Where visits come from', d.sources, {
+        note: 'Visits',
+        lead: chips,
+        label: (r) => `${esc(r.label)}${r.group && r.group !== r.label ? `<span class="an-tag">${esc(r.group)}</span>` : ''}`,
+      }),
+      list('Landing pages', d.entryPages, { note: 'Visits', label: pageLink }),
+      `<section class="db-card">
+        <div class="an-card-head"><h2 class="an-card-title">Conversions</h2><span class="an-card-note">Latest 8</span></div>
+        <ul class="an-list">${conversions}</ul>
+      </section>`,
+      list('Devices', d.devices, { note: 'Visits', label: (r) => esc(r.label.charAt(0).toUpperCase() + r.label.slice(1)) }),
+      list('Campaigns', d.campaigns, { note: 'UTM-tagged visits', empty: 'No UTM-tagged visits yet. Tag links in posts and emails with ?utm_source=…' }),
+    ].join('');
+  }
+
+  function render(d: Data) {
+    $('an-sub').textContent = d.since
+      ? `Cookieless, first-party visit counts. Recording since ${day(d.since, { day: 'numeric', month: 'long', year: 'numeric' })}.`
+      : 'Cookieless, first-party visit counts. Nothing recorded yet.';
+    $('an-range').textContent = `${day(d.range[0])} – ${day(d.range[1])}`;
+    $('an-live-n').textContent = fmt(d.live);
+    $('an-live').hidden = d.live === 0;
+    renderKpis(d);
+    renderChart(d);
+    renderTable(d);
+    renderGrid(d);
+  }
+
+  async function load(days: number) {
+    document.querySelectorAll<HTMLButtonElement>('.db-tab[data-days]').forEach((b) => {
+      const on = Number(b.dataset.days) === days;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+    try {
+      localStorage.setItem(STORE_KEY, String(days));
+    } catch {}
+    const error = $('an-error');
+    try {
+      const res = await fetch(`/dashboard/analytics-data.php?days=${days}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      current = (await res.json()) as Data;
+      render(current);
+      error.hidden = true;
+    } catch (e) {
+      error.textContent = `Couldn't load analytics (${(e as Error).message}).`;
+      error.hidden = false;
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.db-tab[data-days]').forEach((b) =>
+    b.addEventListener('click', () => load(Number(b.dataset.days))),
+  );
+
+  let resizeFrame = 0;
+  new ResizeObserver(() => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => current && renderChart(current));
+  }).observe($('an-chart'));
+
+  let saved = 28;
+  try {
+    saved = Number(localStorage.getItem(STORE_KEY)) || 28;
+  } catch {}
+  load([7, 28, 90].includes(saved) ? saved : 28);
+</script>

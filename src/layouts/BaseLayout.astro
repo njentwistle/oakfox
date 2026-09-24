@@ -4,6 +4,7 @@ import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import Analytics from '../components/Analytics.astro';
 
 interface Props {
   title: string;
@@ -140,6 +141,7 @@ const jsonLd = {
     <meta name="color-scheme" content="light only" />
     <meta name="description" content={description} />
     <ClientRouter />
+    {import.meta.env.PROD && <Analytics />}
     {noIndex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />

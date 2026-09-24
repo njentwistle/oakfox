@@ -314,6 +314,7 @@ const breadcrumbs = {
           if (res.ok && data.success) {
             status.style.color = '#1A5C12';
             status.textContent = "Message sent! We'll be in touch soon.";
+            window.oakfoxTrack?.('contact');
             if (window.gtag && window.__awConversionIds?.contact) {
               window.gtag('event', 'conversion', {
                 send_to: window.__awConversionIds.contact,
