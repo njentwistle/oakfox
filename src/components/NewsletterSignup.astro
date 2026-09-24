@@ -51,6 +51,10 @@ const isFooter = variant === 'footer';
 
 <script is:inline>
   document.querySelectorAll('form.newsletter-form').forEach((form) => {
+    // This inline script is emitted once per component instance, so a page with
+    // two signups runs it twice — bind each form once or it posts twice.
+    if (form.dataset.bound) return;
+    form.dataset.bound = '1';
     const status = form.querySelector('.newsletter-status');
     const btn = form.querySelector('button[type=submit]');
     const input = form.querySelector('input[name=email]');

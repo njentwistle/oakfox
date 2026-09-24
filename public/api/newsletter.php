@@ -97,18 +97,8 @@ if (!$subscriberSent) {
     error_log('[newsletter] confirmation email failed for ' . $email);
 }
 
-// Notify Nathan of the new pending subscriber
-$adminSubject = 'New newsletter signup (pending) — ' . $email;
-$adminBody = <<<EOT
-A new email address signed up to the OakFox newsletter and has been sent
-a double opt-in confirmation link.
-
-Email: {$email}
-Status: pending confirmation
-Time: {$now}
-EOT;
-
-mail('nathan@oakfox.co.uk', $adminSubject, $adminBody, $headers, '-f' . $envelopeSender);
+// No admin email here: bots sign strangers' addresses up and never confirm, so
+// Nathan is only notified once a subscriber confirms (newsletter-confirm.php).
 
 echo json_encode([
     'success' => true,
