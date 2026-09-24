@@ -93,6 +93,33 @@ jobs:
           git commit -q -m "Deploy ${{ github.sha }}"
           git push origin deploy
           echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Publish before the IndexNow pings below, so crawlers they send find the
+      # new pages rather than the old ones.
+      #
+      # The dedicated key is forced-command-restricted server-side to run only
+      # /usr/local/bin/oakfox-deploy-trigger.sh (copy in oakfox-ops/scripts/),
+      # so even if it leaked it could only redeploy this site. The script
+      # fast-forwards the cPanel Git clone to the deploy branch and has cPanel
+      # deploy that commit (.cpanel.yml -> deploy.sh). It used to call `uapi
+      # VersionControl update`, which never pulled on this server: every run
+      # went green while the site sat on the 21 Sep build. So the step now
+      # fails unless the server reports deploying the exact commit pushed above.
+      - name: Trigger cPanel deploy (pull + publish)
+        if: steps.deploy.outputs.changed == 'true'
+        run: |
+          mkdir -p ~/.ssh
+          echo "185.116.214.190 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCVJP2zwdMBpwaUqTozZyCTzw5VEM+/JdBWh/Ci72dq" >> ~/.ssh/known_hosts
+          echo "${{ secrets.OAKFOX_DEPLOY_SSH_KEY }}" > deploy_key
+          chmod 600 deploy_key
+          OUT=$(ssh -i deploy_key -o BatchMode=yes -o ConnectTimeout=20 root@185.116.214.190 "deploy")
+          rm -f deploy_key
+          echo "$OUT"
+          if ! grep -qx "deployed ${{ steps.deploy.outputs.sha }}" <<<"$OUT"; then
+            echo "::error::Server did not deploy ${{ steps.deploy.outputs.sha }} (see output above)"
+            exit 1
+          fi
 
       - name: Ping IndexNow for changed pages (push)
         # On a push, submit only the pages whose source changed in this commit
@@ -110,26 +137,6 @@ jobs:
         if: github.event_name != 'push' && steps.deploy.outputs.changed == 'true'
         run: node scripts/indexnow.mjs --all
 
-      # Deploy to cPanel is now automated. Previously this was manual — auto-
-      # triggering the cPanel git pull/deploy (UAPI, FTP, and SSH were all
-      # tried — see git history) proved unreliable on the old shared host,
-      # which kept blocking the calls. On the new server (own VPS, full root
-      # access) we trigger the same underlying mechanism the "Update from
-      # Remote" + "Deploy HEAD Commit" UI buttons use — `uapi VersionControl
-      # update` then `uapi VersionControlDeployment create` — over SSH, via a
-      # dedicated key that's forced-command-restricted server-side to run
-      # only that one trigger script. Even if this key leaked, it can only
-      # redeploy this site, nothing else.
-      - name: Trigger cPanel deploy (pull + publish)
-        if: steps.deploy.outputs.changed == 'true'
-        run: |
-          mkdir -p ~/.ssh
-          echo "185.116.214.190 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCVJP2zwdMBpwaUqTozZyCTzw5VEM+/JdBWh/Ci72dq" >> ~/.ssh/known_hosts
-          echo "${{ secrets.OAKFOX_DEPLOY_SSH_KEY }}" > deploy_key
-          chmod 600 deploy_key
-          ssh -i deploy_key -o BatchMode=yes -o ConnectTimeout=20 root@185.116.214.190 "deploy"
-          rm -f deploy_key
-
       # For a queued post: on its go-live date the daily cron rebuilds and pushes
-      # the now-live post to the deploy branch, and the step above publishes it
+      # the now-live post to the deploy branch, and the trigger step publishes it
       # to public_html automatically — nothing manual required any more.
