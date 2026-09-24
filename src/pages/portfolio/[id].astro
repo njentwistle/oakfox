@@ -15,11 +15,11 @@ const { item } = Astro.props;
 const { Content } = await render(item);
 
 const categoryServiceMap: Record<string, { href: string; label: string }> = {
-  branding: { href: '/services/branding', label: 'Branding service' },
-  design: { href: '/services/web-design', label: 'Web design service' },
-  development: { href: '/services/development', label: 'Development service' },
-  marketing: { href: '/services/marketing', label: 'Marketing service' },
-  consultancy: { href: '/services/environmental', label: 'Environmental service' },
+  branding: { href: '/services/branding/', label: 'Branding service' },
+  design: { href: '/services/web-design/', label: 'Web design service' },
+  development: { href: '/services/development/', label: 'Development service' },
+  marketing: { href: '/services/marketing/', label: 'Marketing service' },
+  consultancy: { href: '/services/environmental/', label: 'Environmental service' },
 };
 const relatedService = categoryServiceMap[item.data.category];
 
@@ -76,7 +76,7 @@ const breadcrumbs = {
   <article class="pt-32 pb-24">
     <div class="max-w-4xl mx-auto px-6">
       <!-- Header -->
-      <a href="/portfolio" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
+      <a href="/portfolio/" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
         &larr; Back to Portfolio
       </a>
       {relatedService ? (
@@ -161,10 +161,10 @@ const breadcrumbs = {
     <div class="max-w-3xl mx-auto px-6 text-center">
       <h2 class="text-2xl font-bold text-cream">Like this work?</h2>
       <div class="mt-6 flex flex-wrap justify-center gap-4">
-        <a href="/portfolio" class="border border-cream text-cream px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest">
+        <a href="/portfolio/" class="border border-cream text-cream px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest">
           View More Projects
         </a>
-        <a href="/contact" class="bg-cream text-forest px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream-dark">
+        <a href="/contact/" class="bg-cream text-forest px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream-dark">
           Start Your Project
         </a>
       </div>

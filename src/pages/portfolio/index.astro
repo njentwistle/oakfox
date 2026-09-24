@@ -86,7 +86,7 @@ const breadcrumbs = {
         <div class="grid md:grid-cols-2 gap-8" id="portfolio-grid">
           {allWork.map((item) => (
             <a
-              href={`/portfolio/${item.id}`}
+              href={`/portfolio/${item.id}/`}
               class="group flex flex-col rounded-2xl overflow-hidden border border-gray-light transition-all duration-300 hover:border-forest hover:shadow-xl"
               data-category={item.data.category}
             >
@@ -121,7 +121,7 @@ const breadcrumbs = {
         We'd love to work with you on your next project.
       </p>
       <a
-        href="/contact"
+        href="/contact/"
         class="inline-block mt-8 border border-cream text-cream px-8 py-3 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest"
       >
         Start a Project

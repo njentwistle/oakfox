@@ -112,7 +112,7 @@ if (post.data.howto) {
 >
   <article class="pt-32 pb-24">
     <div class="max-w-3xl mx-auto px-6">
-      <a href="/blog" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
+      <a href="/blog/" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
         &larr; Back to Blog
       </a>
       <span class="text-xs font-medium text-forest uppercase tracking-widest block mb-3">
@@ -122,7 +122,7 @@ if (post.data.howto) {
         {post.data.title}
       </h1>
       <div class="flex items-center gap-4 mt-6 text-sm text-gray">
-        <a href="/about" class="hover:text-forest transition-colors duration-300">
+        <a href="/about/" class="hover:text-forest transition-colors duration-300">
           {post.data.author}
         </a>
         <span>&middot;</span>
@@ -146,7 +146,7 @@ if (post.data.howto) {
         <div class="flex flex-wrap gap-2 mt-4">
           {post.data.tags.map((tag: string) => (
             <a
-              href={`/blog/tags/${tag}`}
+              href={`/blog/tags/${tag}/`}
               class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full hover:bg-forest hover:text-cream transition-colors duration-300"
             >
               {tag}
@@ -188,7 +188,7 @@ if (post.data.howto) {
         <div class="grid md:grid-cols-3 gap-6 md:gap-8">
           {related.map((r) => (
             <a
-              href={`/blog/${r.id}`}
+              href={`/blog/${r.id}/`}
               class="group block rounded-2xl border border-stone p-6 transition-all duration-300 hover:border-forest"
             >
               <span class="text-xs font-medium text-forest uppercase tracking-widest">
@@ -222,13 +222,13 @@ if (post.data.howto) {
         consultancy. Send a few lines and we'll reply within 24 hours.
       </p>
       <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
-        <a href="/contact" class="inline-flex items-center gap-3 text-[13px] font-medium bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-5 py-3 rounded-full">
+        <a href="/contact/" class="inline-flex items-center gap-3 text-[13px] font-medium bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-5 py-3 rounded-full">
           Start a conversation
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a href="/book" class="inline-flex items-center gap-2 text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300">
+        <a href="/book/" class="inline-flex items-center gap-2 text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300">
           Or book a free call
         </a>
       </div>

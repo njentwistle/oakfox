@@ -72,22 +72,22 @@ const improvements = [
   {
     title: 'Compress and right-size your images',
     body: 'Images are the heaviest thing on most pages. Modern formats (WebP, AVIF), sensible dimensions, and lazy loading routinely cut page weight by half or more without any visible difference.',
-    link: { href: '/services/development', label: 'How we build lean sites' },
+    link: { href: '/services/development/', label: 'How we build lean sites' },
   },
   {
     title: 'Ship less JavaScript',
     body: 'Trackers, chat widgets, embedded fonts, and framework bloat all cost carbon on every single visit. Static-first builds strip most of it out; this page you are reading ships almost none.',
-    link: { href: '/services/development', label: 'Static-first development' },
+    link: { href: '/services/development/', label: 'Static-first development' },
   },
   {
     title: 'Move to verified green hosting',
     body: 'The same site on renewable-powered infrastructure emits meaningfully less per visit, and it is usually the easiest change on this list. We migrate sites free on every hosting plan.',
-    link: { href: '/services/green-web-hosting', label: 'Managed green hosting from £9/month' },
+    link: { href: '/services/green-web-hosting/', label: 'Managed green hosting from £9/month' },
   },
   {
     title: 'Design pages that say more with less',
     body: 'Auto-playing video backgrounds, carousels nobody swipes, five font families. A considered design brief is a sustainability decision. Leaner pages convert better too.',
-    link: { href: '/services/web-design', label: 'Considered web design' },
+    link: { href: '/services/web-design/', label: 'Considered web design' },
   },
 ];
 
@@ -142,17 +142,22 @@ const faqSchema = {
 
 const journalPosts = [
   {
-    href: '/blog/sustainable-web-design-practical-guide',
+    href: '/blog/how-much-co2-does-a-website-produce/',
+    title: 'How Much CO₂ Does a Website Produce?',
+    note: 'What 100 UK audits say is normal, what counts as good, and what changes the number. Context for your grade.',
+  },
+  {
+    href: '/blog/sustainable-web-design-practical-guide/',
     title: 'Sustainable Web Design: A Practical Guide',
     note: 'How to design and build low-carbon, accessible websites. The long version of the advice on this page.',
   },
   {
-    href: '/blog/is-your-web-host-actually-green',
+    href: '/blog/is-your-web-host-actually-green/',
     title: 'Is Your Web Host Actually Green?',
     note: 'Offsets versus renewables, and how to verify a hosting claim instead of taking it on faith.',
   },
   {
-    href: '/blog/green-web-hosting-uk-compared',
+    href: '/blog/green-web-hosting-uk-compared/',
     title: 'Green Web Hosting in the UK, Compared',
     note: 'The main UK green hosts side by side. If your audit flagged your hosting, start here.',
   },
@@ -270,7 +275,7 @@ const journalPosts = [
               <div class="flex flex-wrap items-center gap-4">
                 <a
                   id="cta-improve-link"
-                  href="/contact?service=carbon-audit"
+                  href="/contact/?service=carbon-audit"
                   class="inline-flex items-center gap-2 bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
                 >
                   Get a free improvement plan
@@ -280,7 +285,7 @@ const journalPosts = [
                 </a>
                 <a
                   id="cta-hosting-link"
-                  href="/services/green-web-hosting"
+                  href="/services/green-web-hosting/"
                   class="hidden items-center gap-2 border border-forest/30 text-forest hover:bg-forest hover:text-cream transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
                 >
                   Switch to green hosting, free migration
@@ -309,7 +314,7 @@ const journalPosts = [
                   Copy link to these results
                 </button>
                 <a
-                  href="/contact"
+                  href="/contact/"
                   class="inline-flex items-center gap-2 border border-forest/30 text-forest hover:bg-forest hover:text-cream transition-colors duration-300 px-7 py-3.5 rounded-full text-[14px] font-medium"
                 >
                   Talk to a studio that speaks your language
@@ -432,7 +437,7 @@ const journalPosts = [
         <p class="md:col-span-7 md:col-start-6 text-[15px] text-ink/65 leading-relaxed max-w-[65ch]">
           Most sites don't need a rebuild to move two grades. They need someone
           to do the unglamorous work below. Do it yourself with our
-          <a href="/blog/sustainable-web-design-practical-guide" class="text-forest hover:underline underline-offset-4">practical guide</a>,
+          <a href="/blog/sustainable-web-design-practical-guide/" class="text-forest hover:underline underline-offset-4">practical guide</a>,
           or ask us for a free improvement plan.
         </p>
       </div>
@@ -492,7 +497,7 @@ const journalPosts = [
           changes that would move it most. Free, specific to your site, and
           yours to act on with or without us.
         </p>
-        <a href="/contact?service=carbon-audit" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+        <a href="/contact/?service=carbon-audit" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
           Get your free improvement plan
           <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -784,7 +789,7 @@ const journalPosts = [
       status.append(message);
       if (carbonError !== 'rate-limit') {
         const link = document.createElement('a');
-        link.href = '/contact';
+        link.href = '/contact/';
         link.className = 'text-forest underline underline-offset-4';
         link.textContent = 'send it to us and we\'ll run it by hand';
         status.append(link, '.');
@@ -846,7 +851,7 @@ const journalPosts = [
     hostingLink.classList.toggle('hidden', !offerHostingSwitch);
     hostingLink.classList.toggle('inline-flex', offerHostingSwitch);
     el<HTMLAnchorElement>('cta-improve-link').href =
-      `/contact?service=carbon-audit&audit=${encodeURIComponent(url.hostname)}&grade=${encodeURIComponent(grade)}`;
+      `/contact/?service=carbon-audit&audit=${encodeURIComponent(url.hostname)}&grade=${encodeURIComponent(grade)}`;
 
     // Shareable URL for these results.
     const shareUrl = `${window.location.origin}${window.location.pathname}?url=${encodeURIComponent(url.hostname)}`;

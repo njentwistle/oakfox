@@ -56,15 +56,15 @@ const breadcrumbs = {
     <div class="max-w-7xl mx-auto px-6">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl">Journal</h1>
       <p class="mt-6 text-lg text-gray max-w-2xl">
-        Essays and practical guides from the <a href="/about" class="text-forest underline underline-offset-4">OakFox studio</a>
+        Essays and practical guides from the <a href="/about/" class="text-forest underline underline-offset-4">OakFox studio</a>
         on sustainable branding, accessible web design, green web development,
         honest marketing, and environmental consultancy.
       </p>
       <div class="mt-6 flex flex-wrap gap-4">
-        <a href="/contact" class="text-forest font-medium text-sm hover:underline underline-offset-4">
+        <a href="/contact/" class="text-forest font-medium text-sm hover:underline underline-offset-4">
           Start a project &rarr;
         </a>
-        <a href="/portfolio" class="text-forest font-medium text-sm hover:underline underline-offset-4">
+        <a href="/portfolio/" class="text-forest font-medium text-sm hover:underline underline-offset-4">
           See selected work &rarr;
         </a>
       </div>
@@ -88,7 +88,7 @@ const breadcrumbs = {
             <span class="text-[11px] font-mono uppercase tracking-widest text-gray pr-2 self-center">Tags</span>
             {topTags.map(([tag, count]) => (
               <a
-                href={`/blog/tags/${tag}`}
+                href={`/blog/tags/${tag}/`}
                 class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full hover:bg-forest hover:text-cream transition-colors duration-300"
               >
                 {tag} <span class="text-forest/60">· {count}</span>
@@ -106,7 +106,7 @@ const breadcrumbs = {
         <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
             <a
-              href={`/blog/${post.id}`}
+              href={`/blog/${post.id}/`}
               class="blog-card group block rounded-2xl border border-gray-light p-6 transition-all duration-300 hover:border-forest hover:shadow-lg"
               data-title={post.data.title.toLowerCase()}
               data-description={post.data.description.toLowerCase()}

@@ -39,7 +39,7 @@ So a practical habit: **find the test date before you trust a result.** Most too
 
 While we were verifying all this, we found a failure of our own, which seems only fair to publish. Some website firewalls answer automated visitors with a small "checking your browser" page instead of the real site. Our crawler was fetching that stub, dutifully weighing its few kilobytes, and coming back with a confident A+ — the best possible grade, for a page no human being has ever seen.
 
-[The audit tool](/website-carbon-audit) now recognises those checkpoint pages and refuses to grade them; when direct measurement is blocked, it falls back to Google Lighthouse, run from your own browser, which firewalls treat as a normal visitor. We'd rather return no answer than a wrong one — and if you rely on any measurement tool, it's worth asking whether it makes the same choice.
+[The audit tool](/website-carbon-audit/) now recognises those checkpoint pages and refuses to grade them; when direct measurement is blocked, it falls back to Google Lighthouse, run from your own browser, which firewalls treat as a normal visitor. We'd rather return no answer than a wrong one — and if you rely on any measurement tool, it's worth asking whether it makes the same choice.
 
 ## Treat it like an MOT
 
@@ -50,4 +50,4 @@ The habit that follows from all of this is small:
 - **Date what you publish.** If you display a carbon badge or quote a rating on your site, put the test date next to it. An undated badge is exactly how a winter A ends up decorating a summer F.
 - **Keep the report.** A dated series of measurements shows trend, which is worth more than any single grade — it's the difference between "we tested well once" and "we keep it light".
 
-None of this is a reason to distrust carbon ratings. Measured fresh, they're the most useful single number in web sustainability — our [practical guide](/blog/sustainable-web-design-practical-guide) is built around moving that number. It's just a reason to hold them the way this field holds every other measurement: as a reading, taken on a date, of a thing that changes.
+None of this is a reason to distrust carbon ratings. Measured fresh, they're the most useful single number in web sustainability — our [practical guide](/blog/sustainable-web-design-practical-guide/) is built around moving that number. It's just a reason to hold them the way this field holds every other measurement: as a reading, taken on a date, of a thing that changes.

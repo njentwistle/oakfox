@@ -93,7 +93,7 @@ const locations = [
       <p class="label text-gray mb-10 md:mb-14">Where we work</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
         {locations.map((l) => (
-          <a href={`/locations/${l.slug}`} class="reveal group block border-t border-stone pt-6 hover:border-forest transition-colors duration-500">
+          <a href={`/locations/${l.slug}/`} class="reveal group block border-t border-stone pt-6 hover:border-forest transition-colors duration-500">
             <h2 class="headline text-xl md:text-2xl mb-3 group-hover:text-forest transition-colors duration-500">
               {l.name}
             </h2>
@@ -123,7 +123,7 @@ const locations = [
           have all collaborated with us remotely. Send a few lines about your
           project — location is rarely the constraint.
         </p>
-        <a href="/contact" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
+        <a href="/contact/" class="inline-flex items-center gap-3 mt-10 text-[13px] font-medium text-forest group">
           Start a conversation
           <span class="w-10 h-10 rounded-full border border-forest/30 flex items-center justify-center transition-all duration-500 group-hover:bg-forest group-hover:text-cream">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

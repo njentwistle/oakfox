@@ -20,12 +20,12 @@ const blogPosts = (await getCollection('blog', isPublished))
   .slice(0, 1);
 
 const services = [
-  { name: 'Branding', description: 'Identity systems that communicate your values.', href: '/services/branding' },
-  { name: 'Environmental', description: 'Sustainability built into every project.', href: '/services/environmental' },
-  { name: 'Web Design', description: 'Considered sites, accessible from the start.', href: '/services/web-design' },
-  { name: 'Development', description: 'Fast, green, modern builds.', href: '/services/development' },
-  { name: 'Copywriting', description: 'Words that mean something.', href: '/services/copywriting' },
-  { name: 'Marketing', description: 'Strategy that respects the audience.', href: '/services/marketing' },
+  { name: 'Branding', description: 'Identity systems that communicate your values.', href: '/services/branding/' },
+  { name: 'Environmental', description: 'Sustainability built into every project.', href: '/services/environmental/' },
+  { name: 'Web Design', description: 'Considered sites, accessible from the start.', href: '/services/web-design/' },
+  { name: 'Development', description: 'Fast, green, modern builds.', href: '/services/development/' },
+  { name: 'Copywriting', description: 'Words that mean something.', href: '/services/copywriting/' },
+  { name: 'Marketing', description: 'Strategy that respects the audience.', href: '/services/marketing/' },
 ];
 
 const testimonials = [
@@ -95,7 +95,7 @@ const homeSchema = {
 
         <div class="md:col-span-5 md:col-start-8 flex flex-wrap items-center gap-x-6 gap-y-4 md:justify-end">
           <a
-            href="/contact"
+            href="/contact/"
             data-magnetic
             class="inline-flex items-center gap-3 bg-forest text-cream text-[15px] font-medium pl-6 pr-2 py-2 rounded-full hover:bg-forest-dark transition-all duration-300 group"
           >
@@ -107,7 +107,7 @@ const homeSchema = {
             </span>
           </a>
           <a
-            href="/book"
+            href="/book/"
             class="inline-flex items-center gap-2 text-[14px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
           >
             Book a free call
@@ -129,7 +129,7 @@ const homeSchema = {
     <div class="max-w-[1400px] mx-auto px-6 md:px-10">
       <div class="reveal flex items-baseline justify-between mb-12 md:mb-16">
         <h2 class="headline text-xl md:text-2xl">Selected work</h2>
-        <a href="/portfolio" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors">
+        <a href="/portfolio/" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors">
           View all
         </a>
       </div>
@@ -138,7 +138,7 @@ const homeSchema = {
         <div class="space-y-16 md:space-y-24 reveal-stagger">
           {/* Featured item — large */}
           {workItems[0] && (
-            <a href={`/portfolio/${workItems[0].id}`} class="reveal group block">
+            <a href={`/portfolio/${workItems[0].id}/`} class="reveal group block">
               <div class="img-wrap bg-stone/30 min-h-48 max-h-[500px] overflow-hidden">
                 <Img
                   src={workItems[0].data.thumbnail}
@@ -161,7 +161,7 @@ const homeSchema = {
           {workItems.length > 1 && (
             <div class="grid md:grid-cols-2 gap-8 md:gap-12">
               {workItems.slice(1).map((item) => (
-                <a href={`/portfolio/${item.id}`} class="reveal group block">
+                <a href={`/portfolio/${item.id}/`} class="reveal group block">
                   <div class="img-wrap bg-stone/30 min-h-40 max-h-80 overflow-hidden">
                     <Img
                       src={item.data.thumbnail}
@@ -255,13 +255,13 @@ const homeSchema = {
       <!-- Locations signpost -->
       <div data-locations class="reveal mt-16 md:mt-20 border-t border-stone pt-10 flex flex-wrap items-baseline gap-x-6 gap-y-3">
         <p class="label text-gray">Serving</p>
-        <a href="/locations/ormskirk" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Ormskirk</a>
-        <a href="/locations/burscough" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Burscough</a>
-        <a href="/locations/southport" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Southport</a>
-        <a href="/locations/preston" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Preston</a>
-        <a href="/locations/manchester" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Manchester</a>
-        <a href="/locations/lancashire" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Lancashire</a>
-        <a href="/locations" class="text-[13px] font-medium text-forest hover:underline underline-offset-4 ml-auto">All UK locations →</a>
+        <a href="/locations/ormskirk/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Ormskirk</a>
+        <a href="/locations/burscough/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Burscough</a>
+        <a href="/locations/southport/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Southport</a>
+        <a href="/locations/preston/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Preston</a>
+        <a href="/locations/manchester/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Manchester</a>
+        <a href="/locations/lancashire/" class="text-[13px] text-ink/65 hover:text-forest transition-colors">Lancashire</a>
+        <a href="/locations/" class="text-[13px] font-medium text-forest hover:underline underline-offset-4 ml-auto">All UK locations →</a>
       </div>
     </div>
   </section>
@@ -295,7 +295,7 @@ const homeSchema = {
         <div class="reveal flex items-center justify-between gap-6">
           <div class="flex items-baseline gap-6 md:gap-10 min-w-0">
             <h2 class="label text-gray shrink-0">Latest</h2>
-            <a href={`/blog/${blogPosts[0].id}`} class="group flex items-baseline gap-4 min-w-0">
+            <a href={`/blog/${blogPosts[0].id}/`} class="group flex items-baseline gap-4 min-w-0">
               <h3 class="text-[15px] md:text-base font-medium text-ink group-hover:text-forest transition-colors truncate">
                 {blogPosts[0].data.title}
               </h3>
@@ -304,7 +304,7 @@ const homeSchema = {
               </time>
             </a>
           </div>
-          <a href="/blog" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors shrink-0">
+          <a href="/blog/" class="link-line text-[13px] font-medium text-ink/65 hover:text-forest transition-colors shrink-0">
             All posts
           </a>
         </div>
@@ -323,7 +323,7 @@ const homeSchema = {
         </h2>
         <div class="flex flex-wrap gap-4 mt-10">
           <a
-            href="/book"
+            href="/book/"
             data-magnetic
             class="inline-flex items-center gap-3 text-[13px] font-medium text-forest group"
           >
@@ -335,7 +335,7 @@ const homeSchema = {
             </span>
           </a>
           <a
-            href="/contact"
+            href="/contact/"
             class="inline-flex items-center gap-3 text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300"
           >
             Start a project

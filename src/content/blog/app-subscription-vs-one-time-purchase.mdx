@@ -1,0 +1,71 @@
+---
+title: "Subscription or One-Time Purchase? How to Choose an App Pricing Model"
+description: "We shipped two apps with opposite pricing models: a freemium subscription for CubTrack and one-time packs for TrailFox. How to choose between subscription, one-time purchase and ads, based on how people actually use the app."
+date: 2026-10-06
+category: "Product"
+author: "OakFox"
+tags: ["app development", "product", "pricing", "ios", "android"]
+draft: false
+faq:
+  - q: "Should my app use a subscription or a one-time purchase?"
+    a: "Match the pricing to how the app is used. A subscription suits a habitual utility that delivers value every day and has ongoing running costs behind it, such as sync or cloud backup. A one-time purchase suits something people open occasionally for enjoyment, where a monthly charge would feel like paying for an app they barely use. We use a freemium subscription for CubTrack, a baby tracker used many times a day, and one-time activity packs for TrailFox, an outdoor activity app used mostly at weekends."
+  - q: "Is freemium a good model for a small app?"
+    a: "It can be, provided the free tier is genuinely useful on its own. CubTrack's free tier covers everything an individual parent realistically needs; the paid Pro tier adds features that matter to households with several caregivers, such as shared access, exports and cloud backup. A free tier that exists only to frustrate people into paying tends to cost more in reviews and trust than it earns."
+  - q: "Should a family or children's app show adverts?"
+    a: "We decided not to, in both of our apps. Adverts in an app parents open at 3am, or one children use outdoors, cost more in trust than they earn, and advertising usually brings third-party tracking that is hard to square with privacy-first handling of family data."
+  - q: "How do you handle in-app purchases on both iOS and Android?"
+    a: "TrailFox handles purchases through RevenueCat on top of the App Store and Google Play billing systems, which gives a single view of who has bought what across both platforms. Whatever tool you use, model your prices after the app stores' commission on digital sales, not before."
+---
+
+We've now shipped two apps of our own, and they use opposite pricing models. [CubTrack](/portfolio/cubtrack/), a baby tracker, runs a freemium subscription. [TrailFox](/portfolio/trailfox/), an outdoor activity app for families, sells one-time packs and will never have a subscription. Same studio, same principles, opposite answers. That's the point of this post: the right model depends on how people use the thing, and you can work it out before you write a line of code.
+
+## The short answer
+
+**Match the price to the usage pattern.**
+
+- **Used every day, with ongoing value?** A subscription (usually freemium) is fair to both sides.
+- **Used occasionally, for enjoyment?** One-time purchases are fairer, and people feel better about them.
+- **Adverts?** Only if the audience, the context and your privacy position can take it. For both of our apps, they couldn't.
+
+## CubTrack: why a subscription fits
+
+CubTrack is opened many times a day, including at 3am, by exhausted parents logging feeds, naps and nappies. The alternative for a lot of families is a free notes app or a shared spreadsheet, so the free tier has to beat that on its own.
+
+So the free tier covers everything an individual parent realistically needs: feeds, naps, nappies, growth and milestones, all unlocked. **Pro (£4.79 a month)** adds the features that matter to households where several people are involved: shared caregivers, unlimited custom trackers, PDF exports and cloud backup.
+
+The reasoning: those paid features deliver value every day for as long as the baby is small, and some of them, sync and backup in particular, cost money to run every month. A recurring price for recurring value is easy to explain and easy to justify. We [wrote more about the build here](/blog/building-cubtrack-baby-tracking-app/), including why we're still testing whether £4.79 is the right number.
+
+## TrailFox: why one-time packs fit
+
+TrailFox is used differently. It suggests outdoor activities for children based on how much energy everyone has and where you are: garden, park, woods or street. People open it when they're wondering what to do on a Saturday morning, not forty times a day.
+
+A monthly subscription against that pattern is a slow leak of goodwill: you resent paying every month for something you open at weekends. So hundreds of activities are free, and themed packs (Minibeast, Night, Mud, Beach, the four seasons, and Wild Skills for older children) are **one-time purchases**. No subscriptions, ever. No ads.
+
+The lesson we took from building it: [don't inherit a pricing model from your last product](/blog/building-trailfox-outdoor-activity-app/). We could have copied CubTrack's approach and it would have been wrong.
+
+## Five questions that decide it
+
+Before choosing a model, answer these honestly:
+
+1. **How often will people open it?** Daily habits support subscriptions. Occasional use doesn't.
+2. **Does the value build continuously, or arrive in chunks?** Ongoing sync, backup and shared data build over time. A pack of activities or a set of levels arrives in one go.
+3. **What does each user cost you to run?** If every active user carries server, storage or API costs each month, a one-time price can quietly become a loss. Recurring costs point towards recurring revenue.
+4. **Who's paying, and how do they feel about subscriptions?** Parents juggling a dozen monthly charges are wary of one more. Businesses with expense accounts often prefer predictable monthly pricing.
+5. **Is the free tier useful on its own?** If the free version only exists to push people into paying, expect it to show up in your reviews.
+
+## Why we left out ads
+
+Advertising is the default for free apps, and the easiest revenue to switch on. We turned it down in both apps for the same reasons. An app parents open at 3am shouldn't be showing them display ads. And TrailFox handles children's data, so it's privacy-first by design: accounts and content sync through Google Firebase, purchases run through RevenueCat and the app stores, and there's no advertising, no third-party analytics and nothing sold on. Ad networks would have broken that promise on day one.
+
+That's a position, not a rule. For some apps, particularly ones with huge, casual audiences, ads are the honest model. But decide it deliberately, knowing what the ad SDK brings with it.
+
+## Practical notes if you're building one
+
+- **Model your numbers after store commission.** Both app stores take a cut of digital sales, so a £4.79 price isn't £4.79 of revenue.
+- **Use a purchase layer that spans both platforms.** TrailFox uses RevenueCat on top of App Store and Google Play billing, so there's one view of who owns what across iOS and Android.
+- **Set the price deliberately, then test it.** Anchor to your own costs and the value you deliver, not to whatever a competitor charges, and review it once you have real conversion data.
+- **Price is part of the product design,** not a spreadsheet exercise at the end. It shapes which features are free, how the paywall feels, and whether people trust you.
+
+## Building an app?
+
+We design and build apps end to end: brand, product design, iOS and Android, store listings and the marketing site. We've done that twice for our own products, so the advice above comes from shipping, not theory. If you're planning an app and want to talk through the product and the pricing, see our [development services](/services/development/) or [book a free call](/book/).
