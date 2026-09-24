@@ -58,3 +58,31 @@ function newsletter_find_by_token(array $data, string $token): ?int {
 function newsletter_token(): string {
     return bin2hex(random_bytes(24));
 }
+
+// Cloudflare Turnstile. The secret lives outside public_html (deploy.sh resets
+// everything in there to 644) in a 600 file owned by the site user.
+function newsletter_turnstile_ok(string $token, ?string $ip): bool {
+    $secretFile = dirname(__DIR__, 2) . '/.oakfox-turnstile-secret';
+    $secret = is_readable($secretFile) ? trim((string) file_get_contents($secretFile)) : '';
+    if ($secret === '') {
+        error_log('[newsletter] Turnstile secret missing at ' . $secretFile);
+        return false;
+    }
+    if ($token === '' || strlen($token) > 2048) {
+        return false;
+    }
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query(['secret' => $secret, 'response' => $token, 'remoteip' => $ip]),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+    ]);
+    $raw = curl_exec($ch);
+    $res = is_string($raw) ? json_decode($raw, true) : null;
+    if (!is_array($res) || ($res['success'] ?? false) !== true) {
+        error_log('[newsletter] Turnstile rejected: ' . implode(',', $res['error-codes'] ?? ['no response']));
+        return false;
+    }
+    return true;
+}

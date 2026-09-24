@@ -18,6 +18,12 @@ if ($honeypot !== '') {
     exit;
 }
 
+if (!newsletter_turnstile_ok(trim($_POST['cf-turnstile-response'] ?? ''), $_SERVER['REMOTE_ADDR'] ?? null)) {
+    http_response_code(400);
+    echo json_encode(['error' => "We couldn't check you're not a bot. Please try again."]);
+    exit;
+}
+
 if (empty($email)) {
     http_response_code(400);
     echo json_encode(['error' => 'Please enter an email address.']);
