@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Client sign-off — OakFox Dashboard</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/DashboardLayout.CYJA_dFP.css">
+<style>.so-grid[data-astro-cid-wq6hou5x]{display:grid;gap:12px}.so-grid-3[data-astro-cid-wq6hou5x]{grid-template-columns:repeat(3,1fr)}.so-grid[data-astro-cid-wq6hou5x] label[data-astro-cid-wq6hou5x],label[data-astro-cid-wq6hou5x]>.db-label[data-astro-cid-wq6hou5x]{display:block}.so-grid[data-astro-cid-wq6hou5x] .db-label[data-astro-cid-wq6hou5x],label[data-astro-cid-wq6hou5x]>.db-label[data-astro-cid-wq6hou5x]{margin-bottom:6px}.so-grid[data-astro-cid-wq6hou5x] .db-input[data-astro-cid-wq6hou5x],form[data-astro-cid-wq6hou5x] textarea[data-astro-cid-wq6hou5x].db-input{width:100%}.so-items[data-astro-cid-wq6hou5x]{display:grid;gap:8px;margin-top:6px}.so-item{display:grid;grid-template-columns:2fr 2.4fr .9fr .9fr 1fr auto;gap:8px}.so-item .db-input{width:100%;min-width:0}.so-created[data-astro-cid-wq6hou5x]{margin-top:18px;padding-top:16px;border-top:1px solid var(--db-border)}.so-created[data-astro-cid-wq6hou5x] .db-input[data-astro-cid-wq6hou5x]{width:100%;margin-top:6px}.so-row{padding:16px 0;border-bottom:1px solid var(--db-border)}.so-row:last-child{border-bottom:0}.so-row-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.so-title{color:var(--db-text);font-weight:600;font-size:14px}.so-sub{color:var(--db-text-muted);font-size:12px;margin-top:3px}.so-audit{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:12px 0 0;font-size:12px}.so-audit dt{color:var(--db-text-muted)}.so-audit dd{margin:0;color:var(--db-text-secondary);word-break:break-all}.so-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}@media(max-width:800px){.so-grid-3[data-astro-cid-wq6hou5x]{grid-template-columns:1fr}.so-item{grid-template-columns:1fr 1fr}}
+</style></head> <body class="db-root"> <!-- Sidebar (desktop) --> <aside class="db-sidebar"> <img src="/images/site/logolight.png" alt="OakFox" class="db-sidebar-logo"> <!-- Agency switcher --> <div class="db-agency-switcher" id="agency-switcher"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <nav class="db-sidebar-nav"> <a href="/dashboard" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/analytics" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="11" width="3" height="7" rx="1"/><rect x="10.5" y="5" width="3" height="13" rx="1"/><rect x="16" y="14" width="3" height="4" rx="1"/></svg> Analytics </a><a href="/dashboard/planner" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/sign-off" class="db-sidebar-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3-1 5-4 7-4s1 3 3 3 3-3 5-3"/><path d="M15.5 3.5l3 3L9 16l-4 1 1-4z"/></svg> Sign-off </a><a href="/dashboard/bookings" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/posts" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg> Posts </a><a href="/dashboard/carousels" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-sidebar-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <div style="border-top: 1px solid var(--db-border); padding-top: 16px; margin-top: 8px;"> <a href="#" id="logout-btn" class="db-sidebar-link" style="color: var(--db-text-muted); font-size: 12px;"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+Sign out
+</a> <p class="db-sidebar-footer" style="margin-top: 12px;">You're building something real.</p> </div> </aside> <!-- Mobile tab bar --> <nav class="db-tab-bar"> <a href="/dashboard" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command </a><a href="/dashboard/analytics" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="11" width="3" height="7" rx="1"/><rect x="10.5" y="5" width="3" height="13" rx="1"/><rect x="16" y="14" width="3" height="4" rx="1"/></svg> Analytics </a><a href="/dashboard/planner" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planner </a><a href="/dashboard/goals" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Goals </a><a href="/dashboard/brand" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Brand </a><a href="/dashboard/focus" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Focus </a><a href="/dashboard/newsletter" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Letter </a><a href="/dashboard/quote-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="10" y2="9"/></svg> Quote </a><a href="/dashboard/invoice-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h8M8 18h4"/></svg> Invoice </a><a href="/dashboard/contract-compose" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg> Contract </a><a href="/dashboard/sign-off" class="db-tab-link active"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3-1 5-4 7-4s1 3 3 3 3-3 5-3"/><path d="M15.5 3.5l3 3L9 16l-4 1 1-4z"/></svg> Sign-off </a><a href="/dashboard/bookings" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> Diary </a><a href="/dashboard/posts" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg> Posts </a><a href="/dashboard/carousels" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"/><path d="M20 6v12"/><path d="M23 8v8"/></svg> Carousels </a><a href="/dashboard/reels" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg> Reels </a><a href="/dashboard/onboarding" class="db-tab-link"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg> Onboard </a> </nav> <!-- Mobile agency switcher --> <div class="db-mobile-agency" id="agency-switcher-mobile"> <button class="db-agency-btn active" data-agency="OakFox">OakFox</button> <button class="db-agency-btn" data-agency="Pinpoint">Pinpoint</button> <button class="db-agency-btn" data-agency="Adtrak">Adtrak</button> </div> <!-- Main content --> <main class="db-main">  <div class="db-fade-in" data-astro-cid-wq6hou5x> <header style="margin-bottom: 24px;" data-astro-cid-wq6hou5x> <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;" data-astro-cid-wq6hou5x>Client sign-off</h1> <p style="color: var(--db-text-muted); font-size: 13px; max-width: 70ch;" data-astro-cid-wq6hou5x>
+Create a private link where a client reads what you've agreed and signs it. You both get an email copy, and the
+        signed record stays on the server, outside the website. A sent agreement can't be edited: withdraw it and create a new one.
+</p> </header> <form id="compose" class="db-card" style="margin-bottom: 16px;" novalidate data-astro-cid-wq6hou5x> <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;" data-astro-cid-wq6hou5x>New sign-off</h2> <div class="so-grid so-grid-3" data-astro-cid-wq6hou5x> <label data-astro-cid-wq6hou5x><span class="db-label" data-astro-cid-wq6hou5x>Client name</span><input name="name" class="db-input" placeholder="Jane Smith" required data-astro-cid-wq6hou5x></label> <label data-astro-cid-wq6hou5x><span class="db-label" data-astro-cid-wq6hou5x>Company</span><input name="company" class="db-input" placeholder="Smith & Co. Ltd" data-astro-cid-wq6hou5x></label> <label data-astro-cid-wq6hou5x><span class="db-label" data-astro-cid-wq6hou5x>Client email</span><input name="email" type="email" class="db-input" placeholder="jane@smithco.com" required data-astro-cid-wq6hou5x></label> </div> <div class="so-grid" style="margin-top: 12px;" data-astro-cid-wq6hou5x> <label data-astro-cid-wq6hou5x><span class="db-label" data-astro-cid-wq6hou5x>Title</span><input name="title" class="db-input" placeholder="Website, domain and hosting" required data-astro-cid-wq6hou5x></label> <label data-astro-cid-wq6hou5x><span class="db-label" data-astro-cid-wq6hou5x>Introduction</span><textarea name="intro" class="db-input" rows="3" placeholder="This confirms the work you asked us to go ahead with." data-astro-cid-wq6hou5x></textarea></label> </div> <div style="margin-top: 18px;" data-astro-cid-wq6hou5x> <span class="db-label" data-astro-cid-wq6hou5x>Items</span> <div id="items" class="so-items" data-astro-cid-wq6hou5x></div> <button type="button" id="add-item" class="db-btn db-btn-sm" style="margin-top: 8px;" data-astro-cid-wq6hou5x>Add item</button> </div> <label style="display: block; margin-top: 18px;" data-astro-cid-wq6hou5x> <span class="db-label" data-astro-cid-wq6hou5x>Terms, one per line</span> <textarea name="terms" class="db-input" rows="3" placeholder="Hosting has a minimum term of 12 months." data-astro-cid-wq6hou5x></textarea> </label> <label style="display: flex; gap: 10px; align-items: center; margin-top: 14px; font-size: 13px; color: var(--db-text-secondary);" data-astro-cid-wq6hou5x> <input type="checkbox" name="billingChoice" class="db-checkbox" checked data-astro-cid-wq6hou5x>
+Ask the client whether they'll pay the monthly items monthly or annually (12 months up front)
+</label> <div style="display: flex; gap: 12px; align-items: center; margin-top: 18px; flex-wrap: wrap;" data-astro-cid-wq6hou5x> <button type="submit" id="create" class="db-btn db-btn-primary" data-astro-cid-wq6hou5x>Create private link</button> <span id="compose-error" role="alert" style="color: var(--db-danger); font-size: 13px;" data-astro-cid-wq6hou5x></span> </div> <div id="created" class="so-created" hidden data-astro-cid-wq6hou5x> <span class="db-label" data-astro-cid-wq6hou5x>Private link</span> <input id="created-url" class="db-input db-mono" readonly data-astro-cid-wq6hou5x> <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;" data-astro-cid-wq6hou5x> <button type="button" class="db-btn db-btn-sm" data-copy data-astro-cid-wq6hou5x>Copy link</button> <a class="db-btn db-btn-sm" id="created-mail" href="#" data-astro-cid-wq6hou5x>Email to client</a> <a class="db-btn db-btn-sm db-btn-ghost" id="created-open" href="#" target="_blank" rel="noopener" data-astro-cid-wq6hou5x>Open</a> </div> </div> </form> <section class="db-card" data-astro-cid-wq6hou5x> <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;" data-astro-cid-wq6hou5x>Sign-offs</h2> <div id="list" data-astro-cid-wq6hou5x><p style="color: var(--db-text-muted); font-size: 13px;" data-astro-cid-wq6hou5x>Loading…</p></div> </section> </div> <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var form = $('compose');
+      var field = function (n) { return form.querySelector('[name="' + n + '"]'); };
+
+      function el(tag, attrs, text) {
+        var e = document.createElement(tag);
+        for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
+        if (text != null) e.textContent = text;
+        return e;
+      }
+      function when(iso) {
+        return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Europe/London' });
+      }
+      function copy(text, button) {
+        navigator.clipboard.writeText(text).then(function () {
+          var was = button.textContent;
+          button.textContent = 'Copied';
+          setTimeout(function () { button.textContent = was; }, 1500);
+        });
+      }
+      function mailto(client, title, url) {
+        var first = (client.name || '').split(' ')[0];
+        var body = 'Hi ' + first + ',\n\n'
+          + 'Here’s the agreement for ' + title + '. It sets out what we agreed and the prices. Please read it through and sign at the bottom:\n\n'
+          + url + '\n\n'
+          + 'Once you’ve signed, you’ll get a copy by email.\n\n'
+          + 'Many thanks,\nNathan';
+        return 'mailto:' + encodeURIComponent(client.email) + '?subject=' + encodeURIComponent('Your agreement with OakFox: ' + title) + '&body=' + encodeURIComponent(body);
+      }
+
+      /* ---------- Items ---------- */
+
+      function addItem(item) {
+        item = item || {};
+        var row = el('div', { class: 'so-item' });
+        row.innerHTML =
+          '<input class="db-input" data-k="label" placeholder="Item, e.g. One-page website" />' +
+          '<input class="db-input" data-k="detail" placeholder="Detail (optional)" />' +
+          '<input class="db-input" data-k="price" type="number" min="0" step="0.01" placeholder="Price £" />' +
+          '<input class="db-input" data-k="was" type="number" min="0" step="0.01" placeholder="Usually £" title="Optional: shown struck through, for a discount" />' +
+          '<select class="db-input db-select" data-k="unit"><option value="one-off">One-off</option><option value="month">Per month</option><option value="year">Per year</option></select>' +
+          '<button type="button" class="db-btn db-btn-sm db-btn-ghost" aria-label="Remove item">Remove</button>';
+        ['label', 'detail', 'price', 'was', 'unit'].forEach(function (k) {
+          if (item[k] != null) row.querySelector('[data-k="' + k + '"]').value = item[k];
+        });
+        row.querySelector('button').onclick = function () { row.remove(); };
+        $('items').appendChild(row);
+      }
+      $('add-item').onclick = function () { addItem(); };
+      addItem();
+
+      function readItems() {
+        return Array.prototype.map.call($('items').children, function (row) {
+          var v = function (k) { return row.querySelector('[data-k="' + k + '"]').value; };
+          return { label: v('label'), detail: v('detail'), price: v('price') || 0, was: v('was') || null, unit: v('unit') };
+        }).filter(function (i) { return i.label.trim(); });
+      }
+
+      /* ---------- Create ---------- */
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var error = $('compose-error'), button = $('create');
+        error.textContent = '';
+        button.disabled = true;
+        var client = { name: field('name').value, company: field('company').value, email: field('email').value };
+        var title = field('title').value;
+        fetch('/dashboard/signoffs-update.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'create',
+            client: client,
+            title: title,
+            intro: field('intro').value,
+            items: readItems(),
+            terms: field('terms').value.split('\n'),
+            billingChoice: field('billingChoice').checked,
+          }),
+        })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) { error.textContent = res.j.error || 'Could not create the link.'; return; }
+            $('created').hidden = false;
+            $('created-url').value = res.j.url;
+            $('created-open').href = res.j.url;
+            $('created-mail').href = mailto(client, title, res.j.url);
+            load();
+          })
+          .catch(function () { error.textContent = 'Could not reach the server.'; })
+          .finally(function () { button.disabled = false; });
+      });
+      form.querySelector('[data-copy]').onclick = function (e) { copy($('created-url').value, e.target); };
+
+      /* ---------- List ---------- */
+
+      var badges = { awaiting: ['Awaiting signature', 'db-badge-in-progress'], signed: ['Signed', 'db-badge-done'], withdrawn: ['Withdrawn', 'db-badge-not-started'] };
+
+      function row(s) {
+        var box = el('div', { class: 'so-row' });
+        var head = el('div', { class: 'so-row-head' });
+        var who = el('div');
+        who.append(el('div', { class: 'so-title' }, s.title), el('div', { class: 'so-sub' }, [s.client.name, s.client.company].filter(Boolean).join(', ') + ', sent ' + when(s.created)));
+        var badge = badges[s.status] || badges.awaiting;
+        head.append(who, el('span', { class: 'db-badge ' + badge[1] }, badge[0]));
+        box.appendChild(head);
+
+        box.appendChild(el('div', { class: 'so-sub' }, s.totals.map(function (t) { return t[0] + ' ' + t[1]; }).join(', ')));
+
+        var sig = s.signature;
+        if (sig) {
+          var dl = el('dl', { class: 'so-audit' });
+          [['Signed by', sig.name + (sig.role ? ', ' + sig.role : '')], ['Signed at', when(sig.signedAt)], ['Paying', s.billing || 'No choice asked'], ['Email', sig.email], ['IP address', sig.ip], ['Browser', sig.userAgent], ['Fingerprint', sig.fingerprint]]
+            .forEach(function (p) { dl.append(el('dt', null, p[0]), el('dd', p[0] === 'Fingerprint' ? { class: 'db-mono' } : null, p[1])); });
+          box.appendChild(dl);
+        }
+        if (s.withdrawnAt) box.appendChild(el('div', { class: 'so-sub' }, 'Withdrawn ' + when(s.withdrawnAt)));
+
+        var actions = el('div', { class: 'so-actions' });
+        var copyBtn = el('button', { type: 'button', class: 'db-btn db-btn-sm' }, 'Copy link');
+        copyBtn.onclick = function () { copy(s.url, copyBtn); };
+        actions.append(copyBtn, el('a', { class: 'db-btn db-btn-sm db-btn-ghost', href: s.url, target: '_blank', rel: 'noopener' }, 'Open'));
+        if (s.status === 'awaiting') {
+          actions.appendChild(el('a', { class: 'db-btn db-btn-sm', href: mailto(s.client, s.title, s.url) }, 'Email to client'));
+          var withdraw = el('button', { type: 'button', class: 'db-btn db-btn-sm db-btn-ghost' }, 'Withdraw');
+          withdraw.onclick = function () {
+            if (!confirm('Withdraw "' + s.title + '"? The link will stop accepting a signature.')) return;
+            fetch('/dashboard/signoffs-update.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'withdraw', token: s.token }) })
+              .then(function (r) { return r.json(); })
+              .then(function (j) { if (j.error) alert(j.error); load(); });
+          };
+          actions.appendChild(withdraw);
+        }
+        box.appendChild(actions);
+        return box;
+      }
+
+      function load() {
+        fetch('/dashboard/signoffs-data.php', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var list = $('list');
+            list.textContent = '';
+            if (!j.signoffs.length) {
+              list.appendChild(el('p', { style: 'color: var(--db-text-muted); font-size: 13px;' }, 'No sign-offs yet. Create one above and send the link to your client.'));
+              return;
+            }
+            j.signoffs.forEach(function (s) { list.appendChild(row(s)); });
+          })
+          .catch(function () { $('list').textContent = 'Could not load sign-offs.'; });
+      }
+      load();
+    })();
+  </script>  </main> <!-- Auth gate --> <script>
+      (function() {
+        var s = sessionStorage.getItem('oakfox_auth');
+        if (!s) { window.location.replace('/dashboard/login'); return; }
+        try {
+          var p = JSON.parse(s);
+          if (!p.authed || p.expires < Date.now()) {
+            sessionStorage.removeItem('oakfox_auth');
+            window.location.replace('/dashboard/login');
+          }
+        } catch(e) {
+          sessionStorage.removeItem('oakfox_auth');
+          window.location.replace('/dashboard/login');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          // Logout handler
+          var btn = document.getElementById('logout-btn');
+          if (btn) {
+            btn.addEventListener('click', function(e) {
+              e.preventDefault();
+              sessionStorage.removeItem('oakfox_auth');
+              window.location.replace('/dashboard/login');
+            });
+          }
+
+          // Agency switcher — sync both desktop and mobile
+          var activeAgency = localStorage.getItem('oakfox_agency') || 'OakFox';
+          var allAgencyBtns = document.querySelectorAll('.db-agency-btn');
+          allAgencyBtns.forEach(function(b) {
+            if (b.getAttribute('data-agency') === activeAgency) {
+              b.classList.add('active');
+            } else {
+              b.classList.remove('active');
+            }
+            b.addEventListener('click', function() {
+              allAgencyBtns.forEach(function(x) { x.classList.remove('active'); });
+              var agency = b.getAttribute('data-agency');
+              // Highlight all buttons with this agency (desktop + mobile)
+              allAgencyBtns.forEach(function(x) {
+                if (x.getAttribute('data-agency') === agency) x.classList.add('active');
+              });
+              localStorage.setItem('oakfox_agency', agency);
+              window.dispatchEvent(new CustomEvent('agencychange', { detail: { agency: agency } }));
+            });
+          });
+        });
+      })();
+    </script> </body> </html>

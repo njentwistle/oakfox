@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="en-GB"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="referrer" content="no-referrer"><title>Your agreement | OakFox</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Work+Sans:wght@400;500;600&display=swap"><link rel="stylesheet" href="/_astro/sign-off@_@astro.dLtoHIF3.css"></head> <body> <header class="top"> <a href="/" aria-label="OakFox home"><img src="/images/site/logo.png" alt="OakFox" width="44" height="49"></a> </header> <main class="sheet" id="sheet" aria-live="polite"> <p class="status" id="state">Loading your agreement…</p> <article id="agreement" hidden> <p class="for" id="for"></p> <h1 id="title"></h1> <p class="prepared" id="prepared"></p> <p class="intro" id="intro"></p> <table class="items"> <caption class="sr-only">What's included and what it costs</caption> <tbody id="items"></tbody> </table> <dl class="totals" id="totals"></dl> <section id="terms-wrap" hidden> <h2>Terms</h2> <ul id="terms"></ul> </section> <form id="sign" novalidate hidden> <h2>Sign to agree</h2> <div class="fields"> <label>Full name
+<input name="name" autocomplete="name" required> </label> <label>Role <span class="opt">(optional)</span> <input name="role" autocomplete="organization-title" placeholder="For example, Director"> </label> <label class="wide">Email for your copy
+<input name="email" type="email" autocomplete="email" required> </label> </div> <fieldset class="billing" id="billing" hidden> <legend>How would you like to pay?</legend> <p class="small" id="billing-for"></p> <label class="radio"><input type="radio" name="billing" value="monthly"> <span id="bill-monthly"></span></label> <label class="radio"><input type="radio" name="billing" value="annually"> <span id="bill-annually"></span></label> </fieldset> <div class="sig-line" aria-hidden="true"><span id="sig-preview"></span></div> <p class="sig-caption" aria-hidden="true">Signature, as you type your full name</p> <label class="check"> <input type="checkbox" name="agree"> <span id="agree-text">I agree to the work, prices and terms above.</span> </label> <p class="small">Typing your name and ticking the box is your electronic signature. You and OakFox will both get a copy by email.</p> <p class="error" id="error" role="alert"></p> <button type="submit" id="submit">Sign and agree</button> </form> <section class="signed" id="signed" hidden> <h2>Signed</h2> <div class="sig-line"><span id="signed-name"></span></div> <p id="signed-line"></p> <p id="signed-billing" hidden></p> <p id="signed-copy"></p> <p class="print-only" id="signed-fp"></p> <button type="button" class="ghost" id="print">Print or save as PDF</button> </section> </article> </main> <footer class="foot">
+OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oakfox.co.uk">nathan@oakfox.co.uk</a>.
+</footer> <script>
+      (function () {
+        var token = location.hash.slice(1);
+        var $ = function (id) { return document.getElementById(id); };
+        var form = $('sign');
+        var f = {};
+        ['name', 'role', 'email', 'agree', 'billing'].forEach(function (n) { f[n] = form.querySelector('[name="' + n + '"]'); });
+        var units = { 'one-off': '', month: 'per month', year: 'per year' };
+
+        function money(n) {
+          return '£' + n.toLocaleString('en-GB', Number.isInteger(n) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        function when(iso, withTime) {
+          var d = new Date(iso), tz = { timeZone: 'Europe/London' };
+          var day = d.toLocaleDateString('en-GB', Object.assign({ day: 'numeric', month: 'long', year: 'numeric' }, tz));
+          if (!withTime) return day;
+          return day + ' at ' + d.toLocaleTimeString('en-GB', Object.assign({ hour: 'numeric', minute: '2-digit', hour12: true }, tz)).replace(' ', '');
+        }
+        function el(tag, cls, text) {
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (text != null) e.textContent = text;
+          return e;
+        }
+        function stop(message) {
+          $('state').textContent = message;
+          $('state').hidden = false;
+          $('agreement').hidden = true;
+        }
+
+        function render(doc) {
+          var c = doc.client || {};
+          var who = c.company || c.name;
+          $('for').textContent = 'Agreement for ' + who;
+          $('title').textContent = doc.title;
+          document.title = doc.title + ' | OakFox';
+          $('prepared').textContent = 'Prepared by ' + doc.preparedBy + ', on ' + when(doc.created) + '.';
+          $('intro').textContent = doc.intro;
+          $('intro').hidden = !doc.intro;
+
+          var rows = $('items');
+          rows.textContent = '';
+          doc.items.forEach(function (item) {
+            var tr = el('tr');
+            var what = el('th');
+            what.scope = 'row';
+            what.appendChild(el('span', 'label', item.label));
+            if (item.detail) what.appendChild(el('span', 'detail', item.detail));
+            var price = el('td', 'price');
+            if (item.was) price.appendChild(el('s', 'was', money(item.was)));
+            price.appendChild(el('span', 'amount', money(item.price)));
+            if (units[item.unit]) price.appendChild(el('span', 'unit', units[item.unit]));
+            tr.append(what, price);
+            rows.appendChild(tr);
+          });
+
+          var totals = $('totals');
+          totals.textContent = '';
+          doc.totals.forEach(function (t) {
+            var row = el('div');
+            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
+            totals.appendChild(row);
+          });
+
+          var terms = $('terms');
+          terms.textContent = '';
+          doc.terms.forEach(function (t) { terms.appendChild(el('li', null, t)); });
+          $('terms-wrap').hidden = !doc.terms.length;
+
+          if (c.company) {
+            $('agree-text').textContent = 'I agree to the work, prices and terms above, and I’m authorised to agree on behalf of ' + c.company + '.';
+          }
+          if (!f.email.value) f.email.value = c.email || '';
+
+          var b = doc.billing;
+          $('billing').hidden = !b;
+          if (b) {
+            var names = b.items.length > 1 ? b.items.slice(0, -1).join(', ') + ' and ' + b.items[b.items.length - 1] : b.items[0];
+            $('billing-for').textContent = 'For ' + names + '.';
+            $('bill-monthly').textContent = 'Monthly: ' + b.monthly + ' a month';
+            $('bill-annually').textContent = 'Annually: ' + b.annually + ' a year';
+          }
+
+          $('state').hidden = true;
+          $('agreement').hidden = false;
+          form.hidden = doc.status !== 'awaiting';
+          if (doc.status === 'signed') showSigned(doc, null);
+        }
+
+        function showSigned(doc, emailed) {
+          var s = doc.signature;
+          form.hidden = true;
+          $('signed').hidden = false;
+          $('signed-name').textContent = s.name;
+          $('signed-line').textContent = 'Signed by ' + s.name + (s.role ? ', ' + s.role : '') + ', on ' + when(s.signedAt, true) + '.';
+          $('signed-billing').hidden = !s.billing;
+          $('signed-billing').textContent = s.billing ? 'Paying: ' + s.billing + '.' : '';
+          $('signed-copy').textContent = emailed === false
+            ? 'Your signature is saved, but the email copy didn’t send. Nathan has the record and will email it to you.'
+            : emailed ? 'A copy is on its way to ' + s.email + '.' : 'A copy was emailed to ' + s.email + ' when it was signed.';
+          $('signed-fp').textContent = 'Fingerprint (SHA-256 of the wording): ' + doc.fingerprint;
+        }
+
+        f.name.addEventListener('input', function () { $('sig-preview').textContent = f.name.value; });
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var error = $('error'), button = $('submit');
+          error.textContent = '';
+          button.disabled = true;
+          button.textContent = 'Signing…';
+          fetch('/api/signoff.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              t: token,
+              name: f.name.value,
+              role: f.role.value,
+              email: f.email.value,
+              agree: f.agree.checked,
+              billing: (form.querySelector('[name="billing"]:checked') || {}).value || '',
+            }),
+          })
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+            .then(function (res) {
+              if (res.ok) return showSigned(res.j.agreement, res.j.emailed);
+              if (res.status === 409 && res.j.agreement) return showSigned(res.j.agreement, null);
+              error.textContent = res.j.error || 'Something went wrong. Please try again.';
+              if (f[res.j.field]) f[res.j.field].focus();
+            })
+            .catch(function () {
+              error.textContent = 'We couldn’t reach OakFox. Check your connection and try again.';
+            })
+            .finally(function () {
+              button.disabled = false;
+              button.textContent = 'Sign and agree';
+            });
+        });
+
+        $('print').addEventListener('click', function () { window.print(); });
+
+        if (!/^[a-f0-9]{48}$/.test(token)) {
+          stop('This page opens from the private link OakFox sent you. If you’ve lost it, email nathan@oakfox.co.uk.');
+          return;
+        }
+        fetch('/api/signoff.php?t=' + token, { cache: 'no-store' })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) return stop(res.j.error);
+            if (res.j.status === 'withdrawn') return stop('This agreement has been withdrawn, so it can’t be signed. Please email nathan@oakfox.co.uk.');
+            render(res.j);
+          })
+          .catch(function () { stop('We couldn’t load your agreement. Check your connection and refresh the page.'); });
+      })();
+    </script> </body> </html>
