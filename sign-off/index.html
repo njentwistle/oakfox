@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="referrer" content="no-referrer"><title>Your agreement | OakFox</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Work+Sans:wght@400;500;600&display=swap"><link rel="stylesheet" href="/_astro/sign-off@_@astro.dLtoHIF3.css"></head> <body> <header class="top"> <a href="/" aria-label="OakFox home"><img src="/images/site/logo.png" alt="OakFox" width="44" height="49"></a> </header> <main class="sheet" id="sheet" aria-live="polite"> <p class="status" id="state">Loading your agreement…</p> <article id="agreement" hidden> <p class="for" id="for"></p> <h1 id="title"></h1> <p class="prepared" id="prepared"></p> <p class="intro" id="intro"></p> <table class="items"> <caption class="sr-only">What's included and what it costs</caption> <tbody id="items"></tbody> </table> <dl class="totals" id="totals"></dl> <section id="terms-wrap" hidden> <h2>Terms</h2> <ul id="terms"></ul> </section> <form id="sign" novalidate hidden> <h2>Sign to agree</h2> <div class="fields"> <label>Full name
+<!DOCTYPE html><html lang="en-GB"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="referrer" content="no-referrer"><title>Your agreement | OakFox</title><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Work+Sans:wght@400;500;600&display=swap"><link rel="stylesheet" href="/_astro/sign-off@_@astro.VvkF7IQf.css"></head> <body> <header class="top"> <a href="/" aria-label="OakFox home"><img src="/images/site/logo.png" alt="OakFox" width="44" height="49"></a> </header> <main class="sheet" id="sheet" aria-live="polite"> <p class="status" id="state">Loading your agreement…</p> <article id="agreement" hidden> <p class="for" id="for"></p> <h1 id="title"></h1> <p class="prepared" id="prepared"></p> <p class="intro" id="intro"></p> <table class="items"> <caption class="sr-only">What's included and what it costs</caption> <tbody id="items"></tbody> </table> <dl class="totals" id="totals"></dl> <section id="terms-wrap" hidden> <h2>Terms</h2> <ul id="terms"></ul> </section> <form id="sign" novalidate hidden> <h2>Sign to agree</h2> <div class="fields"> <label>Full name
 <input name="name" autocomplete="name" required> </label> <label>Role <span class="opt">(optional)</span> <input name="role" autocomplete="organization-title" placeholder="For example, Director"> </label> <label class="wide">Email for your copy
 <input name="email" type="email" autocomplete="email" required> </label> </div> <fieldset class="billing" id="billing" hidden> <legend>How would you like to pay?</legend> <p class="small" id="billing-for"></p> <label class="radio"><input type="radio" name="billing" value="monthly"> <span id="bill-monthly"></span></label> <label class="radio"><input type="radio" name="billing" value="annually"> <span id="bill-annually"></span></label> </fieldset> <div class="sig-line" aria-hidden="true"><span id="sig-preview"></span></div> <p class="sig-caption" aria-hidden="true">Signature, as you type your full name</p> <label class="check"> <input type="checkbox" name="agree"> <span id="agree-text">I agree to the work, prices and terms above.</span> </label> <p class="small">Typing your name and ticking the box is your electronic signature. You and OakFox will both get a copy by email.</p> <p class="error" id="error" role="alert"></p> <button type="submit" id="submit">Sign and agree</button> </form> <section class="signed" id="signed" hidden> <h2>Signed</h2> <div class="sig-line"><span id="signed-name"></span></div> <p id="signed-line"></p> <p id="signed-billing" hidden></p> <p id="signed-copy"></p> <p class="print-only" id="signed-fp"></p> <button type="button" class="ghost" id="print">Print or save as PDF</button> </section> </article> </main> <footer class="foot">
 OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oakfox.co.uk">nathan@oakfox.co.uk</a>.
@@ -32,6 +32,23 @@ OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oak
           $('agreement').hidden = true;
         }
 
+        var current = null;
+
+        // First-year total, and how it's paid. The payments line follows the
+        // client's monthly/annual choice as they make it.
+        function summary(plan) {
+          var totals = $('totals');
+          totals.textContent = '';
+          [['First year total', current.firstYear], ['Payments', plan]].forEach(function (t) {
+            var row = el('div');
+            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
+            totals.appendChild(row);
+          });
+        }
+        form.addEventListener('change', function (e) {
+          if (e.target.name === 'billing' && current) summary(current.plans[e.target.value]);
+        });
+
         function render(doc) {
           var c = doc.client || {};
           var who = c.company || c.name;
@@ -58,13 +75,8 @@ OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oak
             rows.appendChild(tr);
           });
 
-          var totals = $('totals');
-          totals.textContent = '';
-          doc.totals.forEach(function (t) {
-            var row = el('div');
-            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
-            totals.appendChild(row);
-          });
+          current = doc;
+          summary(doc.billing ? 'Monthly or annually: choose below' : doc.plans.monthly);
 
           var terms = $('terms');
           terms.textContent = '';
@@ -93,6 +105,8 @@ OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oak
 
         function showSigned(doc, emailed) {
           var s = doc.signature;
+          current = doc;
+          summary(s.plan);
           form.hidden = true;
           $('signed').hidden = false;
           $('signed-name').textContent = s.name;
