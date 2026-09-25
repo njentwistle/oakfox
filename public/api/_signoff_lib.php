@@ -105,19 +105,46 @@ function signoff_price_line(array $item): string {
     return signoff_money((float) ($item['price'] ?? 0)) . ($unit ? ' ' . $unit : '');
 }
 
-// Totals grouped by how often they're charged.
-function signoff_totals(array $items): array {
-    $totals = [];
+// Sums by how often they're charged.
+function signoff_sums(array $items): array {
+    $sums = ['one-off' => 0.0, 'month' => 0.0, 'year' => 0.0];
     foreach ($items as $item) {
         $unit = $item['unit'] ?? 'one-off';
-        $totals[$unit] = ($totals[$unit] ?? 0) + (float) ($item['price'] ?? 0);
+        if (isset($sums[$unit])) $sums[$unit] += (float) ($item['price'] ?? 0);
     }
-    $labels = ['one-off' => 'One-off', 'month' => 'Monthly', 'year' => 'Yearly'];
-    $out = [];
-    foreach ($labels as $unit => $label) {
-        if (isset($totals[$unit])) $out[] = [$label, signoff_money($totals[$unit])];
-    }
-    return $out;
+    return $sums;
+}
+
+// Everything the first year costs: the one-off items, twelve months of the
+// monthly ones and the yearly ones. The same whichever way the client pays.
+function signoff_first_year(array $items): string {
+    $s = signoff_sums($items);
+    return signoff_money($s['one-off'] + 12 * $s['month'] + $s['year']);
+}
+
+// How it's paid, in words: "£9.99 a month and £14.99 a year". Paying
+// annually folds twelve months of the monthly items into the yearly payment.
+function signoff_plan(array $items, string $choice = 'monthly'): string {
+    $s = signoff_sums($items);
+    $year = $s['year'] + ($choice === 'annually' ? 12 * $s['month'] : 0);
+    $parts = [];
+    if ($s['one-off'] > 0) $parts[] = signoff_money($s['one-off']) . ' up front';
+    if ($choice !== 'annually' && $s['month'] > 0) $parts[] = signoff_money($s['month']) . ' a month';
+    if ($year > 0) $parts[] = signoff_money($year) . ' a year';
+    if (!$parts) return 'Nothing to pay';
+    $last = array_pop($parts);
+    return $parts ? implode(', ', $parts) . ' and ' . $last : $last;
+}
+
+// The summary under the items. Until the client has chosen how to pay, both
+// ways are described.
+function signoff_summary(array $doc): array {
+    $items = $doc['items'] ?? [];
+    $choice = $doc['signature']['billing'] ?? null;
+    $plan = signoff_billing($doc) && !$choice
+        ? signoff_plan($items, 'monthly') . ', or ' . signoff_plan($items, 'annually')
+        : signoff_plan($items, $choice ?: 'monthly');
+    return [['First year total', signoff_first_year($items)], ['Payments', $plan]];
 }
 
 // When the sign-off lets the client choose, the monthly items can be paid
@@ -142,6 +169,52 @@ function signoff_billing_line(array $doc): string {
     return $choice === 'annually' ? 'Annually, ' . $b['annually'] . ' a year' : 'Monthly, ' . $b['monthly'] . ' a month';
 }
 
+/* ---------- Payments ---------- */
+
+// Saved when the agreement is signed: one entry per paid item, first due on
+// the signing date, and reminded by _signoff_reminders.php. Paying annually
+// turns a monthly item into a yearly payment of twelve months. This is
+// working state, not part of the agreement, so it's outside the fingerprint.
+function signoff_schedule(array $doc, string $today): array {
+    $choice = $doc['signature']['billing'] ?? 'monthly';
+    $out = [];
+    foreach ($doc['items'] ?? [] as $i => $item) {
+        $amount = (float) ($item['price'] ?? 0);
+        if ($amount <= 0) continue;
+        $unit = $item['unit'] ?? 'one-off';
+        $every = $unit === 'month' ? ($choice === 'annually' ? 'year' : 'month') : ($unit === 'year' ? 'year' : 'once');
+        if ($unit === 'month' && $every === 'year') $amount = round($amount * 12, 2);
+        $out[] = [
+            'id' => 'p' . ($i + 1),
+            'label' => $item['label'],
+            'amount' => $amount,
+            'every' => $every,
+            'day' => (int) substr($today, 8, 2),
+            'nextDue' => $today,
+            'status' => 'active',
+            'paid' => [],
+            'reminded' => [],
+        ];
+    }
+    return $out;
+}
+
+// The next due date, keeping to the original day of the month where it
+// exists (a payment due on the 31st falls on the 30th in a 30-day month).
+function signoff_advance(string $ymd, string $every, int $day): string {
+    [$y, $m] = array_map('intval', explode('-', $ymd));
+    $m += $every === 'month' ? 1 : 12;
+    $y += intdiv($m - 1, 12);
+    $m = ($m - 1) % 12 + 1;
+    $last = (int) (new DateTimeImmutable(sprintf('%04d-%02d-01', $y, $m)))->format('t');
+    return sprintf('%04d-%02d-%02d', $y, $m, min($day, $last));
+}
+
+function signoff_payment_line(array $p): string {
+    $every = ['month' => ' a month', 'year' => ' a year', 'once' => ' once'][$p['every']] ?? '';
+    return $p['label'] . ': ' . signoff_money((float) $p['amount']) . $every;
+}
+
 function signoff_when(string $iso, string $format = 'j F Y, g:ia'): string {
     try {
         return (new DateTimeImmutable($iso))->setTimezone(new DateTimeZone('Europe/London'))->format($format);
@@ -160,14 +233,18 @@ function signoff_public(array $doc): array {
         'intro' => $doc['intro'] ?? '',
         'items' => $doc['items'] ?? [],
         'terms' => $doc['terms'] ?? [],
-        'totals' => signoff_totals($doc['items'] ?? []),
+        'firstYear' => signoff_first_year($doc['items'] ?? []),
+        'plans' => [
+            'monthly' => signoff_plan($doc['items'] ?? [], 'monthly'),
+            'annually' => signoff_plan($doc['items'] ?? [], 'annually'),
+        ],
         'billing' => signoff_billing($doc),
         'fingerprint' => $doc['fingerprint'] ?? '',
         'preparedBy' => SIGNOFF_OWNER_NAME . ', ' . SIGNOFF_OWNER_ROLE . ', ' . SIGNOFF_COMPANY,
     ];
     if (!empty($doc['signature'])) {
         $s = $doc['signature'];
-        $out['signature'] = ['name' => $s['name'], 'role' => $s['role'] ?? '', 'email' => $s['email'], 'signedAt' => $s['signedAt'], 'billing' => signoff_billing_line($doc)];
+        $out['signature'] = ['name' => $s['name'], 'role' => $s['role'] ?? '', 'email' => $s['email'], 'signedAt' => $s['signedAt'], 'billing' => signoff_billing_line($doc), 'plan' => signoff_summary($doc)[1][1]];
     }
     return $out;
 }
@@ -200,8 +277,8 @@ function signoff_email_html(array $doc, string $intro, bool $audit): string {
             . $was . $e(signoff_price_line($item)) . '</td></tr>';
     }
     $totals = '';
-    foreach (signoff_totals($doc['items']) as [$label, $amount]) {
-        $totals .= '<tr><td style="padding:6px 12px 0 0; color:#6B6760;">' . $e($label) . '</td><td style="padding:6px 0 0; text-align:right; color:#1A1D17; font-weight:600;">' . $e($amount) . '</td></tr>';
+    foreach (signoff_summary($doc) as [$label, $value]) {
+        $totals .= '<tr><td style="padding:6px 16px 0 0; color:#6B6760; white-space:nowrap; vertical-align:top;">' . $e($label) . '</td><td style="padding:6px 0 0; text-align:right; color:#1A1D17; font-weight:600;">' . $e($value) . '</td></tr>';
     }
     $terms = '';
     foreach ($doc['terms'] as $term) {
@@ -214,8 +291,17 @@ function signoff_email_html(array $doc, string $intro, bool $audit): string {
           . '<tr><td style="padding:3px 12px 3px 0; color:#6B6760; vertical-align:top;">Browser</td><td>' . $e($s['userAgent']) . '</td></tr>'
         : '';
     $signedAt = $e(signoff_when($s['signedAt'], 'j F Y \a\t g:ia T'));
+    $schedule = '';
+    if ($audit && !empty($doc['payments'])) {
+        foreach ($doc['payments'] as $pay) {
+            $schedule .= '<li style="margin:0 0 6px; line-height:1.55;">' . $e(signoff_payment_line($pay)) . ', first due ' . $e(signoff_when($pay['nextDue'], 'j F Y')) . '</li>';
+        }
+        $schedule = '<h2 style="font-size:15px; color:#1A1D17; margin:26px 0 8px;">Payment reminders saved</h2>'
+            . '<ul style="margin:0; padding-left:20px; color:#2E3329; font-size:14px;">' . $schedule . '</ul>'
+            . '<p style="font-size:13px; color:#6B6760; margin:8px 0 0;">You\'ll be emailed a week before each one, on the day, and weekly while it\'s unpaid. Mark payments paid, or change a date, in the dashboard.</p>';
+    }
     $billing = signoff_billing_line($doc);
-    $billingRow = $billing ? '<tr><td style="padding:3px 12px 3px 0; color:#6B6760;">Paying</td><td>' . $e($billing) . '</td></tr>' : '';
+    $billingRow = $billing ? '<tr><td style="padding:3px 12px 3px 0; color:#6B6760;">Payment choice</td><td>' . $e($billing) . '</td></tr>' : '';
 
     return <<<HTML
 <!DOCTYPE html>
@@ -243,6 +329,7 @@ function signoff_email_html(array $doc, string $intro, bool $audit): string {
       <tr><td style="padding:3px 12px 3px 0; color:#6B6760; vertical-align:top;">Fingerprint</td><td style="font-family:Menlo,Consolas,monospace; word-break:break-all;">{$e($s['fingerprint'])}</td></tr>
     </table>
   </div>
+  {$schedule}
   <p style="font-size:12px; color:#6B6760; line-height:1.55; margin-top:18px;">The fingerprint is a SHA-256 hash of the agreement's wording. If the wording had changed, the fingerprint would too. Prepared by {$e(SIGNOFF_OWNER_NAME)}, {$e(SIGNOFF_OWNER_ROLE)}, {$e(SIGNOFF_COMPANY)}.</p>
 </div>
 </body></html>
@@ -258,7 +345,7 @@ function signoff_email_text(array $doc, string $intro, bool $audit): string {
         if (($item['detail'] ?? '') !== '') $lines[] = '  ' . $item['detail'];
     }
     $lines[] = '';
-    foreach (signoff_totals($doc['items']) as [$label, $amount]) $lines[] = $label . ': ' . $amount;
+    foreach (signoff_summary($doc) as [$label, $value]) $lines[] = $label . ': ' . $value;
     if ($doc['terms']) {
         $lines[] = '';
         $lines[] = 'Terms';
@@ -267,13 +354,18 @@ function signoff_email_text(array $doc, string $intro, bool $audit): string {
     $lines[] = '';
     $lines[] = 'Signed electronically by ' . $s['name'] . (($s['role'] ?? '') !== '' ? ', ' . $s['role'] : '');
     $lines[] = 'Signed: ' . signoff_when($s['signedAt'], 'j F Y \a\t g:ia T');
-    if ($billing = signoff_billing_line($doc)) $lines[] = 'Paying: ' . $billing;
+    if ($billing = signoff_billing_line($doc)) $lines[] = 'Payment choice: ' . $billing;
     $lines[] = 'Email: ' . $s['email'];
     if ($audit) {
         $lines[] = 'IP address: ' . $s['ip'];
         $lines[] = 'Browser: ' . $s['userAgent'];
     }
     $lines[] = 'Fingerprint (SHA-256 of the wording): ' . $s['fingerprint'];
+    if ($audit && !empty($doc['payments'])) {
+        $lines[] = '';
+        $lines[] = 'Payment reminders saved:';
+        foreach ($doc['payments'] as $pay) $lines[] = '- ' . signoff_payment_line($pay) . ', first due ' . signoff_when($pay['nextDue'], 'j F Y');
+    }
     return implode("\n", $lines);
 }
 

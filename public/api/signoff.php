@@ -62,6 +62,9 @@ $result = signoff_locked(function () use ($token, $name, $role, $email, $billing
         'userAgent' => mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 400),
         'fingerprint' => $fingerprint,
     ];
+    // Payment reminders start from today: the domain yearly, and the monthly
+    // items monthly or yearly as the client chose.
+    $doc['payments'] = signoff_schedule($doc, (new DateTimeImmutable('today'))->format('Y-m-d'));
     if (!signoff_save($token, $doc)) return [500, ['error' => 'We couldn’t save your signature. Please try again, or email nathan@oakfox.co.uk.']];
     return [200, $doc];
 });

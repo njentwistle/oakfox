@@ -12,6 +12,15 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
       </p>
     </header>
 
+    <section class="db-card" style="margin-bottom: 16px;">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 6px;">Payments to collect</h2>
+      <p style="color: var(--db-text-muted); font-size: 12px; margin-bottom: 12px;">
+        Saved when a client signs. You're emailed a week before each payment, on the day, and weekly while it's unpaid.
+        Mark it paid and the reminder moves to the next due date.
+      </p>
+      <div id="payments"><p style="color: var(--db-text-muted); font-size: 13px;">Loading…</p></div>
+    </section>
+
     <form id="compose" class="db-card" style="margin-bottom: 16px;" novalidate>
       <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">New sign-off</h2>
 
@@ -173,14 +182,22 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         head.append(who, el('span', { class: 'db-badge ' + badge[1] }, badge[0]));
         box.appendChild(head);
 
-        box.appendChild(el('div', { class: 'so-sub' }, s.totals.map(function (t) { return t[0] + ' ' + t[1]; }).join(', ')));
+        box.appendChild(el('div', { class: 'so-sub' }, s.summary.map(function (t) { return t[0] + ': ' + t[1]; }).join('. ')));
 
         var sig = s.signature;
         if (sig) {
           var dl = el('dl', { class: 'so-audit' });
-          [['Signed by', sig.name + (sig.role ? ', ' + sig.role : '')], ['Signed at', when(sig.signedAt)], ['Paying', s.billing || 'No choice asked'], ['Email', sig.email], ['IP address', sig.ip], ['Browser', sig.userAgent], ['Fingerprint', sig.fingerprint]]
+          [['Signed by', sig.name + (sig.role ? ', ' + sig.role : '')], ['Signed at', when(sig.signedAt)], ['Payment choice', s.billing || 'Not asked'], ['Email', sig.email], ['IP address', sig.ip], ['Browser', sig.userAgent], ['Fingerprint', sig.fingerprint]]
             .forEach(function (p) { dl.append(el('dt', null, p[0]), el('dd', p[0] === 'Fingerprint' ? { class: 'db-mono' } : null, p[1])); });
           box.appendChild(dl);
+        }
+        if (s.payments && s.payments.length) {
+          var sched = el('ul', { class: 'so-schedule' });
+          s.payments.forEach(function (p) {
+            var state = p.status === 'active' ? 'next due ' + day(p.nextDue) : p.status === 'done' ? 'paid' : 'stopped';
+            sched.appendChild(el('li', null, p.label + ', ' + money(p.amount) + every(p) + ': ' + state + (p.paid.length ? ', paid ' + p.paid.length + (p.paid.length === 1 ? ' time' : ' times') : '')));
+          });
+          box.appendChild(sched);
         }
         if (s.withdrawnAt) box.appendChild(el('div', { class: 'so-sub' }, 'Withdrawn ' + when(s.withdrawnAt)));
 
@@ -203,10 +220,75 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
         return box;
       }
 
+      /* ---------- Payments ---------- */
+
+      function money(n) { return '£' + Number(n).toLocaleString('en-GB', Number.isInteger(Number(n)) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+      function every(p) { return { month: ' a month', year: ' a year', once: ' once' }[p.every] || ''; }
+      function day(ymd) { return new Date(ymd + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+      function daysUntil(ymd) {
+        var today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+        return Math.round((Date.parse(ymd) - Date.parse(today)) / 86400000);
+      }
+      function relative(days) {
+        if (days === 0) return 'Due today';
+        if (days > 0) return 'Due in ' + days + (days === 1 ? ' day' : ' days');
+        return -days + (days === -1 ? ' day' : ' days') + ' overdue';
+      }
+      function payment(token, id, op, date) {
+        return fetch('/dashboard/signoffs-update.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'payment', token: token, id: id, op: op, date: date }),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (j) { if (j.error) alert(j.error); load(); });
+      }
+
+      function paymentRow(s, p) {
+        var days = daysUntil(p.nextDue);
+        var box = el('div', { class: 'so-pay' + (days < 0 ? ' so-pay-late' : '') });
+        var what = el('div');
+        what.append(
+          el('div', { class: 'so-title' }, s.client.company || s.client.name),
+          el('div', { class: 'so-sub' }, p.label + ', ' + money(p.amount) + every(p) + (p.paid.length ? '. Last paid ' + day(p.paid[p.paid.length - 1].paidAt.slice(0, 10)) : ''))
+        );
+        var due = el('div', { class: 'so-due' });
+        due.append(el('div', { class: 'so-due-rel' }, relative(days)), el('div', { class: 'so-sub' }, day(p.nextDue)));
+
+        var actions = el('div', { class: 'so-actions', style: 'margin-top: 0;' });
+        var paid = el('button', { type: 'button', class: 'db-btn db-btn-sm db-btn-primary' }, 'Mark paid');
+        paid.onclick = function () { payment(s.token, p.id, 'paid'); };
+        var date = el('input', { type: 'date', class: 'db-input so-date', value: p.nextDue, 'aria-label': 'Next due date' });
+        date.onchange = function () { if (date.value) payment(s.token, p.id, 'date', date.value); };
+        var stop = el('button', { type: 'button', class: 'db-btn db-btn-sm db-btn-ghost' }, 'Stop');
+        stop.onclick = function () {
+          if (confirm('Stop reminders for ' + p.label + ' (' + (s.client.company || s.client.name) + ')?')) payment(s.token, p.id, 'stop');
+        };
+        actions.append(paid, date, stop);
+        box.append(what, due, actions);
+        return box;
+      }
+
+      function renderPayments(signoffs) {
+        var list = $('payments');
+        list.textContent = '';
+        var pays = [];
+        signoffs.forEach(function (s) {
+          (s.payments || []).forEach(function (p) { if (p.status === 'active') pays.push([s, p]); });
+        });
+        pays.sort(function (a, b) { return a[1].nextDue.localeCompare(b[1].nextDue); });
+        if (!pays.length) {
+          list.appendChild(el('p', { style: 'color: var(--db-text-muted); font-size: 13px;' }, 'Nothing to collect yet. Payments appear here when a client signs.'));
+          return;
+        }
+        pays.forEach(function (x) { list.appendChild(paymentRow(x[0], x[1])); });
+      }
+
       function load() {
         fetch('/dashboard/signoffs-data.php', { cache: 'no-store' })
           .then(function (r) { return r.json(); })
           .then(function (j) {
+            renderPayments(j.signoffs);
             var list = $('list');
             list.textContent = '';
             if (!j.signoffs.length) {
@@ -240,10 +322,19 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
     :global(.so-audit) { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 12px 0 0; font-size: 12px; }
     :global(.so-audit dt) { color: var(--db-text-muted); }
     :global(.so-audit dd) { margin: 0; color: var(--db-text-secondary); word-break: break-all; }
+    :global(.so-schedule) { margin: 10px 0 0; padding-left: 18px; font-size: 12px; color: var(--db-text-secondary); }
+    :global(.so-pay) { display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--db-border); }
+    :global(.so-pay:last-child) { border-bottom: 0; }
+    :global(.so-due) { text-align: right; }
+    :global(.so-due-rel) { font-size: 13px; font-weight: 600; color: var(--db-text); }
+    :global(.so-pay-late .so-due-rel) { color: var(--db-danger); }
+    :global(.so-date) { width: 150px; padding: 6px 8px; font-size: 12px; }
     :global(.so-actions) { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
     @media (max-width: 800px) {
       .so-grid-3 { grid-template-columns: 1fr; }
       :global(.so-item) { grid-template-columns: 1fr 1fr; }
+      :global(.so-pay) { grid-template-columns: 1fr auto; }
+      :global(.so-pay .so-actions) { grid-column: 1 / -1; }
     }
   </style>
 </DashboardLayout>

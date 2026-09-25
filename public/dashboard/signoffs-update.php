@@ -33,6 +33,42 @@ if (($in['action'] ?? '') === 'withdraw') {
     reply($status, $error ? ['error' => $error] : ['ok' => true]);
 }
 
+// POST {action: 'payment', token, id, op: 'paid' | 'date' | 'stop', date?}
+// Marking paid logs it and moves the reminder to the next due date.
+if (($in['action'] ?? '') === 'payment') {
+    $token = $in['token'] ?? '';
+    $id = (string) ($in['id'] ?? '');
+    $op = (string) ($in['op'] ?? '');
+    $date = (string) ($in['date'] ?? '');
+    if ($op === 'date' && !DateTimeImmutable::createFromFormat('!Y-m-d', $date)) reply(400, ['error' => 'Choose a valid date.']);
+
+    $result = signoff_locked(function () use ($token, $id, $op, $date) {
+        $doc = signoff_load($token);
+        if (!$doc) return [404, 'No sign-off with that link.'];
+        foreach ($doc['payments'] ?? [] as $i => $p) {
+            if ($p['id'] !== $id) continue;
+            if (($p['status'] ?? '') !== 'active') return [409, 'That payment is no longer active.'];
+            if ($op === 'paid') {
+                $doc['payments'][$i]['paid'][] = ['due' => $p['nextDue'], 'amount' => $p['amount'], 'paidAt' => (new DateTimeImmutable('now'))->format(DATE_ATOM)];
+                if ($p['every'] === 'once') $doc['payments'][$i]['status'] = 'done';
+                else $doc['payments'][$i]['nextDue'] = signoff_advance($p['nextDue'], $p['every'], (int) $p['day']);
+            } elseif ($op === 'date') {
+                $doc['payments'][$i]['nextDue'] = $date;
+                $doc['payments'][$i]['day'] = (int) substr($date, 8, 2);
+            } elseif ($op === 'stop') {
+                $doc['payments'][$i]['status'] = 'stopped';
+                $doc['payments'][$i]['stoppedAt'] = (new DateTimeImmutable('now'))->format(DATE_ATOM);
+            } else {
+                return [400, 'Unknown change.'];
+            }
+            return signoff_save($token, $doc) ? [200, null] : [500, 'Could not save the change.'];
+        }
+        return [404, 'No payment with that id.'];
+    });
+    [$status, $error] = $result ?? [500, 'Could not save the change.'];
+    reply($status, $error ? ['error' => $error] : ['ok' => true]);
+}
+
 if (($in['action'] ?? '') !== 'create') reply(400, ['error' => 'Unknown action.']);
 
 $client = is_array($in['client'] ?? null) ? $in['client'] : [];

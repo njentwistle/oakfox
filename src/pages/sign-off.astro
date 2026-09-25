@@ -122,6 +122,23 @@
           $('agreement').hidden = true;
         }
 
+        var current = null;
+
+        // First-year total, and how it's paid. The payments line follows the
+        // client's monthly/annual choice as they make it.
+        function summary(plan) {
+          var totals = $('totals');
+          totals.textContent = '';
+          [['First year total', current.firstYear], ['Payments', plan]].forEach(function (t) {
+            var row = el('div');
+            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
+            totals.appendChild(row);
+          });
+        }
+        form.addEventListener('change', function (e) {
+          if (e.target.name === 'billing' && current) summary(current.plans[e.target.value]);
+        });
+
         function render(doc) {
           var c = doc.client || {};
           var who = c.company || c.name;
@@ -148,13 +165,8 @@
             rows.appendChild(tr);
           });
 
-          var totals = $('totals');
-          totals.textContent = '';
-          doc.totals.forEach(function (t) {
-            var row = el('div');
-            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
-            totals.appendChild(row);
-          });
+          current = doc;
+          summary(doc.billing ? 'Monthly or annually: choose below' : doc.plans.monthly);
 
           var terms = $('terms');
           terms.textContent = '';
@@ -183,6 +195,8 @@
 
         function showSigned(doc, emailed) {
           var s = doc.signature;
+          current = doc;
+          summary(s.plan);
           form.hidden = true;
           $('signed').hidden = false;
           $('signed-name').textContent = s.name;
@@ -304,8 +318,9 @@
       .amount { font-weight: 600; }
       .unit { display: block; color: var(--muted); font-size: 13px; }
 
-      .totals { margin: 18px 0 0 auto; width: min(280px, 100%); font-variant-numeric: tabular-nums; }
-      .totals div { display: flex; justify-content: space-between; padding: 4px 0; }
+      .totals { margin: 18px 0 0 auto; width: min(460px, 100%); font-variant-numeric: tabular-nums; }
+      .totals div { display: flex; justify-content: space-between; gap: 24px; padding: 4px 0; }
+      .totals dd { text-align: right; }
       .totals dt { color: var(--muted); }
       .totals dd { margin: 0; font-weight: 600; }
 
