@@ -1,0 +1,249 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Client sign-off">
+  <div class="db-fade-in">
+    <header style="margin-bottom: 24px;">
+      <h1 class="db-heading" style="font-size: 32px; margin-bottom: 4px;">Client sign-off</h1>
+      <p style="color: var(--db-text-muted); font-size: 13px; max-width: 70ch;">
+        Create a private link where a client reads what you've agreed and signs it. You both get an email copy, and the
+        signed record stays on the server, outside the website. A sent agreement can't be edited: withdraw it and create a new one.
+      </p>
+    </header>
+
+    <form id="compose" class="db-card" style="margin-bottom: 16px;" novalidate>
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">New sign-off</h2>
+
+      <div class="so-grid so-grid-3">
+        <label><span class="db-label">Client name</span><input name="name" class="db-input" placeholder="Jane Smith" required /></label>
+        <label><span class="db-label">Company</span><input name="company" class="db-input" placeholder="Smith &amp; Co. Ltd" /></label>
+        <label><span class="db-label">Client email</span><input name="email" type="email" class="db-input" placeholder="jane@smithco.com" required /></label>
+      </div>
+
+      <div class="so-grid" style="margin-top: 12px;">
+        <label><span class="db-label">Title</span><input name="title" class="db-input" placeholder="Website, domain and hosting" required /></label>
+        <label><span class="db-label">Introduction</span><textarea name="intro" class="db-input" rows="3" placeholder="This confirms the work you asked us to go ahead with."></textarea></label>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <span class="db-label">Items</span>
+        <div id="items" class="so-items"></div>
+        <button type="button" id="add-item" class="db-btn db-btn-sm" style="margin-top: 8px;">Add item</button>
+      </div>
+
+      <label style="display: block; margin-top: 18px;">
+        <span class="db-label">Terms, one per line</span>
+        <textarea name="terms" class="db-input" rows="3" placeholder="Hosting has a minimum term of 12 months."></textarea>
+      </label>
+
+      <label style="display: flex; gap: 10px; align-items: center; margin-top: 14px; font-size: 13px; color: var(--db-text-secondary);">
+        <input type="checkbox" name="billingChoice" class="db-checkbox" checked />
+        Ask the client whether they'll pay the monthly items monthly or annually (12 months up front)
+      </label>
+
+      <div style="display: flex; gap: 12px; align-items: center; margin-top: 18px; flex-wrap: wrap;">
+        <button type="submit" id="create" class="db-btn db-btn-primary">Create private link</button>
+        <span id="compose-error" role="alert" style="color: var(--db-danger); font-size: 13px;"></span>
+      </div>
+
+      <div id="created" class="so-created" hidden>
+        <span class="db-label">Private link</span>
+        <input id="created-url" class="db-input db-mono" readonly />
+        <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+          <button type="button" class="db-btn db-btn-sm" data-copy>Copy link</button>
+          <a class="db-btn db-btn-sm" id="created-mail" href="#">Email to client</a>
+          <a class="db-btn db-btn-sm db-btn-ghost" id="created-open" href="#" target="_blank" rel="noopener">Open</a>
+        </div>
+      </div>
+    </form>
+
+    <section class="db-card">
+      <h2 class="db-heading" style="font-size: 16px; margin-bottom: 14px;">Sign-offs</h2>
+      <div id="list"><p style="color: var(--db-text-muted); font-size: 13px;">Loading…</p></div>
+    </section>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var form = $('compose');
+      var field = function (n) { return form.querySelector('[name="' + n + '"]'); };
+
+      function el(tag, attrs, text) {
+        var e = document.createElement(tag);
+        for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
+        if (text != null) e.textContent = text;
+        return e;
+      }
+      function when(iso) {
+        return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Europe/London' });
+      }
+      function copy(text, button) {
+        navigator.clipboard.writeText(text).then(function () {
+          var was = button.textContent;
+          button.textContent = 'Copied';
+          setTimeout(function () { button.textContent = was; }, 1500);
+        });
+      }
+      function mailto(client, title, url) {
+        var first = (client.name || '').split(' ')[0];
+        var body = 'Hi ' + first + ',\n\n'
+          + 'Here’s the agreement for ' + title + '. It sets out what we agreed and the prices. Please read it through and sign at the bottom:\n\n'
+          + url + '\n\n'
+          + 'Once you’ve signed, you’ll get a copy by email.\n\n'
+          + 'Many thanks,\nNathan';
+        return 'mailto:' + encodeURIComponent(client.email) + '?subject=' + encodeURIComponent('Your agreement with OakFox: ' + title) + '&body=' + encodeURIComponent(body);
+      }
+
+      /* ---------- Items ---------- */
+
+      function addItem(item) {
+        item = item || {};
+        var row = el('div', { class: 'so-item' });
+        row.innerHTML =
+          '<input class="db-input" data-k="label" placeholder="Item, e.g. One-page website" />' +
+          '<input class="db-input" data-k="detail" placeholder="Detail (optional)" />' +
+          '<input class="db-input" data-k="price" type="number" min="0" step="0.01" placeholder="Price £" />' +
+          '<input class="db-input" data-k="was" type="number" min="0" step="0.01" placeholder="Usually £" title="Optional: shown struck through, for a discount" />' +
+          '<select class="db-input db-select" data-k="unit"><option value="one-off">One-off</option><option value="month">Per month</option><option value="year">Per year</option></select>' +
+          '<button type="button" class="db-btn db-btn-sm db-btn-ghost" aria-label="Remove item">Remove</button>';
+        ['label', 'detail', 'price', 'was', 'unit'].forEach(function (k) {
+          if (item[k] != null) row.querySelector('[data-k="' + k + '"]').value = item[k];
+        });
+        row.querySelector('button').onclick = function () { row.remove(); };
+        $('items').appendChild(row);
+      }
+      $('add-item').onclick = function () { addItem(); };
+      addItem();
+
+      function readItems() {
+        return Array.prototype.map.call($('items').children, function (row) {
+          var v = function (k) { return row.querySelector('[data-k="' + k + '"]').value; };
+          return { label: v('label'), detail: v('detail'), price: v('price') || 0, was: v('was') || null, unit: v('unit') };
+        }).filter(function (i) { return i.label.trim(); });
+      }
+
+      /* ---------- Create ---------- */
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var error = $('compose-error'), button = $('create');
+        error.textContent = '';
+        button.disabled = true;
+        var client = { name: field('name').value, company: field('company').value, email: field('email').value };
+        var title = field('title').value;
+        fetch('/dashboard/signoffs-update.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'create',
+            client: client,
+            title: title,
+            intro: field('intro').value,
+            items: readItems(),
+            terms: field('terms').value.split('\n'),
+            billingChoice: field('billingChoice').checked,
+          }),
+        })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) { error.textContent = res.j.error || 'Could not create the link.'; return; }
+            $('created').hidden = false;
+            $('created-url').value = res.j.url;
+            $('created-open').href = res.j.url;
+            $('created-mail').href = mailto(client, title, res.j.url);
+            load();
+          })
+          .catch(function () { error.textContent = 'Could not reach the server.'; })
+          .finally(function () { button.disabled = false; });
+      });
+      form.querySelector('[data-copy]').onclick = function (e) { copy($('created-url').value, e.target); };
+
+      /* ---------- List ---------- */
+
+      var badges = { awaiting: ['Awaiting signature', 'db-badge-in-progress'], signed: ['Signed', 'db-badge-done'], withdrawn: ['Withdrawn', 'db-badge-not-started'] };
+
+      function row(s) {
+        var box = el('div', { class: 'so-row' });
+        var head = el('div', { class: 'so-row-head' });
+        var who = el('div');
+        who.append(el('div', { class: 'so-title' }, s.title), el('div', { class: 'so-sub' }, [s.client.name, s.client.company].filter(Boolean).join(', ') + ', sent ' + when(s.created)));
+        var badge = badges[s.status] || badges.awaiting;
+        head.append(who, el('span', { class: 'db-badge ' + badge[1] }, badge[0]));
+        box.appendChild(head);
+
+        box.appendChild(el('div', { class: 'so-sub' }, s.totals.map(function (t) { return t[0] + ' ' + t[1]; }).join(', ')));
+
+        var sig = s.signature;
+        if (sig) {
+          var dl = el('dl', { class: 'so-audit' });
+          [['Signed by', sig.name + (sig.role ? ', ' + sig.role : '')], ['Signed at', when(sig.signedAt)], ['Paying', s.billing || 'No choice asked'], ['Email', sig.email], ['IP address', sig.ip], ['Browser', sig.userAgent], ['Fingerprint', sig.fingerprint]]
+            .forEach(function (p) { dl.append(el('dt', null, p[0]), el('dd', p[0] === 'Fingerprint' ? { class: 'db-mono' } : null, p[1])); });
+          box.appendChild(dl);
+        }
+        if (s.withdrawnAt) box.appendChild(el('div', { class: 'so-sub' }, 'Withdrawn ' + when(s.withdrawnAt)));
+
+        var actions = el('div', { class: 'so-actions' });
+        var copyBtn = el('button', { type: 'button', class: 'db-btn db-btn-sm' }, 'Copy link');
+        copyBtn.onclick = function () { copy(s.url, copyBtn); };
+        actions.append(copyBtn, el('a', { class: 'db-btn db-btn-sm db-btn-ghost', href: s.url, target: '_blank', rel: 'noopener' }, 'Open'));
+        if (s.status === 'awaiting') {
+          actions.appendChild(el('a', { class: 'db-btn db-btn-sm', href: mailto(s.client, s.title, s.url) }, 'Email to client'));
+          var withdraw = el('button', { type: 'button', class: 'db-btn db-btn-sm db-btn-ghost' }, 'Withdraw');
+          withdraw.onclick = function () {
+            if (!confirm('Withdraw "' + s.title + '"? The link will stop accepting a signature.')) return;
+            fetch('/dashboard/signoffs-update.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'withdraw', token: s.token }) })
+              .then(function (r) { return r.json(); })
+              .then(function (j) { if (j.error) alert(j.error); load(); });
+          };
+          actions.appendChild(withdraw);
+        }
+        box.appendChild(actions);
+        return box;
+      }
+
+      function load() {
+        fetch('/dashboard/signoffs-data.php', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var list = $('list');
+            list.textContent = '';
+            if (!j.signoffs.length) {
+              list.appendChild(el('p', { style: 'color: var(--db-text-muted); font-size: 13px;' }, 'No sign-offs yet. Create one above and send the link to your client.'));
+              return;
+            }
+            j.signoffs.forEach(function (s) { list.appendChild(row(s)); });
+          })
+          .catch(function () { $('list').textContent = 'Could not load sign-offs.'; });
+      }
+      load();
+    })();
+  </script>
+
+  <style>
+    .so-grid { display: grid; gap: 12px; }
+    .so-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .so-grid label, label > .db-label { display: block; }
+    .so-grid .db-label, label > .db-label { margin-bottom: 6px; }
+    .so-grid .db-input, form textarea.db-input { width: 100%; }
+    .so-items { display: grid; gap: 8px; margin-top: 6px; }
+    :global(.so-item) { display: grid; grid-template-columns: 2fr 2.4fr 0.9fr 0.9fr 1fr auto; gap: 8px; }
+    :global(.so-item .db-input) { width: 100%; min-width: 0; }
+    .so-created { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--db-border); }
+    .so-created .db-input { width: 100%; margin-top: 6px; }
+    :global(.so-row) { padding: 16px 0; border-bottom: 1px solid var(--db-border); }
+    :global(.so-row:last-child) { border-bottom: 0; }
+    :global(.so-row-head) { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    :global(.so-title) { color: var(--db-text); font-weight: 600; font-size: 14px; }
+    :global(.so-sub) { color: var(--db-text-muted); font-size: 12px; margin-top: 3px; }
+    :global(.so-audit) { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 12px 0 0; font-size: 12px; }
+    :global(.so-audit dt) { color: var(--db-text-muted); }
+    :global(.so-audit dd) { margin: 0; color: var(--db-text-secondary); word-break: break-all; }
+    :global(.so-actions) { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    @media (max-width: 800px) {
+      .so-grid-3 { grid-template-columns: 1fr; }
+      :global(.so-item) { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</DashboardLayout>

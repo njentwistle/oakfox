@@ -1,0 +1,6 @@
+# Client sign-off page. Private by link, so never indexed, cached or referred.
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+  Header always set Referrer-Policy "no-referrer"
+  Header set Cache-Control "no-cache"
+</IfModule>

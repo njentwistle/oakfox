@@ -39,6 +39,8 @@ export default defineConfig({
         // Client brand guidelines: confidential, and served from their own
         // subdomains. Never in the sitemap on either host.
         !page.includes('/brand/') &&
+        // Client sign-offs open from a private link only.
+        !page.includes('/sign-off') &&
         !page.includes('/og/') &&
         !page.includes('/blog/tags/'),
       changefreq: 'weekly',

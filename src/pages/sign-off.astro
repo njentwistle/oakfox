@@ -1,0 +1,391 @@
+---
+// Client sign-off: opened from a private link, /sign-off/#<token>. The token
+// sits after the # so it never reaches server logs, analytics or referrers.
+// The agreement itself is fetched from /api/signoff.php; nothing about any
+// client is in this page or this repo. See the dashboard's sign-off page.
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Your agreement | OakFox</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Work+Sans:wght@400;500;600&display=swap"
+    />
+  </head>
+  <body>
+    <header class="top">
+      <a href="/" aria-label="OakFox home"><img src="/images/site/logo.png" alt="OakFox" width="44" height="49" /></a>
+    </header>
+
+    <main class="sheet" id="sheet" aria-live="polite">
+      <p class="status" id="state">Loading your agreement…</p>
+
+      <article id="agreement" hidden>
+        <p class="for" id="for"></p>
+        <h1 id="title"></h1>
+        <p class="prepared" id="prepared"></p>
+        <p class="intro" id="intro"></p>
+
+        <table class="items">
+          <caption class="sr-only">What's included and what it costs</caption>
+          <tbody id="items"></tbody>
+        </table>
+        <dl class="totals" id="totals"></dl>
+
+        <section id="terms-wrap" hidden>
+          <h2>Terms</h2>
+          <ul id="terms"></ul>
+        </section>
+
+        <form id="sign" novalidate hidden>
+          <h2>Sign to agree</h2>
+          <div class="fields">
+            <label>Full name
+              <input name="name" autocomplete="name" required />
+            </label>
+            <label>Role <span class="opt">(optional)</span>
+              <input name="role" autocomplete="organization-title" placeholder="For example, Director" />
+            </label>
+            <label class="wide">Email for your copy
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+          </div>
+          <fieldset class="billing" id="billing" hidden>
+            <legend>How would you like to pay?</legend>
+            <p class="small" id="billing-for"></p>
+            <label class="radio"><input type="radio" name="billing" value="monthly" /> <span id="bill-monthly"></span></label>
+            <label class="radio"><input type="radio" name="billing" value="annually" /> <span id="bill-annually"></span></label>
+          </fieldset>
+          <div class="sig-line" aria-hidden="true"><span id="sig-preview"></span></div>
+          <p class="sig-caption" aria-hidden="true">Signature, as you type your full name</p>
+          <label class="check">
+            <input type="checkbox" name="agree" />
+            <span id="agree-text">I agree to the work, prices and terms above.</span>
+          </label>
+          <p class="small">Typing your name and ticking the box is your electronic signature. You and OakFox will both get a copy by email.</p>
+          <p class="error" id="error" role="alert"></p>
+          <button type="submit" id="submit">Sign and agree</button>
+        </form>
+
+        <section class="signed" id="signed" hidden>
+          <h2>Signed</h2>
+          <div class="sig-line"><span id="signed-name"></span></div>
+          <p id="signed-line"></p>
+          <p id="signed-billing" hidden></p>
+          <p id="signed-copy"></p>
+          <p class="print-only" id="signed-fp"></p>
+          <button type="button" class="ghost" id="print">Print or save as PDF</button>
+        </section>
+      </article>
+    </main>
+
+    <footer class="foot">
+      OakFox Limited. Questions about this agreement? Email <a href="mailto:nathan@oakfox.co.uk">nathan@oakfox.co.uk</a>.
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var token = location.hash.slice(1);
+        var $ = function (id) { return document.getElementById(id); };
+        var form = $('sign');
+        var f = {};
+        ['name', 'role', 'email', 'agree', 'billing'].forEach(function (n) { f[n] = form.querySelector('[name="' + n + '"]'); });
+        var units = { 'one-off': '', month: 'per month', year: 'per year' };
+
+        function money(n) {
+          return '£' + n.toLocaleString('en-GB', Number.isInteger(n) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        function when(iso, withTime) {
+          var d = new Date(iso), tz = { timeZone: 'Europe/London' };
+          var day = d.toLocaleDateString('en-GB', Object.assign({ day: 'numeric', month: 'long', year: 'numeric' }, tz));
+          if (!withTime) return day;
+          return day + ' at ' + d.toLocaleTimeString('en-GB', Object.assign({ hour: 'numeric', minute: '2-digit', hour12: true }, tz)).replace(' ', '');
+        }
+        function el(tag, cls, text) {
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (text != null) e.textContent = text;
+          return e;
+        }
+        function stop(message) {
+          $('state').textContent = message;
+          $('state').hidden = false;
+          $('agreement').hidden = true;
+        }
+
+        function render(doc) {
+          var c = doc.client || {};
+          var who = c.company || c.name;
+          $('for').textContent = 'Agreement for ' + who;
+          $('title').textContent = doc.title;
+          document.title = doc.title + ' | OakFox';
+          $('prepared').textContent = 'Prepared by ' + doc.preparedBy + ', on ' + when(doc.created) + '.';
+          $('intro').textContent = doc.intro;
+          $('intro').hidden = !doc.intro;
+
+          var rows = $('items');
+          rows.textContent = '';
+          doc.items.forEach(function (item) {
+            var tr = el('tr');
+            var what = el('th');
+            what.scope = 'row';
+            what.appendChild(el('span', 'label', item.label));
+            if (item.detail) what.appendChild(el('span', 'detail', item.detail));
+            var price = el('td', 'price');
+            if (item.was) price.appendChild(el('s', 'was', money(item.was)));
+            price.appendChild(el('span', 'amount', money(item.price)));
+            if (units[item.unit]) price.appendChild(el('span', 'unit', units[item.unit]));
+            tr.append(what, price);
+            rows.appendChild(tr);
+          });
+
+          var totals = $('totals');
+          totals.textContent = '';
+          doc.totals.forEach(function (t) {
+            var row = el('div');
+            row.append(el('dt', null, t[0]), el('dd', null, t[1]));
+            totals.appendChild(row);
+          });
+
+          var terms = $('terms');
+          terms.textContent = '';
+          doc.terms.forEach(function (t) { terms.appendChild(el('li', null, t)); });
+          $('terms-wrap').hidden = !doc.terms.length;
+
+          if (c.company) {
+            $('agree-text').textContent = 'I agree to the work, prices and terms above, and I’m authorised to agree on behalf of ' + c.company + '.';
+          }
+          if (!f.email.value) f.email.value = c.email || '';
+
+          var b = doc.billing;
+          $('billing').hidden = !b;
+          if (b) {
+            var names = b.items.length > 1 ? b.items.slice(0, -1).join(', ') + ' and ' + b.items[b.items.length - 1] : b.items[0];
+            $('billing-for').textContent = 'For ' + names + '.';
+            $('bill-monthly').textContent = 'Monthly: ' + b.monthly + ' a month';
+            $('bill-annually').textContent = 'Annually: ' + b.annually + ' a year';
+          }
+
+          $('state').hidden = true;
+          $('agreement').hidden = false;
+          form.hidden = doc.status !== 'awaiting';
+          if (doc.status === 'signed') showSigned(doc, null);
+        }
+
+        function showSigned(doc, emailed) {
+          var s = doc.signature;
+          form.hidden = true;
+          $('signed').hidden = false;
+          $('signed-name').textContent = s.name;
+          $('signed-line').textContent = 'Signed by ' + s.name + (s.role ? ', ' + s.role : '') + ', on ' + when(s.signedAt, true) + '.';
+          $('signed-billing').hidden = !s.billing;
+          $('signed-billing').textContent = s.billing ? 'Paying: ' + s.billing + '.' : '';
+          $('signed-copy').textContent = emailed === false
+            ? 'Your signature is saved, but the email copy didn’t send. Nathan has the record and will email it to you.'
+            : emailed ? 'A copy is on its way to ' + s.email + '.' : 'A copy was emailed to ' + s.email + ' when it was signed.';
+          $('signed-fp').textContent = 'Fingerprint (SHA-256 of the wording): ' + doc.fingerprint;
+        }
+
+        f.name.addEventListener('input', function () { $('sig-preview').textContent = f.name.value; });
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var error = $('error'), button = $('submit');
+          error.textContent = '';
+          button.disabled = true;
+          button.textContent = 'Signing…';
+          fetch('/api/signoff.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              t: token,
+              name: f.name.value,
+              role: f.role.value,
+              email: f.email.value,
+              agree: f.agree.checked,
+              billing: (form.querySelector('[name="billing"]:checked') || {}).value || '',
+            }),
+          })
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+            .then(function (res) {
+              if (res.ok) return showSigned(res.j.agreement, res.j.emailed);
+              if (res.status === 409 && res.j.agreement) return showSigned(res.j.agreement, null);
+              error.textContent = res.j.error || 'Something went wrong. Please try again.';
+              if (f[res.j.field]) f[res.j.field].focus();
+            })
+            .catch(function () {
+              error.textContent = 'We couldn’t reach OakFox. Check your connection and try again.';
+            })
+            .finally(function () {
+              button.disabled = false;
+              button.textContent = 'Sign and agree';
+            });
+        });
+
+        $('print').addEventListener('click', function () { window.print(); });
+
+        if (!/^[a-f0-9]{48}$/.test(token)) {
+          stop('This page opens from the private link OakFox sent you. If you’ve lost it, email nathan@oakfox.co.uk.');
+          return;
+        }
+        fetch('/api/signoff.php?t=' + token, { cache: 'no-store' })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) return stop(res.j.error);
+            if (res.j.status === 'withdrawn') return stop('This agreement has been withdrawn, so it can’t be signed. Please email nathan@oakfox.co.uk.');
+            render(res.j);
+          })
+          .catch(function () { stop('We couldn’t load your agreement. Check your connection and refresh the page.'); });
+      })();
+    </script>
+
+    <style is:global>
+      :root {
+        --cream: #f5f0e8;
+        --paper: #fffdf9;
+        --forest: #1a5c12;
+        --forest-dark: #0e3b0a;
+        --ink: #1a1d17;
+        --ink-soft: #2e3329;
+        --muted: #6b6760;
+        --rule: #e6e0d5;
+        --danger: #9b2c1f;
+        --sans: 'Work Sans', system-ui, sans-serif;
+        --display: 'Playfair Display', Georgia, serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font: 400 16px/1.6 var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .top { max-width: 760px; margin: 0 auto; padding: 28px 24px 0; }
+      .top img { display: block; height: 49px; width: auto; }
+
+      .sheet {
+        max-width: 760px;
+        margin: 20px auto 0;
+        padding: 56px 64px 60px;
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        box-shadow: 0 1px 0 rgba(26, 29, 23, 0.04), 0 18px 40px -24px rgba(26, 29, 23, 0.18);
+      }
+      .status { margin: 0; color: var(--muted); }
+      .for { margin: 0 0 6px; color: var(--forest); font-weight: 500; font-size: 15px; }
+      h1 {
+        margin: 0;
+        font: italic 400 clamp(34px, 5vw, 46px)/1.1 var(--display);
+        letter-spacing: -0.01em;
+      }
+      .prepared { margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+      .intro { margin: 28px 0 0; font-size: 17px; max-width: 60ch; color: var(--ink-soft); }
+      h2 { margin: 44px 0 14px; font-size: 13px; font-weight: 600; color: var(--forest); letter-spacing: 0.02em; }
+
+      .items { width: 100%; border-collapse: collapse; margin-top: 36px; border-top: 1px solid var(--ink); }
+      .items th, .items td { padding: 18px 0; border-bottom: 1px solid var(--rule); vertical-align: top; text-align: left; }
+      .items th { font-weight: 400; padding-right: 24px; }
+      .label { display: block; font-weight: 600; }
+      .detail { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; max-width: 52ch; }
+      .price { text-align: right !important; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .was { color: var(--muted); margin-right: 8px; }
+      .amount { font-weight: 600; }
+      .unit { display: block; color: var(--muted); font-size: 13px; }
+
+      .totals { margin: 18px 0 0 auto; width: min(280px, 100%); font-variant-numeric: tabular-nums; }
+      .totals div { display: flex; justify-content: space-between; padding: 4px 0; }
+      .totals dt { color: var(--muted); }
+      .totals dd { margin: 0; font-weight: 600; }
+
+      #terms { margin: 0; padding-left: 20px; color: var(--ink-soft); }
+      #terms li { margin-bottom: 6px; max-width: 64ch; }
+
+      form { margin-top: 12px; padding-top: 4px; border-top: 1px solid var(--rule); }
+      .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+      .fields .wide { grid-column: 1 / -1; }
+      .fields label { display: block; font-size: 14px; font-weight: 500; }
+      .opt { color: var(--muted); font-weight: 400; }
+      input:not([type='checkbox']) {
+        display: block;
+        width: 100%;
+        margin-top: 6px;
+        padding: 11px 12px;
+        font: inherit;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid #cfc8bb;
+        border-radius: 4px;
+      }
+      input:focus-visible, button:focus-visible, a:focus-visible, .check input:focus-visible {
+        outline: 2px solid var(--forest);
+        outline-offset: 2px;
+      }
+      .billing { margin: 28px 0 0; padding: 0; border: 0; }
+      .billing legend { padding: 0; font-size: 14px; font-weight: 500; }
+      .billing .small { margin: 2px 0 10px; }
+      .radio { display: flex; gap: 12px; align-items: center; padding: 12px 14px; margin-top: 8px; border: 1px solid #cfc8bb; border-radius: 4px; background: #fff; cursor: pointer; font-variant-numeric: tabular-nums; }
+      .radio:has(input:checked) { border-color: var(--forest); box-shadow: inset 0 0 0 1px var(--forest); }
+      .radio input { width: 18px; height: 18px; margin: 0; accent-color: var(--forest); }
+      .sig-line {
+        margin: 28px 0 6px;
+        min-height: 64px;
+        display: flex;
+        align-items: flex-end;
+        border-bottom: 1px solid var(--ink);
+        font: italic 400 34px/1.2 var(--display);
+        padding-bottom: 6px;
+      }
+      .sig-caption { margin: 0; font-size: 12px; color: var(--muted); }
+      .check { display: flex; gap: 12px; align-items: flex-start; margin-top: 22px; font-size: 15px; cursor: pointer; }
+      .check input { width: 20px; height: 20px; margin: 2px 0 0; flex: none; accent-color: var(--forest); }
+      .small { margin: 14px 0 0; font-size: 13px; color: var(--muted); max-width: 62ch; }
+      .error { min-height: 1.6em; margin: 14px 0 0; color: var(--danger); font-size: 14px; }
+      button {
+        margin-top: 6px;
+        padding: 13px 26px;
+        font: 600 15px/1 var(--sans);
+        color: #fff;
+        background: var(--forest);
+        border: 0;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover { background: var(--forest-dark); }
+      button:disabled { opacity: 0.6; cursor: progress; }
+      button.ghost { color: var(--forest); background: transparent; border: 1px solid var(--forest); }
+      button.ghost:hover { background: rgba(26, 92, 18, 0.06); }
+
+      .signed { margin-top: 12px; border-top: 1px solid var(--rule); }
+      .signed p { margin: 10px 0 0; }
+      .print-only { display: none; }
+
+      .foot { max-width: 760px; margin: 0 auto; padding: 24px 24px 48px; font-size: 13px; color: var(--muted); }
+      .foot a { color: var(--forest); }
+
+      @media (max-width: 640px) {
+        .sheet { margin: 14px 12px 0; padding: 32px 22px 36px; }
+        .fields { grid-template-columns: 1fr; }
+        .items th { padding-right: 12px; }
+      }
+      @media print {
+        body { background: #fff; }
+        .sheet { border: 0; box-shadow: none; padding: 0; margin: 0; max-width: none; }
+        .top { padding: 0 0 12px; }
+        button, .foot { display: none; }
+        .print-only { display: block; font-size: 11px; color: var(--muted); word-break: break-all; }
+      }
+    </style>
+  </body>
+</html>
