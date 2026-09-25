@@ -82,6 +82,17 @@
           <p id="signed-line"></p>
           <p id="signed-billing" hidden></p>
           <p id="signed-copy"></p>
+          <div id="pay" hidden>
+            <h2>How to pay</h2>
+            <p>By bank transfer to:</p>
+            <dl class="bank">
+              <div><dt>Account name</dt><dd id="pay-name"></dd></div>
+              <div><dt>Sort code</dt><dd id="pay-sort"></dd></div>
+              <div><dt>Account number</dt><dd id="pay-account"></dd></div>
+              <div><dt>Reference</dt><dd id="pay-ref"></dd></div>
+            </dl>
+            <p class="small">Please use the reference so your payment can be matched to your account.</p>
+          </div>
           <p class="print-only" id="signed-fp"></p>
           <button type="button" class="ghost" id="print">Print or save as PDF</button>
         </section>
@@ -207,6 +218,14 @@
             ? 'Your signature is saved, but the email copy didn’t send. Nathan has the record and will email it to you.'
             : emailed ? 'A copy is on its way to ' + s.email + '.' : 'A copy was emailed to ' + s.email + ' when it was signed.';
           $('signed-fp').textContent = 'Fingerprint (SHA-256 of the wording): ' + doc.fingerprint;
+          var pay = doc.payTo;
+          $('pay').hidden = !pay;
+          if (pay) {
+            $('pay-name').textContent = pay.name;
+            $('pay-sort').textContent = pay.sortCode;
+            $('pay-account').textContent = pay.account;
+            $('pay-ref').textContent = pay.reference;
+          }
         }
 
         f.name.addEventListener('input', function () { $('sig-preview').textContent = f.name.value; });
@@ -384,6 +403,11 @@
 
       .signed { margin-top: 12px; border-top: 1px solid var(--rule); }
       .signed p { margin: 10px 0 0; }
+      #print { margin-top: 24px; }
+      .bank { margin: 12px 0 0; width: min(420px, 100%); font-variant-numeric: tabular-nums; }
+      .bank div { display: flex; justify-content: space-between; gap: 24px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+      .bank dt { color: var(--muted); }
+      .bank dd { margin: 0; font-weight: 600; text-align: right; }
       .print-only { display: none; }
 
       .foot { max-width: 760px; margin: 0 auto; padding: 24px 24px 48px; font-size: 13px; color: var(--muted); }

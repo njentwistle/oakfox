@@ -19,6 +19,36 @@ function signoff_dir(): string {
     return getenv('OAKFOX_SIGNOFF_DIR') ?: dirname(__DIR__, 2) . '/signoffs';
 }
 
+// Bank details for paying OakFox, shown to a client once they've signed. Kept
+// in /home/oakfoxco/.oakfox-bank.json ({"name", "sortCode", "account"}), not
+// in this repo, which is public. Missing or malformed means no payment details
+// are shown, and the PHP error log says why. OAKFOX_BANK_FILE is for local
+// testing only.
+function signoff_bank(): ?array {
+    $file = getenv('OAKFOX_BANK_FILE') ?: dirname(__DIR__, 2) . '/.oakfox-bank.json';
+    $bank = is_readable($file) ? json_decode((string) file_get_contents($file), true) : null;
+    if (!is_array($bank) || !preg_match('/^\d{2}-\d{2}-\d{2}$/', $bank['sortCode'] ?? '')
+        || !preg_match('/^\d{8}$/', $bank['account'] ?? '') || trim($bank['name'] ?? '') === '') {
+        error_log("OakFox sign-off: no valid bank details in {$file}");
+        return null;
+    }
+    return ['name' => trim($bank['name']), 'sortCode' => $bank['sortCode'], 'account' => $bank['account']];
+}
+
+// A bank transfer reference: the client's company (or name), in the 18
+// characters UK banks allow.
+function signoff_reference(array $doc): string {
+    $who = ($doc['client']['company'] ?? '') ?: ($doc['client']['name'] ?? '');
+    $ref = preg_replace('/\s+/', ' ', preg_replace('/[^A-Z0-9 ]/', '', strtoupper($who)));
+    return trim(substr(trim($ref), 0, 18));
+}
+
+// Payment details for a signed agreement, or null if there are none to show.
+function signoff_pay_to(array $doc): ?array {
+    if (($doc['status'] ?? '') !== 'signed' || !($bank = signoff_bank())) return null;
+    return $bank + ['reference' => signoff_reference($doc)];
+}
+
 function signoff_new_token(): string {
     return bin2hex(random_bytes(24));
 }
@@ -245,6 +275,8 @@ function signoff_public(array $doc): array {
     if (!empty($doc['signature'])) {
         $s = $doc['signature'];
         $out['signature'] = ['name' => $s['name'], 'role' => $s['role'] ?? '', 'email' => $s['email'], 'signedAt' => $s['signedAt'], 'billing' => signoff_billing_line($doc), 'plan' => signoff_summary($doc)[1][1]];
+        // Only once signed, so an unsigned or withdrawn link never shows them.
+        $out['payTo'] = signoff_pay_to($doc);
     }
     return $out;
 }
@@ -302,6 +334,17 @@ function signoff_email_html(array $doc, string $intro, bool $audit): string {
     }
     $billing = signoff_billing_line($doc);
     $billingRow = $billing ? '<tr><td style="padding:3px 12px 3px 0; color:#6B6760;">Payment choice</td><td>' . $e($billing) . '</td></tr>' : '';
+    $payBlock = '';
+    if ($pay = signoff_pay_to($doc)) {
+        $payRows = '';
+        foreach (['Account name' => $pay['name'], 'Sort code' => $pay['sortCode'], 'Account number' => $pay['account'], 'Reference' => $pay['reference']] as $label => $value) {
+            $payRows .= '<tr><td style="padding:4px 16px 4px 0; color:#6B6760;">' . $label . '</td><td style="padding:4px 0; color:#1A1D17; font-weight:600;">' . $e($value) . '</td></tr>';
+        }
+        $payBlock = '<h2 style="font-size:15px; color:#1A1D17; margin:26px 0 8px;">How to pay</h2>'
+            . '<p style="font-size:14px; color:#2E3329; margin:0 0 8px; line-height:1.55;">By bank transfer to:</p>'
+            . '<table style="border-collapse:collapse; font-size:14px;">' . $payRows . '</table>'
+            . '<p style="font-size:13px; color:#6B6760; margin:8px 0 0; line-height:1.55;">Please use the reference so your payment can be matched to your account.</p>';
+    }
 
     return <<<HTML
 <!DOCTYPE html>
@@ -329,6 +372,7 @@ function signoff_email_html(array $doc, string $intro, bool $audit): string {
       <tr><td style="padding:3px 12px 3px 0; color:#6B6760; vertical-align:top;">Fingerprint</td><td style="font-family:Menlo,Consolas,monospace; word-break:break-all;">{$e($s['fingerprint'])}</td></tr>
     </table>
   </div>
+  {$payBlock}
   {$schedule}
   <p style="font-size:12px; color:#6B6760; line-height:1.55; margin-top:18px;">The fingerprint is a SHA-256 hash of the agreement's wording. If the wording had changed, the fingerprint would too. Prepared by {$e(SIGNOFF_OWNER_NAME)}, {$e(SIGNOFF_OWNER_ROLE)}, {$e(SIGNOFF_COMPANY)}.</p>
 </div>
@@ -361,6 +405,15 @@ function signoff_email_text(array $doc, string $intro, bool $audit): string {
         $lines[] = 'Browser: ' . $s['userAgent'];
     }
     $lines[] = 'Fingerprint (SHA-256 of the wording): ' . $s['fingerprint'];
+    if ($pay = signoff_pay_to($doc)) {
+        $lines[] = '';
+        $lines[] = 'How to pay, by bank transfer to:';
+        $lines[] = 'Account name: ' . $pay['name'];
+        $lines[] = 'Sort code: ' . $pay['sortCode'];
+        $lines[] = 'Account number: ' . $pay['account'];
+        $lines[] = 'Reference: ' . $pay['reference'];
+        $lines[] = 'Please use the reference so your payment can be matched to your account.';
+    }
     if ($audit && !empty($doc['payments'])) {
         $lines[] = '';
         $lines[] = 'Payment reminders saved:';
