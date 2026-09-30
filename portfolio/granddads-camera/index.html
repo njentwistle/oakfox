@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-37fxchfa> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light only"><meta name="description" content="A pixel-art wildlife photography game for iPhone and Android, and its website: 103 real British species in five real places, each on its real calendar, with every fact checked against UK sources."><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.j56hQv-j.js"></script><script>
+  (() => {
+    if (window.oakfoxTrack || location.hostname !== 'oakfox.co.uk' || navigator.webdriver) return;
+    const qs = new URLSearchParams(location.search);
+    let ref = '';
+    try { ref = new URL(document.referrer).hostname; } catch (e) {}
+    const internal = ref === location.hostname;
+    // Where the visit came from, sent with every view and event in this tab.
+    const entry = {
+      r: internal ? '' : ref.replace(/^www\./, ''),
+      us: qs.get('utm_source') || '',
+      um: qs.get('utm_medium') || '',
+      uc: qs.get('utm_campaign') || '',
+    };
+    let landing = !internal;
+    const send = (hit) => {
+      try {
+        navigator.sendBeacon('/api/hit.php', JSON.stringify({ ...entry, ...hit, p: location.pathname, w: innerWidth }));
+      } catch (e) {}
+    };
+    window.oakfoxTrack = (name) => send({ k: 'ev', e: name });
+    // ClientRouter fires astro:page-load on the first load and after every soft navigation.
+    document.addEventListener('astro:page-load', () => {
+      send({ k: 'pv', en: landing ? 1 : 0 });
+      landing = false;
+    });
+    // The carbon audit runs from a page script; count each submitted audit here.
+    document.addEventListener('submit', (e) => {
+      if (e.target.id === 'audit-form') window.oakfoxTrack('audit');
+    }, true);
+  })();
+</script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://oakfox.co.uk/portfolio/granddads-camera/"><link rel="alternate" type="application/rss+xml" title="OakFox Journal" href="/rss.xml"><link rel="alternate" type="text/markdown" title="llms.txt" href="/llms.txt"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><!-- Trimmed to the faces the public site actually uses: Playfair is only
+         ever .headline em (italic 400), mono labels are 400, and nothing on
+         the public pages uses Work Sans 300. --><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=JetBrains+Mono:wght@400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><title>Granddad&#39;s Camera — British Wildlife Photography Game | OakFox</title><meta property="og:type" content="article"><meta property="og:title" content="Granddad's Camera — British Wildlife Photography Game | OakFox"><meta property="og:description" content="A pixel-art wildlife photography game for iPhone and Android, and its website: 103 real British species in five real places, each on its real calendar, with every fact checked against UK sources."><meta property="og:url" content="https://oakfox.co.uk/portfolio/granddads-camera/"><meta property="og:site_name" content="OakFox"><meta property="og:image" content="https://oakfox.co.uk/images/granddads-camera/hero.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_GB"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Granddad's Camera — British Wildlife Photography Game | OakFox"><meta name="twitter:description" content="A pixel-art wildlife photography game for iPhone and Android, and its website: 103 real British species in five real places, each on its real calendar, with every fact checked against UK sources."><meta name="twitter:image" content="https://oakfox.co.uk/images/granddads-camera/hero.png"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://oakfox.co.uk/#organization","name":"OakFox","alternateName":["Oak Fox","Oak and Fox","Oak & Fox"],"legalName":"OakFox Limited","url":"https://oakfox.co.uk","logo":"https://oakfox.co.uk/images/site/logo.png","image":"https://oakfox.co.uk/images/site/logo.png","description":"Sustainable design, development, marketing and consultancy studio based in West Lancashire, UK.","foundingDate":"2025","telephone":"+44 7730 396404","founder":{"@type":"Person","@id":"https://oakfox.co.uk/about#nathan","name":"Nathan James Entwistle","jobTitle":"Founder & Designer","worksFor":{"@id":"https://oakfox.co.uk/#organization"}},"address":{"@type":"PostalAddress","streetAddress":"Martland Mill, Mart Ln","addressLocality":"Burscough","addressRegion":"Lancashire","postalCode":"L40 0SD","addressCountry":"GB"},"areaServed":["United Kingdom","Ireland","Europe"],"knowsAbout":["Sustainable brand identity","Web design and development","Green web hosting","Marketing strategy","Copywriting"],"identifier":{"@type":"PropertyValue","propertyID":"UK Companies House","value":"17118912"},"sameAs":["https://find-and-update.company-information.service.gov.uk/company/17118912","https://www.instagram.com/oak.fox/","https://share.google/3ktdz3XLvsqlNCqeE"]},{"@type":"LocalBusiness","@id":"https://oakfox.co.uk/#localbusiness","name":"OakFox","url":"https://oakfox.co.uk","image":"https://oakfox.co.uk/images/site/logo.png","telephone":"+44 7730 396404","priceRange":"££","address":{"@type":"PostalAddress","streetAddress":"Martland Mill, Mart Ln","addressLocality":"Burscough","addressRegion":"Lancashire","postalCode":"L40 0SD","addressCountry":"GB"},"areaServed":"United Kingdom","geo":{"@type":"GeoCoordinates","latitude":53.6041979,"longitude":-2.8431106},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"16:30"},"sameAs":["https://share.google/3ktdz3XLvsqlNCqeE","https://www.instagram.com/oak.fox/"]},{"@type":"WebSite","@id":"https://oakfox.co.uk/#website","url":"https://oakfox.co.uk","name":"OakFox","description":"Sustainable design, development, marketing and consultancy.","publisher":{"@id":"https://oakfox.co.uk/#organization"},"inLanguage":"en-GB"},{"@type":"CreativeWork","@id":"https://oakfox.co.uk/portfolio/granddads-camera#project","name":"Granddad's Camera","headline":"Granddad's Camera","description":"A pixel-art wildlife photography game for iPhone and Android, and its website: 103 real British species in five real places, each on its real calendar, with every fact checked against UK sources.","url":"https://oakfox.co.uk/portfolio/granddads-camera","image":"https://oakfox.co.uk/images/granddads-camera/hero.png","datePublished":"2026-09-30T00:00:00.000Z","inLanguage":"en-GB","genre":"development","keywords":"development, design, product, mobile, game","creator":{"@id":"https://oakfox.co.uk/#organization"},"publisher":{"@id":"https://oakfox.co.uk/#organization"},"sourceOrganization":{"@type":"Organization","name":"Granddad's Camera (OakFox product)"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://oakfox.co.uk/"},{"@type":"ListItem","position":2,"name":"Work","item":"https://oakfox.co.uk/portfolio"},{"@type":"ListItem","position":3,"name":"Granddad's Camera","item":"https://oakfox.co.uk/portfolio/granddads-camera"}]}]}</script><link rel="stylesheet" href="/_astro/BaseLayout.DfjKPSiw.css"></head> <body class="bg-cream min-h-screen flex flex-col" data-astro-cid-37fxchfa> <div class="noise" data-astro-cid-37fxchfa></div> <header id="site-header" class="fixed top-0 left-0 right-0 z-50" data-astro-cid-3ef6ksr2> <div class="max-w-[1400px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between" data-astro-cid-3ef6ksr2> <a href="/" class="flex items-center gap-2.5" data-astro-cid-3ef6ksr2> <picture><source srcset="/images/site/logo.webp" type="image/webp"><img src="/images/site/logo.png" alt="OakFox" class="logo-img h-12 w-auto transition-all duration-500 ease-out" loading="eager" decoding="async"></picture> </a> <!-- Desktop nav --> <nav class="hidden md:flex items-center gap-10" data-astro-cid-3ef6ksr2> <a href="/portfolio/" class="text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-forest" data-astro-cid-3ef6ksr2> Work </a><div class="relative nav-dropdown" data-astro-cid-3ef6ksr2> <a href="/services/" class="inline-flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest py-2 text-ink/70" data-astro-cid-3ef6ksr2> Services <svg class="w-3 h-3 transition-transform duration-300 nav-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-3ef6ksr2> <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-3ef6ksr2></path> </svg> </a> <div class="nav-dropdown-panel absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible transition-all duration-300 min-w-[220px]" data-astro-cid-3ef6ksr2> <div class="bg-cream border border-stone/60 rounded-md shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] py-2.5" data-astro-cid-3ef6ksr2> <a href="/services/branding/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Branding </a><a href="/services/environmental/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Environmental </a><a href="/services/web-design/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Web Design </a><a href="/services/development/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Development </a><a href="/services/green-web-hosting/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Green Web Hosting </a><a href="/services/copywriting/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Copywriting </a><a href="/services/marketing/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Marketing </a><a href="/website-carbon-audit/" class="block px-5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/75" data-astro-cid-3ef6ksr2> Free Carbon Audit </a> </div> </div> </div><a href="/about/" class="text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Studio </a><a href="/blog/" class="text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Journal </a><a href="/website-carbon-audit/" class="text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Free Audit </a> </nav> <div class="hidden md:flex items-center gap-2" data-astro-cid-3ef6ksr2> <a href="/book/" class="inline-flex items-center text-[13px] font-medium text-ink/70 hover:text-forest transition-colors duration-300 px-3 py-2" data-astro-cid-3ef6ksr2>
+Book a call
+</a> <a href="/contact/" class="inline-flex items-center gap-2 text-[13px] font-medium bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 px-4 py-2 rounded-full" data-astro-cid-3ef6ksr2>
+Contact
+<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-3ef6ksr2> <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-3ef6ksr2></path> </svg> </a> </div> <!-- Mobile toggle --> <button id="mobile-toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu" data-astro-cid-3ef6ksr2> <span class="w-5 h-0.5 bg-ink block" data-astro-cid-3ef6ksr2></span> <span class="w-5 h-0.5 bg-ink block" data-astro-cid-3ef6ksr2></span> </button> </div> </header> <!--
+  Mobile overlay + panel live OUTSIDE <header> on purpose: the scrolled header
+  applies `backdrop-filter`, which creates a containing block for fixed
+  descendants and would clip the slide-out to the toolbar height.
+--> <div id="mobile-overlay" class="hidden fixed inset-0 bg-ink/40 z-[60]" data-astro-cid-3ef6ksr2></div> <nav id="mobile-nav" class="fixed top-0 right-0 h-full w-72 bg-cream z-[70] transform translate-x-full transition-transform duration-500 overflow-y-auto" data-astro-cid-3ef6ksr2> <div class="p-8 pt-24 flex flex-col gap-5 h-full" data-astro-cid-3ef6ksr2> <div data-astro-cid-3ef6ksr2> <a href="/portfolio/" class="text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest text-forest" data-astro-cid-3ef6ksr2> Work </a>  </div><div data-astro-cid-3ef6ksr2> <a href="/services/" class="text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink" data-astro-cid-3ef6ksr2> Services </a> <div class="mt-3 ml-1 flex flex-col gap-2.5 border-l border-stone pl-4" data-astro-cid-3ef6ksr2> <a href="/services/branding/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Branding </a><a href="/services/environmental/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Environmental </a><a href="/services/web-design/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Web Design </a><a href="/services/development/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Development </a><a href="/services/green-web-hosting/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Green Web Hosting </a><a href="/services/copywriting/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Copywriting </a><a href="/services/marketing/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Marketing </a><a href="/website-carbon-audit/" class="text-[15px] font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink/70" data-astro-cid-3ef6ksr2> Free Carbon Audit </a> </div> </div><div data-astro-cid-3ef6ksr2> <a href="/about/" class="text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink" data-astro-cid-3ef6ksr2> Studio </a>  </div><div data-astro-cid-3ef6ksr2> <a href="/blog/" class="text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink" data-astro-cid-3ef6ksr2> Journal </a>  </div><div data-astro-cid-3ef6ksr2> <a href="/website-carbon-audit/" class="text-2xl font-medium tracking-tight transition-colors duration-300 hover:text-forest text-ink" data-astro-cid-3ef6ksr2> Free Audit </a>  </div> <a href="/contact/" class="text-2xl font-medium tracking-tight text-ink hover:text-forest transition-colors duration-300" data-astro-cid-3ef6ksr2>
+Contact
+</a> <div class="mt-auto text-[11px] font-mono uppercase tracking-widest text-gray" data-astro-cid-3ef6ksr2>
+West Lancashire, UK
+</div> </div> </nav> <main class="flex-1" data-astro-cid-37fxchfa>  <article class="pt-32 pb-24"> <div class="max-w-4xl mx-auto px-6"> <!-- Header --> <a href="/portfolio/" class="text-forest text-sm font-medium hover:underline underline-offset-4 mb-8 inline-block">
+&larr; Back to Portfolio
+</a> <a href="/services/development/" class="text-xs font-medium text-forest uppercase tracking-widest block mb-3 hover:underline underline-offset-4"> development </a> <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Granddad&#39;s Camera</h1> <p class="mt-4 text-lg text-gray max-w-2xl">A pixel-art wildlife photography game for iPhone and Android, and its website: 103 real British species in five real places, each on its real calendar, with every fact checked against UK sources.</p> <div class="flex flex-wrap gap-2 mt-6"> <span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"> development </span><span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"> design </span><span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"> product </span><span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"> mobile </span><span class="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"> game </span> </div> <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-stone pt-8"> <div class="text-[14px] text-ink/75 leading-relaxed"> <span class="block w-6 h-px bg-forest mb-3"></span> A pixel-art game for iPhone and Android, with its art, music and sound all made for it </div><div class="text-[14px] text-ink/75 leading-relaxed"> <span class="block w-6 h-px bg-forest mb-3"></span> 103 real British species on their real calendars, every journal page checked against UK sources </div><div class="text-[14px] text-ink/75 leading-relaxed"> <span class="block w-6 h-px bg-forest mb-3"></span> A 127-page website built from the game&#39;s own data: a page for every species, place and month </div> </div> <!-- Featured image --> <div class="bg-forest/5 rounded-2xl mt-12 overflow-hidden"> <picture><source srcset="/images/granddads-camera/hero.webp" type="image/webp"><img src="/images/granddads-camera/hero.png" alt="Granddad's Camera" class="w-full h-auto rounded-2xl" loading="eager" decoding="async"></picture> </div> <!-- Content --> <div class="prose prose-lg max-w-none mt-12
+        prose-headings:font-bold prose-headings:tracking-tight
+        prose-a:text-forest prose-a:underline-offset-4
+        prose-img:rounded-2xl"> <p>Granddad’s Camera is a pixel-art wildlife photography game for iPhone and Android, set in real places in Britain. You play a young nature photographer with your granddad’s old film camera and an empty field journal, and every animal you meet keeps to its real season and hour. OakFox is designing and building the whole thing: the game, its art, music and sound, and the website. It’s in development, and launch news goes out from <a href="https://granddadscamera.co.uk">granddadscamera.co.uk</a>.</p>
+<div class="not-prose my-10 flex flex-wrap gap-3"><a href="https://granddadscamera.co.uk" target="_blank" rel="noopener" class="inline-flex items-center gap-3 rounded-xl bg-forest text-cream px-5 py-3 transition-colors duration-300 hover:bg-forest-dark"><svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.7 3.75 5.7 3.75 9s-1.25 6.3-3.75 9c-2.5-2.7-3.75-5.7-3.75-9S9.5 5.7 12 3z"></path></svg><span class="leading-tight text-left"><span class="block text-[11px] uppercase tracking-wide opacity-80">Visit the website</span><span class="block text-base font-semibold">granddadscamera.co.uk</span></span></a><a href="https://www.instagram.com/granddadscamera/" target="_blank" rel="noopener" class="inline-flex items-center gap-3 rounded-xl border border-forest text-forest px-5 py-3 transition-colors duration-300 hover:bg-forest hover:text-cream"><svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg><span class="leading-tight text-left"><span class="block text-[11px] uppercase tracking-wide opacity-80">Follow along</span><span class="block text-base font-semibold">@granddadscamera</span></span></a></div>
+<h2 id="the-problem">The Problem</h2>
+<p>Wildlife games tend to go one of two ways: made-up creatures, or real animals dropped anywhere at any time of year. Neither teaches you anything you could use on a walk. Britain’s wildlife is at its most interesting in the details. Badgers leave the sett at dusk in spring, puffins are on Skomer from April to July, and a bittern is heard far more often than it’s seen. We wanted a game where knowing those details is how you get the shot.</p>
+<h2 id="the-brief">The Brief</h2>
+<p>Make a game that rewards real fieldcraft: reading the signs, choosing the season and the hour, and keeping still. Everything in it had to be true and sourced. Good wildlife photography ethics had to be part of how it plays, not a note at the end. And it needed a website that would find its audience before launch, in search and in AI answers.</p>
+<h2 id="the-solution">The Solution</h2>
+<h3 id="look-and-feel">Look and Feel</h3>
+<p>A handheld-console look: pixel art, a control deck under the screen, and turn-based encounters where every move raises or settles the animal’s alert, from CALM to BOLT. The art, music and sound were all made for the game. The website borrows the field journal: warm paper, faint ruled lines, and a pixel display face over a readable serif.</p>
+<h4 id="colour-palette">Colour Palette</h4>
+<ul>
+<li><strong>Paper (#F1E8D0)</strong> — the journal page. The background of the website and the game’s menus.</li>
+<li><strong>Screen (#2B2320)</strong> — the handheld’s dark body, framing every screenshot.</li>
+<li><strong>Moss (#3D7443)</strong> — buttons, links and the month-by-month charts.</li>
+<li><strong>Gold (#F0C567)</strong> — the A and B buttons, and the highlights on the in-game panels.</li>
+</ul>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>103 real British species</strong> — each on its real calendar and clock, across five places: a made-up market town, the New Forest, the Norfolk Broads, the Pembrokeshire coast and Skomer, and the Cairngorms.</li>
+<li><strong>Granddad’s film camera</strong> — 24 shots a roll, and nothing to see until it’s developed in town. The digital cameras wait until you’ve earned ranger stamps.</li>
+<li><strong>Fieldcraft over grinding</strong> — field signs tell you what’s about, the locals tell you how to see it, and the wind decides whether a deer smells you first.</li>
+<li><strong>A wildlife garden</strong> — feeders, nest boxes, a pond, a nest box camera and a moth trap, each changing which species visit, the way they would in a real garden.</li>
+<li><strong>The real calendar</strong> — the game knows today’s date, so real events like the deer rut and the seal pups turn up in it while they’re happening outside.</li>
+<li><strong>Bird News, a monthly photo competition and a Hall of Fame</strong> — reasons to keep going back out.</li>
+</ul>
+<div class="not-prose grid grid-cols-2 sm:grid-cols-3 gap-4 my-10"><img src="/images/granddads-camera/encounter_puffin.webp" alt="Granddad's Camera — a puffin carrying sand eels on Skomer" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/><img src="/images/granddads-camera/prints.webp" alt="Granddad's Camera — a developed print of a kingfisher" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/><img src="/images/granddads-camera/map.webp" alt="Granddad's Camera — the railcard map of Britain's five places" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/><img src="/images/granddads-camera/garden.webp" alt="Granddad's Camera — Granddad's wildlife garden with feeders, nest boxes and a pond" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/><img src="/images/granddads-camera/nestcam.webp" alt="Granddad's Camera — blue tit chicks on the nest box camera" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/><img src="/images/granddads-camera/moths.webp" alt="Granddad's Camera — the moth trap in the morning" loading="lazy" width="540" height="1170" class="rounded-2xl w-full h-auto shadow-lg"/></div>
+<h3 id="true-and-sourced">True, and Sourced</h3>
+<p>Every species has a field journal page covering its size, diet, population, conservation status, the law that protects it, its field signs, a photo tip and the ethics. Each page is checked against UK sources such as the RSPB, the BTO, The Mammal Society and The Wildlife Trusts, and lists them. Rare animals really are rare. The game won’t let you creep up on a protected bird in the breeding season, and it tells you why.</p>
+<h3 id="a-website-built-from-the-game">A Website Built From the Game</h3>
+<p><a href="https://granddadscamera.co.uk">granddadscamera.co.uk</a> is generated from the game’s own data, so the two can’t drift apart. It has 127 pages: one for every species, place and month of the wildlife year, plus a <a href="https://granddadscamera.co.uk/moths/">moth guide</a> and a <a href="https://granddadscamera.co.uk/press/">press kit</a>. The pages answer the questions people actually search, like when and where to see a puffin or <a href="https://granddadscamera.co.uk/wildlife-calendar/october/">what’s about in October</a>, and they cite their sources, which is what search engines and AI assistants look for. It’s static, quick on a phone, and has no analytics. Launch-news sign-ups are double opt-in and protected from bots.</p>
+<h2 id="what-were-building">What We’re Building</h2>
+<ul>
+<li>Game design and development for iPhone and Android</li>
+<li>Pixel art, music and sound</li>
+<li>Species research and fact-checking against UK sources</li>
+<li>Marketing website (<a href="https://granddadscamera.co.uk">granddadscamera.co.uk</a>) with a page per species, place and month</li>
+<li>Launch-news email sign-up with double opt-in</li>
+<li>Search and AI-search groundwork: structured data, <code>llms.txt</code>, IndexNow and a press kit</li>
+<li>Hosting on OakFox’s own server</li>
+</ul>
+<p><a href="https://granddadscamera.co.uk">Visit Granddad’s Camera</a> · <a href="https://granddadscamera.co.uk/press/">Press kit</a> · <a href="https://granddadscamera.co.uk/wildlife-calendar/">British wildlife calendar</a></p> </div>  </div> </article> <section class="py-12 border-t border-stone"> <div class="max-w-4xl mx-auto px-6"> <p class="label text-gray mb-4">Related service</p> <a href="/services/development/" class="group inline-flex items-baseline gap-3 text-[15px] md:text-base font-medium text-ink hover:text-forest transition-colors duration-300"> Development service <svg class="w-4 h-4 text-forest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"> <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> </div> </section> <section class="bg-forest text-cream py-16"> <div class="max-w-3xl mx-auto px-6 text-center"> <h2 class="text-2xl font-bold text-cream">Like this work?</h2> <div class="mt-6 flex flex-wrap justify-center gap-4"> <a href="/portfolio/" class="border border-cream text-cream px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream hover:text-forest">
+View More Projects
+</a> <a href="/contact/" class="bg-cream text-forest px-6 py-2 font-medium rounded-full transition-all duration-300 hover:bg-cream-dark">
+Start Your Project
+</a> </div> </div> </section>  </main> <footer class="bg-ink text-cream/80"> <div class="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20"> <!-- Logo --> <a href="/" class="inline-block mb-12 md:mb-16"> <picture><source srcset="/images/site/logolight.webp" type="image/webp"><img src="/images/site/logolight.png" alt="OakFox" class="h-14 md:h-20 w-auto" loading="lazy" decoding="async"></picture> </a> <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-start"> <!-- Tagline + address --> <div class="md:col-span-4"> <p class="text-[13px] text-cream/55 leading-relaxed max-w-xs">
+Sustainable design, development, marketing and consultancy.
+          West Lancashire, UK.
+</p> <p class="mt-4 text-[12px] text-cream/55 leading-relaxed max-w-xs">
+Home to <a href="https://ecoscribe.co.uk" class="text-cream/70 hover:text-cream underline underline-offset-4 transition-colors">EcoScribe</a> — our automation venture for ecologists and environmental consultancies.
+</p> <p class="mt-3 text-[12px] text-cream/55 leading-relaxed max-w-xs">
+Makers of <a href="https://cubtrack.co.uk" class="text-cream/70 hover:text-cream underline underline-offset-4 transition-colors">CubTrack</a> and <a href="https://trailfoxapp.co.uk" class="text-cream/70 hover:text-cream underline underline-offset-4 transition-colors">TrailFox</a> — our family apps, on the App Store and Google Play. <a href="https://granddadscamera.co.uk" class="text-cream/70 hover:text-cream underline underline-offset-4 transition-colors">Granddad’s Camera</a>, our British wildlife photography game, is on the way.
+</p> <address class="mt-5 not-italic text-[12px] text-cream/55 leading-relaxed"> <div>Martland Mill, Mart Ln</div> <div>Burscough, Ormskirk L40 0SD</div> <a href="tel:+447730396404" class="mt-2 inline-block hover:text-cream transition-colors duration-300">
+07730 396404
+</a> </address> <div class="mt-8 flex items-center gap-4"> <a href="https://www.thegreenwebfoundation.org/green-web-check/?url=oakfox.co.uk" target="_blank" rel="noopener noreferrer" aria-label="Verified green hosting by The Green Web Foundation" class="opacity-80 hover:opacity-100 transition-opacity duration-300"> <img src="/images/site/greenweb.png" alt="Green Web Foundation — verified green hosting" width="200" height="95" loading="lazy" decoding="async" class="h-10 w-auto"> </a> <img src="/images/site/SME-Committed-Badge-2026.svg" alt="SME Climate Hub — Committed 2026" loading="lazy" decoding="async" class="h-10 w-auto"> </div> </div> <!-- Services column --> <div class="md:col-span-2 md:col-start-5"> <p class="text-[11px] font-mono uppercase tracking-widest text-cream/55 mb-4">Services</p> <nav class="flex flex-col gap-2.5"> <a href="/services/branding/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Branding </a><a href="/services/web-design/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Web Design </a><a href="/services/development/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Development </a><a href="/services/copywriting/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Copywriting </a><a href="/services/marketing/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Marketing </a><a href="/services/environmental/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Environmental </a><a href="/website-carbon-audit/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Free Carbon Audit </a> </nav> </div> <!-- Locations column --> <div class="md:col-span-2"> <p class="text-[11px] font-mono uppercase tracking-widest text-cream/55 mb-4"> <a href="/locations/" class="hover:text-cream/70 transition-colors">Locations</a> </p> <nav class="flex flex-col gap-2.5"> <a href="/locations/ormskirk/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Ormskirk </a><a href="/locations/burscough/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Burscough </a><a href="/locations/southport/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Southport </a><a href="/locations/preston/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Preston </a><a href="/locations/manchester/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Manchester </a><a href="/locations/lancashire/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Lancashire </a> </nav> </div> <!-- Studio + newsletter --> <div class="md:col-span-4 md:col-start-9"> <p class="text-[11px] font-mono uppercase tracking-widest text-cream/55 mb-4">Studio</p> <nav class="flex flex-col gap-2.5 mb-8"> <a href="/portfolio/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Work </a><a href="/about/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Studio </a><a href="/blog/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Journal </a><a href="/faq/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> FAQ </a><a href="/contact/" class="text-[13px] text-cream/55 hover:text-cream transition-colors duration-300"> Contact </a> </nav> <div class="newsletter-footer" data-astro-cid-bfbmamsi>   <p class="label text-cream/55 mb-4" data-astro-cid-bfbmamsi>Studio Notes</p> <p class="text-[13px] text-cream/60 leading-relaxed mb-4 max-w-xs" data-astro-cid-bfbmamsi>
+Short, occasional letter on sustainable design.
+</p>  <form class="newsletter-form" novalidate data-astro-cid-bfbmamsi> <div class="flex gap-2 max-w-md" data-astro-cid-bfbmamsi> <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" class="newsletter-input flex-1 newsletter-input-footer" data-astro-cid-bfbmamsi> <button type="submit" class="newsletter-submit newsletter-submit-footer" data-astro-cid-bfbmamsi>
+Subscribe
+</button> </div> <!-- honeypot --> <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="newsletter-hp" data-astro-cid-bfbmamsi> <!-- Cloudflare Turnstile: only becomes visible if it needs a click --> <div class="newsletter-turnstile" data-theme="dark" data-astro-cid-bfbmamsi></div> <p class="newsletter-status" role="status" aria-live="polite" data-astro-cid-bfbmamsi></p> </form> </div> <script data-astro-rerun>
+  // data-astro-rerun: ClientRouter skips an inline script it has already run,
+  // so without it the footer form on every page after the first is left
+  // unbound and submits as a plain GET (a jump to /?email=…, nothing sent).
+  // Wrapped so a second copy of this script on the page can redeclare its consts.
+  (() => {
+    const TURNSTILE_SITE_KEY = '0x4AAAAAAFCIIA08No2XUxq6';
+
+    // Turnstile loads on first focus, not with the page: most visitors never
+    // touch the form, so they never download Cloudflare's script.
+    const loadTurnstile = () =>
+      (window.oakfoxTurnstile ??= new Promise((resolve, reject) => {
+        window.oakfoxTurnstileReady = () => resolve(window.turnstile);
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=oakfoxTurnstileReady';
+        s.onerror = () => {
+          window.oakfoxTurnstile = null;
+          reject(new Error('Turnstile failed to load'));
+        };
+        document.head.appendChild(s);
+      }));
+
+    document.querySelectorAll('form.newsletter-form').forEach((form) => {
+      // This inline script is emitted once per component instance, so a page with
+      // two signups runs it twice — bind each form once or it posts twice.
+      if (form.dataset.bound) return;
+      form.dataset.bound = '1';
+      const status = form.querySelector('.newsletter-status');
+      const btn = form.querySelector('button[type=submit]');
+      const input = form.querySelector('input[name=email]');
+      const box = form.querySelector('.newsletter-turnstile');
+
+      let widget = null; // Promise<widget id>
+      let token = '';
+      let onToken = null;
+      const startTurnstile = () =>
+        (widget ??= loadTurnstile()
+          .then((ts) =>
+            ts.render(box, {
+              sitekey: TURNSTILE_SITE_KEY,
+              theme: box.dataset.theme,
+              appearance: 'interaction-only',
+              callback: (t) => {
+                token = t;
+                onToken?.(t);
+              },
+              'expired-callback': () => (token = ''),
+              'error-callback': () => (token = ''),
+            }),
+          )
+          .catch((err) => {
+            widget = null;
+            throw err;
+          }));
+      const getToken = async () => {
+        await startTurnstile();
+        if (token) return token;
+        return new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            onToken = null;
+            reject(new Error('Turnstile timed out'));
+          }, 30000);
+          onToken = (t) => {
+            clearTimeout(timer);
+            onToken = null;
+            resolve(t);
+          };
+        });
+      };
+      input.addEventListener('focus', () => startTurnstile().catch(() => {}), { once: true });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!(input.value && input.checkValidity())) {
+          status.textContent = 'Please enter a valid email.';
+          status.dataset.state = 'error';
+          return;
+        }
+        btn.disabled = true;
+        const originalLabel = btn.textContent;
+        btn.textContent = 'Sending…';
+        status.textContent = '';
+        status.dataset.state = '';
+        let turnstileToken;
+        try {
+          turnstileToken = await getToken();
+        } catch {
+          status.textContent = "Couldn't load the spam check. Try again, or email nathan@oakfox.co.uk.";
+          status.dataset.state = 'error';
+          btn.disabled = false;
+          btn.textContent = originalLabel;
+          return;
+        }
+        try {
+          const body = new FormData(form);
+          body.set('cf-turnstile-response', turnstileToken);
+          const res = await fetch('/api/newsletter.php', { method: 'POST', body });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            status.textContent = data.message || "Check your inbox to confirm.";
+            status.dataset.state = 'ok';
+            window.oakfoxTrack?.('newsletter');
+            form.reset();
+          } else {
+            status.textContent = data.error || 'Something went wrong. Try again in a moment.';
+            status.dataset.state = 'error';
+          }
+        } catch {
+          status.textContent = 'Network error. Try again in a moment.';
+          status.dataset.state = 'error';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalLabel;
+          // Tokens are single-use: fetch a fresh one for any further submit.
+          token = '';
+          widget.then((id) => window.turnstile.reset(id));
+        }
+      });
+    });
+  })();
+</script> </div> </div> <div class="border-t border-cream/10 mt-14 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"> <p class="text-[11px] text-cream/55">
+&copy; OakFox 2026 </p> <div class="flex items-center gap-5"> <button type="button" id="footer-cookies" class="text-[11px] text-cream/55 hover:text-cream/70 transition-colors duration-300">
+Cookies
+</button> <p class="text-[11px] text-cream/55">
+A registered company in England
+</p> </div> </div> </div> </footer> <script>
+  document.getElementById('footer-cookies')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('oakfox:show-consent'));
+  });
+</script> <div id="consent-banner" class="fixed z-[210] bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-auto md:max-w-md opacity-0 translate-y-4 pointer-events-none transition-all duration-500 ease-out" aria-live="polite" aria-label="Cookie consent"> <div class="bg-cream-light border border-stone/60 rounded-lg shadow-xl p-5"> <div class="label text-forest mb-3">Cookies</div> <p class="text-ink text-sm leading-relaxed mb-4">
+We count visits anonymously, without cookies. With your OK, we'll also use a single
+      analytics cookie to understand how people find and use the site. No ads, no cross-site
+      tracking. You can change your mind any time.
+</p> <div class="flex gap-2"> <button id="consent-accept" type="button" class="flex-1 bg-forest text-cream text-sm font-medium py-2.5 px-4 rounded hover:bg-forest-dark transition-colors">
+Accept
+</button> <button id="consent-decline" type="button" class="flex-1 text-ink text-sm font-medium py-2.5 px-4 rounded border border-stone/80 hover:bg-stone/30 transition-colors">
+Decline
+</button> </div> </div> </div> <script>(function(){const GA_ID = "G-3EWKKEHGJ8";
+const AW_ID = "";
+const AW_CONTACT_CONVERSION = "";
+const AW_BOOKING_CONVERSION = "";
+
+  (function () {
+    const KEY = 'oakfox-consent';
+    const banner = document.getElementById('consent-banner');
+    const accept = document.getElementById('consent-accept');
+    const decline = document.getElementById('consent-decline');
+
+    function loadGA() {
+      if (window.__gaLoaded) return;
+      window.__gaLoaded = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID, { anonymize_ip: true });
+      if (AW_ID) window.gtag('config', AW_ID);
+    }
+
+    if (AW_ID) {
+      window.__awConversionIds = {
+        contact: AW_CONTACT_CONVERSION,
+        booking: AW_BOOKING_CONVERSION,
+      };
+    }
+
+    function hide() {
+      banner.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+      banner.classList.remove('opacity-100', 'translate-y-0');
+    }
+
+    function show() {
+      banner.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+      banner.classList.add('opacity-100', 'translate-y-0');
+    }
+
+    const stored = localStorage.getItem(KEY);
+    if (stored === 'accepted') {
+      loadGA();
+    } else if (stored !== 'declined') {
+      setTimeout(show, 600);
+    }
+
+    accept?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'accepted');
+      hide();
+      loadGA();
+    });
+
+    decline?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'declined');
+      hide();
+    });
+
+    window.addEventListener('oakfox:show-consent', () => {
+      localStorage.removeItem(KEY);
+      show();
+    });
+  })();
+})();</script> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.D20lNWtx.js"></script> </body> </html>
