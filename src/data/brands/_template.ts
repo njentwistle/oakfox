@@ -52,7 +52,7 @@ export const template: Brand = {
     name: 'Nathan Entwistle',
     role: 'OakFox',
     email: 'nathan@oakfox.co.uk',
-    phone: '07730 396404',
+    phone: '01704 773233',
   },
 
   sections: [
