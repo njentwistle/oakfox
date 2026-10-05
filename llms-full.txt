@@ -10,7 +10,7 @@
 - **Founded**: 2025
 - **Founder**: Nathan James Entwistle
 - **Website**: https://oakfox.co.uk
-- **Contact**: nathan@oakfox.co.uk · +44 7730 396404
+- **Contact**: nathan@oakfox.co.uk · +44 1704 773233
 - **Studio address**: Martland Mill, Mart Ln, Burscough, Ormskirk, L40 0SD, United Kingdom
 - **Areas served**: United Kingdom, Ireland, mainland Europe (most work remote, in-person visits for discovery, photography, launches)
 - **Google Business Profile**: https://share.google/3ktdz3XLvsqlNCqeE
@@ -150,4 +150,4 @@ A: Typically 30–50% lower than equivalent London agencies for equivalent quali
 A: Astro (primary static-first stack), Tailwind CSS, MDX for content collections, React or Next.js where application complexity warrants. Headless CMS options: Sanity, Contentful, Storyblok. Verified renewable-powered hosting by default.
 
 **Q: What is the fastest way to reach OakFox?**
-A: The contact form at https://oakfox.co.uk/contact — replies within 24 hours on weekdays. Direct email nathan@oakfox.co.uk. Phone +44 7730 396404 during UK business hours (Monday–Friday, 9:00–17:30).
+A: The contact form at https://oakfox.co.uk/contact — replies within 24 hours on weekdays. Direct email nathan@oakfox.co.uk. Phone +44 1704 773233 during UK business hours (Monday–Friday, 9:00–17:30).
