@@ -3,6 +3,13 @@
 Options -Indexes
 DirectorySlash On
 
+# --- Compress text responses (off by default on this server) ---
+# Pages, CSS, JS and SVG shrink by about three quarters; images and woff2 are
+# already compressed. Part of what keeps the site at A+ in our own carbon audit.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+
 RewriteEngine On
 
 # --- Canonical host: force https://oakfox.co.uk (no www) ---
